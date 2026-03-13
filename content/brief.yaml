@@ -5,7 +5,7 @@ businessDescription: 'Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirad
 mainOffer: 'Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium'
 primaryGoal: 'Generar reservas directas y consultas de disponibilidad'
 targetAudience: 'Clientes ideales de Vuelo 78 Hotel Tarapoto interesados en hero shell.'
-location: 'Lima, Peru'
+location: 'Tarapoto, Peru'
 contact:
   whatsapp: '+51987654321'
   email: 'hola@auralis.studio'
@@ -28,8 +28,8 @@ reference:
   captureMode: 'layout-text-widgets'
 hero:
   tag: 'Hotel en Tarapoto'
-  headline: 'Vuelo 78 Hotel Tarapoto'
-  subtitle: 'Hotel en Tarapoto con habitaciones comodas, reserva directa y una experiencia visual clara desde el primer scroll.'
+  headline: 'Descanso sereno en Tarapoto con reserva directa y una presencia visual premium.'
+  subtitle: 'Habitaciones cuidadas, reserva directa por WhatsApp y una experiencia visual lista para convertir en movil y desktop.'
 services:
   - title: 'Suite principal con vista natural'
     description: 'Habitacion amplia con cama premium, atmosfera tranquila y una reserva directa visible desde el primer scroll.'
@@ -80,10 +80,12 @@ keywords:
 pages:
   - 'Hotel'
   - 'Ofertas'
+  - 'Experiencias'
   - 'Habitaciones'
   - 'Servicios'
+  - 'Restaurante'
+  - 'Eventos'
   - 'Galeria'
-  - 'Reserva'
   - 'Mapa'
 strategy:
   starterKit: 'hotel'

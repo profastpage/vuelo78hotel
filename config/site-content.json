@@ -1,9 +1,9 @@
 {
   "brand": {
     "name": "Vuelo 78 Hotel Tarapoto",
-    "headline": "Vuelo 78 Hotel Tarapoto",
-    "description": "Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirada en https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/, conservando layout, ritmo visual, widgets y jerarquia premium de secciones. Todo texto, branding, logos e imagenes deben ser nuevos y orientados a reservas directas.",
-    "subheadline": "Hotel en Tarapoto con habitaciones comodas, reserva directa y una experiencia visual clara desde el primer scroll.",
+    "headline": "Descanso sereno en Tarapoto con reserva directa y una presencia visual premium.",
+    "description": "Hotel urbano en Tarapoto pensado para viajeros que valoran calma, buena ubicacion y una reserva clara desde el primer contacto.",
+    "subheadline": "Habitaciones cuidadas, reserva directa por WhatsApp y una experiencia visual lista para convertir en movil y desktop.",
     "primaryCtaLabel": "Reservar",
     "primaryCtaHref": "https://wa.me/51987654321?text=Hola%20%F0%9F%91%8B%0A%0AMe%20interesa%20reservar%20en%20Vuelo%2078%20Hotel%20Tarapoto.%0A%0A%F0%9F%8F%A8%20Quiero%20informacion%20sobre%20disponibilidad%0A%F0%9F%9B%8F%EF%B8%8F%20Tipos%20de%20habitacion%20y%20tarifas%0A%F0%9F%93%85%20Opciones%20de%20fecha%20para%20mi%20estadia%0A%0AMuchas%20gracias.",
     "secondaryCtaLabel": "Ver habitaciones",
@@ -17,7 +17,7 @@
   },
   "narrative": {
     "title": "Una experiencia hotelera mas cercana al referente visual",
-    "body": "Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirada en https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/, conservando layout, ritmo visual, widgets y jerarquia premium de secciones. Todo texto, branding, logos e imagenes deben ser nuevos y orientados a reservas directas.",
+    "body": "Una propuesta hotelera clara, visual y contemporanea para mostrar habitaciones, servicios y experiencias con mas valor percibido desde el primer scroll.",
     "goal": "Generar reservas directas y consultas de disponibilidad"
   },
   "theme": {
@@ -156,10 +156,12 @@
   "pages": [
     "Hotel",
     "Ofertas",
+    "Experiencias",
     "Habitaciones",
     "Servicios",
+    "Restaurante",
+    "Eventos",
     "Galeria",
-    "Reserva",
     "Mapa"
   ],
   "products": [],

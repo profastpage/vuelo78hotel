@@ -38,7 +38,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug }: Props) {
   const rail = [...galleryItems, ...services]
     .slice(0, 5)
     .map((item, index) => ({
-      title: "title" in item ? item.title : item.title,
+      title: item.title,
       subtitle: index === 0 ? getHotelPageLabel(pageSlug) : "Vuelo 78",
       imageSrc: item.imageSrc || heroImage,
       imagePosition: item.imagePosition || heroImagePosition,

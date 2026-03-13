@@ -9475,6 +9475,477 @@ button {
   }
 }
 
+.hotel-reference-nav a.is-active,
+.hotel-reference-footer-links a.is-active {
+  color: #d3b36b;
+}
+
+.hotel-reference-hero-copy h1 {
+  margin: 0;
+  max-width: 8ch;
+  font-size: clamp(3.2rem, 6.4vw, 5.6rem);
+  line-height: 0.92;
+  letter-spacing: -0.07em;
+}
+
+.hotel-reference-hero-copy-wide {
+  width: min(100%, 760px);
+}
+
+.hotel-reference-page-shell {
+  display: grid;
+  gap: 0;
+}
+
+.hotel-reference-hero-alt {
+  min-height: clamp(560px, 66vw, 760px);
+}
+
+.hotel-reference-hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: min(100%, 840px);
+  margin: -42px auto 0;
+  padding-inline: 24px;
+  position: relative;
+  z-index: 3;
+}
+
+.hotel-reference-hero-metric {
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(16, 59, 112, 0.08);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+}
+
+.hotel-reference-hero-metric span {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #697383;
+}
+
+.hotel-reference-hero-metric strong {
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  letter-spacing: -0.05em;
+}
+
+.hotel-reference-story-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) minmax(360px, 1.06fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.hotel-reference-story-copy,
+.hotel-reference-rail-copy,
+.hotel-reference-modal-content {
+  display: grid;
+  gap: 14px;
+}
+
+.hotel-reference-story-copy h2,
+.hotel-reference-modal-content h3,
+.hotel-reference-map-card h2 {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(2rem, 3.4vw, 3.2rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+.hotel-reference-story-copy p,
+.hotel-reference-rail-copy p,
+.hotel-reference-modal-content p,
+.hotel-reference-map-card p {
+  margin: 0;
+  color: #697383;
+  line-height: 1.72;
+}
+
+.hotel-reference-story-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hotel-reference-story-media {
+  min-height: 380px;
+  border-radius: 30px;
+  background-color: #eadbbd;
+  background-size: cover;
+  background-position: center;
+}
+
+.hotel-reference-card-tight .hotel-reference-room-card-copy {
+  padding: 24px 22px 28px;
+}
+
+.scene-chip-inline {
+  width: fit-content;
+}
+
+.hotel-reference-tabs,
+.hotel-reference-modal-grid,
+.hotel-reference-rail-shell {
+  display: grid;
+  gap: 22px;
+}
+
+.hotel-reference-tab-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hotel-reference-tab-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.hotel-reference-tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hotel-reference-tab-trigger {
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 59, 112, 0.1);
+  background: #f4f6f9;
+  color: #445063;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.hotel-reference-tab-panels {
+  position: relative;
+  min-height: 320px;
+  border-radius: 28px;
+  border: 1px solid rgba(16, 59, 112, 0.08);
+  background: #fff;
+  overflow: hidden;
+}
+
+.hotel-reference-tab-panel {
+  display: none;
+  gap: 14px;
+  padding: 26px;
+}
+
+.hotel-reference-tab-panel h3 {
+  margin: 0;
+  max-width: 14ch;
+  font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.hotel-reference-tab-panel p {
+  margin: 0;
+  color: #697383;
+  line-height: 1.7;
+}
+
+.hotel-reference-tab-points {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 18px;
+  color: #445063;
+}
+
+#hotel-tab-1:checked ~ .hotel-reference-tab-shell .hotel-reference-tab-panel-1,
+#hotel-tab-2:checked ~ .hotel-reference-tab-shell .hotel-reference-tab-panel-2,
+#hotel-tab-3:checked ~ .hotel-reference-tab-shell .hotel-reference-tab-panel-3 {
+  display: grid;
+}
+
+#hotel-tab-1:checked ~ .hotel-reference-tab-shell label[for="hotel-tab-1"],
+#hotel-tab-2:checked ~ .hotel-reference-tab-shell label[for="hotel-tab-2"],
+#hotel-tab-3:checked ~ .hotel-reference-tab-shell label[for="hotel-tab-3"] {
+  background: #0e3064;
+  border-color: #0e3064;
+  color: #ffffff;
+}
+
+.hotel-reference-inline-modal,
+.hotel-reference-modal-card {
+  position: relative;
+}
+
+.hotel-reference-inline-summary,
+.hotel-reference-modal-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(16, 59, 112, 0.08);
+  background: #faf9f7;
+  cursor: pointer;
+  list-style: none;
+}
+
+.hotel-reference-inline-summary::-webkit-details-marker,
+.hotel-reference-modal-summary::-webkit-details-marker {
+  display: none;
+}
+
+.hotel-reference-inline-summary strong,
+.hotel-reference-modal-summary strong {
+  font-size: 0.86rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #697383;
+}
+
+.hotel-reference-inline-panel,
+.hotel-reference-modal-panel {
+  display: none;
+}
+
+.hotel-reference-inline-modal[open] > .hotel-reference-inline-summary::before,
+.hotel-reference-modal-card[open] > .hotel-reference-modal-summary::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 17, 26, 0.5);
+  z-index: 40;
+}
+
+.hotel-reference-inline-modal[open] > .hotel-reference-inline-panel,
+.hotel-reference-modal-card[open] > .hotel-reference-modal-panel {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 41;
+  padding: 24px;
+}
+
+.hotel-reference-inline-panel,
+.hotel-reference-modal-content {
+  width: min(100%, 760px);
+  padding: 28px;
+  border-radius: 28px;
+  border: 1px solid rgba(16, 59, 112, 0.08);
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18);
+}
+
+.hotel-reference-modal-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.hotel-reference-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 360px);
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x proximity;
+}
+
+.hotel-reference-rail-card {
+  display: grid;
+  gap: 14px;
+  border-radius: 28px;
+  border: 1px solid rgba(16, 59, 112, 0.08);
+  background: #ffffff;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.hotel-reference-rail-media {
+  min-height: 240px;
+  background-color: #eadbbd;
+  background-size: cover;
+  background-position: center;
+}
+
+.hotel-reference-rail-copy {
+  padding: 0 20px 22px;
+}
+
+.hotel-reference-rail-copy span,
+.hotel-reference-map-card span:not(.scene-chip) {
+  color: #697383;
+}
+
+.hotel-reference-rail-copy strong {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+}
+
+.hotel-reference-map-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.hotel-reference-map-card,
+.hotel-reference-map-visual {
+  border-radius: 30px;
+}
+
+.hotel-reference-map-card {
+  display: grid;
+  gap: 16px;
+  padding: 26px;
+  border: 1px solid rgba(16, 59, 112, 0.08);
+  background: #ffffff;
+}
+
+.hotel-reference-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hotel-reference-facts-grid article {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 20px;
+  background: #f4f6f9;
+}
+
+.hotel-reference-map-visual {
+  position: relative;
+  min-height: 380px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(201, 164, 79, 0.18), transparent 18%),
+    linear-gradient(180deg, #f4efe5 0%, #ebe6dc 100%);
+}
+
+.hotel-reference-map-route {
+  position: absolute;
+  border: 2px dashed rgba(14, 48, 100, 0.26);
+  border-radius: 999px;
+}
+
+.hotel-reference-map-route-a {
+  inset: 18% 30% auto 14%;
+  height: 160px;
+}
+
+.hotel-reference-map-route-b {
+  inset: auto 14% 20% 32%;
+  height: 140px;
+}
+
+.hotel-reference-map-pin {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 88px;
+  height: 88px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(14, 48, 100, 0.12);
+  display: grid;
+  place-items: center;
+}
+
+.hotel-reference-map-pin span {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0e3064;
+  box-shadow: 0 0 0 10px rgba(14, 48, 100, 0.14);
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-hero-metric,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-tab-panels,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-inline-summary,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-modal-summary,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-inline-panel,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-modal-content,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-rail-card,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-map-card {
+  background: linear-gradient(180deg, rgba(12, 23, 43, 0.96), rgba(10, 19, 36, 0.96));
+  border-color: rgba(201, 164, 79, 0.12);
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-tab-trigger {
+  background: rgba(10, 20, 38, 0.82);
+  border-color: rgba(201, 164, 79, 0.12);
+  color: #e8edf5;
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-map-visual {
+  background:
+    radial-gradient(circle at 18% 24%, rgba(201, 164, 79, 0.16), transparent 18%),
+    linear-gradient(180deg, rgba(10, 20, 38, 0.96), rgba(8, 17, 33, 0.96));
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-hero-metric span,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-tab-panel p,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-tab-points,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-story-copy p,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-rail-copy p,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-modal-content p,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-map-card p,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-rail-copy span {
+  color: #aab6c8;
+}
+
+@media (max-width: 1100px) {
+  .hotel-reference-hero-metrics,
+  .hotel-reference-modal-cards,
+  .hotel-reference-story-split,
+  .hotel-reference-map-layout,
+  .hotel-reference-facts-grid,
+  .hotel-reference-tab-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .hotel-reference-hero-copy h1 {
+    max-width: 8ch;
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .hotel-reference-hero-metrics {
+    width: calc(100% - 24px);
+    margin-top: -26px;
+    padding-inline: 0;
+  }
+
+  .hotel-reference-story-media,
+  .hotel-reference-map-visual {
+    min-height: 280px;
+  }
+
+  .hotel-reference-tab-panels {
+    min-height: 0;
+  }
+
+  .hotel-reference-inline-panel,
+  .hotel-reference-modal-content {
+    width: min(100%, calc(100vw - 24px));
+    padding: 22px 18px;
+  }
+
+  .hotel-reference-rail {
+    grid-auto-columns: minmax(240px, 82vw);
+  }
+}
+
 @media (max-width: 560px) {
   .hotel-reference-amenities {
     grid-template-columns: 1fr;
