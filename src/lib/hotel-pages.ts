@@ -12,6 +12,10 @@ export const HOTEL_NAV_ITEMS = [
 
 export type HotelPageSlug = (typeof HOTEL_NAV_ITEMS)[number]["slug"];
 
+const HIDDEN_HOTEL_NAV_SLUGS = new Set<HotelPageSlug>(["restaurante", "eventos", "galeria"]);
+
+export const HOTEL_VISIBLE_NAV_ITEMS = HOTEL_NAV_ITEMS.filter((item) => !HIDDEN_HOTEL_NAV_SLUGS.has(item.slug));
+
 const HOTEL_PAGE_SLUGS = new Set<string>(HOTEL_NAV_ITEMS.map((item) => item.slug));
 
 export function isHotelPageSlug(value: string | undefined | null): value is HotelPageSlug {
@@ -28,4 +32,8 @@ export function getHotelPageHref(slug: HotelPageSlug) {
 
 export function getHotelPageLabel(slug: HotelPageSlug) {
   return HOTEL_NAV_ITEMS.find((item) => item.slug === slug)?.label || "Hotel";
+}
+
+export function getHotelPageIndex(slug: HotelPageSlug) {
+  return HOTEL_NAV_ITEMS.findIndex((item) => item.slug === slug);
 }

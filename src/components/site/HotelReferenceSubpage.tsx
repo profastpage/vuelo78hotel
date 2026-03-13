@@ -7,7 +7,7 @@ import { InlineTextField } from "./InlineTextField";
 import { LandingFaqAccordion } from "./LandingFaqAccordion";
 import type { EditorImageControls } from "./editor-image-types";
 import type { EditorTextControls } from "./editor-text-types";
-import { HOTEL_NAV_ITEMS, type HotelPageSlug, getHotelPageHref, getHotelPageLabel } from "@/lib/hotel-pages";
+import { HOTEL_NAV_ITEMS, HOTEL_VISIBLE_NAV_ITEMS, type HotelPageSlug, getHotelPageHref, getHotelPageIndex, getHotelPageLabel } from "@/lib/hotel-pages";
 import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
 
@@ -58,6 +58,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
   const normalizedHours = content.location?.hours?.includes("24 horas") ? "Recepcion 24 horas" : content.location?.hours;
   const data = getPageData(pageSlug, content, services, bookingWidget.options?.slice(0, 1)?.[0]?.price || "S/ 249");
   const pageIndex = HOTEL_NAV_ITEMS.findIndex((item) => item.slug === pageSlug);
+  const visiblePages = HOTEL_VISIBLE_NAV_ITEMS;
   const metrics = data.metrics.slice(0, 3).map((metric, index) => ({
     label: content.stats[index]?.label || metric.label,
     value: content.stats[index]?.value || metric.value,
@@ -121,16 +122,21 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
                 </span>
               </a>
               <nav className="hotel-reference-nav" aria-label="Secciones principales">
-                {HOTEL_NAV_ITEMS.map((item, index) => (
+                {visiblePages.map((item) => {
+                  const navIndex = getHotelPageIndex(item.slug);
+                  const navLabel = content.pages[navIndex] || item.label;
+
+                  return (
                   <a className={item.slug === pageSlug ? "is-active" : undefined} href={item.href} key={item.slug}>
-                    {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link hotel ${index + 1}`} section="hero" showTrigger={false} value={content.pages[index] || item.label} /> : content.pages[index] || item.label}
+                    {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${navIndex}`} label={`Link hotel ${navIndex + 1}`} section="hero" showTrigger={false} value={navLabel} /> : navLabel}
                   </a>
-                ))}
+                  );
+                })}
               </nav>
               <a className="hotel-reference-header-cta" href={reservationHref}>
                 {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA principal hotel" section="hero" showTrigger={false} value={bookingCtaLabel} /> : bookingCtaLabel}
               </a>
-              <HotelMobileMenu activeSlug={pageSlug} bookingCtaLabel={bookingCtaLabel} pages={HOTEL_NAV_ITEMS} reservationHref={reservationHref} />
+              <HotelMobileMenu activeSlug={pageSlug} bookingCtaLabel={bookingCtaLabel} pages={visiblePages} reservationHref={reservationHref} />
             </header>
 
             <div className="hotel-reference-hero-copy hotel-reference-hero-copy-wide">
@@ -315,11 +321,16 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
           {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="contact.description" label="Descripcion footer" minRows={3} multiline section="contact" value={content.contact.description || data.contactDescription} /> : <p>{content.contact.description || data.contactDescription}</p>}
         </div>
         <div className="hotel-reference-footer-links">
-          {HOTEL_NAV_ITEMS.map((item, index) => (
-            <a className={item.slug === pageSlug ? "is-active" : undefined} href={item.href} key={item.slug}>
-              {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link footer ${index + 1}`} section="contact" showTrigger={false} value={content.pages[index] || item.label} /> : item.label}
-            </a>
-          ))}
+          {visiblePages.map((item) => {
+              const navIndex = getHotelPageIndex(item.slug);
+              const navLabel = content.pages[navIndex] || item.label;
+
+              return (
+              <a className={item.slug === pageSlug ? "is-active" : undefined} href={item.href} key={item.slug}>
+              {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${navIndex}`} label={`Link footer ${navIndex + 1}`} section="contact" showTrigger={false} value={navLabel} /> : navLabel}
+              </a>
+              );
+            })}
         </div>
       </footer>
 
@@ -346,7 +357,7 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
   const map: Record<Exclude<HotelPageSlug, "hotel">, Data> = {
     ofertas: {
       kicker: "Ofertas y promos",
-      title: "Ofertas pensadas para cerrar la reserva rapido.",
+      title: "Ofertas directas",
       description: "Pagina premium para campañas, pauta y consultas por WhatsApp con beneficios claros.",
       metrics: [{ label: "Planes", value: "03" }, { label: "Destino", value: city }, { label: "Reserva", value: "Directa" }],
       story: { chip: "Ofertas", title: "Promociones con orden visual y CTA temprano.", body: "Mantiene el ritmo del referente: hero dominante, bloques editoriales, popup y rail horizontal." },
@@ -359,8 +370,8 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
     experiencias: {
       kicker: "Estancia y atmosfera",
-      title: "Experiencias que convierten una noche en una estancia completa.",
-      description: "Ideal para contar llegada, descanso, trabajo ligero y pequenos rituales del hotel.",
+      title: "Momentos memorables",
+      description: "Detalles que elevan cada estancia.",
       metrics: [{ label: "Atencion", value: "24/7" }, { label: "Entorno", value: "Urbano" }, { label: "Mood", value: "Premium" }],
       story: { chip: "Experiencias", title: "Narrativa hotelera con imagen grande y copy breve.", body: "Sirve para vender sensacion, calma, pequenos momentos y valor mas alla del cuarto." },
       cards: sharedCards,
@@ -372,8 +383,8 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
     habitaciones: {
       kicker: "Suites y categorias",
-      title: "Habitaciones con detalle amplio y decision clara.",
-      description: `Compara categorias, muestra visuales y deja visible la tarifa desde ${leadPrice}.`,
+      title: "Suites y habitaciones",
+      description: `Categorias claras desde ${leadPrice}.`,
       metrics: [{ label: "Categorias", value: `${Math.max(services.length, 3)}` }, { label: "Tarifa", value: leadPrice }, { label: "Canal", value: "WhatsApp" }],
       story: { chip: "Habitaciones", title: "La misma direccion del referente convertida en sistema reutilizable.", body: "Pagina ideal para suites, dobles, familiares o day use con imagen dominante y acciones visibles." },
       cards: sharedCards,
@@ -385,8 +396,8 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
     servicios: {
       kicker: "Amenities y soporte",
-      title: "Servicios visibles, ordenados y faciles de escanear.",
-      description: "Una pagina para explicar beneficios del hotel sin convertir todo en una lista tecnica.",
+      title: "Servicios esenciales",
+      description: "Beneficios visibles para una estancia fluida.",
       metrics: [{ label: "Amenities", value: "Premium" }, { label: "Atencion", value: "Humana" }, { label: "Apoyo", value: "Directo" }],
       story: { chip: "Servicios", title: "Los servicios se traducen en valor percibido.", body: "La composicion usa tarjetas grandes y superficies limpias para vender soporte, desayuno, conectividad y asistencia." },
       cards: sharedCards,
@@ -398,8 +409,8 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
     restaurante: {
       kicker: "Desayuno y gastronomia",
-      title: "Una pagina para restaurante o desayunos con tono editorial.",
-      description: "Lista para mostrar carta breve, horarios, ambiente y reservas dentro del ecosistema del hotel.",
+      title: "Cocina y desayuno",
+      description: "Propuesta cuidada, breve y bien presentada.",
       metrics: [{ label: "Servicio", value: "Desayuno" }, { label: "Ambiente", value: "Calmo" }, { label: "Reserva", value: "Simple" }],
       story: { chip: "Restaurante", title: "Imagen dominante, texto corto y capas de detalle.", body: "Funciona para desayuno, brunch, lounge o bar con una estetica coherente con el hotel." },
       cards: sharedCards,
@@ -411,8 +422,8 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
     eventos: {
       kicker: "Social y corporativo",
-      title: "Eventos con una presentacion sobria y preparada para cotizar rapido.",
-      description: "Ordena espacios, montajes y contacto para clientes corporativos o celebraciones privadas.",
+      title: "Eventos corporativos",
+      description: "Espacios listos para reuniones y celebraciones.",
       metrics: [{ label: "Formato", value: "Flexible" }, { label: "Montajes", value: "03+" }, { label: "Respuesta", value: "Rapida" }],
       story: { chip: "Eventos", title: "Jerarquia limpia para vender salones, reuniones y celebraciones.", body: "La direccion visual evita verse como folleto PDF y acerca la consulta comercial." },
       cards: sharedCards,
@@ -424,8 +435,8 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
     galeria: {
       kicker: "Media y atmosfera",
-      title: "Una galeria con mas caracter editorial y menos sensacion de plantilla.",
-      description: "Pensada para reemplazar con fotos reales del hotel, manteniendo orden en movil y desktop.",
+      title: "Galeria del hotel",
+      description: "Imagenes curadas para recorrer el hotel.",
       metrics: [{ label: "Imagenes", value: `${Math.max(services.length + 2, 6)}` }, { label: "Formato", value: "Editorial" }, { label: "Uso", value: "Responsive" }],
       story: { chip: "Galeria", title: "La imagen manda, pero con control compositivo.", body: "Usa modulos amplios, rail horizontal y bloques curados para evitar una grilla generica." },
       cards: sharedCards,
@@ -437,8 +448,8 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
     mapa: {
       kicker: "Ubicacion y llegada",
-      title: "Una pagina de mapa que orienta, tranquiliza y acerca la reserva.",
-      description: "Muestra ubicacion, referencias, tiempos de traslado y puntos cercanos sin verse tecnica ni fria.",
+      title: "Ubicacion precisa",
+      description: "Acceso simple, referencias claras y llegada segura.",
       metrics: [{ label: "Ciudad", value: city }, { label: "Acceso", value: "Facil" }, { label: "Canal", value: "Directo" }],
       story: { chip: "Mapa", title: "La ubicacion tambien vende confianza.", body: "Se combina mapa visual, textos cortos y CTA de reserva para que la llegada se sienta sencilla." },
       cards: sharedCards,

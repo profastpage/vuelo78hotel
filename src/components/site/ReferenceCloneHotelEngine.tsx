@@ -13,7 +13,7 @@ import { LandingFaqAccordion } from "./LandingFaqAccordion";
 import { LocationBlock } from "./LocationBlock";
 import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices, getVisibleTestimonials } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
-import { HOTEL_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
+import { HOTEL_VISIBLE_NAV_ITEMS, getHotelPageIndex, normalizeHotelPageSlug } from "@/lib/hotel-pages";
 
 type ReferenceCloneHotelEngineProps = {
   profile: ClientProfile;
@@ -34,7 +34,7 @@ const DEFAULT_AMENITY_ICONS = ["wi-fi", "aire", "seguridad", "ducha", "tv", "des
 export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMode = false, editorImageControls, editorTextControls }: ReferenceCloneHotelEngineProps) {
   const tripadvisorHref = "https://www.tripadvisor.es/Hotel_Review-g658384-d12839312-Reviews-Rio_Hotels_Tarapoto-Tarapoto_San_Martin_Region.html";
   const activePage = normalizeHotelPageSlug(pageSlug);
-  const pages = HOTEL_NAV_ITEMS;
+  const pages = HOTEL_VISIBLE_NAV_ITEMS;
   const galleryItems = getGalleryItems(content, profile.industry);
   const services = getVisibleServices(content);
   const faqs = sanitizeHotelFaqs(getVisibleFaqs(content).slice(0, 4), content);
@@ -120,16 +120,21 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
                 </span>
               </a>
 
-              <nav className="hotel-reference-nav" aria-label="Secciones principales">
-                {pages.map((page, index) => (
-                  <a href={page.href} key={`${page.label}-${index}`}>
+                <nav className="hotel-reference-nav" aria-label="Secciones principales">
+                {pages.map((page) => {
+                  const pageIndex = getHotelPageIndex(page.slug);
+                  const pageLabel = content.pages[pageIndex] || page.label;
+
+                  return (
+                  <a href={page.href} key={page.slug}>
                     {editorMode ? (
-                      <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link hotel ${index + 1}`} section="hero" showTrigger={false} value={page.label} />
+                      <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label={`Link hotel ${pageIndex + 1}`} section="hero" showTrigger={false} value={pageLabel} />
                     ) : (
-                      page.label
+                      pageLabel
                     )}
                   </a>
-                ))}
+                  );
+                })}
               </nav>
 
               <a className="hotel-reference-header-cta" href={reservationHref}>
@@ -556,15 +561,20 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
           )}
         </div>
         <div className="hotel-reference-footer-links">
-          {pages.map((page, index) => (
-            <a href={page.href} key={`${page.label}-${index}`}>
-              {editorMode ? (
-                <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link footer hotel ${index + 1}`} section="contact" showTrigger={false} value={page.label} />
-              ) : (
-                page.label
-              )}
-            </a>
-          ))}
+          {pages.map((page) => {
+              const pageIndex = getHotelPageIndex(page.slug);
+              const pageLabel = content.pages[pageIndex] || page.label;
+
+              return (
+              <a href={page.href} key={page.slug}>
+                {editorMode ? (
+                  <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label={`Link footer hotel ${pageIndex + 1}`} section="contact" showTrigger={false} value={pageLabel} />
+                ) : (
+                  pageLabel
+                )}
+              </a>
+              );
+            })}
         </div>
       </footer>
 
