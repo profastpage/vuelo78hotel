@@ -1,12 +1,18 @@
 "use client";
 
+import { BedDouble, Coffee, MapPinned, Snowflake, Sparkles, Wifi } from "lucide-react";
 import type { SiteContent } from "@/types/site";
 import type { HotelHeroSlide } from "./HotelHeroShowcase";
 import { HotelBookingBar } from "./HotelBookingBar";
 import { HotelHeroShowcase } from "./HotelHeroShowcase";
 
+type HeroBenefit = {
+  icon: "air" | "breakfast" | "location" | "wifi";
+  label: string;
+};
+
 type HotelPremiumHeroProps = {
-  benefits: Array<{ label: string; value: string }>;
+  benefits: HeroBenefit[];
   bookingWidget: NonNullable<SiteContent["bookingWidget"]>;
   brandName: string;
   cityLabel: string;
@@ -37,107 +43,92 @@ export function HotelPremiumHero({
         <div className="hotel-deluxe-hero-overlay" aria-hidden="true" />
         <div className="hotel-deluxe-hero-atmo" aria-hidden="true" />
 
-        <div className="hotel-deluxe-hero-inner">
-          <div className="hotel-deluxe-hero-content">
+        <div className="hotel-deluxe-hero-inner hotel-deluxe-hero-inner-premium">
+          <div className="hotel-deluxe-hero-content hotel-deluxe-hero-content-premium">
             <span className="scene-chip hotel-deluxe-hero-chip">{heroTag}</span>
-            <span className="hotel-deluxe-hero-kicker">Reserva directa y descanso cerca del aeropuerto</span>
-            <h1 className="hotel-deluxe-hero-title">
-              <span>{brandName}</span>
-              <strong>Tu refugio en {cityLabel}</strong>
-            </h1>
-            <p className="hotel-deluxe-hero-description">{heroDescription}</p>
+            <span className="hotel-deluxe-hero-kicker">Hotel boutique en Tarapoto</span>
 
-            <div className="hotel-deluxe-hero-actions">
+            <div className="hotel-deluxe-hero-copyblock">
+              <h1 className="hotel-deluxe-hero-title hotel-deluxe-hero-title-premium">
+                <span>{brandName}</span>
+                <strong>Descanso elegante en {cityLabel}</strong>
+              </h1>
+              <p className="hotel-deluxe-hero-description hotel-deluxe-hero-description-premium">{heroDescription}</p>
+            </div>
+
+            <div className="hotel-deluxe-hero-actions hotel-deluxe-hero-actions-premium">
               <a className="primary-button hotel-deluxe-whatsapp-button" href={reservationHref}>
-                Reservar por WhatsApp
+                Reservar ahora
               </a>
               <a className="secondary-button hotel-deluxe-ghost-button" href={detailsHref}>
                 Ver habitaciones
               </a>
             </div>
 
-            <div className="hotel-deluxe-hero-note">
-              <span className="hotel-deluxe-hero-note-dot" aria-hidden="true" />
-              <p>Atencion 24 horas, desayuno incluido y confirmacion rapida por WhatsApp.</p>
+            <div className="hotel-deluxe-hero-signals" aria-label="Señales de confianza del hotel">
+              <article className="hotel-deluxe-hero-signal">
+                <span className="hotel-deluxe-hero-signal-icon" aria-hidden="true">
+                  <Sparkles size={16} strokeWidth={1.8} />
+                </span>
+                <div>
+                  <strong>Reserva directa</strong>
+                  <span>Confirmacion rapida por WhatsApp</span>
+                </div>
+              </article>
+              <article className="hotel-deluxe-hero-signal">
+                <span className="hotel-deluxe-hero-signal-icon" aria-hidden="true">
+                  <BedDouble size={16} strokeWidth={1.8} />
+                </span>
+                <div>
+                  <strong>Habitaciones comodas</strong>
+                  <span>Descanso claro desde el primer scroll</span>
+                </div>
+              </article>
+              <article className="hotel-deluxe-hero-signal">
+                <span className="hotel-deluxe-hero-signal-icon" aria-hidden="true">
+                  <MapPinned size={16} strokeWidth={1.8} />
+                </span>
+                <div>
+                  <strong>Ubicacion funcional</strong>
+                  <span>Cerca del aeropuerto y puntos clave</span>
+                </div>
+              </article>
             </div>
           </div>
 
-          <div className="hotel-deluxe-booking-shell">
-            <div className="hotel-deluxe-booking-head">
+          <div className="hotel-deluxe-booking-shell hotel-deluxe-booking-shell-premium">
+            <div className="hotel-deluxe-booking-head hotel-deluxe-booking-head-premium">
               <span className="hotel-deluxe-booking-kicker">Reserva directa</span>
-              <p>Elige tus fechas y consulta disponibilidad por WhatsApp en pocos pasos.</p>
+              <p>Consulta disponibilidad y recibe una respuesta directa del hotel sin pasos innecesarios.</p>
             </div>
             <HotelBookingBar bookingWidget={bookingWidget} brandName={brandName} contactPhone={contactPhone} />
-            <div className="hotel-deluxe-benefits" aria-label="Beneficios principales del hotel">
-              {benefits.map((benefit, index) => (
-                <article className="hotel-deluxe-benefit-card" key={benefit.label}>
-                  <span className="hotel-deluxe-benefit-icon" aria-hidden="true">
-                    {renderBenefitIcon(index)}
-                  </span>
-                  <strong>{benefit.label}</strong>
-                </article>
-              ))}
-            </div>
           </div>
         </div>
+      </div>
+
+      <div className="hotel-deluxe-benefit-rail" aria-label="Beneficios principales del hotel">
+        {benefits.map((benefit) => (
+          <article className="hotel-deluxe-benefit-pill" key={benefit.label}>
+            <span className="hotel-deluxe-benefit-pill-icon" aria-hidden="true">
+              <HeroBenefitIcon kind={benefit.icon} />
+            </span>
+            <strong>{benefit.label}</strong>
+          </article>
+        ))}
       </div>
     </section>
   );
 }
 
-function renderBenefitIcon(index: number) {
-  const commonProps = {
-    fill: "none",
-    height: 18,
-    stroke: "currentColor",
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    strokeWidth: 1.8,
-    viewBox: "0 0 24 24",
-    width: 18,
-  };
-
-  switch (index) {
-    case 0:
-      return (
-        <svg {...commonProps}>
-          <path d="M3 7.5h18" />
-          <path d="M5 7.5V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1.5" />
-          <path d="M5 18v-7.5" />
-          <path d="M19 18v-7.5" />
-          <path d="M3 18h18" />
-          <path d="M7 18v2" />
-          <path d="M17 18v2" />
-        </svg>
-      );
-    case 1:
-      return (
-        <svg {...commonProps}>
-          <path d="M4 9c2.4 0 2.4 3 4.8 3 2.4 0 2.4-3 4.8-3s2.4 3 4.8 3 2.4-3 4.8-3" />
-          <path d="M4 14c2.4 0 2.4 3 4.8 3 2.4 0 2.4-3 4.8-3s2.4 3 4.8 3 2.4-3 4.8-3" />
-        </svg>
-      );
-    case 2:
-      return (
-        <svg {...commonProps}>
-          <path d="M8 4v4" />
-          <path d="M16 4v4" />
-          <path d="M6 10a6 6 0 1 0 12 0" />
-          <path d="M12 10v5" />
-        </svg>
-      );
+function HeroBenefitIcon({ kind }: { kind: HeroBenefit["icon"] }) {
+  switch (kind) {
+    case "breakfast":
+      return <Coffee size={16} strokeWidth={1.8} />;
+    case "wifi":
+      return <Wifi size={16} strokeWidth={1.8} />;
+    case "air":
+      return <Snowflake size={16} strokeWidth={1.8} />;
     default:
-      return (
-        <svg {...commonProps}>
-          <path d="M12 3v3" />
-          <path d="M6.5 5.5 8.6 7.6" />
-          <path d="M3 12h3" />
-          <path d="M18 12h3" />
-          <path d="m15.4 7.6 2.1-2.1" />
-          <path d="M8 21h8" />
-          <path d="M9 18h6" />
-          <path d="M8.6 16.4A5.5 5.5 0 1 1 17.5 12c0 1.8-.8 3.1-2.2 4.4-.6.6-.8.9-.8 1.6h-5c0-.7-.2-1-.9-1.6Z" />
-        </svg>
-      );
+      return <MapPinned size={16} strokeWidth={1.8} />;
   }
 }

@@ -1,5 +1,8 @@
+import { MapPin, Quote, Star } from "lucide-react";
+
 type HotelPremiumTestimonial = {
-  avatarSrc?: string;
+  imagePosition?: { x?: number; y?: number };
+  imageSrc?: string;
   name: string;
   quote: string;
   role: string;
@@ -22,31 +25,39 @@ export function HotelPremiumTestimonials({ items, subtitle, title }: HotelPremiu
         <p>{subtitle}</p>
       </div>
 
-      <div className="hotel-deluxe-testimonial-grid">
+      <div className="hotel-deluxe-testimonial-grid hotel-deluxe-testimonial-grid-premium">
         {items.map((item, index) => (
-          <article className="hotel-deluxe-testimonial-card" key={item.name}>
-            <div className="hotel-deluxe-testimonial-top">
-              <span className="hotel-deluxe-testimonial-avatar" aria-hidden="true">
-                <img alt="" src={item.avatarSrc || getPortraitDataUri(item.name, index)} />
+          <article className="hotel-deluxe-testimonial-card hotel-deluxe-testimonial-card-premium" key={`${item.name}-${index}`}>
+            <div
+              className={`hotel-deluxe-testimonial-media${item.imageSrc ? " has-media-image" : " media-fallback-hotel"}`}
+              style={getTestimonialMediaStyle(item.imageSrc, item.imagePosition)}
+            />
+            <div className="hotel-deluxe-testimonial-overlay" aria-hidden="true" />
+
+            <div className="hotel-deluxe-testimonial-topline">
+              <span className="hotel-deluxe-testimonial-segment">
+                <MapPin size={14} strokeWidth={1.8} />
+                {item.segment || "Huesped verificado"}
               </span>
-              <div>
-                <strong>{item.name}</strong>
-                <p>{item.role}</p>
+              <div className="hotel-deluxe-testimonial-stars" aria-label={`${item.rating} estrellas`}>
+                {Array.from({ length: 5 }, (_, starIndex) => (
+                  <span className={starIndex < Math.round(item.rating) ? "is-filled" : ""} key={`${item.name}-${starIndex}`}>
+                    <Star fill="currentColor" size={14} strokeWidth={1.7} />
+                  </span>
+                ))}
               </div>
             </div>
 
-            <div className="hotel-deluxe-testimonial-stars" aria-label={`${item.rating} estrellas`}>
-              {Array.from({ length: 5 }, (_, starIndex) => (
-                <span className={starIndex < Math.round(item.rating) ? "is-filled" : ""} key={`${item.name}-${starIndex}`}>
-                  <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="m10 2.4 2.28 4.62 5.1.74-3.69 3.6.87 5.08L10 14.04 5.44 16.44l.87-5.08-3.69-3.6 5.1-.74L10 2.4Z" />
-                  </svg>
-                </span>
-              ))}
+            <div className="hotel-deluxe-testimonial-body">
+              <span className="hotel-deluxe-testimonial-quote-mark" aria-hidden="true">
+                <Quote size={22} strokeWidth={1.8} />
+              </span>
+              <blockquote>{item.quote}</blockquote>
+              <footer>
+                <strong>{item.name}</strong>
+                <p>{item.role}</p>
+              </footer>
             </div>
-
-            <blockquote>{item.quote}</blockquote>
-            <small>{item.segment || "Huesped verificado"}</small>
           </article>
         ))}
       </div>
@@ -54,29 +65,16 @@ export function HotelPremiumTestimonials({ items, subtitle, title }: HotelPremiu
   );
 }
 
-function getPortraitDataUri(name: string, index: number) {
-  const palettes = [
-    ["#e6d3b0", "#c9a44f", "#173f7b"],
-    ["#d7e1ef", "#6c8fc3", "#173f7b"],
-    ["#ecd6cf", "#c98f7a", "#173f7b"],
-  ];
-  const [base, accent, deep] = palettes[index % palettes.length];
-  const label = encodeURIComponent(name.split(" ")[0] || "Huesped");
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="${base}"/>
-          <stop offset="100%" stop-color="${accent}"/>
-        </linearGradient>
-      </defs>
-      <rect width="120" height="120" rx="28" fill="url(#bg)"/>
-      <circle cx="60" cy="44" r="20" fill="#f7efe3"/>
-      <path d="M30 104c4-19 18-31 30-31s26 12 30 31" fill="#f7efe3"/>
-      <path d="M40 36c2-12 14-20 23-20 11 0 21 6 23 18-7-5-14-7-24-7-9 0-15 2-22 9Z" fill="${deep}" opacity="0.88"/>
-      <text x="60" y="112" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="${deep}" opacity="0.76">${label}</text>
-    </svg>
-  `;
+function getTestimonialMediaStyle(imageSrc?: string, position?: { x?: number; y?: number }) {
+  const x = typeof position?.x === "number" ? position.x : 50;
+  const y = typeof position?.y === "number" ? position.y : 50;
 
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  if (!imageSrc) {
+    return undefined;
+  }
+
+  return {
+    backgroundImage: `url("${imageSrc}")`,
+    backgroundPosition: `${x}% ${y}%`,
+  };
 }

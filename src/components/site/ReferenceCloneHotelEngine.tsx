@@ -84,10 +84,10 @@ export function ReferenceCloneHotelEngine({
     title: option.label,
   }));
   const benefits = [
-    { label: "Desayuno incluido", value: "01" },
-    { label: "WiFi gratis", value: "02" },
-    { label: "Aire acondicionado", value: "03" },
-    { label: "Recepcion 24h", value: "04" },
+    { icon: "breakfast" as const, label: "Desayuno incluido" },
+    { icon: "wifi" as const, label: "WiFi gratis" },
+    { icon: "air" as const, label: "Aire acondicionado" },
+    { icon: "location" as const, label: "Recepcion 24h" },
   ];
   const experienceGalleryItems = buildExperienceGalleryItems(services, galleryItems, heroImage, heroImagePosition);
   const amenities = buildAmenities(content);
@@ -142,16 +142,17 @@ export function ReferenceCloneHotelEngine({
 
         {testimonials.length ? (
           <HotelPremiumTestimonials
-            items={testimonials.map((item) => ({
+            items={testimonials.map((item, index) => ({
+              imagePosition: galleryItems[index + 1]?.imagePosition || services[index]?.imagePosition || heroImagePosition,
+              imageSrc: galleryItems[index + 1]?.imageSrc || services[index]?.imageSrc || heroImage,
               name: item.name,
-              avatarSrc: item.avatarSrc,
               quote: truncateText(item.quote, 132),
               role: item.role,
               segment: item.segment,
               rating: item.rating ?? 5,
             }))}
-            subtitle="Tres comentarios claros para mostrar lo que mas valoran quienes ya se alojaron con nosotros."
-            title="Lo que destacan nuestros huespedes."
+            subtitle="Resenas con lectura emocional y visual para reforzar confianza antes de la reserva."
+            title="Lo que se recuerda despues de la estadia."
           />
         ) : null}
 

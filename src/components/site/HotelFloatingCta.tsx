@@ -17,7 +17,10 @@ export function HotelFloatingCta({ href, label, note }: HotelFloatingCtaProps) {
         <span className="hotel-reference-mobile-float-icon" aria-hidden="true">
           <span />
         </span>
-        <span className="hotel-reference-mobile-float-label">Reservar</span>
+        <span className="hotel-reference-mobile-float-copy">
+          <span className="hotel-reference-mobile-float-label">{label}</span>
+          <span className="hotel-reference-mobile-float-note">{note}</span>
+        </span>
       </span>
     </a>
   );
