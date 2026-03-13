@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { BOOKING_WIDGET_PRESET_OPTIONS, buildBookingWidgetFromPreset, detectBookingWidgetPreset, resolveBookingWidget } from "@/lib/booking-widget";
+import { HOTEL_NAV_ITEMS, type HotelPageSlug } from "@/lib/hotel-pages";
 import type { ClientProfile, ReferenceSnapshot, SiteContent } from "@/types/site";
 import { SiteRenderer } from "./SiteRenderer";
 import type { EditorCollectionKey } from "./editor-item-types";
@@ -200,7 +201,10 @@ function buildInitialState(profile: ClientProfile, content: SiteContent): Editor
   const testimonials = content.testimonials.slice(0, 20);
   const faqs = content.faqs.slice(0, 10);
   const stats = content.stats.slice(0, 6);
-  const pages = content.pages.slice(0, 7);
+  const pages =
+    content.bookingWidget?.preset === "hotel"
+      ? HOTEL_NAV_ITEMS.map((item, index) => content.pages[index]?.trim() || item.label)
+      : content.pages.slice(0, 7);
 
   return {
     brand: {
@@ -427,10 +431,14 @@ export function LocalEditor({ profile, content, rawInput, referenceSnapshot = nu
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [section, setSection] = useState<EditorSection>("ai");
   const [viewport, setViewport] = useState<EditorViewport>("desktop");
+  const [previewPageSlug, setPreviewPageSlug] = useState<HotelPageSlug>("hotel");
   const [activeField, setActiveField] = useState("");
   const currentSnapshot = useMemo(() => JSON.stringify(form), [form]);
   const hasPendingChanges = currentSnapshot !== savedSnapshot || businessNotes.trim() !== savedBusinessNotes.trim();
   const previewContent = useMemo(() => buildPreviewContent(content, form), [content, form]);
+  const supportsHotelPagePreview =
+    previewContent.bookingWidget?.preset === "hotel" ||
+    Boolean(referenceSnapshot?.sourceUrl && /(hotel|hoteler|hostal|hostel|resort|alojamiento|habitacion|suite|turismo|hospitality)/i.test(referenceSnapshot.sourceUrl));
 
   useEffect(() => {
     formRef.current = form;
@@ -1453,6 +1461,11 @@ export function LocalEditor({ profile, content, rawInput, referenceSnapshot = nu
     scrollToPreviewSection(targetSection);
   }
 
+  function handlePreviewPageChange(nextPageSlug: HotelPageSlug) {
+    setPreviewPageSlug(nextPageSlug);
+    setStatus(`Preview activa en ${HOTEL_NAV_ITEMS.find((item) => item.slug === nextPageSlug)?.label || "Hotel"}. Ahora puedes editar texto e imagenes inline en esa pagina.`);
+  }
+
   function handleInlineFieldFocus(fieldKey: string, targetSection: EditorSection, label: string) {
     setActiveField(fieldKey);
     setSection(targetSection);
@@ -2285,6 +2298,15 @@ export function LocalEditor({ profile, content, rawInput, referenceSnapshot = nu
             <span className="eyebrow">Editor local {editorProfile.clientCode}</span>
             <strong>{editorProfile.businessName}</strong>
             <p>{status}</p>
+            {supportsHotelPagePreview ? (
+              <div className="editor-page-toggle" aria-label="Pagina hotel en preview">
+                {HOTEL_NAV_ITEMS.map((item) => (
+                  <button className={previewPageSlug === item.slug ? "active" : ""} key={item.slug} onClick={() => handlePreviewPageChange(item.slug)} type="button">
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            ) : null}
             <div className={`editor-save-indicator${hasPendingChanges ? " is-dirty" : ""}`}>
               {hasPendingChanges ? "Cambios sin guardar" : "Todo guardado"}
             </div>
@@ -2325,6 +2347,7 @@ export function LocalEditor({ profile, content, rawInput, referenceSnapshot = nu
             }}
             editorMode
             editorTextControls={editorTextControls}
+            pageSlug={supportsHotelPagePreview ? previewPageSlug : undefined}
             profile={editorProfile}
             referenceSnapshot={referenceSnapshot}
           />

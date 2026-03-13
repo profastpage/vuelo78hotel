@@ -1,7 +1,12 @@
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
+import { HotelFloatingCta } from "./HotelFloatingCta";
 import { HotelMobileMenu } from "./HotelMobileMenu";
+import { InlineImageField } from "./InlineImageField";
+import { InlineTextField } from "./InlineTextField";
 import { LandingFaqAccordion } from "./LandingFaqAccordion";
+import type { EditorImageControls } from "./editor-image-types";
+import type { EditorTextControls } from "./editor-text-types";
 import { HOTEL_NAV_ITEMS, type HotelPageSlug, getHotelPageHref, getHotelPageLabel } from "@/lib/hotel-pages";
 import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
@@ -10,6 +15,9 @@ type Props = {
   profile: ClientProfile;
   content: SiteContent;
   pageSlug: Exclude<HotelPageSlug, "hotel">;
+  editorMode?: boolean;
+  editorImageControls?: EditorImageControls;
+  editorTextControls?: EditorTextControls;
 };
 
 type Data = {
@@ -26,131 +34,187 @@ type Data = {
   contactDescription: string;
 };
 
-export function HotelReferenceSubpage({ profile, content, pageSlug }: Props) {
+type RailItem = {
+  title: string;
+  subtitle: string;
+  imageSrc: string;
+  imagePosition: { x?: number; y?: number } | undefined;
+  description: string;
+  sourceType: "gallery" | "service";
+  sourceIndex: number;
+};
+
+export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode = false, editorImageControls, editorTextControls }: Props) {
   const services = getVisibleServices(content);
-  const faqs = getVisibleFaqs(content).slice(0, 4);
+  const faqs = buildHotelReferenceFaqs(getVisibleFaqs(content).slice(0, 4), content);
   const galleryItems = getGalleryItems(content, content.brand.name);
   const bookingWidget = resolveBookingWidget(content, profile);
   const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
   const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
   const reservationHref = content.brand.primaryCtaHref || "#contacto";
-  const mapHref = content.location?.mapsLink || reservationHref;
+  const locationQuery = encodeURIComponent([content.location?.address, content.location?.city].filter(Boolean).join(", "));
+  const mapHref = locationQuery ? `https://www.google.com/maps?q=${locationQuery}` : reservationHref;
+  const mapEmbedHref = locationQuery ? `https://www.google.com/maps?q=${locationQuery}&output=embed` : "";
+  const normalizedHours = content.location?.hours?.includes("24 horas") ? "Recepcion 24 horas" : content.location?.hours;
   const data = getPageData(pageSlug, content, services, bookingWidget.options?.slice(0, 1)?.[0]?.price || "S/ 249");
-  const rail = [...galleryItems, ...services]
-    .slice(0, 5)
-    .map((item, index) => ({
+  const pageIndex = HOTEL_NAV_ITEMS.findIndex((item) => item.slug === pageSlug);
+  const metrics = data.metrics.slice(0, 3).map((metric, index) => ({
+    label: content.stats[index]?.label || metric.label,
+    value: content.stats[index]?.value || metric.value,
+  }));
+  const cards = data.cards.slice(0, 3).map((card, index) => ({
+    eyebrow: content.highlights[index] || card.eyebrow,
+    title: services[index]?.title || card.title,
+    description: services[index]?.description || card.description,
+  }));
+  const modalItems = data.modals.slice(0, 3).map((modal, index) => ({
+    title: faqs[index]?.question || modal.title,
+    body: faqs[index]?.answer || modal.body,
+  }));
+  const rail: RailItem[] = [
+    ...galleryItems.map((item, index) => ({
       title: item.title,
-      subtitle: index === 0 ? getHotelPageLabel(pageSlug) : "Vuelo 78",
+      subtitle: index === 0 ? getHotelPageLabel(pageSlug) : item.subtitle || "Vuelo 78",
       imageSrc: item.imageSrc || heroImage,
       imagePosition: item.imagePosition || heroImagePosition,
-      description: getRailCopy(pageSlug, index),
-    }));
+      description: getHotelReferenceRailCopy(pageSlug, index),
+      sourceType: "gallery" as const,
+      sourceIndex: index,
+    })),
+    ...services.map((item, index) => ({
+      title: item.title,
+      subtitle: getHotelPageLabel(pageSlug),
+      imageSrc: item.imageSrc || heroImage,
+      imagePosition: item.imagePosition || heroImagePosition,
+      description: getHotelReferenceRailCopy(pageSlug, index + galleryItems.length),
+      sourceType: "service" as const,
+      sourceIndex: index,
+    })),
+  ].slice(0, 5);
+  const storyMedia = rail[0];
+  const storyChip = content.uiText?.storyChip || data.story.chip;
+  const storyTitle = content.uiText?.storyTitle || data.story.title;
+  const storyBody = content.narrative.goal || data.story.body;
+  const railTitle = content.uiText?.storyTitle || data.railTitle;
+  const railDescription = content.narrative.goal || data.railDescription;
+  const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
+  const leadPrice = bookingWidget.options?.[0]?.price || "Tarifa directa";
+  const heroFacts = [
+    { label: "Pagina", value: getHotelPageLabel(pageSlug) },
+    { label: "Destino", value: content.location?.city || "Tarapoto" },
+    { label: "Desde", value: leadPrice },
+  ];
+  const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
 
   return (
     <>
-      <section className="hotel-reference-shell hotel-reference-page-shell" id="inicio">
-        <div
-          className={`hotel-reference-hero hotel-reference-hero-alt ${heroImage ? "has-media-image" : "media-fallback-hotel"}`}
-          style={getMediaStyle(heroImage, "0.22", heroImagePosition)}
-        >
-          <div className="hotel-reference-hero-overlay" aria-hidden="true" />
-          <header className="hotel-reference-header">
-            <a className="hotel-reference-brand" href="/" aria-label={`Ir al inicio de ${content.brand.name}`}>
-              <span className="hotel-reference-brand-mark" aria-hidden="true">v</span>
-              <span className="hotel-reference-brand-copy">
-                <strong>{content.brand.name}</strong>
-                <small>{content.brand.heroTag || "Hotel urbano en Tarapoto"}</small>
-              </span>
-            </a>
-            <nav className="hotel-reference-nav" aria-label="Secciones principales">
-              {HOTEL_NAV_ITEMS.map((item) => (
-                <a className={item.slug === pageSlug ? "is-active" : undefined} href={item.href} key={item.slug}>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            <a className="hotel-reference-header-cta" href={reservationHref}>
-              {content.brand.primaryCtaLabel || "Reservar"}
-            </a>
-            <HotelMobileMenu activeSlug={pageSlug} bookingCtaLabel={content.brand.primaryCtaLabel || "Reservar"} pages={HOTEL_NAV_ITEMS} reservationHref={reservationHref} />
-          </header>
-
-          <div className="hotel-reference-hero-copy hotel-reference-hero-copy-wide">
-            <span className="hotel-reference-kicker">{data.kicker}</span>
-            <h1>{data.title}</h1>
-            <p>{data.description}</p>
-            <div className="hotel-reference-room-actions">
-              <a className="primary-button" href={reservationHref}>Reservar</a>
-              <a className="secondary-button" href={pageSlug === "mapa" ? mapHref : getHotelPageHref("habitaciones")}>
-                {pageSlug === "mapa" ? "Abrir mapa" : "Ver habitaciones"}
+      <section className="hotel-reference-shell hotel-reference-page-shell" id="inicio" data-editor-section="hero">
+        <InlineImageField enabled={editorMode} fieldKey="hero" label={`Hero ${getHotelPageLabel(pageSlug)}`} onChange={editorMode ? editorImageControls?.onHeroImageChange : undefined} uploading={heroUploading}>
+          <div className={`hotel-reference-hero hotel-reference-hero-alt ${heroImage ? "has-media-image" : "media-fallback-hotel"}`} style={getMediaStyle(heroImage, "0.22", heroImagePosition)}>
+            <div className="hotel-reference-hero-overlay" aria-hidden="true" />
+            <header className="hotel-reference-header">
+              <a className="hotel-reference-brand" href="/" aria-label={`Ir al inicio de ${content.brand.name}`}>
+                <span className="hotel-reference-brand-mark" aria-hidden="true">v</span>
+                <span className="hotel-reference-brand-copy">
+                  {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="brand.name" label="Nombre del hotel" section="hero" value={content.brand.name} /> : <strong>{content.brand.name}</strong>}
+                  {editorMode ? <InlineTextField as="span" className="hotel-reference-brand-small" controls={editorTextControls} enabled fieldKey="brand.heroTag" label="Tag del hotel" section="hero" value={content.brand.heroTag || "Hotel urbano en Tarapoto"} /> : <small>{content.brand.heroTag || "Hotel urbano en Tarapoto"}</small>}
+                </span>
               </a>
+              <nav className="hotel-reference-nav" aria-label="Secciones principales">
+                {HOTEL_NAV_ITEMS.map((item, index) => (
+                  <a className={item.slug === pageSlug ? "is-active" : undefined} href={item.href} key={item.slug}>
+                    {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link hotel ${index + 1}`} section="hero" showTrigger={false} value={content.pages[index] || item.label} /> : content.pages[index] || item.label}
+                  </a>
+                ))}
+              </nav>
+              <a className="hotel-reference-header-cta" href={reservationHref}>
+                {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA principal hotel" section="hero" showTrigger={false} value={bookingCtaLabel} /> : bookingCtaLabel}
+              </a>
+              <HotelMobileMenu activeSlug={pageSlug} bookingCtaLabel={bookingCtaLabel} pages={HOTEL_NAV_ITEMS} reservationHref={reservationHref} />
+            </header>
+
+            <div className="hotel-reference-hero-copy hotel-reference-hero-copy-wide">
+              {editorMode ? <InlineTextField as="span" className="hotel-reference-kicker" controls={editorTextControls} enabled fieldKey="brand.heroTag" label={`Kicker ${getHotelPageLabel(pageSlug)}`} section="hero" value={data.kicker} /> : <span className="hotel-reference-kicker">{data.kicker}</span>}
+              {editorMode ? <InlineTextField as="h1" controls={editorTextControls} enabled fieldKey="brand.headline" label={`Titulo ${getHotelPageLabel(pageSlug)}`} minRows={4} multiline section="hero" value={data.title} /> : <h1>{data.title}</h1>}
+              {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="brand.subheadline" label={`Descripcion ${getHotelPageLabel(pageSlug)}`} minRows={4} multiline section="hero" value={data.description} /> : <p>{data.description}</p>}
+              <div className="hotel-reference-room-actions">
+                <a className="primary-button" href={reservationHref}>{editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA reservar" section="hero" showTrigger={false} value={bookingCtaLabel} /> : "Reservar"}</a>
+                <a className="secondary-button" href={pageSlug === "mapa" ? mapHref : getHotelPageHref("habitaciones")}>{pageSlug === "mapa" ? "Abrir mapa" : "Ver habitaciones"}</a>
+              </div>
+              <div className="hotel-reference-hero-meta" aria-label="Datos rapidos de la pagina">
+                {heroFacts.map((fact, index) => (
+                  <article className="hotel-reference-hero-meta-card" key={`${fact.label}-${index}`}>
+                    <span>{fact.label}</span>
+                    <strong>{fact.value}</strong>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        </InlineImageField>
 
         <div className="hotel-reference-hero-metrics">
-          {data.metrics.map((metric) => (
-            <article className="hotel-reference-hero-metric" key={metric.label}>
-              <span>{metric.label}</span>
-              <strong>{metric.value}</strong>
+          {metrics.map((metric, index) => (
+            <article className="hotel-reference-hero-metric" key={`${metric.label}-${index}`}>
+              {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`stats.${index}.label`} label={`Metrica ${index + 1} label`} section="story" value={metric.label} /> : <span>{metric.label}</span>}
+              {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`stats.${index}.value`} label={`Metrica ${index + 1} valor`} section="story" value={metric.value} /> : <strong>{metric.value}</strong>}
             </article>
           ))}
         </div>
       </section>
 
-      <section className="scene hotel-reference-story-split" data-animate data-animate-delay="50">
+      <section className="scene hotel-reference-story-split" data-animate data-animate-delay="50" data-editor-section="story">
         <article className="hotel-reference-story-copy">
-          <span className="scene-chip">{data.story.chip}</span>
-          <h2>{data.story.title}</h2>
-          <p>{data.story.body}</p>
+          {editorMode ? <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.storyChip" label="Chip narrativa" section="story" value={storyChip} /> : <span className="scene-chip">{storyChip}</span>}
+          {editorMode ? <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.storyTitle" label="Titulo narrativa" minRows={3} multiline section="story" value={storyTitle} /> : <h2>{storyTitle}</h2>}
+          {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion narrativa" minRows={4} multiline section="story" value={storyBody} /> : <p>{storyBody}</p>}
           <div className="hotel-reference-story-links">
             <a className="primary-button" href={reservationHref}>Confirmar disponibilidad</a>
             <a className="secondary-button" href={getHotelPageHref("mapa")}>Ver mapa</a>
           </div>
         </article>
-        <div
-          className={`hotel-reference-story-media ${rail[0]?.imageSrc ? "has-media-image" : "media-fallback-hotel"}`}
-          style={getMediaStyle(rail[0]?.imageSrc || heroImage, "0.12", rail[0]?.imagePosition || heroImagePosition)}
-        />
+        <InlineImageField enabled={editorMode && Boolean(storyMedia)} fieldKey={`story-media-${storyMedia?.sourceType || "gallery"}-${storyMedia?.sourceIndex ?? 0}`} label={`Imagen narrativa ${getHotelPageLabel(pageSlug)}`} onChange={editorMode && storyMedia ? storyMedia.sourceType === "gallery" ? (event) => editorImageControls?.onGalleryImageChange(storyMedia.sourceIndex, event) : (event) => editorImageControls?.onServiceImageChange(storyMedia.sourceIndex, event) : undefined} uploading={editorMode && storyMedia ? editorImageControls?.uploadingField === `${storyMedia.sourceType === "gallery" ? "galeria" : "servicio"} ${storyMedia.sourceIndex + 1}` : false}>
+          <div className={`hotel-reference-story-media ${(storyMedia?.imageSrc || heroImage) ? "has-media-image" : "media-fallback-hotel"}`} style={getMediaStyle(storyMedia?.imageSrc || heroImage, "0.12", storyMedia?.imagePosition || heroImagePosition)} />
+        </InlineImageField>
       </section>
 
-      <section className="scene hotel-reference-related" data-animate data-animate-delay="90">
+      <section className="scene hotel-reference-related" data-animate data-animate-delay="90" data-editor-section="services">
         <div className="hotel-reference-section-heading">
-          <span className="scene-chip">{getHotelPageLabel(pageSlug)}</span>
-          <h2>{data.story.title}</h2>
-          <p>{data.story.body}</p>
+          {editorMode ? <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label="Chip de pagina hotel" section="services" value={getHotelPageLabel(pageSlug)} /> : <span className="scene-chip">{getHotelPageLabel(pageSlug)}</span>}
+          {editorMode ? <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.storyTitle" label="Titulo bloque servicios" minRows={3} multiline section="services" value={storyTitle} /> : <h2>{storyTitle}</h2>}
+          {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion bloque servicios" minRows={3} multiline section="services" value={storyBody} /> : <p>{storyBody}</p>}
         </div>
         <div className="hotel-reference-related-grid">
-          {data.cards.map((card) => (
-            <article className="hotel-reference-room-card hotel-reference-card-tight" key={card.title}>
+          {cards.map((card, index) => (
+            <article className="hotel-reference-room-card hotel-reference-card-tight" key={`${card.title}-${index}`}>
               <div className="hotel-reference-room-card-copy">
-                <span className="scene-chip scene-chip-inline">{card.eyebrow}</span>
-                <strong>{card.title}</strong>
-                <p>{card.description}</p>
+                {editorMode ? <InlineTextField as="span" className="scene-chip scene-chip-inline" compact controls={editorTextControls} enabled fieldKey={`highlights.${index}`} label={`Eyebrow bloque ${index + 1}`} section="services" value={card.eyebrow} /> : <span className="scene-chip scene-chip-inline">{card.eyebrow}</span>}
+                {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`services.${index}.title`} label={`Titulo bloque ${index + 1}`} section="services" value={card.title} /> : <strong>{card.title}</strong>}
+                {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={`services.${index}.description`} label={`Descripcion bloque ${index + 1}`} minRows={3} multiline section="services" value={card.description} /> : <p>{card.description}</p>}
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="scene hotel-reference-modal-grid" data-animate data-animate-delay="130">
+      <section className="scene hotel-reference-modal-grid" data-animate data-animate-delay="130" data-editor-section="faqs">
         <div className="hotel-reference-section-heading">
           <span className="scene-chip">Popup / detalle</span>
           <h2>Capas de apoyo para ampliar informacion sin ensuciar la pagina.</h2>
           <p>Replican el patron de popup del referente con contenido nuevo, copy propio y CTA directo.</p>
         </div>
         <div className="hotel-reference-modal-cards">
-          {data.modals.map((modal) => (
-            <details className="hotel-reference-modal-card" key={modal.title}>
+          {modalItems.map((modal, index) => (
+            <details className="hotel-reference-modal-card" key={`${modal.title}-${index}`}>
               <summary className="hotel-reference-modal-summary">
-                <span>{modal.title}</span>
+                {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`faqs.${index}.question`} label={`Titulo popup ${index + 1}`} section="faqs" showTrigger={false} value={modal.title} /> : <span>{modal.title}</span>}
                 <strong>Abrir detalle</strong>
               </summary>
               <div className="hotel-reference-modal-panel" role="dialog" aria-label={modal.title}>
                 <div className="hotel-reference-modal-content">
                   <span className="scene-chip">Detalle</span>
-                  <h3>{modal.title}</h3>
-                  <p>{modal.body}</p>
+                  {editorMode ? <InlineTextField as="h3" controls={editorTextControls} enabled fieldKey={`faqs.${index}.question`} label={`Cabecera popup ${index + 1}`} section="faqs" value={modal.title} /> : <h3>{modal.title}</h3>}
+                  {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={`faqs.${index}.answer`} label={`Contenido popup ${index + 1}`} minRows={4} multiline section="faqs" value={modal.body} /> : <p>{modal.body}</p>}
                   <div className="hotel-reference-room-actions">
                     <a className="primary-button" href={reservationHref}>Reservar</a>
                     <a className="secondary-button" href="#contacto">Escribir al hotel</a>
@@ -162,23 +226,22 @@ export function HotelReferenceSubpage({ profile, content, pageSlug }: Props) {
         </div>
       </section>
 
-      <section className="scene hotel-reference-rail-shell" data-animate data-animate-delay="170">
+      <section className="scene hotel-reference-rail-shell" data-animate data-animate-delay="170" data-editor-section="gallery">
         <div className="hotel-reference-section-heading">
           <span className="scene-chip">Slider / rail</span>
-          <h2>{data.railTitle}</h2>
-          <p>{data.railDescription}</p>
+          {editorMode ? <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.storyTitle" label="Titulo rail" minRows={3} multiline section="gallery" value={railTitle} /> : <h2>{railTitle}</h2>}
+          {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion rail" minRows={3} multiline section="gallery" value={railDescription} /> : <p>{railDescription}</p>}
         </div>
-        <div className="hotel-reference-rail" role="list" aria-label={data.railTitle}>
-          {rail.map((item) => (
-            <article className="hotel-reference-rail-card" key={`${item.title}-${item.subtitle}`} role="listitem">
-              <div
-                className={`hotel-reference-rail-media ${item.imageSrc ? "has-media-image" : "media-fallback-hotel"}`}
-                style={getMediaStyle(item.imageSrc, "0.08", item.imagePosition)}
-              />
+        <div className="hotel-reference-rail" role="list" aria-label={railTitle}>
+          {rail.map((item, index) => (
+            <article className="hotel-reference-rail-card" key={`${item.title}-${item.subtitle}-${index}`} role="listitem">
+              <InlineImageField enabled={editorMode} fieldKey={`rail-${item.sourceType}-${item.sourceIndex}`} label={`Imagen rail ${index + 1}`} onChange={editorMode ? item.sourceType === "gallery" ? (event) => editorImageControls?.onGalleryImageChange(item.sourceIndex, event) : (event) => editorImageControls?.onServiceImageChange(item.sourceIndex, event) : undefined} uploading={editorMode && editorImageControls?.uploadingField === `${item.sourceType === "gallery" ? "galeria" : "servicio"} ${item.sourceIndex + 1}`}>
+                <div className={`hotel-reference-rail-media ${item.imageSrc ? "has-media-image" : "media-fallback-hotel"}`} style={getMediaStyle(item.imageSrc, "0.08", item.imagePosition)} />
+              </InlineImageField>
               <div className="hotel-reference-rail-copy">
-                <span>{item.subtitle}</span>
-                <strong>{item.title}</strong>
-                <p>{item.description}</p>
+                {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.subtitle` : `highlights.${Math.min(item.sourceIndex, 2)}`} label={`Subtitulo rail ${index + 1}`} section="gallery" value={item.subtitle} /> : <span>{item.subtitle}</span>}
+                {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.title` : `services.${item.sourceIndex}.title`} label={`Titulo rail ${index + 1}`} section="gallery" value={item.title} /> : <strong>{item.title}</strong>}
+                {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.subtitle` : `services.${item.sourceIndex}.description`} label={`Descripcion rail ${index + 1}`} minRows={3} multiline section="gallery" value={item.description} /> : <p>{item.description}</p>}
               </div>
             </article>
           ))}
@@ -186,51 +249,81 @@ export function HotelReferenceSubpage({ profile, content, pageSlug }: Props) {
       </section>
 
       {pageSlug === "mapa" ? (
-        <section className="scene hotel-reference-map-layout" data-animate data-animate-delay="210">
+        <section className="scene hotel-reference-map-layout" data-animate data-animate-delay="210" data-editor-section="contact">
           <article className="hotel-reference-map-card">
             <span className="scene-chip">Ubicacion</span>
-            <h2>{content.location?.city || "Tarapoto, Peru"}</h2>
-            <p>{content.location?.address || "Tarapoto, Peru"}. El bloque esta listo para incrustar mapa real, puntos cercanos y tiempos de traslado.</p>
+            {editorMode ? <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="location.city" label="Ciudad del hotel" section="contact" value={content.location?.city || "Tarapoto, Peru"} /> : <h2>{content.location?.city || "Tarapoto, Peru"}</h2>}
+            {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.address" label="Direccion del hotel" minRows={3} multiline section="contact" value={`${content.location?.address || "Tarapoto, Peru"}. La pagina de mapa ahora muestra la direccion exacta, el embed real de Google Maps y fotos del hotel para ubicar la llegada sin adivinar.`} /> : <p>{content.location?.address || "Tarapoto, Peru"}. La pagina de mapa ahora muestra la direccion exacta, el embed real de Google Maps y fotos del hotel para ubicar la llegada sin adivinar.</p>}
             <div className="hotel-reference-facts-grid">
-              <article><span>Aeropuerto</span><strong>12 min</strong></article>
-              <article><span>Centro</span><strong>6 min</strong></article>
-              <article><span>Check-in</span><strong>24/7</strong></article>
+              <article><span>Direccion</span><strong>{content.location?.address || "Tarapoto"}</strong></article>
+              <article><span>Ciudad</span><strong>{content.location?.city || "Tarapoto, Peru"}</strong></article>
+              <article><span>Recepcion</span><strong>{normalizedHours || "24 horas"}</strong></article>
             </div>
             <div className="hotel-reference-room-actions">
               <a className="primary-button" href={mapHref}>Abrir mapa</a>
               <a className="secondary-button" href={reservationHref}>Reservar</a>
             </div>
           </article>
-          <div className="hotel-reference-map-visual" aria-hidden="true">
-            <div className="hotel-reference-map-pin"><span /></div>
-            <div className="hotel-reference-map-route hotel-reference-map-route-a" />
-            <div className="hotel-reference-map-route hotel-reference-map-route-b" />
+          <div className="hotel-reference-map-visual">
+            <div className="hotel-reference-map-frame">
+              {mapEmbedHref ? (
+                <iframe
+                  src={mapEmbedHref}
+                  title="Google Maps Hotel Vuelo 78"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="hotel-reference-map-iframe"
+                />
+              ) : (
+                <a className="hotel-reference-map-placeholder" href={mapHref}>
+                  Ver en Google Maps
+                </a>
+              )}
+            </div>
+            <div className="hotel-reference-map-gallery">
+              {rail.slice(0, 2).map((item, index) => (
+                <article className="hotel-reference-map-gallery-card" key={`${item.title}-${index}`}>
+                  <div
+                    className={`hotel-reference-map-gallery-media ${item.imageSrc ? "has-media-image" : "media-fallback-hotel"}`}
+                    style={getMediaStyle(item.imageSrc || heroImage, "0.1", item.imagePosition || heroImagePosition)}
+                  />
+                  <div className="hotel-reference-map-gallery-copy">
+                    <strong>{index === 0 ? "Foto del hotel" : item.title}</strong>
+                    <span>{index === 0 ? "Referencia visual de llegada y fachada" : item.description}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
       ) : null}
 
-      {faqs.length ? <LandingFaqAccordion items={faqs} label={`FAQ ${getHotelPageLabel(pageSlug)}`} title={data.faqTitle} /> : null}
+      {faqs.length ? <LandingFaqAccordion editorMode={editorMode} editorTextControls={editorTextControls} items={faqs} label={`FAQ ${getHotelPageLabel(pageSlug)}`} title={content.uiText?.faqTitle || data.faqTitle} /> : null}
 
       <ContactForm
-        description={data.contactDescription}
+        description={content.contact.description || data.contactDescription}
+        editorMode={editorMode}
+        editorTextControls={editorTextControls}
         title={content.contact.title || "Confirma disponibilidad y reserva con claridad"}
         whatsappNumber={content.contact.whatsappNumber}
       />
 
       <footer className="scene hotel-reference-footer">
         <div className="hotel-reference-footer-brand">
-          <span className="scene-chip">{getHotelPageLabel(pageSlug)}</span>
-          <strong>{content.brand.name}</strong>
-          <p>{data.contactDescription}</p>
+          {editorMode ? <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label="Chip footer hotel" section="contact" value={getHotelPageLabel(pageSlug)} /> : <span className="scene-chip">{getHotelPageLabel(pageSlug)}</span>}
+          {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="brand.name" label="Nombre footer" section="contact" value={content.brand.name} /> : <strong>{content.brand.name}</strong>}
+          {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="contact.description" label="Descripcion footer" minRows={3} multiline section="contact" value={content.contact.description || data.contactDescription} /> : <p>{content.contact.description || data.contactDescription}</p>}
         </div>
         <div className="hotel-reference-footer-links">
-          {HOTEL_NAV_ITEMS.map((item) => (
+          {HOTEL_NAV_ITEMS.map((item, index) => (
             <a className={item.slug === pageSlug ? "is-active" : undefined} href={item.href} key={item.slug}>
-              {item.label}
+              {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link footer ${index + 1}`} section="contact" showTrigger={false} value={content.pages[index] || item.label} /> : item.label}
             </a>
           ))}
         </div>
       </footer>
+
+      <HotelFloatingCta href={reservationHref} label="Reservar ahora" note="Canal directo del hotel" />
     </>
   );
 }
@@ -360,7 +453,7 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
   return map[pageSlug];
 }
 
-function getRailCopy(pageSlug: Exclude<HotelPageSlug, "hotel">, index: number) {
+function getHotelReferenceRailCopy(pageSlug: Exclude<HotelPageSlug, "hotel">, index: number) {
   const text: Record<Exclude<HotelPageSlug, "hotel">, string[]> = {
     ofertas: ["Upgrade, promo o paquete con lectura clara.", "Beneficio clave y CTA visible.", "Pieza util para pauta y temporada alta.", "Visual corto con sentido comercial.", "Bloque horizontal muy usable en celular."],
     experiencias: ["Escena para llegada o descanso.", "Ayuda a construir deseo.", "Sirve para materiales y detalles.", "Sostiene narrativa sin mucho texto.", "Tambien funciona para day use."],
@@ -372,4 +465,33 @@ function getRailCopy(pageSlug: Exclude<HotelPageSlug, "hotel">, index: number) {
     mapa: ["Escena de llegada o fachada.", "Sirve para accesos y referencias.", "Tranquiliza antes de la reserva.", "Puede usarse con imagenes del barrio.", "Cierra mejor la promesa logistica."],
   };
   return text[pageSlug][index % text[pageSlug].length];
+}
+
+function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteContent) {
+  const validItems = items.filter((item) => {
+    const text = `${item.question} ${item.answer}`.toLowerCase();
+    return !/(tripadvisor|rio hotels tarapoto|rio hotel|trip advisor)/i.test(text);
+  });
+
+  if (validItems.length > 0) {
+    return validItems;
+  }
+
+  const hotelName = content.brand.name || "el hotel";
+  const checkInWindow = content.location?.hours || "24 horas";
+
+  return [
+    {
+      question: "Como reservo directamente con el hotel?",
+      answer: `Puedes escribir por WhatsApp o usar el formulario para confirmar disponibilidad, tarifa y condiciones directamente con ${hotelName}.`,
+    },
+    {
+      question: "Que horario maneja recepcion?",
+      answer: `La recepcion atiende ${checkInWindow}. Si llegas tarde, puedes avisar por WhatsApp para dejar tu reserva coordinada.`,
+    },
+    {
+      question: "Puedo consultar antes de pagar?",
+      answer: "Si. La pagina esta pensada para resolver dudas, confirmar fechas y luego avanzar con una reserva mucho mas clara.",
+    },
+  ];
 }

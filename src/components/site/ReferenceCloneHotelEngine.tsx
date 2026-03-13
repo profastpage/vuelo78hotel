@@ -1,6 +1,7 @@
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
 import { HotelBookingBar } from "./HotelBookingBar";
+import { HotelFloatingCta } from "./HotelFloatingCta";
 import { HotelHeroShowcase, type HotelHeroSlide } from "./HotelHeroShowcase";
 import { HotelMobileMenu } from "./HotelMobileMenu";
 import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
@@ -31,11 +32,12 @@ type AmenityItem = {
 const DEFAULT_AMENITY_ICONS = ["wi-fi", "aire", "seguridad", "ducha", "tv", "desayuno"];
 
 export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMode = false, editorImageControls, editorTextControls }: ReferenceCloneHotelEngineProps) {
+  const tripadvisorHref = "https://www.tripadvisor.es/Hotel_Review-g658384-d12839312-Reviews-Rio_Hotels_Tarapoto-Tarapoto_San_Martin_Region.html";
   const activePage = normalizeHotelPageSlug(pageSlug);
   const pages = HOTEL_NAV_ITEMS;
   const galleryItems = getGalleryItems(content, profile.industry);
   const services = getVisibleServices(content);
-  const faqs = getVisibleFaqs(content).slice(0, 4);
+  const faqs = sanitizeHotelFaqs(getVisibleFaqs(content).slice(0, 4), content);
   const testimonials = getVisibleTestimonials(content).slice(0, 3);
   const bookingWidget = resolveBookingWidget(content, profile);
   const bookingOptions = bookingWidget.options?.slice(0, 3) ?? [];
@@ -44,6 +46,20 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
   const heroSlides = buildHeroSlides(content, services, galleryItems, heroImage, heroImagePosition);
   const roomGallery = [galleryItems[0], ...galleryItems.slice(1, 4)].filter(Boolean);
   const mainRoom = roomGallery[0];
+  const locationMedia = [
+    {
+      title: "Foto del hotel",
+      subtitle: "Fachada y llegada principal",
+      imageSrc: heroImage,
+      imagePosition: heroImagePosition,
+    },
+    ...galleryItems.slice(0, 2).map((item, index) => ({
+      title: index === 0 ? "Entorno y acceso" : item.title,
+      subtitle: index === 0 ? "Referencia visual para reconocer la llegada" : item.subtitle,
+      imageSrc: item.imageSrc,
+      imagePosition: item.imagePosition,
+    })),
+  ].filter((item) => item.imageSrc);
   const relatedRooms = services.slice(0, 3).map((service, index) => ({
     title: service.title,
     description: service.description,
@@ -58,7 +74,15 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
   const subtitle = content.brand.subheadline || content.narrative.body;
   const introTitle = content.brand.headline;
   const introCopy = content.narrative.body || content.brand.description;
+  const introSectionTitle = content.narrative.title || "Habitaciones, ubicacion y reserva directa en un solo recorrido.";
+  const introSectionCopy = content.brand.description || subtitle;
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
+  const leadPrice = bookingOptions[0]?.price || "Tarifa directa";
+  const heroFacts = [
+    { label: "Ubicacion", value: content.location?.city || "Tarapoto" },
+    { label: "Reserva", value: "Directa" },
+    { label: "Desde", value: leadPrice },
+  ];
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
   const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
 
@@ -66,6 +90,9 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
     return (
       <HotelReferenceSubpage
         content={content}
+        editorImageControls={editorImageControls}
+        editorMode={editorMode}
+        editorTextControls={editorTextControls}
         pageSlug={activePage}
         profile={profile}
       />
@@ -137,6 +164,30 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
               ) : (
                 <p>{subtitle}</p>
               )}
+              <div className="hotel-reference-hero-actions">
+                <a className="primary-button" href={reservationHref}>
+                  {editorMode ? (
+                    <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA hero hotel" section="hero" showTrigger={false} value={bookingCtaLabel} />
+                  ) : (
+                    bookingCtaLabel
+                  )}
+                </a>
+                <a className="secondary-button" href={detailsHref}>
+                  {editorMode ? (
+                    <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="brand.secondaryCtaLabel" label="CTA secundario hero hotel" section="hero" showTrigger={false} value={content.brand.secondaryCtaLabel || "Ver habitaciones"} />
+                  ) : (
+                    "Ver habitaciones"
+                  )}
+                </a>
+              </div>
+              <div className="hotel-reference-hero-meta" aria-label="Datos rapidos del hotel">
+                {heroFacts.map((fact, index) => (
+                  <article className="hotel-reference-hero-meta-card" key={`${fact.label}-${index}`}>
+                    <span>{fact.label}</span>
+                    <strong>{fact.value}</strong>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </InlineImageField>
@@ -157,14 +208,14 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
           )}
         </nav>
         {editorMode ? (
-          <InlineTextField as="h1" controls={editorTextControls} enabled fieldKey="brand.name" label="Titulo principal hotel" section="story" value={mainTitle} />
+          <InlineTextField as="h1" controls={editorTextControls} enabled fieldKey="narrative.title" label="Titulo principal hotel" section="story" value={introSectionTitle} />
         ) : (
-          <h1>{mainTitle}</h1>
+          <h1>{introSectionTitle}</h1>
         )}
         {editorMode ? (
-          <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="brand.subheadline" label="Descripcion principal hotel" minRows={3} multiline section="story" value={subtitle} />
+          <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="brand.description" label="Descripcion principal hotel" minRows={3} multiline section="story" value={introSectionCopy} />
         ) : (
-          <p>{subtitle}</p>
+          <p>{introSectionCopy}</p>
         )}
       </section>
 
@@ -189,59 +240,187 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
         <input className="hotel-reference-tab-input" id="hotel-tab-3" name="hotel-tabs" type="radio" />
 
         <div className="hotel-reference-tab-shell">
-          <div className="hotel-reference-tab-list" role="tablist" aria-label="Categorias de estancia">
-            <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-1">Suite signature</label>
-            <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-2">Escapada flexible</label>
-            <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-3">Reserva directa</label>
+          <div className="hotel-reference-tab-sidebar">
+            <article className="hotel-reference-tab-intro">
+              <span className="scene-chip">Estancia curada</span>
+              <h3>Explora la estancia correcta segun tu viaje y reserva sin friccion.</h3>
+              <p>Este bloque ordena la decision: habitacion principal, opcion flexible y beneficio de reservar directo, todo antes de llegar al formulario final.</p>
+            </article>
+
+            <div className="hotel-reference-tab-list" role="tablist" aria-label="Categorias de estancia">
+              <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-1">Suite principal</label>
+              <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-2">Estadia flexible</label>
+              <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-3">Reserva directa</label>
+            </div>
+
+            <details className="hotel-reference-inline-modal">
+              <summary className="hotel-reference-inline-summary">
+                <span>Detalle rapido</span>
+                <strong>Ver mas</strong>
+              </summary>
+              <div className="hotel-reference-inline-panel">
+                <div className="hotel-reference-inline-panel-content">
+                  <span className="scene-chip">Popup</span>
+                  <h3>Resumen rapido antes de dar el siguiente paso.</h3>
+                  <p>Aqui puedes reforzar politica de llegada, horarios, ayuda por WhatsApp o beneficios de reservar directo sin saturar la vista principal.</p>
+                  <a className="primary-button" href={reservationHref}>Reservar ahora</a>
+                </div>
+              </div>
+            </details>
           </div>
 
           <div className="hotel-reference-tab-panels">
             <article className="hotel-reference-tab-panel hotel-reference-tab-panel-1">
-              <span className="scene-chip">Tab / panel</span>
-              <h3>Una ficha amplia para vender la habitacion destacada.</h3>
-              <p>Replica la sensacion del bloque tabulado del referente: texto corto, beneficios visibles y un CTA que llega antes del siguiente scroll.</p>
-              <ul className="hotel-reference-tab-points">
-                <li>Cama amplia y luz calmada</li>
-                <li>Desayuno y WiFi visibles</li>
-                <li>Reserva directa por WhatsApp</li>
-              </ul>
+              <div className="hotel-reference-tab-panel-head">
+                <span className="scene-chip">Habitacion</span>
+                <span className="hotel-reference-tab-kicker">Suite amplia</span>
+              </div>
+              <h3>Una suite comoda para descansar con mas calma en Tarapoto.</h3>
+              <p>Ideal para quien prioriza amplitud, descanso y una reserva clara desde el primer contacto con el hotel.</p>
+              <div className="hotel-reference-tab-content">
+                <ul className="hotel-reference-tab-points">
+                  <li>Cama amplia y ambiente tranquilo</li>
+                  <li>WiFi, aire acondicionado y desayuno</li>
+                  <li>Confirmacion directa por WhatsApp</li>
+                </ul>
+                <div className="hotel-reference-tab-note">
+                  <strong>Ideal para</strong>
+                  <span>Parejas, viajeros de descanso o quienes quieren una habitacion principal con mejor contexto antes de reservar.</span>
+                </div>
+              </div>
+              <div className="hotel-reference-tab-actions">
+                <a className="primary-button" href={reservationHref}>Reservar</a>
+                <a className="hotel-reference-tab-link" href={detailsHref}>Ver detalles de la habitacion</a>
+              </div>
             </article>
             <article className="hotel-reference-tab-panel hotel-reference-tab-panel-2">
-              <span className="scene-chip">Tab / panel</span>
-              <h3>Un panel para day use, late check-out o estadias cortas.</h3>
-              <p>Permite cambiar contenido sin tocar la composicion principal y mantener opciones de estancia listas para campana o temporada.</p>
-              <ul className="hotel-reference-tab-points">
-                <li>Ingreso agil</li>
-                <li>Uso por horas o noche</li>
-                <li>Upgrade segun disponibilidad</li>
-              </ul>
+              <div className="hotel-reference-tab-panel-head">
+                <span className="scene-chip">Flexible</span>
+                <span className="hotel-reference-tab-kicker">Flexible</span>
+              </div>
+              <h3>Una opcion flexible para estancias cortas o llegadas practicas.</h3>
+              <p>Pensada para viajeros de paso, escalas o visitas cortas que buscan descansar sin complicar la reserva.</p>
+              <div className="hotel-reference-tab-content">
+                <ul className="hotel-reference-tab-points">
+                  <li>Ingreso agil y coordinacion rapida</li>
+                  <li>Uso por horas o noche completa</li>
+                  <li>Upgrade sujeto a disponibilidad</li>
+                </ul>
+                <div className="hotel-reference-tab-note">
+                  <strong>Ideal para</strong>
+                  <span>Viajeros de trabajo, escalas o llegadas fuera de horario que necesitan una opcion simple y directa.</span>
+                </div>
+              </div>
+              <div className="hotel-reference-tab-actions">
+                <a className="primary-button" href={reservationHref}>Consultar disponibilidad</a>
+                <a className="hotel-reference-tab-link" href={detailsHref}>Explorar beneficios</a>
+              </div>
             </article>
             <article className="hotel-reference-tab-panel hotel-reference-tab-panel-3">
-              <span className="scene-chip">Tab / panel</span>
-              <h3>Un panel final para objeciones, tarifas y accion.</h3>
-              <p>Sirve para reforzar politica de reserva, soporte humano y beneficios de evitar intermediarios.</p>
-              <ul className="hotel-reference-tab-points">
-                <li>Confirmacion mas clara</li>
-                <li>Atencion directa del hotel</li>
-                <li>Condiciones editables</li>
-              </ul>
+              <div className="hotel-reference-tab-panel-head">
+                <span className="scene-chip">Directo</span>
+                <span className="hotel-reference-tab-kicker">Reserva directa</span>
+              </div>
+              <h3>Reserva directo con el hotel y resuelve dudas antes de confirmar.</h3>
+              <p>Este panel refuerza la atencion humana, la claridad de tarifa y la ventaja de escribir sin intermediarios.</p>
+              <div className="hotel-reference-tab-content">
+                <ul className="hotel-reference-tab-points">
+                  <li>Confirmacion rapida de fechas</li>
+                  <li>Atencion directa del hotel</li>
+                  <li>Coordinacion clara de llegada</li>
+                </ul>
+                <div className="hotel-reference-tab-note">
+                  <strong>Ideal para</strong>
+                  <span>Huespedes que quieren validar disponibilidad, tarifa y ubicacion sin salir de la pagina.</span>
+                </div>
+              </div>
+              <div className="hotel-reference-tab-actions">
+                <a className="primary-button" href={reservationHref}>Reservar directo</a>
+                <a className="hotel-reference-tab-link" href={detailsHref}>Revisar condiciones</a>
+              </div>
             </article>
           </div>
-
-          <details className="hotel-reference-inline-modal">
-            <summary className="hotel-reference-inline-summary">
-              <span>Popup / apoyo</span>
-              <strong>Ver detalle</strong>
-            </summary>
-            <div className="hotel-reference-inline-panel">
-              <span className="scene-chip">Popup</span>
-              <h3>Una capa emergente para ampliar beneficios o condiciones.</h3>
-              <p>Este patron imita el comportamiento de popup del referente sin copiar textos ni estructura propietaria. Aqui puedes mostrar upgrade, politicas o un mini brief de reserva.</p>
-              <a className="primary-button" href={reservationHref}>Reservar ahora</a>
-            </div>
-          </details>
         </div>
       </section>
+
+      {testimonials.length ? (
+        <section className="scene hotel-reference-proof" data-animate data-animate-delay="125">
+          <div className="hotel-reference-section-heading">
+            {editorMode ? (
+              <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.testimonialsChip" label="Chip testimonios hotel" section="testimonials" value={content.uiText?.testimonialsChip || "Verificado"} />
+            ) : (
+              <span className="scene-chip">{content.uiText?.testimonialsChip || "Verificado"}</span>
+            )}
+            {editorMode ? (
+              <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.testimonialsTitle" label="Titulo testimonios hotel" minRows={3} multiline section="testimonials" value={content.uiText?.testimonialsTitle || "Datos reales antes de reservar."} />
+            ) : (
+              <h2>{content.uiText?.testimonialsTitle || "Datos reales antes de reservar."}</h2>
+            )}
+          </div>
+
+          <div className="hotel-reference-proof-layout">
+            <article className="hotel-reference-proof-summary">
+              <div className="hotel-reference-proof-brand">
+                <span className="hotel-reference-proof-brand-mark" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <div>
+                  <strong>Tripadvisor</strong>
+                  <span>Resenas reales de clientes</span>
+                </div>
+              </div>
+              <div className="hotel-reference-proof-score">
+                <strong>4,3</strong>
+                <span>/ 5</span>
+              </div>
+              <div className="hotel-reference-proof-stars" aria-label="Valoracion general 4,3 de 5">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span className="is-muted">★</span>
+              </div>
+              <p>Basado en 6 opiniones publicas de la ficha real del hotel. La lectura se centra en limpieza, atencion del personal y cercania al aeropuerto.</p>
+              <a className="hotel-reference-proof-link" href={tripadvisorHref} target="_blank" rel="noopener noreferrer">
+                Ver ficha completa
+              </a>
+            </article>
+
+            <div className="hotel-reference-proof-grid">
+            {testimonials.map((testimonial, index) => (
+              <article className="quote-card hotel-reference-proof-card" key={testimonial.name}>
+                <div className="hotel-reference-proof-card-top">
+                  <span className="hotel-reference-proof-card-source">Tripadvisor</span>
+                  <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
+                  {editorMode ? (
+                    <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Rol testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.role} />
+                  ) : (
+                    <span>{testimonial.role}</span>
+                  )}
+                </div>
+                {editorMode ? (
+                  <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.name`} label={`Nombre testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.name} />
+                ) : (
+                  <strong>{testimonial.name}</strong>
+                )}
+                {editorMode ? (
+                  <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Rol testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.location || testimonial.role} />
+                ) : (
+                  <span>{testimonial.location || testimonial.role}</span>
+                )}
+                {editorMode ? (
+                  <InlineTextField as="p" controls={editorTextControls} displayValue={`"${testimonial.quote}"`} enabled fieldKey={`testimonials.${index}.quote`} label={`Cita testimonio hotel ${index + 1}`} minRows={3} multiline section="testimonials" value={testimonial.quote} />
+                ) : (
+                  <p>{testimonial.quote}</p>
+                )}
+              </article>
+            ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="scene hotel-reference-details" data-animate data-animate-delay="130">
         <div className="hotel-reference-amenities">
@@ -309,19 +488,19 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
       <section className="scene hotel-reference-related" data-animate data-animate-delay="170" id="servicios">
         <div className="hotel-reference-section-heading">
           {editorMode ? (
-            <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.supportLabel" label="Chip de habitaciones relacionadas" section="services" value={content.uiText?.supportLabel || "Otras habitaciones"} />
+            <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.supportLabel" label="Chip de habitaciones relacionadas" section="services" value={content.uiText?.supportLabel || "Habitaciones destacadas"} />
           ) : (
-            <span className="scene-chip">Otras habitaciones</span>
+            <span className="scene-chip">{content.uiText?.supportLabel || "Habitaciones destacadas"}</span>
           )}
           {editorMode ? (
-            <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.storyTitle" label="Titulo de habitaciones relacionadas" minRows={3} multiline section="services" value={content.uiText?.storyTitle || "Explora habitaciones con la misma linea visual del hotel."} />
+            <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.storyTitle" label="Titulo de habitaciones relacionadas" minRows={3} multiline section="services" value={content.uiText?.storyTitle || "Conoce habitaciones y opciones pensadas para distintos tipos de viaje."} />
           ) : (
-            <h2>Explora habitaciones con la misma linea visual del hotel.</h2>
+            <h2>{content.uiText?.storyTitle || "Conoce habitaciones y opciones pensadas para distintos tipos de viaje."}</h2>
           )}
           {editorMode ? (
-            <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion de habitaciones relacionadas" minRows={3} multiline section="services" value={content.narrative.goal || "Bloques, radios, espacios y ritmo editorial ajustados para acercarse al layout de referencia."} />
+            <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion de habitaciones relacionadas" minRows={3} multiline section="services" value={content.narrative.goal || "Selecciona la habitacion que mejor encaja con tu estadia y pasa a reserva directa sin perder claridad."} />
           ) : (
-            <p>Bloques, radios, espacios y ritmo editorial ajustados para acercarse al layout de referencia.</p>
+            <p>{content.narrative.goal || "Selecciona la habitacion que mejor encaja con tu estadia y pasa a reserva directa sin perder claridad."}</p>
           )}
         </div>
 
@@ -348,55 +527,16 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
               </div>
               <div className="hotel-reference-room-card-actions">
                 <a className="secondary-button" href="#habitaciones">
-                  Ver mas
+                  Ver habitacion
                 </a>
                 <a className="primary-button" href={reservationHref}>
-                  Reserva ahora
+                  Reservar ahora
                 </a>
               </div>
             </article>
           ))}
         </div>
       </section>
-
-      {testimonials.length ? (
-        <section className="scene hotel-reference-proof" data-animate data-animate-delay="210">
-          <div className="hotel-reference-section-heading">
-            {editorMode ? (
-              <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.testimonialsChip" label="Chip testimonios hotel" section="testimonials" value={content.uiText?.testimonialsChip || "Resenas"} />
-            ) : (
-              <span className="scene-chip">Resenas</span>
-            )}
-            {editorMode ? (
-              <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.testimonialsTitle" label="Titulo testimonios hotel" minRows={3} multiline section="testimonials" value={content.uiText?.testimonialsTitle || "Prueba social visible antes del cierre de reserva."} />
-            ) : (
-              <h2>Prueba social visible antes del cierre de reserva.</h2>
-            )}
-          </div>
-
-          <div className="hotel-reference-proof-grid">
-            {testimonials.map((testimonial, index) => (
-              <article className="quote-card hotel-reference-proof-card" key={testimonial.name}>
-                {editorMode ? (
-                  <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.name`} label={`Nombre testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.name} />
-                ) : (
-                  <strong>{testimonial.name}</strong>
-                )}
-                {editorMode ? (
-                  <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Rol testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.location || testimonial.role} />
-                ) : (
-                  <span>{testimonial.location || testimonial.role}</span>
-                )}
-                {editorMode ? (
-                  <InlineTextField as="p" controls={editorTextControls} displayValue={`"${testimonial.quote}"`} enabled fieldKey={`testimonials.${index}.quote`} label={`Cita testimonio hotel ${index + 1}`} minRows={3} multiline section="testimonials" value={testimonial.quote} />
-                ) : (
-                  <p>"{testimonial.quote}"</p>
-                )}
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       {faqs.length ? (
         <LandingFaqAccordion
@@ -414,6 +554,7 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
           contactPhone={content.contact.whatsappNumber}
           editorMode={editorMode}
           editorTextControls={editorTextControls}
+          mediaItems={locationMedia}
           location={content.location}
         />
       ) : null}
@@ -456,14 +597,16 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
           ))}
         </div>
       </footer>
+
+      <HotelFloatingCta href={reservationHref} label="Consultar ahora" note="Disponibilidad y tarifas" />
     </>
   );
 }
 
 function buildAmenityItems(content: SiteContent): AmenityItem[] {
   const amenities = [
-    ...content.highlights,
     ...content.bookingWidget?.options?.flatMap((option) => option.perks) ?? [],
+    ...content.highlights.filter(isHotelBenefit),
   ]
     .map((item) => item.trim())
     .filter(Boolean);
@@ -483,6 +626,55 @@ function buildAmenityItems(content: SiteContent): AmenityItem[] {
     { icon: "ducha", label: "Bano completo" },
     { icon: "tv", label: "TV por cable" },
     { icon: "desayuno", label: "Desayuno incluido" },
+  ];
+}
+
+function isHotelBenefit(value: string) {
+  const text = value.trim().toLowerCase();
+  if (!text) {
+    return false;
+  }
+
+  const invalidPatterns = [
+    "conservar ",
+    "mantener ",
+    "paleta",
+    "branding",
+    "tipografico",
+    "layout",
+    "referencia",
+    "widgets",
+    "cta-group",
+    "popup",
+    "form x",
+  ];
+
+  return !invalidPatterns.some((pattern) => text.includes(pattern));
+}
+
+function sanitizeHotelFaqs(items: SiteContent["faqs"], content: SiteContent) {
+  const validItems = items.filter((item) => {
+    const text = `${item.question} ${item.answer}`.toLowerCase();
+    return !["clonarse", "tabs detectadas", "modal", "referencia"].some((pattern) => text.includes(pattern));
+  });
+
+  if (validItems.length) {
+    return validItems;
+  }
+
+  return [
+    {
+      question: "Como puedo consultar disponibilidad?",
+      answer: "Puedes escribir por WhatsApp desde la web y confirmar fechas, tipo de habitacion y tarifa disponible.",
+    },
+    {
+      question: "La recepcion atiende todo el dia?",
+      answer: "Si. El hotel comunica recepcion 24 horas para facilitar llegadas, consultas y coordinacion de reserva.",
+    },
+    {
+      question: "Donde esta ubicado el hotel?",
+      answer: `La ubicacion mostrada es ${content.location?.address || "Tarapoto"}, con acceso directo a Google Maps desde la pagina.`,
+    },
   ];
 }
 

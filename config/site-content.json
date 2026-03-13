@@ -1,9 +1,9 @@
 {
   "brand": {
     "name": "Vuelo 78 Hotel Tarapoto",
-    "headline": "Vuelo 78 Hotel Tarapoto",
+    "headline": "Descanso comodo y reserva directa cerca del aeropuerto de Tarapoto",
     "description": "Hotel urbano en Tarapoto pensado para viajeros que valoran calma, buena ubicacion y una reserva clara desde el primer contacto.",
-    "subheadline": "Hotel en Tarapoto con habitaciones comodas, reserva directa y una experiencia visual clara desde el primer scroll.",
+    "subheadline": "Habitaciones comodas, atencion cercana y una llegada simple para viajeros que quieren confirmar rapido su estadia.",
     "primaryCtaLabel": "Reservar",
     "primaryCtaHref": "https://wa.me/51987654321?text=Hola%20%F0%9F%91%8B%0A%0AMe%20interesa%20reservar%20en%20Vuelo%2078%20Hotel%20Tarapoto.%0A%0A%F0%9F%8F%A8%20Quiero%20informacion%20sobre%20disponibilidad%0A%F0%9F%9B%8F%EF%B8%8F%20Tipos%20de%20habitacion%20y%20tarifas%0A%F0%9F%93%85%20Opciones%20de%20fecha%20para%20mi%20estadia%0A%0AMuchas%20gracias.",
     "secondaryCtaLabel": "Ver habitaciones",
@@ -33,12 +33,12 @@
   },
   "uiText": {
     "heroLabel": "Hotel y descanso",
-    "supportLabel": "Habitaciones y servicios",
-    "proofLabel": "Huespedes y confianza",
-    "storyChip": "Suite",
-    "storyTitle": "Comodidad y servicios antes de reservar",
-    "testimonialsChip": "Testimonios",
-    "testimonialsTitle": "Senales reales antes de reservar",
+    "supportLabel": "Habitaciones destacadas",
+    "proofLabel": "Clientes reales",
+    "storyChip": "Habitacion principal",
+    "storyTitle": "Elige la estancia que mejor se ajusta a tu viaje",
+    "testimonialsChip": "Lo que dicen nuestros clientes",
+    "testimonialsTitle": "Opiniones reales de TripAdvisor antes de reservar",
     "faqChip": "Preguntas frecuentes",
     "faqTitle": "Dudas comunes antes de confirmar la reserva"
   },
@@ -48,12 +48,12 @@
       "value": "Tarapoto"
     },
     {
-      "label": "Habitaciones",
-      "value": "5"
+      "label": "Recepcion",
+      "value": "24 horas"
     },
     {
       "label": "Reserva",
-      "value": "WhatsApp"
+      "value": "Directa"
     }
   ],
   "services": [
@@ -104,38 +104,38 @@
     }
   ],
   "highlights": [
-    "Conservar 7 bloques principales con jerarquia visual parecida.",
-    "Mantener cta-group x4, popup x4, form x3 dentro del flujo final.",
-    "Usar una paleta nueva inspirada en #000000, #0000EE, #FFFFFF, #E6E6E6 sin copiar branding.",
-    "Traducir el sistema tipografico de referencia a fuentes nuevas con rol similar.",
-    "Ambientes reales del hotel comprimidos para web sin perder presencia visual."
+    "Habitaciones limpias y comodas para descanso o viaje corto.",
+    "Recepcion disponible para ayudarte durante la llegada.",
+    "Reserva directa por WhatsApp con respuesta rapida.",
+    "Ubicacion practica cerca del aeropuerto y accesos principales.",
+    "Ambiente tranquilo para descansar con mas confianza."
   ],
   "testimonials": [
     {
-      "name": "Alex Rivera",
-      "role": "Founder",
-      "quote": "La reserva se siente mucho mas clara y el hotel transmite un nivel premium desde la primera vista.",
+      "name": "@marlenytirado121",
+      "role": "mayo de 2018",
+      "quote": "Destaca la tranquilidad del lugar, la limpieza de las habitaciones y la atencion del personal durante la estadia.",
       "avatarSrc": "",
-      "location": "Tarapoto, Peru",
-      "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+      "location": "TripAdvisor",
+      "segment": "Limpieza, calma y servicio",
       "rating": 5
     },
     {
-      "name": "Mia Chen",
-      "role": "Director",
-      "quote": "Ahora la pagina ordena mejor las habitaciones, beneficios y el camino directo para consultar disponibilidad.",
+      "name": "Rosa C",
+      "role": "julio de 2018",
+      "quote": "Describe el hotel como limpio y acogedor, cerca del aeropuerto, con piscina agradable y personal muy amable.",
       "avatarSrc": "",
-      "location": "Tarapoto, Peru",
-      "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+      "location": "TripAdvisor",
+      "segment": "Cercania al aeropuerto y ambiente acogedor",
       "rating": 5
     },
     {
-      "name": "Jordan Patel",
-      "role": "Operations Lead",
-      "quote": "El resultado se ve serio, limpio y mucho mas cercano a la experiencia de un hotel real.",
+      "name": "Marile F",
+      "role": "octubre de 2018",
+      "quote": "Resalta habitaciones limpias, desayuno agradable y un trato amable que hace la experiencia mas comoda.",
       "avatarSrc": "",
-      "location": "Tarapoto, Peru",
-      "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+      "location": "TripAdvisor",
+      "segment": "Desayuno, limpieza y trato amable",
       "rating": 5
     }
   ],
@@ -221,15 +221,15 @@
     }
   ],
   "contact": {
-    "title": "Confirma disponibilidad y reserva con claridad",
-    "description": "Comparte fechas, tipo de habitacion y objetivo del viaje. La pagina ya queda preparada para mostrar habitaciones, beneficios y una reserva directa sin friccion.",
+    "title": "Confirma tu fecha y recibe ayuda para reservar",
+    "description": "Comparte tus fechas, tipo de habitacion y numero de huespedes. El equipo te responde con disponibilidad y tarifa directa por WhatsApp.",
     "whatsappNumber": "+51987654321",
     "email": "hola@auralis.studio"
   },
   "bookingWidget": {
     "preset": "hotel",
     "title": "Reserva directa y asistencia rapida",
-    "description": "Coordina disponibilidad, tipo de habitacion y llegada desde una barra clara inspirada en el hotel de referencia.",
+    "description": "Coordina disponibilidad, tipo de habitacion y llegada desde una barra simple pensada para reservar sin pasos innecesarios.",
     "adminLabel": "Equipo de reservas",
     "adminRole": "Reservas y atencion",
     "adminStatus": "En linea para responder rapido",
@@ -357,8 +357,8 @@
     "items": []
   },
   "location": {
-    "address": "Jiron Jorge Chavez 1793",
-    "city": "Tarapoto",
+    "address": "Jr. Jorge Chavez 1793, Barrio Huayco",
+    "city": "Tarapoto 22201, San Martin, Peru",
     "hours": "Recepcion 24 horas · a una cuadra del aeropuerto",
     "mapsEmbedUrl": "https://www.google.com/maps?q=Jiron%20Jorge%20Chavez%201793%2C%20Tarapoto%2C%20Peru&output=embed",
     "mapsLink": "https://www.google.com/maps?q=Jiron%20Jorge%20Chavez%201793%2C%20Tarapoto%2C%20Peru"

@@ -27,11 +27,11 @@ function validateForm(data: FormData): FieldErrors {
   const message = String(data.get("message") ?? "").trim();
 
   if (name.length < 2) {
-    errors.name = "Ingresa tu nombre completo (mínimo 2 caracteres).";
+    errors.name = "Ingresa tu nombre completo (minimo 2 caracteres).";
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errors.email = "Ingresa un correo electrónico válido.";
+    errors.email = "Ingresa un correo electronico valido.";
   }
 
   if (message.length < 10) {
@@ -50,7 +50,6 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    // Client-side validation first
     const errors = validateForm(formData);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
@@ -78,15 +77,11 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
       }
 
       setStatus("success");
-      setMessage("¡Mensaje enviado! Te responderemos a la brevedad.");
+      setMessage("Mensaje enviado. Te responderemos a la brevedad.");
       event.currentTarget.reset();
     } catch (error) {
       setStatus("error");
-      setMessage(
-        error instanceof Error
-          ? error.message
-          : "Error inesperado. Intenta nuevamente."
-      );
+      setMessage(error instanceof Error ? error.message : "Error inesperado. Intenta nuevamente.");
     }
   }
 
@@ -95,14 +90,9 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
     : null;
 
   return (
-    <section
-      className="contact-panel"
-      data-editor-section="contact"
-      id="contacto"
-      data-animate
-    >
-      <div data-animate>
-        <span className="eyebrow">Contacto</span>
+    <section className="contact-panel contact-panel-deluxe" data-editor-section="contact" id="contacto" data-animate>
+      <div className="contact-panel-copy" data-animate>
+        <span className="eyebrow">Reservas directas</span>
         {editorMode ? (
           <InlineTextField
             as="h2"
@@ -135,6 +125,35 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
         ) : (
           <p>{description}</p>
         )}
+
+        <div className="contact-panel-signals" aria-label="Beneficios de contacto">
+          <article className="contact-signal-card">
+            <span>Respuesta</span>
+            <strong>Atencion prioritaria</strong>
+            <p>Disponible para confirmar habitaciones, tarifas y solicitudes especiales con mejor orden visual.</p>
+          </article>
+          <article className="contact-signal-card">
+            <span>Canal directo</span>
+            <strong>Reserva sin intermediarios</strong>
+            <p>WhatsApp visible y formulario elegante para llevar la consulta al siguiente paso con menos friccion.</p>
+          </article>
+        </div>
+
+        <div className="contact-panel-facts" aria-label="Datos de confianza">
+          <div>
+            <span>Tiempo estimado</span>
+            <strong>Menos de 30 min</strong>
+          </div>
+          <div>
+            <span>Formato</span>
+            <strong>Reserva guiada</strong>
+          </div>
+          <div>
+            <span>Disponibilidad</span>
+            <strong>Todos los dias</strong>
+          </div>
+        </div>
+
         {whatsappHref ? (
           <a
             className="whatsapp-link"
@@ -143,85 +162,103 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
             rel="noopener noreferrer"
             aria-label="Contactar por WhatsApp"
           >
-            <span aria-hidden="true">💬</span> Escribir por WhatsApp
+            <span className="whatsapp-link-icon" aria-hidden="true">
+              <span />
+            </span>
+            <span className="whatsapp-link-copy">
+              <strong>Escribir por WhatsApp</strong>
+              <small>Canal directo para confirmar disponibilidad</small>
+            </span>
           </a>
         ) : null}
       </div>
 
-      <form className="contact-form" onSubmit={handleSubmit} noValidate data-animate data-animate-delay="80">
-        <label className={fieldErrors.name ? "has-error" : ""}>
-          Nombre <span className="field-required" aria-hidden="true">*</span>
-          <input
-            name="name"
-            placeholder="Tu nombre completo"
-            required
-            type="text"
-            aria-invalid={!!fieldErrors.name}
-            aria-describedby={fieldErrors.name ? "error-name" : undefined}
-            autoComplete="name"
-          />
-          {fieldErrors.name ? (
-            <span className="field-error" id="error-name" role="alert">
-              {fieldErrors.name}
-            </span>
+      <div className="contact-form-shell" data-animate data-animate-delay="80">
+        <div className="contact-form-shell-top">
+          <span className="contact-form-shell-kicker">Formulario de reserva</span>
+          <p>Comparte fechas, tipo de habitacion o solicitud especial. La respuesta queda orientada a cerrar tu estadia con claridad.</p>
+        </div>
+
+        <form className="contact-form contact-form-deluxe" onSubmit={handleSubmit} noValidate>
+          <div className="contact-form-inline">
+            <label className={fieldErrors.name ? "has-error" : ""}>
+              Nombre <span className="field-required" aria-hidden="true">*</span>
+              <input
+                name="name"
+                placeholder="Tu nombre completo"
+                required
+                type="text"
+                aria-invalid={!!fieldErrors.name}
+                aria-describedby={fieldErrors.name ? "error-name" : undefined}
+                autoComplete="name"
+              />
+              {fieldErrors.name ? (
+                <span className="field-error" id="error-name" role="alert">
+                  {fieldErrors.name}
+                </span>
+              ) : null}
+            </label>
+
+            <label className={fieldErrors.email ? "has-error" : ""}>
+              Email <span className="field-required" aria-hidden="true">*</span>
+              <input
+                name="email"
+                placeholder="correo@ejemplo.com"
+                required
+                type="email"
+                aria-invalid={!!fieldErrors.email}
+                aria-describedby={fieldErrors.email ? "error-email" : undefined}
+                autoComplete="email"
+              />
+              {fieldErrors.email ? (
+                <span className="field-error" id="error-email" role="alert">
+                  {fieldErrors.email}
+                </span>
+              ) : null}
+            </label>
+          </div>
+
+          <label>
+            Telefono <span className="field-optional">(opcional)</span>
+            <input
+              name="phone"
+              placeholder="+51 999 999 999"
+              type="tel"
+              autoComplete="tel"
+            />
+          </label>
+
+          <label className={fieldErrors.message ? "has-error" : ""}>
+            Mensaje <span className="field-required" aria-hidden="true">*</span>
+            <textarea
+              name="message"
+              placeholder="Cuentanos fechas, tipo de habitacion y cualquier detalle que debamos considerar..."
+              required
+              rows={6}
+              aria-invalid={!!fieldErrors.message}
+              aria-describedby={fieldErrors.message ? "error-message" : undefined}
+            />
+            {fieldErrors.message ? (
+              <span className="field-error" id="error-message" role="alert">
+                {fieldErrors.message}
+              </span>
+            ) : null}
+          </label>
+
+          <div className="contact-form-actions">
+            <button disabled={status === "loading"} type="submit" aria-busy={status === "loading"}>
+              {status === "loading" ? "Enviando..." : "Enviar consulta"}
+            </button>
+            <p className="contact-form-note">Canal recomendado para consultas de disponibilidad, tarifas y reservas personalizadas.</p>
+          </div>
+
+          {message ? (
+            <p className={`form-status ${status}`} role="status" aria-live="polite">
+              {message}
+            </p>
           ) : null}
-        </label>
-
-        <label className={fieldErrors.email ? "has-error" : ""}>
-          Email <span className="field-required" aria-hidden="true">*</span>
-          <input
-            name="email"
-            placeholder="correo@ejemplo.com"
-            required
-            type="email"
-            aria-invalid={!!fieldErrors.email}
-            aria-describedby={fieldErrors.email ? "error-email" : undefined}
-            autoComplete="email"
-          />
-          {fieldErrors.email ? (
-            <span className="field-error" id="error-email" role="alert">
-              {fieldErrors.email}
-            </span>
-          ) : null}
-        </label>
-
-        <label>
-          Teléfono <span className="field-optional">(opcional)</span>
-          <input
-            name="phone"
-            placeholder="+51 999 999 999"
-            type="tel"
-            autoComplete="tel"
-          />
-        </label>
-
-        <label className={fieldErrors.message ? "has-error" : ""}>
-          Mensaje <span className="field-required" aria-hidden="true">*</span>
-          <textarea
-            name="message"
-            placeholder="Cuéntanos qué necesitas..."
-            required
-            rows={5}
-            aria-invalid={!!fieldErrors.message}
-            aria-describedby={fieldErrors.message ? "error-message" : undefined}
-          />
-          {fieldErrors.message ? (
-            <span className="field-error" id="error-message" role="alert">
-              {fieldErrors.message}
-            </span>
-          ) : null}
-        </label>
-
-        <button disabled={status === "loading"} type="submit" aria-busy={status === "loading"}>
-          {status === "loading" ? "Enviando…" : "Enviar consulta"}
-        </button>
-
-        {message ? (
-          <p className={`form-status ${status}`} role="status" aria-live="polite">
-            {message}
-          </p>
-        ) : null}
-      </form>
+        </form>
+      </div>
     </section>
   );
 }
