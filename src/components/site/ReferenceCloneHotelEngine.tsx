@@ -4,6 +4,7 @@ import type { ClientProfile, SiteContent } from "@/types/site";
 import { HotelFloatingCta } from "./HotelFloatingCta";
 import { HotelPremiumAmenities } from "./HotelPremiumAmenities";
 import { HotelPremiumBookingCta } from "./HotelPremiumBookingCta";
+import { HotelPremiumExperienceGallery } from "./HotelPremiumExperienceGallery";
 import { HotelPremiumFooter } from "./HotelPremiumFooter";
 import { HotelPremiumHeader } from "./HotelPremiumHeader";
 import { HotelPremiumHero } from "./HotelPremiumHero";
@@ -88,6 +89,7 @@ export function ReferenceCloneHotelEngine({
     { label: "Aire acondicionado", value: "03" },
     { label: "Recepcion 24h", value: "04" },
   ];
+  const experienceGalleryItems = buildExperienceGalleryItems(services, galleryItems, heroImage, heroImagePosition);
   const amenities = buildAmenities(content);
   const locationMedia = [
     {
@@ -128,6 +130,8 @@ export function ReferenceCloneHotelEngine({
           reservationHref={reservationHref}
           slides={heroSlides}
         />
+
+        <HotelPremiumExperienceGallery items={experienceGalleryItems} />
 
         <HotelPremiumRoomsSection
           eyebrow="Nuestras habitaciones"
@@ -196,6 +200,42 @@ function buildAmenities(content: SiteContent) {
     ...item,
     description: content.highlights[index] || item.description,
   }));
+}
+
+function buildExperienceGalleryItems(
+  services: SiteContent["services"],
+  galleryItems: ReturnType<typeof getGalleryItems>,
+  heroImage: string,
+  heroImagePosition: SiteContent["brand"]["heroImagePosition"],
+) {
+  const candidates = [
+    {
+      title: "Piscina y descanso tropical",
+      subtitle: "Piscina",
+      imageSrc: galleryItems[2]?.imageSrc || services[1]?.imageSrc || heroImage,
+      imagePosition: galleryItems[2]?.imagePosition || services[1]?.imagePosition || heroImagePosition,
+    },
+    {
+      title: "Habitaciones listas para desconectar",
+      subtitle: "Habitacion",
+      imageSrc: services[0]?.imageSrc || galleryItems[1]?.imageSrc || heroImage,
+      imagePosition: services[0]?.imagePosition || galleryItems[1]?.imagePosition || heroImagePosition,
+    },
+    {
+      title: "Lobby y llegada con atmosfera serena",
+      subtitle: "Lobby",
+      imageSrc: heroImage || galleryItems[0]?.imageSrc,
+      imagePosition: heroImagePosition || galleryItems[0]?.imagePosition,
+    },
+    {
+      title: "Desayuno, servicio y momentos del hotel",
+      subtitle: "Restaurante",
+      imageSrc: galleryItems[3]?.imageSrc || services[2]?.imageSrc || heroImage,
+      imagePosition: galleryItems[3]?.imagePosition || services[2]?.imagePosition || heroImagePosition,
+    },
+  ];
+
+  return candidates.filter((item) => item.imageSrc);
 }
 
 function buildHeroDescription(content: SiteContent, cityLabel: string) {
