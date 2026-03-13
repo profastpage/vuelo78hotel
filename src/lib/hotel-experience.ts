@@ -1013,6 +1013,91 @@ export function buildProfessionalHotelWhatsAppHref({
   )}`;
 }
 
+export function buildHotelWhatsAppHrefV2({
+  locale,
+  hotelName,
+  intent,
+  sourceLabel,
+  roomLabel,
+  checkIn = "",
+  checkOut = "",
+  guests,
+  price,
+  rateLabel,
+  nights = 0,
+  notes,
+}: HotelWhatsappParams) {
+  const resolvedHotelName = `*${hotelName.trim() || "Vuelo 78 Hotel"}*`;
+  const wave = "\u{1F44B}";
+  const sparkle = "\u2728";
+  const hotel = "\u{1F3E8}";
+  const pin = "\u{1F4CC}";
+  const calendar = "\u{1F4C5}";
+  const moon = "\u{1F319}";
+  const guestsEmoji = "\u{1F465}";
+  const money = "\u{1F4B5}";
+  const noteEmoji = "\u{1F4DD}";
+  const wantsBooking = intent === "widget" || intent === "room" || intent === "booking-cta";
+
+  const introLine =
+    locale === "en"
+      ? wantsBooking
+        ? `I would like to book at ${resolvedHotelName}.`
+        : `I would like more information about ${resolvedHotelName}.`
+      : wantsBooking
+        ? `Deseo reservar en ${resolvedHotelName}.`
+        : `Deseo más información sobre ${resolvedHotelName}.`;
+
+  const supportLine =
+    locale === "en"
+      ? wantsBooking
+        ? `${sparkle} I would appreciate your help confirming availability and the best rate.`
+        : `${sparkle} I would appreciate information about availability, rates and hotel details.`
+      : wantsBooking
+        ? `${sparkle} Agradeceré su apoyo para confirmar disponibilidad y la mejor tarifa.`
+        : `${sparkle} Agradeceré información sobre disponibilidad, tarifas y detalles del hotel.`;
+
+  const detailLines =
+    locale === "en"
+      ? [
+          roomLabel ? `${pin} *Room of interest:* ${roomLabel}` : null,
+          checkIn ? `${calendar} *Check-in:* ${formatHotelHumanDate(checkIn, locale)}` : null,
+          checkOut ? `${moon} *Check-out:* ${formatHotelHumanDate(checkOut, locale)}` : null,
+          nights > 0 ? `${hotel} *Stay:* ${nights} ${nights === 1 ? "night" : "nights"}` : null,
+          guests ? `${guestsEmoji} *Guests:* ${guests} ${guests === "1" ? "guest" : "guests"}` : null,
+          price ? `${money} *Reference rate:* ${price}${rateLabel ? ` ${rateLabel}` : ""}` : null,
+          notes ? `${noteEmoji} *Special request:* ${notes}` : null,
+        ]
+      : [
+          roomLabel ? `${pin} *Habitación de interés:* ${roomLabel}` : null,
+          checkIn ? `${calendar} *Entrada:* ${formatHotelHumanDate(checkIn, locale)}` : null,
+          checkOut ? `${moon} *Salida:* ${formatHotelHumanDate(checkOut, locale)}` : null,
+          nights > 0 ? `${hotel} *Estadía:* ${nights} ${nights === 1 ? "noche" : "noches"}` : null,
+          guests ? `${guestsEmoji} *Huéspedes:* ${guests} ${guests === "1" ? "huésped" : "huéspedes"}` : null,
+          price ? `${money} *Tarifa referencial:* ${price}${rateLabel ? ` ${rateLabel}` : ""}` : null,
+          notes ? `${noteEmoji} *Solicitud especial:* ${notes}` : null,
+        ];
+
+  const closingLine =
+    locale === "en"
+      ? "Thank you. I remain attentive to your response."
+      : "Muchas gracias. Quedo atento(a) a su respuesta.";
+
+  void sourceLabel;
+
+  return `https://wa.me/${HOTEL_WHATSAPP_PHONE_DIGITS}?text=${encodeURIComponent(
+    [
+      `${locale === "en" ? "Hello" : "Hola"} ${wave}`,
+      "",
+      introLine,
+      supportLine,
+      ...detailLines.filter(Boolean),
+      "",
+      closingLine,
+    ].join("\n"),
+  )}`;
+}
+
 export function formatHotelHumanDate(value: string, locale: HotelLocale) {
   const date = new Date(`${value}T00:00:00`);
   return date.toLocaleDateString(locale === "en" ? "en-US" : "es-PE", {

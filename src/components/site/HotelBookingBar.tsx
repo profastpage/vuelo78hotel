@@ -3,7 +3,7 @@
 import { BedDouble, CalendarDays, MessageSquareText, MoonStar, UserRound, Users } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SiteContent } from "@/types/site";
-import { buildProfessionalHotelWhatsAppHref, getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
+import { buildHotelWhatsAppHrefV2, getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
 
 type HotelBookingBarProps = {
   brandName: string;
@@ -88,7 +88,7 @@ export function HotelBookingBar({
       return;
     }
 
-    const href = buildProfessionalHotelWhatsAppHref({
+    const href = buildHotelWhatsAppHrefV2({
       locale,
       hotelName: brandName,
       intent: "widget",

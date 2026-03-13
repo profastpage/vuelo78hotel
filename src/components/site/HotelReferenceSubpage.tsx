@@ -10,7 +10,7 @@ import type { EditorTextControls } from "./editor-text-types";
 import { HOTEL_NAV_ITEMS, HOTEL_VISIBLE_NAV_ITEMS, type HotelPageSlug, getHotelPageHref, getHotelPageIndex, getHotelPageLabel } from "@/lib/hotel-pages";
 import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
-import { HOTEL_WHATSAPP_PHONE_DISPLAY, buildProfessionalHotelWhatsAppHref, getHotelUi, normalizeHotelSpanishText, normalizeHotelSpanishValue, t, type HotelLocale } from "@/lib/hotel-experience";
+import { HOTEL_WHATSAPP_PHONE_DISPLAY, buildHotelWhatsAppHrefV2, getHotelUi, normalizeHotelSpanishText, normalizeHotelSpanishValue, t, type HotelLocale } from "@/lib/hotel-experience";
 
 type Props = {
   profile: ClientProfile;
@@ -65,7 +65,7 @@ export function HotelReferenceSubpage({
   const contactPhone = normalizeHotelPhone(content.contact.whatsappNumber);
   const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
   const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
-  const reservationHref = buildProfessionalHotelWhatsAppHref({
+  const reservationHref = buildHotelWhatsAppHrefV2({
     locale,
     hotelName: content.brand.name,
     intent: "subpage",

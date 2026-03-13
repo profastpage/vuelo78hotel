@@ -21,7 +21,7 @@ import { resolveBookingWidget } from "@/lib/booking-widget";
 import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
 import {
   HOTEL_LOCALE_STORAGE_KEY,
-  buildProfessionalHotelWhatsAppHref,
+  buildHotelWhatsAppHrefV2,
   getHotelUi,
   localizeHotelContent,
   resolveHotelLocale,
@@ -99,25 +99,25 @@ export function ReferenceCloneHotelEngine({
   const displayBrandName = getDisplayBrandName(localizedContent.brand.name);
   const detailsHref = localizedContent.brand.secondaryCtaHref || "#habitaciones";
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || localizedContent.brand.primaryCtaLabel || ui.floating.label;
-  const headerReservationHref = buildProfessionalHotelWhatsAppHref({
+  const headerReservationHref = buildHotelWhatsAppHrefV2({
     locale,
     hotelName: displayBrandName,
     intent: "header",
     sourceLabel: locale === "en" ? "Top menu" : "Menu superior",
   });
-  const heroReservationHref = buildProfessionalHotelWhatsAppHref({
+  const heroReservationHref = buildHotelWhatsAppHrefV2({
     locale,
     hotelName: displayBrandName,
     intent: "hero",
     sourceLabel: locale === "en" ? "Hero main CTA" : "Hero principal",
   });
-  const locationReservationHref = buildProfessionalHotelWhatsAppHref({
+  const locationReservationHref = buildHotelWhatsAppHrefV2({
     locale,
     hotelName: displayBrandName,
     intent: "location",
     sourceLabel: ui.location.title,
   });
-  const bookingSectionHref = buildProfessionalHotelWhatsAppHref({
+  const bookingSectionHref = buildHotelWhatsAppHrefV2({
     locale,
     hotelName: displayBrandName,
     intent: "booking-cta",
@@ -130,7 +130,7 @@ export function ReferenceCloneHotelEngine({
     imageSrc: services[index]?.imageSrc || galleryItems[index]?.imageSrc || heroImage,
     price: option.price,
     rateLabel: option.rateLabel,
-    reservationHref: buildProfessionalHotelWhatsAppHref({
+    reservationHref: buildHotelWhatsAppHrefV2({
       locale,
       hotelName: displayBrandName,
       intent: "room",
