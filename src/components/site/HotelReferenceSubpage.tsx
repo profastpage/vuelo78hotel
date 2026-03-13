@@ -358,7 +358,7 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     ofertas: {
       kicker: "Ofertas y promos",
       title: "Ofertas directas",
-      description: "Pagina premium para campañas, pauta y consultas por WhatsApp con beneficios claros.",
+      description: "Promociones claras para reservar mejor.",
       metrics: [{ label: "Planes", value: "03" }, { label: "Destino", value: city }, { label: "Reserva", value: "Directa" }],
       story: { chip: "Ofertas", title: "Promociones con orden visual y CTA temprano.", body: "Mantiene el ritmo del referente: hero dominante, bloques editoriales, popup y rail horizontal." },
       cards: sharedCards,
@@ -506,3 +506,4 @@ function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteConten
     },
   ];
 }
+
