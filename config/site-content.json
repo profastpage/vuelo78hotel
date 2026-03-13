@@ -5,7 +5,7 @@
     "description": "Descansa cerca del aeropuerto con habitaciones comodas, piscina y desayuno incluido.",
     "subheadline": "Habitaciones comodas, piscina y atencion las 24 horas.",
     "primaryCtaLabel": "Reservar",
-    "primaryCtaHref": "https://wa.me/51987654321?text=Hola%20%F0%9F%91%8B%0A%0AMe%20interesa%20reservar%20en%20Vuelo%2078%20Hotel%20Tarapoto.%0A%0A%F0%9F%8F%A8%20Quiero%20informacion%20sobre%20disponibilidad%0A%F0%9F%9B%8F%EF%B8%8F%20Tipos%20de%20habitacion%20y%20tarifas%0A%F0%9F%93%85%20Opciones%20de%20fecha%20para%20mi%20estadia%0A%0AMuchas%20gracias.",
+    "primaryCtaHref": "https://wa.me/51903011285?text=Hola%20%F0%9F%91%8B%0A%0AQuiero%20recibir%20atencion%20de%20*Vuelo%2078%20Hotel*.%0A%0A%E2%9C%A8%20CTA%20seleccionado%3A%20Reserva%20directa%0A%F0%9F%8F%A8%20Tipo%20de%20solicitud%3A%20Reserva%20directa%0A%0AGracias.%20Agradecere%20su%20apoyo%20con%20disponibilidad%2C%20condiciones%20y%20confirmacion%20de%20la%20reserva.",
     "secondaryCtaLabel": "Ver habitaciones",
     "secondaryCtaHref": "#habitaciones",
     "heroTag": "HOTEL EN TARAPOTO",
@@ -232,7 +232,7 @@
   "contact": {
     "title": "Confirma tu fecha y recibe ayuda para reservar",
     "description": "Comparte tus fechas, tipo de habitacion y numero de huespedes. El equipo te responde con disponibilidad y tarifa directa por WhatsApp.",
-    "whatsappNumber": "+51987654321",
+    "whatsappNumber": "+51 903 011 285",
     "email": ""
   },
   "bookingWidget": {

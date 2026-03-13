@@ -356,14 +356,26 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
   const firstServices = services.slice(0, 3);
   const sharedCards = firstServices.length
     ? firstServices.map((service, index) => ({
-        eyebrow: index === 0 ? "Destacado" : "Servicio",
+        eyebrow: index === 0 ? (locale === "en" ? "Featured" : "Destacado") : locale === "en" ? "Service" : "Servicio",
         title: service.title,
         description: service.description,
       }))
     : [
-        { eyebrow: "Destacado", title: "Habitacion principal", description: "Una opcion comoda para descansar con reserva directa." },
-        { eyebrow: "Servicio", title: "Espacios del hotel", description: "Piscina, zonas comunes y una llegada simple." },
-        { eyebrow: "Reserva", title: "Atencion directa", description: "Consulta disponibilidad y confirma tu estadia por WhatsApp." },
+        {
+          eyebrow: locale === "en" ? "Featured" : "Destacado",
+          title: locale === "en" ? "Main room" : "Habitacion principal",
+          description: locale === "en" ? "A comfortable option to rest with direct booking." : "Una opcion comoda para descansar con reserva directa.",
+        },
+        {
+          eyebrow: locale === "en" ? "Service" : "Servicio",
+          title: locale === "en" ? "Hotel spaces" : "Espacios del hotel",
+          description: locale === "en" ? "Pool, common areas and a smooth arrival." : "Piscina, zonas comunes y una llegada simple.",
+        },
+        {
+          eyebrow: locale === "en" ? "Booking" : "Reserva",
+          title: locale === "en" ? "Direct assistance" : "Atencion directa",
+          description: locale === "en" ? "Check availability and confirm your stay on WhatsApp." : "Consulta disponibilidad y confirma tu estadia por WhatsApp.",
+        },
       ];
 
   const map: Record<Exclude<HotelPageSlug, "hotel">, Data> = {
@@ -378,7 +390,20 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
         body: locale === "en" ? "Check packages, weekend plans and special rates with a clean, fast read." : "Consulta paquetes, fines de semana y tarifas especiales con una lectura clara y rapida.",
       },
       cards: sharedCards,
-      modals: [{ title: "Promo fin de semana", body: "Consulta vigencia, tipo de habitacion y beneficio incluido antes de reservar." }, { title: "Escapada flexible", body: "Ideal para day use, late check-out o una noche de descanso cerca del aeropuerto." }, { title: "Plan corporativo", body: "Opciones practicas para viajes de trabajo, traslados y estadias cortas." }],
+      modals: [
+        {
+          title: locale === "en" ? "Weekend offer" : "Promo fin de semana",
+          body: locale === "en" ? "Check dates, room type and included benefit before booking." : "Consulta vigencia, tipo de habitacion y beneficio incluido antes de reservar.",
+        },
+        {
+          title: locale === "en" ? "Flexible getaway" : "Escapada flexible",
+          body: locale === "en" ? "Ideal for day use, late check-out or a restful night near the airport." : "Ideal para day use, late check-out o una noche de descanso cerca del aeropuerto.",
+        },
+        {
+          title: locale === "en" ? "Corporate plan" : "Plan corporativo",
+          body: locale === "en" ? "Practical options for business trips, transfers and short stays." : "Opciones practicas para viajes de trabajo, traslados y estadias cortas.",
+        },
+      ],
       railTitle: locale === "en" ? "Offers and hotel scenes" : "Ofertas y escenas del hotel",
       railDescription: locale === "en" ? "A light gallery to reinforce benefits without overloading the page." : "Una galeria ligera para reforzar beneficios sin saturar la pagina.",
       faqTitle: locale === "en" ? "Offers and bookings" : "Ofertas y reservas",
@@ -395,7 +420,20 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
         body: locale === "en" ? "A short read to show the pool, arrival, breakfast and the hotel's small details." : "Una lectura breve para mostrar piscina, llegada, desayuno y pequenos detalles del hotel.",
       },
       cards: sharedCards,
-      modals: [{ title: "Llegada tranquila", body: "Informacion util para check-in, bienvenida y coordinacion antes de llegar." }, { title: "Momentos del hotel", body: "Una capa breve para piscina, descanso o espacios comunes." }, { title: "Estadia flexible", body: "Opciones para pedidos especiales o ajustes antes del viaje." }],
+      modals: [
+        {
+          title: locale === "en" ? "Smooth arrival" : "Llegada tranquila",
+          body: locale === "en" ? "Useful details for check-in, welcome and coordination before arrival." : "Informacion util para check-in, bienvenida y coordinacion antes de llegar.",
+        },
+        {
+          title: locale === "en" ? "Hotel moments" : "Momentos del hotel",
+          body: locale === "en" ? "A short layer for the pool, rest and common areas." : "Una capa breve para piscina, descanso o espacios comunes.",
+        },
+        {
+          title: locale === "en" ? "Flexible stay" : "Estadia flexible",
+          body: locale === "en" ? "Options for special requests or changes before the trip." : "Opciones para pedidos especiales o ajustes antes del viaje.",
+        },
+      ],
       railTitle: locale === "en" ? "Scenes for rest" : "Escenas para descansar",
       railDescription: locale === "en" ? "Ideal for showing the pool, rooms, details and atmosphere without too much text." : "Ideal para mostrar piscina, habitaciones, detalles y ambiente sin exceso de texto.",
       faqTitle: locale === "en" ? "Your stay" : "Tu estancia",
@@ -412,7 +450,20 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
         body: locale === "en" ? "Compare options, review benefits and book directly with the hotel." : "Compara opciones, revisa beneficios y reserva directo con el hotel.",
       },
       cards: sharedCards,
-      modals: [{ title: "Amenidades incluidas", body: "Consulta WiFi, desayuno, aire acondicionado y detalles de cada categoria." }, { title: "Politica de reserva", body: "Revisa horarios, anticipos, cancelaciones y condiciones de estadia." }, { title: "Pedido especial", body: "Espacio para cama extra, decoracion o coordinaciones previas a tu llegada." }],
+      modals: [
+        {
+          title: locale === "en" ? "Included amenities" : "Amenidades incluidas",
+          body: locale === "en" ? "Check WiFi, breakfast, air conditioning and details for each category." : "Consulta WiFi, desayuno, aire acondicionado y detalles de cada categoria.",
+        },
+        {
+          title: locale === "en" ? "Booking policy" : "Politica de reserva",
+          body: locale === "en" ? "Review schedules, deposits, cancellations and stay conditions." : "Revisa horarios, anticipos, cancelaciones y condiciones de estadia.",
+        },
+        {
+          title: locale === "en" ? "Special request" : "Pedido especial",
+          body: locale === "en" ? "Space for an extra bed, decoration or arrangements before arrival." : "Espacio para cama extra, decoracion o coordinaciones previas a tu llegada.",
+        },
+      ],
       railTitle: locale === "en" ? "Rooms and details" : "Habitaciones y detalles",
       railDescription: locale === "en" ? "Show bed, bathroom, desk or spaciousness while keeping a clear read." : "Muestra cama, bano, escritorio o amplitud sin perder una lectura clara.",
       faqTitle: locale === "en" ? "Rooms and rates" : "Habitaciones y tarifas",
@@ -422,14 +473,31 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       kicker: locale === "en" ? "Amenities and support" : "Amenities y soporte",
       title: locale === "en" ? "Essential services" : "Servicios esenciales",
       description: locale === "en" ? "Visible benefits for a smooth stay." : "Beneficios visibles para una estancia fluida.",
-      metrics: [{ label: "Amenities", value: "Premium" }, { label: "Atencion", value: "Humana" }, { label: "Apoyo", value: "Directo" }],
+      metrics: [
+        { label: locale === "en" ? "Amenities" : "Amenities", value: "Premium" },
+        { label: locale === "en" ? "Service" : "Atencion", value: locale === "en" ? "Human" : "Humana" },
+        { label: locale === "en" ? "Support" : "Apoyo", value: locale === "en" ? "Direct" : "Directo" },
+      ],
       story: {
         chip: locale === "en" ? "Services" : "Servicios",
         title: locale === "en" ? "Services for your stay" : "Servicios para tu estancia",
         body: locale === "en" ? "This section sums up breakfast, connectivity, assistance and support during arrival." : "Aqui se resumen desayuno, conectividad, asistencia y apoyo durante tu llegada.",
       },
       cards: sharedCards,
-      modals: [{ title: "Desayuno y horarios", body: "Consulta horarios, formato del desayuno y detalles del servicio." }, { title: "Apoyo antes de llegar", body: "Informacion sobre traslado, indicaciones y check-in tardio." }, { title: "Servicios a medida", body: "Espacio para lavanderia, decoracion o pedidos especiales." }],
+      modals: [
+        {
+          title: locale === "en" ? "Breakfast and schedule" : "Desayuno y horarios",
+          body: locale === "en" ? "Check breakfast times, format and service details." : "Consulta horarios, formato del desayuno y detalles del servicio.",
+        },
+        {
+          title: locale === "en" ? "Support before arrival" : "Apoyo antes de llegar",
+          body: locale === "en" ? "Information about transfers, directions and late check-in." : "Informacion sobre traslado, indicaciones y check-in tardio.",
+        },
+        {
+          title: locale === "en" ? "Tailored services" : "Servicios a medida",
+          body: locale === "en" ? "Space for laundry, decoration or special requests." : "Espacio para lavanderia, decoracion o pedidos especiales.",
+        },
+      ],
       railTitle: locale === "en" ? "Hotel services" : "Servicios del hotel",
       railDescription: locale === "en" ? "A clean way to show benefits without turning the page into a spec sheet." : "Una forma limpia de mostrar beneficios sin convertir la pagina en una ficha tecnica.",
       faqTitle: locale === "en" ? "Services and assistance" : "Servicios y asistencia",
@@ -439,14 +507,31 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       kicker: locale === "en" ? "Breakfast and cuisine" : "Desayuno y gastronomia",
       title: locale === "en" ? "Cuisine and breakfast" : "Cocina y desayuno",
       description: locale === "en" ? "A concise and carefully presented offer." : "Propuesta cuidada, breve y bien presentada.",
-      metrics: [{ label: "Servicio", value: "Desayuno" }, { label: "Ambiente", value: "Calmo" }, { label: "Reserva", value: "Simple" }],
+      metrics: [
+        { label: locale === "en" ? "Service" : "Servicio", value: locale === "en" ? "Breakfast" : "Desayuno" },
+        { label: locale === "en" ? "Atmosphere" : "Ambiente", value: locale === "en" ? "Calm" : "Calmo" },
+        { label: locale === "en" ? "Booking" : "Reserva", value: locale === "en" ? "Simple" : "Simple" },
+      ],
       story: {
         chip: locale === "en" ? "Restaurant" : "Restaurante",
         title: locale === "en" ? "Breakfast with better presence" : "Desayuno con mejor presencia",
         body: locale === "en" ? "Useful to show the atmosphere, service and dining experience inside the hotel." : "Sirve para mostrar el ambiente, el servicio y la experiencia de comer dentro del hotel.",
       },
       cards: sharedCards,
-      modals: [{ title: "Menu destacado", body: "Consulta platos, bebidas o sugerencias del dia." }, { title: "Horario de servicio", body: "Confirma desayuno incluido y horarios del restaurante." }, { title: "Cena privada", body: "Espacio para consultar una mesa o una atencion especial." }],
+      modals: [
+        {
+          title: locale === "en" ? "Featured menu" : "Menu destacado",
+          body: locale === "en" ? "Check dishes, drinks or daily recommendations." : "Consulta platos, bebidas o sugerencias del dia.",
+        },
+        {
+          title: locale === "en" ? "Service hours" : "Horario de servicio",
+          body: locale === "en" ? "Confirm included breakfast and restaurant opening times." : "Confirma desayuno incluido y horarios del restaurante.",
+        },
+        {
+          title: locale === "en" ? "Private dinner" : "Cena privada",
+          body: locale === "en" ? "Space to ask about a table or a special service." : "Espacio para consultar una mesa o una atencion especial.",
+        },
+      ],
       railTitle: locale === "en" ? "Breakfast and restaurant" : "Desayuno y restaurante",
       railDescription: locale === "en" ? "Helps present atmosphere and service with a more elegant read." : "Ayuda a mostrar ambiente y servicio con una lectura mas elegante.",
       faqTitle: locale === "en" ? "Restaurant and breakfast" : "Restaurante y desayunos",
@@ -456,14 +541,31 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       kicker: locale === "en" ? "Social and corporate" : "Social y corporativo",
       title: locale === "en" ? "Corporate events" : "Eventos corporativos",
       description: locale === "en" ? "Spaces ready for meetings and celebrations." : "Espacios listos para reuniones y celebraciones.",
-      metrics: [{ label: "Formato", value: "Flexible" }, { label: "Montajes", value: "03+" }, { label: "Respuesta", value: "Rapida" }],
+      metrics: [
+        { label: locale === "en" ? "Format" : "Formato", value: locale === "en" ? "Flexible" : "Flexible" },
+        { label: locale === "en" ? "Setups" : "Montajes", value: "03+" },
+        { label: locale === "en" ? "Reply" : "Respuesta", value: locale === "en" ? "Fast" : "Rapida" },
+      ],
       story: {
         chip: locale === "en" ? "Events" : "Eventos",
         title: locale === "en" ? "Spaces ready for events" : "Espacios listos para eventos",
         body: locale === "en" ? "A short read to present the room, setup and contact channel." : "Una lectura breve para presentar el salon, el montaje y el canal de contacto.",
       },
       cards: sharedCards,
-      modals: [{ title: "Solicitar cotizacion", body: "Comparte aforo estimado, fecha y requerimientos para recibir una propuesta." }, { title: "Montajes disponibles", body: "Consulta formatos como directorio, auditorio, banquete o coctel." }, { title: "Catering y soporte", body: "Revisa opciones de cafe, menu, audiovisuales y coordinacion." }],
+      modals: [
+        {
+          title: locale === "en" ? "Request a quote" : "Solicitar cotizacion",
+          body: locale === "en" ? "Share estimated capacity, date and requirements to receive a proposal." : "Comparte aforo estimado, fecha y requerimientos para recibir una propuesta.",
+        },
+        {
+          title: locale === "en" ? "Available setups" : "Montajes disponibles",
+          body: locale === "en" ? "Check boardroom, auditorium, banquet or cocktail formats." : "Consulta formatos como directorio, auditorio, banquete o coctel.",
+        },
+        {
+          title: locale === "en" ? "Catering and support" : "Catering y soporte",
+          body: locale === "en" ? "Review coffee break, menu, audiovisual and coordination options." : "Revisa opciones de cafe, menu, audiovisuales y coordinacion.",
+        },
+      ],
       railTitle: locale === "en" ? "Rooms and setups" : "Salones y montajes",
       railDescription: locale === "en" ? "Reinforces the space before contact or a final quote." : "Refuerza el espacio antes del contacto o de la cotizacion final.",
       faqTitle: locale === "en" ? "Events and setups" : "Eventos y montajes",
@@ -473,14 +575,31 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       kicker: locale === "en" ? "Media and atmosphere" : "Media y atmosfera",
       title: locale === "en" ? "Hotel gallery" : "Galeria del hotel",
       description: locale === "en" ? "Curated images to explore the hotel." : "Imagenes curadas para recorrer el hotel.",
-      metrics: [{ label: "Imagenes", value: `${Math.max(services.length + 2, 6)}` }, { label: "Formato", value: "Editorial" }, { label: "Uso", value: "Responsive" }],
+      metrics: [
+        { label: locale === "en" ? "Images" : "Imagenes", value: `${Math.max(services.length + 2, 6)}` },
+        { label: locale === "en" ? "Format" : "Formato", value: "Editorial" },
+        { label: locale === "en" ? "Use" : "Uso", value: "Responsive" },
+      ],
       story: {
         chip: locale === "en" ? "Gallery" : "Galeria",
         title: locale === "en" ? "Tour the hotel in images" : "Recorre el hotel en imagenes",
         body: locale === "en" ? "A visual selection to discover rooms, the pool and common areas." : "Una seleccion visual para conocer habitaciones, piscina y espacios comunes.",
       },
       cards: sharedCards,
-      modals: [{ title: "Coleccion habitaciones", body: "Una vista mas enfocada de las principales categorias del hotel." }, { title: "Ambientes del hotel", body: "Espacios comunes, lobby y atmosfera general de la estancia." }, { title: "Experiencias y detalles", body: "Pequenos momentos que ayudan a imaginar la experiencia completa." }],
+      modals: [
+        {
+          title: locale === "en" ? "Room collection" : "Coleccion habitaciones",
+          body: locale === "en" ? "A more focused view of the hotel's main room categories." : "Una vista mas enfocada de las principales categorias del hotel.",
+        },
+        {
+          title: locale === "en" ? "Hotel spaces" : "Ambientes del hotel",
+          body: locale === "en" ? "Common areas, lobby and the overall atmosphere of the stay." : "Espacios comunes, lobby y atmosfera general de la estancia.",
+        },
+        {
+          title: locale === "en" ? "Experiences and details" : "Experiencias y detalles",
+          body: locale === "en" ? "Small moments that help imagine the complete experience." : "Pequenos momentos que ayudan a imaginar la experiencia completa.",
+        },
+      ],
       railTitle: locale === "en" ? "Hotel gallery" : "Galeria del hotel",
       railDescription: locale === "en" ? "Large, clean images to present the hotel with stronger presence." : "Imagenes grandes y limpias para mostrar el hotel con mejor presencia.",
       faqTitle: locale === "en" ? "Gallery and images" : "Galeria e imagenes",
@@ -497,7 +616,20 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
         body: locale === "en" ? "Map, address and clear references so arrival feels simple from the first glance." : "Mapa, direccion y referencias claras para que la llegada se sienta simple desde el primer vistazo.",
       },
       cards: sharedCards,
-      modals: [{ title: "Como llegar", body: "Consulta aeropuerto, taxis, accesos y referencias simples." }, { title: "Entorno del hotel", body: "Lugares cercanos y puntos utiles para orientarte mejor." }, { title: "Check-in y contacto", body: "Horarios, confirmaciones y apoyo directo antes de tu llegada." }],
+      modals: [
+        {
+          title: locale === "en" ? "How to arrive" : "Como llegar",
+          body: locale === "en" ? "Check airport access, taxis and simple arrival references." : "Consulta aeropuerto, taxis, accesos y referencias simples.",
+        },
+        {
+          title: locale === "en" ? "Around the hotel" : "Entorno del hotel",
+          body: locale === "en" ? "Nearby places and useful points to orient yourself better." : "Lugares cercanos y puntos utiles para orientarte mejor.",
+        },
+        {
+          title: locale === "en" ? "Check-in and contact" : "Check-in y contacto",
+          body: locale === "en" ? "Schedules, confirmations and direct support before arrival." : "Horarios, confirmaciones y apoyo directo antes de tu llegada.",
+        },
+      ],
       railTitle: locale === "en" ? "Arrival and surroundings" : "Llegada y entorno",
       railDescription: locale === "en" ? "A simple help layer to locate the hotel with more confidence." : "Una ayuda simple para ubicar el hotel con mayor confianza.",
       faqTitle: locale === "en" ? "Location and arrival" : "Ubicacion y llegada",
@@ -545,7 +677,7 @@ function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteConten
   }
 
   const hotelName = content.brand.name || "el hotel";
-  const checkInWindow = content.location?.hours || "24 horas";
+  const checkInWindow = content.location?.hours || (locale === "en" ? "24 hours" : "24 horas");
 
   return [
     {

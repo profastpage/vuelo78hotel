@@ -695,12 +695,12 @@ export function buildHotelWhatsAppHref({
   intent,
   sourceLabel,
   roomLabel,
-  checkIn,
-  checkOut,
+  checkIn = "",
+  checkOut = "",
   guests,
   price,
   rateLabel,
-  nights,
+  nights = 0,
   notes,
 }: HotelWhatsappParams) {
   const resolvedHotelName = `*${hotelName.trim() || "Vuelo 78 Hotel"}*`;
