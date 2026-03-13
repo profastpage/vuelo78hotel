@@ -129,7 +129,12 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
           onClick={() => openField(checkInRef.current)}
         >
-          <span>{bookingWidget.scheduleLabel || "Entrada"}</span>
+          <div className="hotel-deluxe-booking-label-row">
+            <span>{bookingWidget.scheduleLabel || "Entrada"}</span>
+            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+              {renderFieldIcon("checkin")}
+            </span>
+          </div>
           <input
             aria-label={bookingWidget.scheduleLabel || "Entrada"}
             ref={checkInRef}
@@ -144,7 +149,12 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
           onClick={() => openField(checkOutRef.current)}
         >
-          <span>{bookingWidget.timelineLabel || "Salida"}</span>
+          <div className="hotel-deluxe-booking-label-row">
+            <span>{bookingWidget.timelineLabel || "Salida"}</span>
+            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+              {renderFieldIcon("checkout")}
+            </span>
+          </div>
           <input
             aria-label={bookingWidget.timelineLabel || "Salida"}
             ref={checkOutRef}
@@ -159,7 +169,12 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
           onClick={() => openField(roomSelectRef.current)}
         >
-          <span>{bookingWidget.detailLabel || "Habitacion"}</span>
+          <div className="hotel-deluxe-booking-label-row">
+            <span>{bookingWidget.detailLabel || "Habitacion"}</span>
+            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+              {renderFieldIcon("room")}
+            </span>
+          </div>
           <select
             aria-label={bookingWidget.detailLabel || "Habitacion"}
             onChange={(event) => setRoomId(event.target.value)}
@@ -175,7 +190,12 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
         </label>
 
         <label className="hotel-reference-booking-field hotel-reference-booking-input">
-          <span>{bookingWidget.summaryLabel || "Codigo promocional"}</span>
+          <div className="hotel-deluxe-booking-label-row">
+            <span>{bookingWidget.summaryLabel || "Codigo promocional"}</span>
+            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+              {renderFieldIcon("promo")}
+            </span>
+          </div>
           <input
             aria-label={bookingWidget.summaryLabel || "Codigo promocional"}
             maxLength={18}
@@ -193,7 +213,7 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           </small>
         </label>
 
-        <button className="hotel-reference-booking-button" type="submit">
+        <button className="hotel-reference-booking-button hotel-deluxe-booking-submit" type="submit">
           {bookingWidget.bookingCtaLabel || "Reservar"}
         </button>
       </form>
@@ -247,4 +267,50 @@ function parseCurrencyValue(value: string) {
 
   const parsed = Number.parseFloat(normalized);
   return Number.isFinite(parsed) ? parsed : null;
+}
+
+function renderFieldIcon(type: "checkin" | "checkout" | "room" | "promo") {
+  const commonProps = {
+    fill: "none",
+    height: 18,
+    stroke: "currentColor",
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    strokeWidth: 1.7,
+    viewBox: "0 0 24 24",
+    width: 18,
+  };
+
+  if (type === "room") {
+    return (
+      <svg {...commonProps}>
+        <path d="M3 12h18" />
+        <path d="M5 12V8.5A2.5 2.5 0 0 1 7.5 6h9A2.5 2.5 0 0 1 19 8.5V12" />
+        <path d="M5 19v-7" />
+        <path d="M19 19v-7" />
+        <path d="M7 19v2" />
+        <path d="M17 19v2" />
+      </svg>
+    );
+  }
+
+  if (type === "promo") {
+    return (
+      <svg {...commonProps}>
+        <path d="M8 7h.01" />
+        <path d="m7 3 10 10-7 7L3 13Z" />
+        <path d="m14 6 4 4" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...commonProps}>
+      <path d="M8 3v3" />
+      <path d="M16 3v3" />
+      <rect width="18" height="15" x="3" y="6" rx="2.5" />
+      <path d="M3 10.5h18" />
+      {type === "checkout" ? <path d="m11 15 2 2 4-4" /> : <path d="m8.5 15 2 2 5-5" />}
+    </svg>
+  );
 }

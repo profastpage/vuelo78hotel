@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { HotelPageSlug } from "@/lib/hotel-pages";
 import { HotelMobileMenu } from "./HotelMobileMenu";
 
@@ -31,8 +32,20 @@ export function HotelPremiumHeader({
   reservationHref,
   sectionLinks,
 }: HotelPremiumHeaderProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 28);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="hotel-reference-header hotel-deluxe-header">
+    <header className={`hotel-reference-header hotel-deluxe-header${isScrolled ? " is-scrolled" : ""}`}>
       <a className="hotel-reference-brand hotel-deluxe-brand" href="/" aria-label={`Ir al inicio de ${brandName}`}>
         <span className="hotel-reference-brand-mark hotel-deluxe-brand-mark" aria-hidden="true">
           V
