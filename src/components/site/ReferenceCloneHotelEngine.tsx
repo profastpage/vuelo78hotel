@@ -1,21 +1,22 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
 import type { ClientProfile, SiteContent } from "@/types/site";
-import { ContactForm } from "./ContactForm";
-import { HotelBookingBar } from "./HotelBookingBar";
-import { HotelHeroShowcase, type HotelHeroSlide } from "./HotelHeroShowcase";
-import { HotelMobileMenu } from "./HotelMobileMenu";
+import { HotelFloatingCta } from "./HotelFloatingCta";
+import { HotelPremiumAmenities } from "./HotelPremiumAmenities";
+import { HotelPremiumBookingCta } from "./HotelPremiumBookingCta";
+import { HotelPremiumFooter } from "./HotelPremiumFooter";
+import { HotelPremiumHeader } from "./HotelPremiumHeader";
+import { HotelPremiumHero } from "./HotelPremiumHero";
+import { HotelPremiumRoomsSection } from "./HotelPremiumRoomsSection";
+import { HotelPremiumTestimonials } from "./HotelPremiumTestimonials";
 import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
+import { LocationBlock } from "./LocationBlock";
+import type { HotelHeroSlide } from "./HotelHeroShowcase";
 import type { EditorImageControls } from "./editor-image-types";
 import type { EditorTextControls } from "./editor-text-types";
-import { InlineImageField } from "./InlineImageField";
-import { InlineTextField } from "./InlineTextField";
-import { LandingFaqAccordion } from "./LandingFaqAccordion";
-import { LocationBlock } from "./LocationBlock";
-import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices, getVisibleTestimonials } from "./rendering";
+import { getGalleryItems, getVisibleServices, getVisibleTestimonials } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
-import { HOTEL_VISIBLE_NAV_ITEMS, getHotelPageIndex, normalizeHotelPageSlug } from "@/lib/hotel-pages";
+import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
 
 type ReferenceCloneHotelEngineProps = {
   profile: ClientProfile;
@@ -26,195 +27,24 @@ type ReferenceCloneHotelEngineProps = {
   editorTextControls?: EditorTextControls;
 };
 
-type AmenityItem = {
-  icon: string;
-  label: string;
-};
+const SECTION_LINKS = [
+  { label: "Hotel", href: "#inicio" },
+  { label: "Habitaciones", href: "#habitaciones" },
+  { label: "Opiniones", href: "#opiniones" },
+  { label: "Servicios", href: "#servicios" },
+  { label: "Ubicacion", href: "#ubicacion" },
+] as const;
 
-const DEFAULT_AMENITY_ICONS = ["desayuno", "wi-fi", "aire", "reserva", "bano", "servicio"];
-const REVIEW_AUTOPLAY_MS = 4800;
-const REVIEW_SWIPE_THRESHOLD = 56;
-
-export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMode = false, editorImageControls, editorTextControls }: ReferenceCloneHotelEngineProps) {
-  const googleReviewsHref = "https://www.google.com/travel/search?q=vuelo%2078%20hotel&g2lb=4965990%2C72471280%2C72560029%2C72573224%2C72647020%2C72686036%2C72803964%2C72882230%2C72958624%2C73059275%2C73064764&hl=es-419&gl=pe&ssta=1&ts=CAEaSQopEicyJTB4OTFiYTBiODYxODkxZWFmNzoweGUwOTBlNGZhNjYyNDY4NDASHBIUCgcI6g8QAxgWEgcI6g8QAxgXGAEyBAgAEAA&qs=CAEyFENnc0l3TkNSc2FhZnVjamdBUkFCOAJCCQlAaCRm-uSQ4EIJCUBoJGb65JDg&ap=KigKEgmLKP_keQ4awBGGnAjxtRdTwBISCUTJl7q3BBrAEYacCIVAF1PAugEHcmV2aWV3cw&ictx=111";
+export function ReferenceCloneHotelEngine({
+  profile,
+  content,
+  pageSlug,
+  editorMode = false,
+  editorImageControls,
+  editorTextControls,
+}: ReferenceCloneHotelEngineProps) {
   const activePage = normalizeHotelPageSlug(pageSlug);
   const pages = HOTEL_VISIBLE_NAV_ITEMS;
-  const galleryItems = getGalleryItems(content, profile.industry);
-  const services = getVisibleServices(content);
-  const faqs = sanitizeHotelFaqs(getVisibleFaqs(content).slice(0, 4), content);
-  const testimonials = getVisibleTestimonials(content).slice(0, 4);
-  const bookingWidget = resolveBookingWidget(content, profile);
-  const bookingOptions = bookingWidget.options?.slice(0, 3) ?? [];
-  const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || "";
-  const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition;
-  const heroSlides = buildHeroSlides(content, services, galleryItems, heroImage, heroImagePosition);
-  const roomGallery = [galleryItems[0], ...galleryItems.slice(1, 4)].filter(Boolean);
-  const mainRoom = roomGallery[0];
-  const locationMedia = [
-    {
-      title: "Foto del hotel",
-      subtitle: "Fachada y llegada principal",
-      imageSrc: heroImage,
-      imagePosition: heroImagePosition,
-    },
-    ...galleryItems.slice(0, 2).map((item, index) => ({
-      title: index === 0 ? "Entorno y acceso" : item.title,
-      subtitle: index === 0 ? "Referencia visual para reconocer la llegada" : item.subtitle,
-      imageSrc: item.imageSrc,
-      imagePosition: item.imagePosition,
-    })),
-  ].filter((item) => item.imageSrc);
-  const relatedRooms = services.slice(0, 3).map((service, index) => ({
-    title: service.title,
-    description: service.description,
-    imageSrc: service.imageSrc || galleryItems[index + 1]?.imageSrc || heroImage,
-    imagePosition: service.imagePosition || galleryItems[index + 1]?.imagePosition || heroImagePosition,
-  }));
-  const amenities = buildAmenityItems(content);
-  const contactPhone = content.contact.whatsappNumber || profile.brandConfig.whatsappNumber;
-  const reservationHref = content.brand.primaryCtaHref || buildWhatsappHref(contactPhone, content.brand.name, bookingOptions[0]?.label);
-  const detailsHref = content.brand.secondaryCtaHref || "#habitaciones";
-  const mainTitle = content.brand.name;
-  const subtitle = content.brand.subheadline || content.narrative.body;
-  const introTitle = content.brand.headline;
-  const introCopy = content.narrative.body || content.brand.description;
-  const introSectionTitle = content.narrative.title || "Habitaciones, ubicacion y reserva directa en un solo recorrido.";
-  const introSectionCopy = content.brand.description || subtitle;
-  const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
-  const highlightedReviewCount = testimonials.length;
-  const highlightedReviewAverage = highlightedReviewCount
-    ? (testimonials.reduce((total, item) => total + Math.min(Math.max(item.rating ?? 5, 0), 5), 0) / highlightedReviewCount).toFixed(1).replace(".0", "")
-    : "5";
-  const rateGroupName = useId();
-  const [selectedBookingOptionId, setSelectedBookingOptionId] = useState(bookingOptions.find((option) => option.highlighted)?.id ?? bookingOptions[0]?.id ?? "");
-  const [reviewIndex, setReviewIndex] = useState(testimonials.length > 1 ? testimonials.length : 0);
-  const [isReviewAnimating, setIsReviewAnimating] = useState(true);
-  const [reviewDragOffset, setReviewDragOffset] = useState(0);
-  const [isReviewPaused, setIsReviewPaused] = useState(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const reviewPointerStateRef = useRef<{ currentX: number; dragging: boolean; pointerId: number; startX: number } | null>(null);
-  const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
-  const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
-  const activeBookingOption = bookingOptions.find((option) => option.id === selectedBookingOptionId) ?? bookingOptions[0];
-  const canLoopReviews = !editorMode && testimonials.length > 1;
-  const reviewSlides = canLoopReviews ? [...testimonials, ...testimonials, ...testimonials] : testimonials;
-  const activeReviewPosition = testimonials.length ? ((reviewIndex % testimonials.length) + testimonials.length) % testimonials.length : 0;
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handleMotionChange = () => setPrefersReducedMotion(mediaQuery.matches);
-
-    handleMotionChange();
-    mediaQuery.addEventListener("change", handleMotionChange);
-
-    return () => mediaQuery.removeEventListener("change", handleMotionChange);
-  }, []);
-
-  useEffect(() => {
-    setReviewIndex(testimonials.length > 1 ? testimonials.length : 0);
-    setIsReviewAnimating(true);
-    setReviewDragOffset(0);
-  }, [testimonials.length]);
-
-  useEffect(() => {
-    if (isReviewAnimating) {
-      return undefined;
-    }
-
-    const frameId = window.requestAnimationFrame(() => setIsReviewAnimating(true));
-    return () => window.cancelAnimationFrame(frameId);
-  }, [isReviewAnimating]);
-
-  useEffect(() => {
-    if (!canLoopReviews || isReviewPaused || prefersReducedMotion) {
-      return undefined;
-    }
-
-    const intervalId = window.setInterval(() => {
-      setReviewDragOffset(0);
-      setIsReviewAnimating(true);
-      setReviewIndex((current) => current + 1);
-    }, REVIEW_AUTOPLAY_MS);
-
-    return () => window.clearInterval(intervalId);
-  }, [canLoopReviews, isReviewPaused, prefersReducedMotion]);
-
-  const moveReview = (direction: "next" | "prev") => {
-    if (!canLoopReviews) {
-      return;
-    }
-
-    setReviewDragOffset(0);
-    setIsReviewAnimating(true);
-    setReviewIndex((current) => current + (direction === "next" ? 1 : -1));
-  };
-
-  const finishReviewDrag = (pointerId?: number) => {
-    const pointerState = reviewPointerStateRef.current;
-
-    if (!pointerState || (pointerId !== undefined && pointerState.pointerId !== pointerId)) {
-      return;
-    }
-
-    const delta = pointerState.currentX - pointerState.startX;
-    reviewPointerStateRef.current = null;
-
-    setReviewDragOffset(0);
-    setIsReviewPaused(false);
-
-    if (Math.abs(delta) >= REVIEW_SWIPE_THRESHOLD) {
-      moveReview(delta < 0 ? "next" : "prev");
-      return;
-    }
-
-    setIsReviewAnimating(true);
-  };
-
-  const handleReviewPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (!canLoopReviews) {
-      return;
-    }
-
-    reviewPointerStateRef.current = {
-      currentX: event.clientX,
-      dragging: false,
-      pointerId: event.pointerId,
-      startX: event.clientX,
-    };
-    setIsReviewPaused(true);
-    setIsReviewAnimating(false);
-    event.currentTarget.setPointerCapture(event.pointerId);
-  };
-
-  const handleReviewPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    const pointerState = reviewPointerStateRef.current;
-
-    if (!pointerState || pointerState.pointerId !== event.pointerId) {
-      return;
-    }
-
-    const delta = event.clientX - pointerState.startX;
-    pointerState.currentX = event.clientX;
-    pointerState.dragging = pointerState.dragging || Math.abs(delta) > 6;
-    setReviewDragOffset(delta);
-  };
-
-  const handleReviewTransitionEnd = () => {
-    if (!canLoopReviews) {
-      return;
-    }
-
-    if (reviewIndex >= testimonials.length * 2) {
-      setIsReviewAnimating(false);
-      setReviewIndex((current) => current - testimonials.length);
-      return;
-    }
-
-    if (reviewIndex < testimonials.length) {
-      setIsReviewAnimating(false);
-      setReviewIndex((current) => current + testimonials.length);
-    }
-  };
 
   if (activePage !== "hotel") {
     return (
@@ -229,826 +59,148 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
     );
   }
 
+  const galleryItems = getGalleryItems(content, profile.industry);
+  const services = getVisibleServices(content);
+  const testimonials = getVisibleTestimonials(content).slice(0, 3);
+  const bookingWidget = resolveBookingWidget(content, profile);
+  const bookingOptions = bookingWidget.options?.slice(0, 3) ?? [];
+  const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
+  const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
+  const heroSlides = buildHeroSlides(content, services, galleryItems, heroImage, heroImagePosition);
+  const contactPhone = content.contact.whatsappNumber || profile.brandConfig.whatsappNumber;
+  const cityLabel = getCityLabel(content.location?.city);
+  const reservationHref = content.brand.primaryCtaHref || buildReservationHref(contactPhone, content.brand.name);
+  const detailsHref = content.brand.secondaryCtaHref || "#habitaciones";
+  const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
+  const roomCards = bookingOptions.map((option, index) => ({
+    benefits: option.perks.slice(0, 3),
+    description: getRoomDescription(option.summary, services[index]?.description),
+    imagePosition: services[index]?.imagePosition || galleryItems[index]?.imagePosition || heroImagePosition,
+    imageSrc: services[index]?.imageSrc || galleryItems[index]?.imageSrc || heroImage,
+    price: option.price,
+    rateLabel: option.rateLabel,
+    reservationHref: buildReservationHref(contactPhone, content.brand.name, option.label),
+    title: option.label,
+  }));
+  const benefits = [
+    { label: "Desayuno incluido", value: "01" },
+    { label: "WiFi gratis", value: "02" },
+    { label: "Aire acondicionado", value: "03" },
+    { label: "Recepcion 24h", value: "04" },
+  ];
+  const amenities = buildAmenities(content);
+  const locationMedia = [
+    {
+      title: "Foto del hotel",
+      subtitle: "Fachada y llegada principal",
+      imageSrc: heroImage,
+      imagePosition: heroImagePosition,
+    },
+    ...galleryItems.slice(0, 2).map((item, index) => ({
+      title: index === 0 ? "Entorno y acceso" : item.title,
+      subtitle: index === 0 ? "Referencia visual para reconocer la llegada" : item.subtitle,
+      imageSrc: item.imageSrc,
+      imagePosition: item.imagePosition,
+    })),
+  ].filter((item) => item.imageSrc);
+
   return (
-      <>
-      <section className="hotel-reference-shell" id="inicio" data-editor-section="hero">
-        <InlineImageField enabled={editorMode} fieldKey="hero" label="Hero hotel" onChange={editorMode ? editorImageControls?.onHeroImageChange : undefined} uploading={heroUploading}>
-          <div className={`hotel-reference-hero ${heroImage ? "has-media-image" : "media-fallback-hotel"}`}>
-            <HotelHeroShowcase slides={heroSlides} />
-            <div className="hotel-reference-hero-overlay" aria-hidden="true" />
+    <>
+      <div className="hotel-deluxe-shell">
+        <HotelPremiumHeader
+          bookingCtaLabel={bookingCtaLabel}
+          brandName={content.brand.name}
+          brandTag={content.brand.heroTag || "Hotel en Tarapoto"}
+          pages={pages}
+          reservationHref={reservationHref}
+          sectionLinks={SECTION_LINKS}
+        />
 
-            <header className="hotel-reference-header">
-              <a className="hotel-reference-brand" href="/" aria-label={`Ir al inicio de ${mainTitle}`}>
-                <span className="hotel-reference-brand-mark" aria-hidden="true">
-                  v
-                </span>
-                <span className="hotel-reference-brand-copy">
-                  {editorMode ? (
-                    <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="brand.name" label="Nombre del hotel" section="hero" value={mainTitle} />
-                  ) : (
-                    <strong>{mainTitle}</strong>
-                  )}
-                  {editorMode ? (
-                    <InlineTextField as="span" className="hotel-reference-brand-small" controls={editorTextControls} enabled fieldKey="brand.heroTag" label="Tag del hero" section="hero" value={content.brand.heroTag || profile.industry} />
-                  ) : (
-                    <small>{content.brand.heroTag || profile.industry}</small>
-                  )}
-                </span>
-              </a>
+        <HotelPremiumHero
+          benefits={benefits}
+          bookingWidget={bookingWidget}
+          brandName={content.brand.name}
+          cityLabel={cityLabel}
+          contactPhone={contactPhone}
+          detailsHref={detailsHref}
+          heroDescription={buildHeroDescription(content, cityLabel)}
+          heroTag={content.brand.heroTag || "Hotel boutique en Tarapoto"}
+          reservationHref={reservationHref}
+          slides={heroSlides}
+        />
 
-                <nav className="hotel-reference-nav" aria-label="Secciones principales">
-                {pages.map((page) => {
-                  const pageIndex = getHotelPageIndex(page.slug);
-                  const pageLabel = content.pages[pageIndex] || page.label;
+        <HotelPremiumRoomsSection
+          eyebrow="Nuestras habitaciones"
+          rooms={roomCards}
+          subtitle="Categorias claras, beneficios visibles y una ruta directa para consultar disponibilidad por WhatsApp."
+          title="Habitaciones disenadas para descansar mejor y reservar sin friccion."
+        />
 
-                  return (
-                  <a href={page.href} key={page.slug}>
-                    {editorMode ? (
-                      <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label={`Link hotel ${pageIndex + 1}`} section="hero" showTrigger={false} value={pageLabel} />
-                    ) : (
-                      pageLabel
-                    )}
-                  </a>
-                  );
-                })}
-              </nav>
-
-              <a className="hotel-reference-header-cta" href={reservationHref}>
-                {editorMode ? (
-                  <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA header hotel" section="hero" showTrigger={false} value={bookingCtaLabel} />
-                ) : (
-                  bookingCtaLabel
-                )}
-              </a>
-              <HotelMobileMenu activeSlug={activePage} bookingCtaLabel={bookingCtaLabel} pages={pages} reservationHref={reservationHref} />
-            </header>
-
-            <div className="hotel-reference-hero-copy">
-              {editorMode ? (
-                <InlineTextField as="span" className="hotel-reference-kicker" controls={editorTextControls} enabled fieldKey="brand.heroTag" label="Kicker hero hotel" section="hero" value={content.brand.heroTag || "Habitacion destacada"} />
-              ) : (
-                <span className="hotel-reference-kicker">{content.brand.heroTag || "Habitacion destacada"}</span>
-              )}
-              {editorMode ? (
-                <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="brand.headline" label="Titular hero hotel" minRows={4} multiline section="hero" value={introTitle} />
-              ) : (
-                <h2>{introTitle}</h2>
-              )}
-              {editorMode ? (
-                <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="brand.subheadline" label="Subtitulo hero hotel" minRows={3} multiline section="hero" value={subtitle} />
-              ) : (
-                <p>{subtitle}</p>
-              )}
-            </div>
-          </div>
-        </InlineImageField>
-
-        <HotelBookingBar brandName={content.brand.name} bookingWidget={bookingWidget} contactPhone={contactPhone} />
-      </section>
-
-      <section className="scene hotel-reference-intro" id="habitaciones" data-animate data-animate-delay="60">
-        <nav className="hotel-reference-breadcrumbs" aria-label="Breadcrumb">
-          <a href="#inicio">Home</a>
-          <span>/</span>
-          <a href="#habitaciones">Habitaciones</a>
-          <span>/</span>
-          {editorMode ? (
-            <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="brand.name" label="Nombre en breadcrumbs" section="story" value={mainTitle} />
-          ) : (
-            <strong>{mainTitle}</strong>
-          )}
-        </nav>
-        {editorMode ? (
-          <InlineTextField as="h1" controls={editorTextControls} enabled fieldKey="narrative.title" label="Titulo principal hotel" section="story" value={introSectionTitle} />
-        ) : (
-          <h1>{introSectionTitle}</h1>
-        )}
-        {editorMode ? (
-          <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="brand.description" label="Descripcion principal hotel" minRows={3} multiline section="story" value={introSectionCopy} />
-        ) : (
-          <p>{introSectionCopy}</p>
-        )}
-      </section>
-
-      <section className="scene hotel-reference-gallery" data-animate data-animate-delay="90">
-        <InlineImageField enabled={editorMode} fieldKey="galeria-1" label="Galeria principal hotel" onChange={editorMode ? ((event) => editorImageControls?.onGalleryImageChange(0, event)) : undefined} uploading={galleryUploading}>
-          <div
-            className={`hotel-reference-gallery-media ${mainRoom?.imageSrc ? "has-media-image" : "media-fallback-hotel"}`}
-            style={getMediaStyle(mainRoom?.imageSrc || heroImage, "0.08", mainRoom?.imagePosition || heroImagePosition)}
+        {testimonials.length ? (
+          <HotelPremiumTestimonials
+            items={testimonials.map((item) => ({
+              name: item.name,
+              quote: item.quote,
+              role: item.role,
+              segment: item.segment,
+              rating: item.rating ?? 5,
+            }))}
+            subtitle="Solo tres resenas visibles, faciles de escanear y conectadas con confianza real."
+            title="Lo que valoran los huespedes despues de su estancia."
           />
-        </InlineImageField>
-        <div className="hotel-reference-gallery-dots" aria-hidden="true">
-          <span className="is-active" />
-          <span />
-          <span />
-          <span />
-        </div>
-      </section>
+        ) : null}
 
-      <section className="scene hotel-reference-tabs" data-animate data-animate-delay="110">
-        <input className="hotel-reference-tab-input" defaultChecked id="hotel-tab-1" name="hotel-tabs" type="radio" />
-        <input className="hotel-reference-tab-input" id="hotel-tab-2" name="hotel-tabs" type="radio" />
-        <input className="hotel-reference-tab-input" id="hotel-tab-3" name="hotel-tabs" type="radio" />
+        <HotelPremiumAmenities items={amenities} />
 
-        <div className="hotel-reference-tab-shell">
-          <div className="hotel-reference-tab-sidebar">
-            <article className="hotel-reference-tab-intro">
-              <span className="scene-chip">Estancia curada</span>
-              <h3>Elige la opcion ideal para tu viaje.</h3>
-              <p>Comparacion clara, reserva directa y menos friccion antes del siguiente paso.</p>
-            </article>
+        {content.location?.address ? (
+          <LocationBlock
+            contactEmail={content.contact.email}
+            contactPhone={content.contact.whatsappNumber}
+            editorMode={editorMode}
+            editorTextControls={editorTextControls}
+            location={content.location}
+            mediaItems={locationMedia}
+          />
+        ) : null}
 
-            <div className="hotel-reference-tab-list" role="tablist" aria-label="Categorias de estancia">
-              <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-1">Suite principal</label>
-              <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-2">Estadia flexible</label>
-              <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-3">Reserva directa</label>
-            </div>
-
-            <details className="hotel-reference-inline-modal">
-              <summary className="hotel-reference-inline-summary">
-                <span>Detalle rapido</span>
-                <strong>Ver mas</strong>
-              </summary>
-              <div className="hotel-reference-inline-panel">
-                <div className="hotel-reference-inline-panel-content">
-                  <span className="scene-chip">Popup</span>
-                  <h3>Resumen rapido antes de dar el siguiente paso.</h3>
-                  <p>Aqui puedes reforzar politica de llegada, horarios, ayuda por WhatsApp o beneficios de reservar directo sin saturar la vista principal.</p>
-                  <a className="primary-button" href={reservationHref}>Reservar ahora</a>
-                </div>
-              </div>
-            </details>
-          </div>
-
-          <div className="hotel-reference-tab-panels">
-            <article className="hotel-reference-tab-panel hotel-reference-tab-panel-1">
-              <div className="hotel-reference-tab-panel-head">
-                <span className="scene-chip">Suite</span>
-                <span className="hotel-reference-tab-kicker">Principal</span>
-              </div>
-              <h3>Suite serena</h3>
-              <p>Amplia, comoda y lista para descansar con mejor contexto desde el primer scroll.</p>
-              <div className="hotel-reference-tab-content">
-                <ul className="hotel-reference-tab-points">
-                  <li>Cama amplia y ambiente tranquilo</li>
-                  <li>WiFi, aire acondicionado y desayuno</li>
-                  <li>Confirmacion directa por WhatsApp</li>
-                </ul>
-                <div className="hotel-reference-tab-note">
-                  <strong>Ideal para</strong>
-                  <span>Parejas, viajeros de descanso o quienes quieren una habitacion principal con mejor contexto antes de reservar.</span>
-                </div>
-              </div>
-              <div className="hotel-reference-tab-actions">
-                <a className="primary-button" href={reservationHref}>Reservar</a>
-                <a className="hotel-reference-tab-link" href={detailsHref}>Ver detalles de la habitacion</a>
-              </div>
-            </article>
-            <article className="hotel-reference-tab-panel hotel-reference-tab-panel-2">
-              <div className="hotel-reference-tab-panel-head">
-                <span className="scene-chip">Flexible</span>
-                <span className="hotel-reference-tab-kicker">Practica</span>
-              </div>
-              <h3>Estadia flexible</h3>
-              <p>Practica para escalas, trabajo o visitas cortas con reserva simple y llegada agil.</p>
-              <div className="hotel-reference-tab-content">
-                <ul className="hotel-reference-tab-points">
-                  <li>Ingreso agil y coordinacion rapida</li>
-                  <li>Uso por horas o noche completa</li>
-                  <li>Upgrade sujeto a disponibilidad</li>
-                </ul>
-                <div className="hotel-reference-tab-note">
-                  <strong>Ideal para</strong>
-                  <span>Viajeros de trabajo, escalas o llegadas fuera de horario que necesitan una opcion simple y directa.</span>
-                </div>
-              </div>
-              <div className="hotel-reference-tab-actions">
-                <a className="primary-button" href={reservationHref}>Consultar disponibilidad</a>
-                <a className="hotel-reference-tab-link" href={detailsHref}>Explorar beneficios</a>
-              </div>
-            </article>
-            <article className="hotel-reference-tab-panel hotel-reference-tab-panel-3">
-              <div className="hotel-reference-tab-panel-head">
-                <span className="scene-chip">Directo</span>
-                <span className="hotel-reference-tab-kicker">Canal hotel</span>
-              </div>
-              <h3>Reserva directa</h3>
-              <p>Habla con el hotel, valida disponibilidad y confirma con claridad antes de pagar.</p>
-              <div className="hotel-reference-tab-content">
-                <ul className="hotel-reference-tab-points">
-                  <li>Confirmacion rapida de fechas</li>
-                  <li>Atencion directa del hotel</li>
-                  <li>Coordinacion clara de llegada</li>
-                </ul>
-                <div className="hotel-reference-tab-note">
-                  <strong>Ideal para</strong>
-                  <span>Huespedes que quieren validar disponibilidad, tarifa y ubicacion sin salir de la pagina.</span>
-                </div>
-              </div>
-              <div className="hotel-reference-tab-actions">
-                <a className="primary-button" href={reservationHref}>Reservar directo</a>
-                <a className="hotel-reference-tab-link" href={detailsHref}>Revisar condiciones</a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      {testimonials.length ? (
-        <section className="scene hotel-reference-proof" data-animate data-animate-delay="125">
-          <div className="hotel-reference-section-heading">
-            {editorMode ? (
-              <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.testimonialsChip" label="Chip testimonios hotel" section="testimonials" value={content.uiText?.testimonialsChip || "Verificado"} />
-            ) : (
-              <span className="scene-chip">{content.uiText?.testimonialsChip || "Verificado"}</span>
-            )}
-            {editorMode ? (
-              <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.testimonialsTitle" label="Titulo testimonios hotel" minRows={3} multiline section="testimonials" value={content.uiText?.testimonialsTitle || "Datos reales antes de reservar."} />
-            ) : (
-              <h2>{content.uiText?.testimonialsTitle || "Datos reales antes de reservar."}</h2>
-            )}
-          </div>
-
-          <div className="hotel-reference-proof-layout">
-            <article className="hotel-reference-proof-summary">
-              <div className="hotel-reference-proof-brand">
-                <span className="hotel-reference-proof-brand-mark" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </span>
-                <div>
-                  <strong>Opiniones verificadas</strong>
-                  <span>Google Reviews con estilo premium inspirado en TripAdvisor</span>
-                </div>
-              </div>
-              <div className="hotel-reference-proof-score">
-                <strong>{highlightedReviewAverage}/5</strong>
-                <span>en resenas destacadas</span>
-              </div>
-              <div className="hotel-reference-proof-stars hotel-reference-proof-stars-deluxe" aria-label={`Valoracion visible ${highlightedReviewAverage} de 5`}>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span className="is-muted">★</span>
-              </div>
-              <div className="hotel-reference-proof-metrics" aria-label="Resumen de resenas">
-                <article className="hotel-reference-proof-metric">
-                  <strong>{highlightedReviewCount}</strong>
-                  <span>resenas visibles</span>
-                </article>
-                <article className="hotel-reference-proof-metric">
-                  <strong>Google</strong>
-                  <span>fuente enlazada</span>
-                </article>
-              </div>
-              <p>Basado en las resenas visibles del hotel en Google Travel que compartiste. Se repiten piscina, limpieza, cercania al aeropuerto y amabilidad del personal.</p>
-              <a className="hotel-reference-proof-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
-                Ver opiniones reales
-              </a>
-            </article>
-
-            {canLoopReviews ? (
-              <div
-                className="hotel-reference-proof-carousel"
-                onBlurCapture={(event) => {
-                  if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-                    setIsReviewPaused(false);
-                  }
-                }}
-                onFocusCapture={() => setIsReviewPaused(true)}
-                onMouseEnter={() => setIsReviewPaused(true)}
-                onMouseLeave={() => setIsReviewPaused(false)}
-              >
-                <div className="hotel-reference-proof-carousel-head">
-                  <div className="hotel-reference-proof-carousel-status" aria-live="polite">
-                    <strong>{`${activeReviewPosition + 1}/${testimonials.length}`}</strong>
-                    <span>{prefersReducedMotion ? "Navegacion manual" : "Rotacion automatica"}</span>
-                  </div>
-                  <div className="hotel-reference-proof-carousel-controls" aria-label="Controles de resenas">
-                    <button className="hotel-reference-proof-carousel-button" onClick={() => moveReview("prev")} type="button" aria-label="Ver resena anterior">
-                      <span aria-hidden="true">←</span>
-                    </button>
-                    <button className="hotel-reference-proof-carousel-button" onClick={() => moveReview("next")} type="button" aria-label="Ver siguiente resena">
-                      <span aria-hidden="true">→</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div
-                  className={`hotel-reference-proof-viewport${reviewPointerStateRef.current ? " is-dragging" : ""}`}
-                  onLostPointerCapture={(event) => finishReviewDrag(event.pointerId)}
-                  onPointerCancel={(event) => finishReviewDrag(event.pointerId)}
-                  onPointerDown={handleReviewPointerDown}
-                  onPointerMove={handleReviewPointerMove}
-                  onPointerUp={(event) => finishReviewDrag(event.pointerId)}
-                >
-                  <div
-                    className={`hotel-reference-proof-track${isReviewAnimating ? "" : " is-instant"}`}
-                    onTransitionEnd={handleReviewTransitionEnd}
-                    style={{ transform: `translate3d(calc(${-reviewIndex * 100}% + ${reviewDragOffset}px), 0, 0)` }}
-                  >
-                    {reviewSlides.map((testimonial, index) => (
-                      <article className="quote-card hotel-reference-proof-card hotel-reference-proof-slide" key={`${testimonial.name}-${index}`} tabIndex={0}>
-                        <div className="hotel-reference-proof-card-top">
-                          <div className="hotel-reference-proof-card-person">
-                            <span className="hotel-reference-proof-avatar" aria-hidden="true">
-                              {getReviewInitials(testimonial.name)}
-                            </span>
-                            <div>
-                              <strong>{testimonial.name}</strong>
-                              <span className="hotel-reference-proof-card-meta">{testimonial.role}</span>
-                            </div>
-                          </div>
-                          <div className="hotel-reference-proof-card-rating">
-                            <strong>{Math.min(Math.max(testimonial.rating ?? 5, 0), 5)}/5</strong>
-                            <div className="hotel-reference-proof-stars hotel-reference-proof-card-stars" aria-label={`Puntuacion ${testimonial.rating ?? 5} de 5`}>
-                              {renderReviewStars(testimonial.rating ?? 5)}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="hotel-reference-proof-card-meta-row">
-                          <span className="hotel-reference-proof-card-source">Google Reviews</span>
-                          <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
-                          <span>{testimonial.segment || "Experiencia destacada"}</span>
-                        </div>
-                        <p>{testimonial.quote}</p>
-                        <div className="hotel-reference-proof-card-footer">
-                          <span>{testimonial.location || "Google Reviews"}</span>
-                          <a className="hotel-reference-proof-card-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
-                            Abrir fuente
-                          </a>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="hotel-reference-proof-grid">
-                {testimonials.map((testimonial, index) => (
-                  <article className="quote-card hotel-reference-proof-card" key={testimonial.name} tabIndex={0}>
-                    <div className="hotel-reference-proof-card-top">
-                      <div className="hotel-reference-proof-card-person">
-                        <span className="hotel-reference-proof-avatar" aria-hidden="true">
-                          {getReviewInitials(testimonial.name)}
-                        </span>
-                        <div>
-                          {editorMode ? (
-                            <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.name`} label={`Nombre testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.name} />
-                          ) : (
-                            <strong>{testimonial.name}</strong>
-                          )}
-                          <span className="hotel-reference-proof-card-meta">
-                            {editorMode ? (
-                              <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Fecha testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.role} />
-                            ) : (
-                              testimonial.role
-                            )}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="hotel-reference-proof-card-rating">
-                        <strong>{Math.min(Math.max(testimonial.rating ?? 5, 0), 5)}/5</strong>
-                        <div className="hotel-reference-proof-stars hotel-reference-proof-card-stars" aria-label={`Puntuacion ${testimonial.rating ?? 5} de 5`}>
-                          {renderReviewStars(testimonial.rating ?? 5)}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="hotel-reference-proof-card-meta-row">
-                      <span className="hotel-reference-proof-card-source">Google Reviews</span>
-                      <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
-                      {editorMode ? (
-                        <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.segment`} label={`Tema testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.segment || "Experiencia destacada"} />
-                      ) : (
-                        <span>{testimonial.segment || "Experiencia destacada"}</span>
-                      )}
-                    </div>
-                    {editorMode ? (
-                      <InlineTextField as="p" controls={editorTextControls} displayValue={`"${testimonial.quote}"`} enabled fieldKey={`testimonials.${index}.quote`} label={`Cita testimonio hotel ${index + 1}`} minRows={3} multiline section="testimonials" value={testimonial.quote} />
-                    ) : (
-                      <p>{testimonial.quote}</p>
-                    )}
-                    <div className="hotel-reference-proof-card-footer">
-                      <span>{testimonial.location || "Google Reviews"}</span>
-                      <a className="hotel-reference-proof-card-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
-                        Abrir fuente
-                      </a>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      ) : null}
-
-      <section className="scene hotel-reference-details" data-animate data-animate-delay="130">
-        <div className="hotel-reference-amenities">
-          {amenities.map((amenity, index) => (
-            <article className="hotel-reference-amenity" key={`${amenity.label}-${index}`}>
-              <span className={`hotel-reference-amenity-icon icon-${amenity.icon}`} aria-hidden="true">
-                <AmenityIcon kind={amenity.icon} />
-              </span>
-              {editorMode && index < content.highlights.length ? (
-                <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`highlights.${index}`} label={`Amenidad ${index + 1}`} section="services" value={amenity.label} />
-              ) : (
-                <strong>{amenity.label}</strong>
-              )}
-            </article>
-          ))}
-        </div>
-
-        <div className="hotel-reference-details-main">
-          <article className="hotel-reference-room-copy">
-            {editorMode ? (
-              <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.storyChip" label="Chip de suite" section="story" value={content.uiText?.storyChip || "Suite"} />
-            ) : (
-              <span className="scene-chip">Suite</span>
-            )}
-            {editorMode ? (
-              <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="brand.headline" label="Titulo de habitacion" minRows={3} multiline section="story" value={introTitle} />
-            ) : (
-              <h2>{introTitle}</h2>
-            )}
-            {editorMode ? (
-              <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.body" label="Cuerpo de habitacion" minRows={4} multiline section="story" value={introCopy} />
-            ) : (
-              <p>{introCopy}</p>
-            )}
-
-            <div className="hotel-reference-room-actions">
-              <a className="primary-button" href={reservationHref}>
-                {editorMode ? (
-                  <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA principal habitacion" section="story" showTrigger={false} value={bookingCtaLabel} />
-                ) : (
-                  bookingCtaLabel
-                )}
-              </a>
-              <a className="secondary-button" href={detailsHref}>
-                {editorMode ? (
-                  <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="brand.secondaryCtaLabel" label="CTA secundario habitacion" section="story" showTrigger={false} value={content.brand.secondaryCtaLabel || "Ver detalles"} />
-                ) : (
-                  "Ver detalles"
-                )}
-              </a>
-            </div>
-          </article>
-
-          {bookingOptions.length && activeBookingOption ? (
-            <div className="hotel-reference-rate-selector">
-              <div className="hotel-reference-rate-tabs" role="radiogroup" aria-label="Seleccionar tipo de habitacion">
-                {bookingOptions.map((option) => {
-                  const isSelected = option.id === activeBookingOption.id;
-
-                  return (
-                    <label className={`hotel-reference-rate-tab${isSelected ? " is-active" : ""}`} key={option.id}>
-                      <input
-                        checked={isSelected}
-                        className="hotel-reference-rate-input"
-                        name={rateGroupName}
-                        onChange={() => setSelectedBookingOptionId(option.id)}
-                        type="radio"
-                      />
-                      <span>{option.badge || option.roomType}</span>
-                      <strong>{option.label}</strong>
-                      <small>{option.price}</small>
-                    </label>
-                  );
-                })}
-              </div>
-
-              <article className="hotel-reference-rate-panel">
-                <span>{activeBookingOption.badge || activeBookingOption.roomType}</span>
-                <strong>{activeBookingOption.label}</strong>
-                <p>{activeBookingOption.summary}</p>
-                <div className="hotel-reference-rate-panel-meta">
-                  <b>{activeBookingOption.price}</b>
-                  <small>{activeBookingOption.rateLabel || "Tarifa directa"}</small>
-                </div>
-              </article>
-            </div>
-          ) : null}
-        </div>
-      </section>
-
-      <section className="scene hotel-reference-related" data-animate data-animate-delay="170" id="servicios">
-        <div className="hotel-reference-section-heading">
-          {editorMode ? (
-            <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.supportLabel" label="Chip de habitaciones relacionadas" section="services" value={content.uiText?.supportLabel || "Habitaciones destacadas"} />
-          ) : (
-            <span className="scene-chip">{content.uiText?.supportLabel || "Habitaciones destacadas"}</span>
-          )}
-          {editorMode ? (
-            <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.storyTitle" label="Titulo de habitaciones relacionadas" minRows={3} multiline section="services" value={content.uiText?.storyTitle || "Conoce habitaciones y opciones pensadas para distintos tipos de viaje."} />
-          ) : (
-            <h2>{content.uiText?.storyTitle || "Conoce habitaciones y opciones pensadas para distintos tipos de viaje."}</h2>
-          )}
-          {editorMode ? (
-            <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion de habitaciones relacionadas" minRows={3} multiline section="services" value={content.narrative.goal || "Selecciona la habitacion que mejor encaja con tu estadia y pasa a reserva directa sin perder claridad."} />
-          ) : (
-            <p>{content.narrative.goal || "Selecciona la habitacion que mejor encaja con tu estadia y pasa a reserva directa sin perder claridad."}</p>
-          )}
-        </div>
-
-        <div className="hotel-reference-related-grid">
-          {relatedRooms.map((room, index) => (
-            <article className="hotel-reference-room-card" key={room.title}>
-              <InlineImageField enabled={editorMode} fieldKey={`servicio-${index + 1}`} label={`Habitacion ${index + 1}`} onChange={editorMode ? ((event) => editorImageControls?.onServiceImageChange(index, event)) : undefined} uploading={editorMode && editorImageControls?.uploadingField === `servicio ${index + 1}`}>
-                <div
-                  className={`hotel-reference-room-card-media ${room.imageSrc ? "has-media-image" : "media-fallback-hotel"}`}
-                  style={getMediaStyle(room.imageSrc, "0.08", room.imagePosition)}
-                />
-              </InlineImageField>
-              <div className="hotel-reference-room-card-copy">
-                {editorMode ? (
-                  <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`services.${index}.title`} label={`Titulo de habitacion ${index + 1}`} section="services" value={room.title} />
-                ) : (
-                  <strong>{room.title}</strong>
-                )}
-                {editorMode ? (
-                  <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={`services.${index}.description`} label={`Descripcion de habitacion ${index + 1}`} minRows={3} multiline section="services" value={room.description} />
-                ) : (
-                  <p>{room.description}</p>
-                )}
-              </div>
-              <div className="hotel-reference-room-card-actions">
-                <a className="secondary-button" href="#habitaciones">
-                  Ver habitacion
-                </a>
-                <a className="primary-button" href={reservationHref}>
-                  Reservar ahora
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {faqs.length ? (
-        <LandingFaqAccordion
-          editorMode={editorMode}
-          editorTextControls={editorTextControls}
-          items={faqs}
-          label={content.uiText?.faqChip || "Preguntas frecuentes"}
-          title={content.uiText?.faqTitle || "Dudas comunes antes de reservar"}
+        <HotelPremiumBookingCta
+          description="Consulta disponibilidad, tarifas y tipo de habitacion. El equipo responde rapido y te ayuda a cerrar tu reserva sin intermediarios."
+          href={reservationHref}
+          title="Reserva directa por WhatsApp y recibe respuesta clara en minutos."
         />
-      ) : null}
 
-      {content.location?.address ? (
-        <LocationBlock
-          contactEmail={content.contact.email}
-          contactPhone={content.contact.whatsappNumber}
-          editorMode={editorMode}
-          editorTextControls={editorTextControls}
-          mediaItems={locationMedia}
-          location={content.location}
+        <HotelPremiumFooter
+          address={content.location?.address || "Tarapoto, Peru"}
+          brandName={content.brand.name}
+          city={content.location?.city}
+          email={content.contact.email}
+          phone={content.contact.whatsappNumber}
         />
-      ) : null}
+      </div>
 
-      <ContactForm
-        description={content.contact.description}
-        editorMode={editorMode}
-        editorTextControls={editorTextControls}
-        title={content.contact.title}
-        whatsappNumber={content.contact.whatsappNumber}
-      />
-
-      <footer className="scene hotel-reference-footer">
-        <div className="hotel-reference-footer-brand">
-          {editorMode ? (
-            <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="brand.heroTag" label="Chip footer hotel" section="contact" value={profile.industry} />
-          ) : (
-            <span className="scene-chip">{profile.industry}</span>
-          )}
-          {editorMode ? (
-            <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="brand.name" label="Nombre footer hotel" section="contact" value={mainTitle} />
-          ) : (
-            <strong>{mainTitle}</strong>
-          )}
-          {editorMode ? (
-            <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="brand.description" label="Descripcion footer hotel" minRows={3} multiline section="contact" value={content.brand.description} />
-          ) : (
-            <p>{content.brand.description}</p>
-          )}
-        </div>
-        <div className="hotel-reference-footer-links">
-          {pages.map((page) => {
-              const pageIndex = getHotelPageIndex(page.slug);
-              const pageLabel = content.pages[pageIndex] || page.label;
-
-              return (
-              <a href={page.href} key={page.slug}>
-                {editorMode ? (
-                  <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label={`Link footer hotel ${pageIndex + 1}`} section="contact" showTrigger={false} value={pageLabel} />
-                ) : (
-                  pageLabel
-                )}
-              </a>
-              );
-            })}
-        </div>
-      </footer>
+      <HotelFloatingCta href={reservationHref} label="Consultar ahora" note="Disponibilidad y tarifas" />
     </>
   );
 }
 
-function buildAmenityItems(content: SiteContent): AmenityItem[] {
-  const amenities = [
-    ...content.bookingWidget?.options?.flatMap((option) => option.perks) ?? [],
-    ...content.highlights.filter(isHotelBenefit),
-  ]
-    .map((item) => item.trim())
-    .filter(Boolean);
-
-  const uniqueAmenities = Array.from(new Set(amenities)).slice(0, 6);
-  if (uniqueAmenities.length) {
-    return uniqueAmenities.map((label, index) => ({
-      icon: resolveAmenityIcon(label, index),
-      label,
-    }));
-  }
-
-  return [
-    { icon: "wi-fi", label: "WiFi rapido" },
-    { icon: "aire", label: "Aire acondicionado" },
-    { icon: "seguridad", label: "Caja de seguridad" },
-    { icon: "ducha", label: "Bano completo" },
-    { icon: "tv", label: "TV por cable" },
-    { icon: "desayuno", label: "Desayuno incluido" },
-  ];
-}
-
-function resolveAmenityIcon(label: string, index: number) {
-  const text = label.trim().toLowerCase();
-
-  if (text.includes("wifi") || text.includes("wi-fi") || text.includes("internet")) {
-    return "wi-fi";
-  }
-
-  if (text.includes("aire") || text.includes("clima") || text.includes("acondicionado")) {
-    return "aire";
-  }
-
-  if (text.includes("desayuno") || text.includes("breakfast") || text.includes("cafe")) {
-    return "desayuno";
-  }
-
-  if (text.includes("reserva") || text.includes("directa") || text.includes("whatsapp")) {
-    return "reserva";
-  }
-
-  if (text.includes("bano") || text.includes("baño") || text.includes("ducha") || text.includes("privado")) {
-    return "bano";
-  }
-
-  if (text.includes("atencion") || text.includes("atención") || text.includes("recepcion") || text.includes("recepción") || text.includes("rapida") || text.includes("rápida")) {
-    return "servicio";
-  }
-
-  if (text.includes("seguridad") || text.includes("caja fuerte")) {
-    return "seguridad";
-  }
-
-  if (text.includes("tv") || text.includes("television") || text.includes("televisión") || text.includes("cable")) {
-    return "tv";
-  }
-
-  return DEFAULT_AMENITY_ICONS[index % DEFAULT_AMENITY_ICONS.length];
-}
-
-function AmenityIcon({ kind }: { kind: string }) {
-  switch (kind) {
-    case "desayuno":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <path d="M5 11h10a3 3 0 0 1 0 6H9a4 4 0 0 1-4-4v-2Z" />
-          <path d="M15 12h1a2 2 0 1 1 0 4h-1" />
-          <path d="M8 5v3" />
-          <path d="M11 4v4" />
-          <path d="M14 5v3" />
-        </svg>
-      );
-    case "wi-fi":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <path d="M4.5 9.5a12 12 0 0 1 15 0" />
-          <path d="M7.5 12.5a7.5 7.5 0 0 1 9 0" />
-          <path d="M10.5 15.5a3.5 3.5 0 0 1 3 0" />
-          <circle cx="12" cy="18" r="1.2" fill="currentColor" stroke="none" />
-        </svg>
-      );
-    case "aire":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <path d="M12 3v18" />
-          <path d="M7.5 5.5 16.5 18.5" />
-          <path d="M16.5 5.5 7.5 18.5" />
-          <path d="M4 12h16" />
-        </svg>
-      );
-    case "reserva":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <rect x="4" y="5" width="16" height="15" rx="3" />
-          <path d="M8 3.5v4" />
-          <path d="M16 3.5v4" />
-          <path d="M4 10h16" />
-          <path d="m9.5 15 1.8 1.8L15 13" />
-        </svg>
-      );
-    case "bano":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <path d="M7 7a3 3 0 0 1 6 0v3" />
-          <path d="M5 10h10" />
-          <path d="M15 10.5c2.2 0 4 1.8 4 4V16" />
-          <path d="M8 13.5v2.5" />
-          <path d="M11 13.5v3.5" />
-          <path d="M14 13.5v2.5" />
-        </svg>
-      );
-    case "servicio":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <path d="M6.5 14a5.5 5.5 0 0 1 11 0" />
-          <path d="M5 14v2.5A1.5 1.5 0 0 0 6.5 18H8v-5H6.5A1.5 1.5 0 0 0 5 14Z" />
-          <path d="M19 14v2.5a1.5 1.5 0 0 1-1.5 1.5H16v-5h1.5A1.5 1.5 0 0 1 19 14Z" />
-          <path d="M12 18v2h2" />
-        </svg>
-      );
-    case "seguridad":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <path d="M12 3 6 5.5v5.8c0 4 2.4 7 6 9.2 3.6-2.2 6-5.2 6-9.2V5.5L12 3Z" />
-          <path d="m9.5 11.8 1.6 1.6 3.4-3.7" />
-        </svg>
-      );
-    case "tv":
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <rect x="4" y="6" width="16" height="11" rx="2.5" />
-          <path d="M10 20h4" />
-          <path d="M12 17v3" />
-        </svg>
-      );
-    default:
-      return (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
-          <path d="m12 4 1.9 4.6L19 10l-4 3.4 1.2 5.1L12 15.8 7.8 18.5 9 13.4 5 10l5.1-1.4L12 4Z" />
-        </svg>
-      );
-  }
-}
-
-function isHotelBenefit(value: string) {
-  const text = value.trim().toLowerCase();
-  if (!text) {
-    return false;
-  }
-
-  const invalidPatterns = [
-    "conservar ",
-    "mantener ",
-    "paleta",
-    "branding",
-    "tipografico",
-    "layout",
-    "referencia",
-    "widgets",
-    "cta-group",
-    "popup",
-    "form x",
+function buildAmenities(content: SiteContent) {
+  const baseItems = [
+    { title: "Desayuno buffet", icon: "☕", description: "Empieza el dia con una estancia mas comoda y una salida mas simple." },
+    { title: "WiFi gratis", icon: "Wi", description: "Conexion estable para descanso, trabajo o coordinacion de viaje." },
+    { title: "Piscina", icon: "✦", description: "Un diferencial visual del hotel que acompana la experiencia premium." },
+    { title: "Aire acondicionado", icon: "AC", description: "Confort termico para descansar mejor en cualquier horario." },
+    { title: "Traslado aeropuerto", icon: "✈", description: "Cercania y apoyo de llegada para una reserva mas confiable." },
   ];
 
-  return !invalidPatterns.some((pattern) => text.includes(pattern));
+  return baseItems.map((item, index) => ({
+    ...item,
+    description: content.highlights[index] || item.description,
+  }));
 }
 
-function sanitizeHotelFaqs(items: SiteContent["faqs"], content: SiteContent) {
-  const validItems = items.filter((item) => {
-    const text = `${item.question} ${item.answer}`.toLowerCase();
-    return !["clonarse", "tabs detectadas", "modal", "referencia"].some((pattern) => text.includes(pattern));
-  });
-
-  if (validItems.length) {
-    return validItems;
-  }
-
-  return [
-    {
-      question: "Como puedo consultar disponibilidad?",
-      answer: "Puedes escribir por WhatsApp desde la web y confirmar fechas, tipo de habitacion y tarifa disponible.",
-    },
-    {
-      question: "La recepcion atiende todo el dia?",
-      answer: "Si. El hotel comunica recepcion 24 horas para facilitar llegadas, consultas y coordinacion de reserva.",
-    },
-    {
-      question: "Donde esta ubicado el hotel?",
-      answer: `La ubicacion mostrada es ${content.location?.address || "Tarapoto"}, con acceso directo a Google Maps desde la pagina.`,
-    },
-  ];
+function buildHeroDescription(content: SiteContent, cityLabel: string) {
+  const base = content.brand.description || content.narrative.body;
+  return `Reserva directa sin intermediarios en ${cityLabel}. ${base}`;
 }
 
 function buildHeroSlides(
@@ -1060,8 +212,8 @@ function buildHeroSlides(
 ): HotelHeroSlide[] {
   const candidates: HotelHeroSlide[] = [
     {
-      title: content.brand.heroTag || "Reserva directa",
-      subtitle: content.brand.subheadline || content.narrative.goal,
+      title: content.brand.name,
+      subtitle: content.brand.description,
       imageSrc: heroImage,
       imagePosition: heroImagePosition,
     },
@@ -1082,40 +234,32 @@ function buildHeroSlides(
   return Array.from(new Map(candidates.map((item) => [item.imageSrc, item])).values()).slice(0, 4);
 }
 
-function buildWhatsappHref(phone: string, brandName: string, planLabel?: string) {
+function buildReservationHref(phone: string, brandName: string, roomLabel?: string) {
   const cleanPhone = String(phone || "").replace(/[^\d]/g, "");
   if (!cleanPhone) {
-    return "#contacto";
+    return "#cta-final";
   }
 
   const lines = [
-    "Hola",
-    "",
-    `Quiero reservar en ${brandName}.`,
-    planLabel ? `Me interesa la opcion ${planLabel}.` : "Quiero conocer habitaciones y tarifas.",
+    `Hola, quiero reservar en ${brandName}.`,
+    roomLabel ? `Me interesa la habitacion ${roomLabel}.` : "Quiero confirmar disponibilidad y tarifas.",
+    "Quedo atento a opciones por WhatsApp.",
   ];
 
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
 }
 
-function renderReviewStars(rating: number) {
-  const safeRating = Math.min(Math.max(Math.round(rating), 0), 5);
-
-  return Array.from({ length: 5 }, (_, index) => (
-    <span className={index < safeRating ? "is-filled" : "is-muted"} key={`review-star-${safeRating}-${index}`}>
-      ★
-    </span>
-  ));
+function getCityLabel(value?: string) {
+  return (value || "Tarapoto").split(",")[0]?.trim() || "Tarapoto";
 }
 
-function getReviewInitials(name: string) {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (!parts.length) {
-    return "VH";
+function getRoomDescription(summary: string, fallback?: string) {
+  const source = fallback || summary;
+  const cleanSource = source.trim();
+
+  if (cleanSource.length <= 120) {
+    return cleanSource;
   }
 
-  return parts
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() || "")
-    .join("");
+  return `${cleanSource.slice(0, 117).trimEnd()}...`;
 }

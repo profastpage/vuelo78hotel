@@ -98,13 +98,13 @@ export function SiteRenderer({ profile, content, pageSlug, referenceSnapshot = n
 
       {isDevelopment && !editorMode ? <EditorEntryButton /> : null}
 
-      {hasBookingWidget ? (
+      {hasBookingWidget && referenceCloneMode !== "hotel" ? (
         <div data-editor-section="booking">
           <FloatingReservationWidget content={content} isLocalEnvironment={isDevelopment || editorMode} />
         </div>
       ) : null}
       {!editorMode ? <ScrollTopButton /> : null}
-      <ThemeModeToggle editorMode={editorMode} />
+      {referenceCloneMode !== "hotel" ? <ThemeModeToggle editorMode={editorMode} /> : null}
 
       {referenceCloneMode === "hotel" ? (
         <ReferenceCloneHotelEngine
