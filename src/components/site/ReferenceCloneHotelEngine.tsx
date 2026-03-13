@@ -32,13 +32,13 @@ type AmenityItem = {
 const DEFAULT_AMENITY_ICONS = ["wi-fi", "aire", "seguridad", "ducha", "tv", "desayuno"];
 
 export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMode = false, editorImageControls, editorTextControls }: ReferenceCloneHotelEngineProps) {
-  const tripadvisorHref = "https://www.tripadvisor.es/Hotel_Review-g658384-d12839312-Reviews-Rio_Hotels_Tarapoto-Tarapoto_San_Martin_Region.html";
+  const googleReviewsHref = "https://www.google.com/travel/search?q=vuelo%2078%20hotel&g2lb=4965990%2C72471280%2C72560029%2C72573224%2C72647020%2C72686036%2C72803964%2C72882230%2C72958624%2C73059275%2C73064764&hl=es-419&gl=pe&ssta=1&ts=CAEaSQopEicyJTB4OTFiYTBiODYxODkxZWFmNzoweGUwOTBlNGZhNjYyNDY4NDASHBIUCgcI6g8QAxgWEgcI6g8QAxgXGAEyBAgAEAA&qs=CAEyFENnc0l3TkNSc2FhZnVjamdBUkFCOAJCCQlAaCRm-uSQ4EIJCUBoJGb65JDg&ap=KigKEgmLKP_keQ4awBGGnAjxtRdTwBISCUTJl7q3BBrAEYacCIVAF1PAugEHcmV2aWV3cw&ictx=111";
   const activePage = normalizeHotelPageSlug(pageSlug);
   const pages = HOTEL_VISIBLE_NAV_ITEMS;
   const galleryItems = getGalleryItems(content, profile.industry);
   const services = getVisibleServices(content);
   const faqs = sanitizeHotelFaqs(getVisibleFaqs(content).slice(0, 4), content);
-  const testimonials = getVisibleTestimonials(content).slice(0, 3);
+  const testimonials = getVisibleTestimonials(content).slice(0, 4);
   const bookingWidget = resolveBookingWidget(content, profile);
   const bookingOptions = bookingWidget.options?.slice(0, 3) ?? [];
   const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || "";
@@ -77,6 +77,10 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
   const introSectionTitle = content.narrative.title || "Habitaciones, ubicacion y reserva directa en un solo recorrido.";
   const introSectionCopy = content.brand.description || subtitle;
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
+  const highlightedReviewCount = testimonials.length;
+  const highlightedReviewAverage = highlightedReviewCount
+    ? (testimonials.reduce((total, item) => total + Math.min(Math.max(item.rating ?? 5, 0), 5), 0) / highlightedReviewCount).toFixed(1).replace(".0", "")
+    : "5";
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
   const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
 
@@ -358,7 +362,7 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
                 <span className="is-muted">★</span>
               </div>
               <p>Basado en 6 opiniones publicas de la ficha real del hotel. La lectura se centra en limpieza, atencion del personal y cercania al aeropuerto.</p>
-              <a className="hotel-reference-proof-link" href={tripadvisorHref} target="_blank" rel="noopener noreferrer">
+              <a className="hotel-reference-proof-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
                 Ver ficha completa
               </a>
             </article>

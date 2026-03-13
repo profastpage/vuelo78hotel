@@ -1,14 +1,14 @@
 {
   "brand": {
     "name": "Vuelo 78 Hotel Tarapoto",
-    "headline": "Descanso comodo y reserva directa cerca del aeropuerto de Tarapoto",
-    "description": "Hotel urbano en Tarapoto pensado para viajeros que valoran calma, buena ubicacion y una reserva clara desde el primer contacto.",
-    "subheadline": "Habitaciones comodas, atencion cercana y una llegada simple para viajeros que quieren confirmar rapido su estadia.",
+    "headline": "Descanso con reserva directa",
+    "description": "Hotel en Tarapoto con reserva directa, habitaciones comodas y una llegada simple cerca del aeropuerto.",
+    "subheadline": "Habitaciones comodas y atencion cercana.",
     "primaryCtaLabel": "Reservar",
     "primaryCtaHref": "https://wa.me/51987654321?text=Hola%20%F0%9F%91%8B%0A%0AMe%20interesa%20reservar%20en%20Vuelo%2078%20Hotel%20Tarapoto.%0A%0A%F0%9F%8F%A8%20Quiero%20informacion%20sobre%20disponibilidad%0A%F0%9F%9B%8F%EF%B8%8F%20Tipos%20de%20habitacion%20y%20tarifas%0A%F0%9F%93%85%20Opciones%20de%20fecha%20para%20mi%20estadia%0A%0AMuchas%20gracias.",
     "secondaryCtaLabel": "Ver habitaciones",
     "secondaryCtaHref": "#habitaciones",
-    "heroTag": "Hotel en Tarapoto",
+    "heroTag": "HOTEL EN TARAPOTO",
     "heroImageSrc": "/assets/uploads/hotel-e958a5dd-c4f1-4619-b0cd-7449eb4b6695.webp",
     "heroImagePosition": {
       "x": 50,
@@ -37,8 +37,8 @@
     "proofLabel": "Clientes reales",
     "storyChip": "Habitacion principal",
     "storyTitle": "Elige la estancia que mejor se ajusta a tu viaje",
-    "testimonialsChip": "Lo que dicen nuestros clientes",
-    "testimonialsTitle": "Opiniones reales de TripAdvisor antes de reservar",
+    "testimonialsChip": "Resenas verificadas",
+    "testimonialsTitle": "Lo que dicen nuestros clientes reales",
     "faqChip": "Preguntas frecuentes",
     "faqTitle": "Dudas comunes antes de confirmar la reserva"
   },
@@ -112,30 +112,39 @@
   ],
   "testimonials": [
     {
-      "name": "@marlenytirado121",
-      "role": "mayo de 2018",
-      "quote": "Destaca la tranquilidad del lugar, la limpieza de las habitaciones y la atencion del personal durante la estadia.",
+      "name": "Leitner Duyen",
+      "role": "Hace 2 semanas",
+      "quote": "Valora la piscina y el trato amable del equipo. Tambien destaca un ambiente tranquilo incluso en una visita corta.",
       "avatarSrc": "",
-      "location": "TripAdvisor",
-      "segment": "Limpieza, calma y servicio",
+      "location": "Google Reviews",
+      "segment": "Piscina y atencion amable",
       "rating": 5
     },
     {
-      "name": "Rosa C",
-      "role": "julio de 2018",
-      "quote": "Describe el hotel como limpio y acogedor, cerca del aeropuerto, con piscina agradable y personal muy amable.",
+      "name": "Kardo Saldana",
+      "role": "Hace 11 meses",
+      "quote": "Recomienda el hotel por su cercania al aeropuerto, el recojo, la piscina con diseno distintivo, el desayuno y la atencion del staff.",
       "avatarSrc": "",
-      "location": "TripAdvisor",
-      "segment": "Cercania al aeropuerto y ambiente acogedor",
+      "location": "Google Reviews",
+      "segment": "Aeropuerto, desayuno y piscina",
       "rating": 5
     },
     {
-      "name": "Marile F",
-      "role": "octubre de 2018",
-      "quote": "Resalta habitaciones limpias, desayuno agradable y un trato amable que hace la experiencia mas comoda.",
+      "name": "Vitalio Diaz",
+      "role": "Hace 8 meses",
+      "quote": "Resalta habitaciones amplias y muy limpias, buena atencion, platos sabrosos y una ubicacion segura cerca del aeropuerto.",
       "avatarSrc": "",
-      "location": "TripAdvisor",
-      "segment": "Desayuno, limpieza y trato amable",
+      "location": "Google Reviews",
+      "segment": "Habitaciones amplias y seguridad",
+      "rating": 5
+    },
+    {
+      "name": "Juli Avdee Barboza Herrera",
+      "role": "Hace 8 meses",
+      "quote": "Describe una estancia familiar comoda y acogedora, con piscina y un servicio A1 respaldado por un personal muy amable.",
+      "avatarSrc": "",
+      "location": "Google Reviews",
+      "segment": "Ambiente familiar y servicio A1",
       "rating": 5
     }
   ],
@@ -387,6 +396,7 @@
     ],
     "products": [],
     "testimonials": [
+      true,
       true,
       true,
       true
