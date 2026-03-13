@@ -9,7 +9,7 @@
                     "capture:reference":  "node scripts/capture-reference-site.mjs",
                     "brief:extract":  "node scripts/generate-website.mjs --extract-only",
                     "generate:website":  "node scripts/generate-website.mjs",
-                    "typecheck":  "node -e \"try{require(\u0027fs\u0027).rmSync(\u0027tsconfig.tsbuildinfo\u0027,{force:true})}catch(e){} try{require(\u0027fs\u0027).rmSync(\u0027.next\u0027,{recursive:true,force:true})}catch(e){}\" \u0026\u0026 tsc --noEmit",
+                    "typecheck":  "node -e \"try{require(\u0027fs\u0027).rmSync(\u0027tsconfig.tsbuildinfo\u0027,{force:true})}catch(e){}\" \u0026\u0026 node scripts/ensure-next-validator.mjs \u0026\u0026 npx tsc --noEmit",
                     "qa:project":  "node scripts/qa-project.mjs",
                     "qa:content":  "node scripts/qa-content.mjs",
                     "qa:visual":  "node scripts/qa-visual.mjs",

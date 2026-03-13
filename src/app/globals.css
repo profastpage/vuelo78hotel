@@ -8197,61 +8197,32 @@ button {
 
 .hotel-reference-hero-thumbs {
   position: absolute;
-  right: 30px;
+  left: 30px;
   bottom: 34px;
   z-index: 2;
-  display: grid;
+  display: flex;
   gap: 12px;
-  width: min(100%, 340px);
+  width: auto;
 }
 
 .hotel-reference-hero-thumb {
-  display: grid;
-  grid-template-columns: 90px minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-  padding: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 22px;
-  background: rgba(7, 16, 29, 0.42);
-  color: #ffffff;
-  text-align: left;
-  backdrop-filter: blur(14px);
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.32);
 }
 
 .hotel-reference-hero-thumb.is-active {
-  border-color: rgba(255, 255, 255, 0.48);
-  background: rgba(7, 16, 29, 0.58);
-  transform: translateY(-2px);
-}
-
-.hotel-reference-hero-thumb-media {
-  min-height: 72px;
-  border-radius: 16px;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-.hotel-reference-hero-thumb-copy {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-}
-
-.hotel-reference-hero-thumb-copy strong {
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.hotel-reference-hero-thumb-copy small {
-  color: rgba(255, 255, 255, 0.78);
-  line-height: 1.5;
+  background: #ffffff;
+  transform: scale(1.08);
 }
 
 .hotel-reference-hero-copy {
   display: grid;
   gap: 14px;
-  width: min(100%, 580px);
+  width: min(100%, 520px);
   padding: clamp(96px, 14vw, 164px) 30px 110px;
   color: #ffffff;
 }
@@ -8265,9 +8236,9 @@ button {
 
 .hotel-reference-hero-copy h2 {
   margin: 0;
-  max-width: 10ch;
+  max-width: 8ch;
   font-family: var(--font-serif), serif;
-  font-size: clamp(3rem, 5.6vw, 5.2rem);
+  font-size: clamp(2.9rem, 5vw, 4.7rem);
   line-height: 0.96;
   letter-spacing: -0.04em;
 }
@@ -8709,13 +8680,11 @@ button {
 }
 
 .page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-hero-thumb {
-  border-color: rgba(201, 164, 79, 0.14);
-  background: rgba(7, 14, 27, 0.56);
+  background: rgba(201, 164, 79, 0.28);
 }
 
 .page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-hero-thumb.is-active {
-  border-color: rgba(201, 164, 79, 0.38);
-  background: rgba(7, 14, 27, 0.72);
+  background: #d3b36b;
 }
 
 .page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-bar {
@@ -8824,9 +8793,9 @@ button {
   }
 
   .hotel-reference-hero-thumbs {
-    right: 20px;
+    left: 20px;
     bottom: 24px;
-    width: min(320px, calc(100% - 40px));
+    width: auto;
   }
 
   .hotel-reference-booking-button {
@@ -9367,7 +9336,7 @@ button {
   .hotel-reference-hero-copy {
     width: 100%;
     justify-items: center;
-    padding: 176px 18px 196px;
+    padding: 176px 18px 132px;
     text-align: center;
   }
 
@@ -9382,14 +9351,8 @@ button {
 
   .hotel-reference-hero-thumbs {
     left: 18px;
-    right: 18px;
     bottom: 26px;
-    width: auto;
-  }
-
-  .hotel-reference-hero-thumb {
-    grid-template-columns: 64px minmax(0, 1fr);
-    padding: 10px;
+    right: auto;
   }
 
   .hotel-reference-booking-bar {
@@ -9949,9 +9912,5 @@ button {
 @media (max-width: 560px) {
   .hotel-reference-amenities {
     grid-template-columns: 1fr;
-  }
-
-  .hotel-reference-hero-thumb-copy small {
-    display: none;
   }
 }

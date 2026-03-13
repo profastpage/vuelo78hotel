@@ -53,13 +53,7 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
             onClick={() => setActiveIndex(index)}
             role="tab"
             type="button"
-          >
-            <span className="hotel-reference-hero-thumb-media" style={getSlideStyle(slide.imageSrc, slide.imagePosition)} />
-            <span className="hotel-reference-hero-thumb-copy">
-              <strong>{slide.title}</strong>
-              <small>{slide.subtitle}</small>
-            </span>
-          </button>
+          />
         ))}
       </div>
     </>
