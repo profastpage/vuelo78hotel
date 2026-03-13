@@ -18,16 +18,16 @@ type HotelPremiumTestimonialsProps = {
 
 export function HotelPremiumTestimonials({ items, subtitle, title }: HotelPremiumTestimonialsProps) {
   return (
-    <section className="scene hotel-deluxe-section hotel-deluxe-testimonials" id="opiniones">
+    <section className="scene hotel-deluxe-section hotel-deluxe-testimonials hotel-home-testimonials" id="opiniones">
       <div className="hotel-deluxe-section-heading">
         <span className="scene-chip">Opiniones reales</span>
         <h2>{title}</h2>
         <p>{subtitle}</p>
       </div>
 
-      <div className="hotel-deluxe-testimonial-grid hotel-deluxe-testimonial-grid-premium">
+      <div className="hotel-deluxe-testimonial-grid hotel-deluxe-testimonial-grid-premium hotel-home-testimonial-grid">
         {items.map((item, index) => (
-          <article className="hotel-deluxe-testimonial-card hotel-deluxe-testimonial-card-premium" key={`${item.name}-${index}`}>
+          <article className="hotel-deluxe-testimonial-card hotel-deluxe-testimonial-card-premium hotel-home-testimonial-card" key={`${item.name}-${index}`}>
             <div
               className={`hotel-deluxe-testimonial-media${item.imageSrc ? " has-media-image" : " media-fallback-hotel"}`}
               style={getTestimonialMediaStyle(item.imageSrc, item.imagePosition)}

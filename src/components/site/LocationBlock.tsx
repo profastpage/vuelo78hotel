@@ -30,7 +30,7 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
   const normalizedHours = location.hours?.includes("24 horas") ? "Recepcion 24 horas" : location.hours;
 
   return (
-    <section className="scene scene-location hotel-deluxe-location" id="ubicacion" data-animate data-editor-section="location">
+    <section className="scene scene-location hotel-deluxe-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
       <div className="hotel-deluxe-section-heading hotel-deluxe-location-heading">
         <span className="scene-chip">Ubicacion</span>
         <h2>Llega con confianza y ubica el hotel antes de reservar.</h2>

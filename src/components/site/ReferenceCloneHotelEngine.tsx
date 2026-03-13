@@ -87,7 +87,7 @@ export function ReferenceCloneHotelEngine({
     { icon: "breakfast" as const, label: "Desayuno incluido" },
     { icon: "wifi" as const, label: "WiFi gratis" },
     { icon: "air" as const, label: "Aire acondicionado" },
-    { icon: "location" as const, label: "Recepcion 24h" },
+    { icon: "reception" as const, label: "Recepcion 24h" },
   ];
   const experienceGalleryItems = buildExperienceGalleryItems(services, galleryItems, heroImage, heroImagePosition);
   const amenities = buildAmenities(content);
@@ -126,6 +126,7 @@ export function ReferenceCloneHotelEngine({
           contactPhone={contactPhone}
           detailsHref={detailsHref}
           heroDescription={buildHeroDescription(content, cityLabel)}
+          heroHeadline={content.brand.headline || "Descanso con reserva directa"}
           heroTag={content.brand.heroTag || "Hotel en Tarapoto"}
           reservationHref={reservationHref}
           slides={heroSlides}
@@ -151,8 +152,8 @@ export function ReferenceCloneHotelEngine({
               segment: item.segment,
               rating: item.rating ?? 5,
             }))}
-            subtitle="Resenas con lectura emocional y visual para reforzar confianza antes de la reserva."
-            title="Lo que se recuerda despues de la estadia."
+            subtitle="Historias breves con contexto visual para transmitir confianza, descanso y buena atencion antes de reservar."
+            title="Experiencias reales de huespedes."
           />
         ) : null}
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { BedDouble, CalendarDays, MessageSquareText, MoonStar, UserRound, Users } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SiteContent } from "@/types/site";
 
@@ -9,38 +10,32 @@ type HotelBookingBarProps = {
   bookingWidget: NonNullable<SiteContent["bookingWidget"]>;
 };
 
-type PromoRule = {
-  code: string;
-  discount: number;
-  note: string;
-};
-
-const PROMO_RULES: PromoRule[] = [
-  { code: "VUELO78", discount: 12, note: "Descuento web sujeto a validacion de recepcion." },
-  { code: "TARAPOTO10", discount: 10, note: "Descuento por reserva directa sujeto a disponibilidad." },
-  { code: "SUITE15", discount: 15, note: "Descuento especial para suites seleccionado en la web." },
-];
-
 export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: HotelBookingBarProps) {
   const options = bookingWidget.options?.length ? bookingWidget.options : [];
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [roomId, setRoomId] = useState(options[0]?.id ?? "");
-  const [promoCode, setPromoCode] = useState("");
+  const [guests, setGuests] = useState(bookingWidget.quantityOptions?.[1] || bookingWidget.quantityOptions?.[0] || "2");
+  const [notes, setNotes] = useState("");
+
   const checkInRef = useRef<HTMLInputElement>(null);
   const checkOutRef = useRef<HTMLInputElement>(null);
   const roomSelectRef = useRef<HTMLSelectElement>(null);
+  const guestSelectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     if (checkIn || checkOut) {
       return;
     }
 
-    const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(now.getDate() + 1);
-    setCheckIn(formatDate(now));
-    setCheckOut(formatDate(tomorrow));
+    const start = new Date();
+    start.setDate(start.getDate() + 1);
+
+    const end = new Date(start);
+    end.setDate(start.getDate() + 1);
+
+    setCheckIn(formatInputDate(start));
+    setCheckOut(formatInputDate(end));
   }, [checkIn, checkOut]);
 
   useEffect(() => {
@@ -58,10 +53,10 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
       return;
     }
 
-    if (new Date(checkOut) <= new Date(checkIn)) {
-      const next = new Date(checkIn);
+    if (new Date(`${checkOut}T00:00:00`) <= new Date(`${checkIn}T00:00:00`)) {
+      const next = new Date(`${checkIn}T00:00:00`);
       next.setDate(next.getDate() + 1);
-      setCheckOut(formatDate(next));
+      setCheckOut(formatInputDate(next));
     }
   }, [checkIn, checkOut]);
 
@@ -69,36 +64,27 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
     () => options.find((option) => option.id === roomId) ?? options[0],
     [options, roomId],
   );
+
   const stayNights = useMemo(() => getNightCount(checkIn, checkOut), [checkIn, checkOut]);
-  const matchedPromo = useMemo(
-    () => PROMO_RULES.find((rule) => rule.code === promoCode.trim().toUpperCase()),
-    [promoCode],
-  );
-  const basePrice = selectedRoom ? parseCurrencyValue(selectedRoom.price) : null;
-  const discountedPrice =
-    matchedPromo && typeof basePrice === "number"
-      ? Math.max(0, Math.round(basePrice * (1 - matchedPromo.discount / 100)))
-      : null;
+  const cleanPhone = useMemo(() => String(contactPhone || "").replace(/[^\d]/g, ""), [contactPhone]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const cleanPhone = String(contactPhone || "").replace(/[^\d]/g, "");
     if (!cleanPhone || !selectedRoom) {
       return;
     }
 
     const lines = [
-      "Hola, quiero reservar en " + brandName + ".",
+      `Hola, quiero reservar en ${brandName}.`,
       "",
-      checkIn ? `Entrada: ${formatHumanDate(checkIn)}` : "Entrada: por definir",
-      checkOut ? `Salida: ${formatHumanDate(checkOut)}` : "Salida: por definir",
-      stayNights ? `Estadia: ${stayNights} ${stayNights === 1 ? "noche" : "noches"}` : null,
       `Habitacion: ${selectedRoom.label}`,
+      checkIn ? `Entrada: ${formatHumanDate(checkIn)}` : null,
+      checkOut ? `Salida: ${formatHumanDate(checkOut)}` : null,
+      stayNights ? `Estadia: ${stayNights} ${stayNights === 1 ? "noche" : "noches"}` : null,
+      guests ? `Huespedes: ${guests}` : null,
       selectedRoom.price ? `Tarifa referencial: ${selectedRoom.price} ${selectedRoom.rateLabel}` : null,
-      promoCode ? `Codigo promocional: ${promoCode.trim().toUpperCase()}` : "Codigo promocional: ninguno",
-      matchedPromo ? `Descuento sugerido: ${matchedPromo.discount}%` : null,
-      matchedPromo?.note ?? null,
+      notes.trim() ? `Solicitud especial: ${notes.trim()}` : null,
       "",
       "Quedo atento a disponibilidad y confirmacion.",
     ].filter(Boolean);
@@ -124,55 +110,15 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
 
   return (
     <>
-      <form className="hotel-reference-booking-bar" id="reserva" onSubmit={handleSubmit}>
+      <form className="hotel-reference-booking-bar hotel-home-booking-form" id="reserva" onSubmit={handleSubmit}>
         <label
-          className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
-          onClick={() => openField(checkInRef.current)}
-        >
-          <div className="hotel-deluxe-booking-label-row">
-            <span>{bookingWidget.scheduleLabel || "Entrada"}</span>
-            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              {renderFieldIcon("checkin")}
-            </span>
-          </div>
-          <input
-            aria-label={bookingWidget.scheduleLabel || "Entrada"}
-            ref={checkInRef}
-            min={formatDate(new Date())}
-            onChange={(event) => setCheckIn(event.target.value)}
-            type="date"
-            value={checkIn}
-          />
-        </label>
-
-        <label
-          className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
-          onClick={() => openField(checkOutRef.current)}
-        >
-          <div className="hotel-deluxe-booking-label-row">
-            <span>{bookingWidget.timelineLabel || "Salida"}</span>
-            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              {renderFieldIcon("checkout")}
-            </span>
-          </div>
-          <input
-            aria-label={bookingWidget.timelineLabel || "Salida"}
-            ref={checkOutRef}
-            min={checkIn || formatDate(new Date())}
-            onChange={(event) => setCheckOut(event.target.value)}
-            type="date"
-            value={checkOut}
-          />
-        </label>
-
-        <label
-          className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
+          className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
           onClick={() => openField(roomSelectRef.current)}
         >
           <div className="hotel-deluxe-booking-label-row">
             <span>{bookingWidget.detailLabel || "Habitacion"}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              {renderFieldIcon("room")}
+              <BedDouble size={17} strokeWidth={1.8} />
             </span>
           </div>
           <select
@@ -189,49 +135,115 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           </select>
         </label>
 
-        <label className="hotel-reference-booking-field hotel-reference-booking-input">
+        <label
+          className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
+          onClick={() => openField(checkInRef.current)}
+        >
           <div className="hotel-deluxe-booking-label-row">
-            <span>{bookingWidget.summaryLabel || "Codigo promocional"}</span>
+            <span>{bookingWidget.scheduleLabel || "Entrada"}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              {renderFieldIcon("promo")}
+              <CalendarDays size={17} strokeWidth={1.8} />
             </span>
           </div>
           <input
-            aria-label={bookingWidget.summaryLabel || "Codigo promocional"}
-            maxLength={18}
-            onChange={(event) => setPromoCode(event.target.value.toUpperCase())}
-            placeholder={bookingWidget.summaryText || "Opcional"}
-            type="text"
-            value={promoCode}
+            aria-label={bookingWidget.scheduleLabel || "Entrada"}
+            min={formatInputDate(new Date())}
+            onChange={(event) => setCheckIn(event.target.value)}
+            ref={checkInRef}
+            type="date"
+            value={checkIn}
           />
-          <small aria-live="polite">
-            {matchedPromo
-              ? `${matchedPromo.discount}% aplicado`
-              : promoCode.trim()
-                ? "Sin descuento activo"
-                : bookingWidget.summaryText || "Opcional"}
-          </small>
         </label>
 
-        <button className="hotel-reference-booking-button hotel-deluxe-booking-submit" type="submit">
+        <label
+          className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
+          onClick={() => openField(checkOutRef.current)}
+        >
+          <div className="hotel-deluxe-booking-label-row">
+            <span>{bookingWidget.timelineLabel || "Salida"}</span>
+            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+              <MoonStar size={17} strokeWidth={1.8} />
+            </span>
+          </div>
+          <input
+            aria-label={bookingWidget.timelineLabel || "Salida"}
+            min={checkIn || formatInputDate(new Date())}
+            onChange={(event) => setCheckOut(event.target.value)}
+            ref={checkOutRef}
+            type="date"
+            value={checkOut}
+          />
+        </label>
+
+        <label
+          className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
+          onClick={() => openField(guestSelectRef.current)}
+        >
+          <div className="hotel-deluxe-booking-label-row">
+            <span>{bookingWidget.quantityLabel || "Huespedes"}</span>
+            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+              <Users size={17} strokeWidth={1.8} />
+            </span>
+          </div>
+          <select
+            aria-label={bookingWidget.quantityLabel || "Huespedes"}
+            onChange={(event) => setGuests(event.target.value)}
+            ref={guestSelectRef}
+            value={guests}
+          >
+            {(bookingWidget.quantityOptions?.length ? bookingWidget.quantityOptions : ["1", "2", "3", "4", "5+"]).map((option) => (
+              <option key={option} value={option}>
+                {option} {option === "1" ? "huesped" : "huespedes"}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field hotel-home-booking-field-notes">
+          <div className="hotel-deluxe-booking-label-row">
+            <span>{bookingWidget.notesLabel || "Solicitud especial"}</span>
+            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+              <MessageSquareText size={17} strokeWidth={1.8} />
+            </span>
+          </div>
+          <input
+            aria-label={bookingWidget.notesLabel || "Solicitud especial"}
+            maxLength={120}
+            onChange={(event) => setNotes(event.target.value)}
+            placeholder={bookingWidget.notesPlaceholder || "Cama extra, early check-in, traslado..."}
+            type="text"
+            value={notes}
+          />
+          <small>{notes.trim() ? `${notes.trim().length}/120` : "Opcional"}</small>
+        </label>
+
+        <button className="hotel-reference-booking-button hotel-deluxe-booking-submit hotel-home-booking-submit" type="submit">
+          <UserRound size={18} strokeWidth={1.9} />
           {bookingWidget.bookingCtaLabel || "Reservar"}
         </button>
       </form>
 
       {selectedRoom ? (
-        <div className="hotel-reference-booking-summary" aria-live="polite">
-          <span>{stayNights ? `${stayNights} ${stayNights === 1 ? "noche" : "noches"}` : selectedRoom.stayLabel}</span>
+        <div className="hotel-reference-booking-summary hotel-home-booking-summary" aria-live="polite">
+          <span>{selectedRoom.badge || bookingWidget.selectionTitle || "Seleccion actual"}</span>
           <strong>{selectedRoom.label}</strong>
-          <b>{discountedPrice ? `S/ ${discountedPrice}` : selectedRoom.price}</b>
-          <small>{matchedPromo ? matchedPromo.note : selectedRoom.summary}</small>
+          <b>{selectedRoom.price}</b>
+          <small>
+            {stayNights ? `${stayNights} ${stayNights === 1 ? "noche" : "noches"}` : selectedRoom.stayLabel}
+            {" · "}
+            {guests} {guests === "1" ? "huesped" : "huespedes"}
+          </small>
         </div>
       ) : null}
     </>
   );
 }
 
-function formatDate(date: Date) {
-  return date.toISOString().slice(0, 10);
+function formatInputDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function formatHumanDate(value: string) {
@@ -257,60 +269,4 @@ function getNightCount(checkIn: string, checkOut: string) {
   }
 
   return Math.round(diff / 86400000);
-}
-
-function parseCurrencyValue(value: string) {
-  const normalized = value.replace(/[^\d.]/g, "");
-  if (!normalized) {
-    return null;
-  }
-
-  const parsed = Number.parseFloat(normalized);
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-function renderFieldIcon(type: "checkin" | "checkout" | "room" | "promo") {
-  const commonProps = {
-    fill: "none",
-    height: 18,
-    stroke: "currentColor",
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    strokeWidth: 1.7,
-    viewBox: "0 0 24 24",
-    width: 18,
-  };
-
-  if (type === "room") {
-    return (
-      <svg {...commonProps}>
-        <path d="M3 12h18" />
-        <path d="M5 12V8.5A2.5 2.5 0 0 1 7.5 6h9A2.5 2.5 0 0 1 19 8.5V12" />
-        <path d="M5 19v-7" />
-        <path d="M19 19v-7" />
-        <path d="M7 19v2" />
-        <path d="M17 19v2" />
-      </svg>
-    );
-  }
-
-  if (type === "promo") {
-    return (
-      <svg {...commonProps}>
-        <path d="M8 7h.01" />
-        <path d="m7 3 10 10-7 7L3 13Z" />
-        <path d="m14 6 4 4" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg {...commonProps}>
-      <path d="M8 3v3" />
-      <path d="M16 3v3" />
-      <rect width="18" height="15" x="3" y="6" rx="2.5" />
-      <path d="M3 10.5h18" />
-      {type === "checkout" ? <path d="m11 15 2 2 4-4" /> : <path d="m8.5 15 2 2 5-5" />}
-    </svg>
-  );
 }
