@@ -1,5 +1,6 @@
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
+import { HotelMobileMenu } from "./HotelMobileMenu";
 import { LandingFaqAccordion } from "./LandingFaqAccordion";
 import { HOTEL_NAV_ITEMS, type HotelPageSlug, getHotelPageHref, getHotelPageLabel } from "@/lib/hotel-pages";
 import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices } from "./rendering";
@@ -71,6 +72,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug }: Props) {
             <a className="hotel-reference-header-cta" href={reservationHref}>
               {content.brand.primaryCtaLabel || "Reservar"}
             </a>
+            <HotelMobileMenu activeSlug={pageSlug} bookingCtaLabel={content.brand.primaryCtaLabel || "Reservar"} pages={HOTEL_NAV_ITEMS} reservationHref={reservationHref} />
           </header>
 
           <div className="hotel-reference-hero-copy hotel-reference-hero-copy-wide">

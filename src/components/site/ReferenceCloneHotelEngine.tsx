@@ -2,6 +2,7 @@ import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
 import { HotelBookingBar } from "./HotelBookingBar";
 import { HotelHeroShowcase, type HotelHeroSlide } from "./HotelHeroShowcase";
+import { HotelMobileMenu } from "./HotelMobileMenu";
 import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
 import type { EditorImageControls } from "./editor-image-types";
 import type { EditorTextControls } from "./editor-text-types";
@@ -62,7 +63,13 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
   const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
 
   if (activePage !== "hotel") {
-    return <HotelReferenceSubpage content={content} pageSlug={activePage} profile={profile} />;
+    return (
+      <HotelReferenceSubpage
+        content={content}
+        pageSlug={activePage}
+        profile={profile}
+      />
+    );
   }
 
   return (
@@ -111,6 +118,7 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
                   bookingCtaLabel
                 )}
               </a>
+              <HotelMobileMenu activeSlug={activePage} bookingCtaLabel={bookingCtaLabel} pages={pages} reservationHref={reservationHref} />
             </header>
 
             <div className="hotel-reference-hero-copy">
