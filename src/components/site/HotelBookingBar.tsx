@@ -8,9 +8,19 @@ type HotelBookingBarProps = {
   brandName: string;
   contactPhone: string;
   bookingWidget: NonNullable<SiteContent["bookingWidget"]>;
+  compact?: boolean;
+  hideNotes?: boolean;
+  onSubmitComplete?: () => void;
 };
 
-export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: HotelBookingBarProps) {
+export function HotelBookingBar({
+  brandName,
+  contactPhone,
+  bookingWidget,
+  compact = false,
+  hideNotes = false,
+  onSubmitComplete,
+}: HotelBookingBarProps) {
   const options = bookingWidget.options?.length ? bookingWidget.options : [];
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -91,6 +101,7 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
 
     const href = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
     window.open(href, "_blank", "noopener,noreferrer");
+    onSubmitComplete?.();
   }
 
   function openField(control: HTMLInputElement | HTMLSelectElement | null) {
@@ -110,7 +121,7 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
 
   return (
     <>
-      <form className="hotel-reference-booking-bar hotel-home-booking-form" id="reserva" onSubmit={handleSubmit}>
+      <form className="hotel-reference-booking-bar hotel-home-booking-form" id={compact ? undefined : "reserva"} onSubmit={handleSubmit}>
         <label
           className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
           onClick={() => openField(roomSelectRef.current)}
@@ -199,25 +210,30 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           </select>
         </label>
 
-        <label className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field hotel-home-booking-field-notes">
-          <div className="hotel-deluxe-booking-label-row">
-            <span>{bookingWidget.notesLabel || "Solicitud especial"}</span>
-            <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              <MessageSquareText size={17} strokeWidth={1.8} />
-            </span>
-          </div>
-          <input
-            aria-label={bookingWidget.notesLabel || "Solicitud especial"}
-            maxLength={120}
-            onChange={(event) => setNotes(event.target.value)}
-            placeholder={bookingWidget.notesPlaceholder || "Cama extra, early check-in, traslado..."}
-            type="text"
-            value={notes}
-          />
-          <small>{notes.trim() ? `${notes.trim().length}/120` : "Opcional"}</small>
-        </label>
+        {!hideNotes ? (
+          <label className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field hotel-home-booking-field-notes">
+            <div className="hotel-deluxe-booking-label-row">
+              <span>{bookingWidget.notesLabel || "Solicitud especial"}</span>
+              <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
+                <MessageSquareText size={17} strokeWidth={1.8} />
+              </span>
+            </div>
+            <input
+              aria-label={bookingWidget.notesLabel || "Solicitud especial"}
+              maxLength={120}
+              onChange={(event) => setNotes(event.target.value)}
+              placeholder={bookingWidget.notesPlaceholder || "Cama extra, early check-in, traslado..."}
+              type="text"
+              value={notes}
+            />
+            <small>{notes.trim() ? `${notes.trim().length}/120` : "Opcional"}</small>
+          </label>
+        ) : null}
 
-        <button className="hotel-reference-booking-button hotel-deluxe-booking-submit hotel-home-booking-submit" type="submit">
+        <button
+          className={`hotel-reference-booking-button hotel-deluxe-booking-submit hotel-home-booking-submit${compact ? " is-compact" : ""}`}
+          type="submit"
+        >
           <UserRound size={18} strokeWidth={1.9} />
           {bookingWidget.bookingCtaLabel || "Reservar"}
         </button>

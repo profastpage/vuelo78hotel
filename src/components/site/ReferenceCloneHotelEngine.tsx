@@ -186,7 +186,13 @@ export function ReferenceCloneHotelEngine({
         />
       </div>
 
-      <HotelFloatingCta href={reservationHref} label="Consultar ahora" note="Disponibilidad y tarifas" />
+      <HotelFloatingCta
+        bookingWidget={bookingWidget}
+        brandName={displayBrandName}
+        contactPhone={contactPhone}
+        label="Reservar"
+        note="Disponibilidad y tarifas"
+      />
     </>
   );
 }
