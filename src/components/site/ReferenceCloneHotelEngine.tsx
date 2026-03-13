@@ -1,10 +1,9 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
 import { HotelBookingBar } from "./HotelBookingBar";
-import { HotelFloatingCta } from "./HotelFloatingCta";
 import { HotelHeroShowcase, type HotelHeroSlide } from "./HotelHeroShowcase";
 import { HotelMobileMenu } from "./HotelMobileMenu";
 import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
@@ -33,6 +32,8 @@ type AmenityItem = {
 };
 
 const DEFAULT_AMENITY_ICONS = ["wi-fi", "aire", "seguridad", "ducha", "tv", "desayuno"];
+const REVIEW_AUTOPLAY_MS = 4800;
+const REVIEW_SWIPE_THRESHOLD = 56;
 
 export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMode = false, editorImageControls, editorTextControls }: ReferenceCloneHotelEngineProps) {
   const googleReviewsHref = "https://www.google.com/travel/search?q=vuelo%2078%20hotel&g2lb=4965990%2C72471280%2C72560029%2C72573224%2C72647020%2C72686036%2C72803964%2C72882230%2C72958624%2C73059275%2C73064764&hl=es-419&gl=pe&ssta=1&ts=CAEaSQopEicyJTB4OTFiYTBiODYxODkxZWFmNzoweGUwOTBlNGZhNjYyNDY4NDASHBIUCgcI6g8QAxgWEgcI6g8QAxgXGAEyBAgAEAA&qs=CAEyFENnc0l3TkNSc2FhZnVjamdBUkFCOAJCCQlAaCRm-uSQ4EIJCUBoJGb65JDg&ap=KigKEgmLKP_keQ4awBGGnAjxtRdTwBISCUTJl7q3BBrAEYacCIVAF1PAugEHcmV2aWV3cw&ictx=111";
@@ -86,9 +87,134 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
     : "5";
   const rateGroupName = useId();
   const [selectedBookingOptionId, setSelectedBookingOptionId] = useState(bookingOptions.find((option) => option.highlighted)?.id ?? bookingOptions[0]?.id ?? "");
+  const [reviewIndex, setReviewIndex] = useState(testimonials.length > 1 ? testimonials.length : 0);
+  const [isReviewAnimating, setIsReviewAnimating] = useState(true);
+  const [reviewDragOffset, setReviewDragOffset] = useState(0);
+  const [isReviewPaused, setIsReviewPaused] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const reviewPointerStateRef = useRef<{ currentX: number; dragging: boolean; pointerId: number; startX: number } | null>(null);
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
   const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
   const activeBookingOption = bookingOptions.find((option) => option.id === selectedBookingOptionId) ?? bookingOptions[0];
+  const canLoopReviews = !editorMode && testimonials.length > 1;
+  const reviewSlides = canLoopReviews ? [...testimonials, ...testimonials, ...testimonials] : testimonials;
+  const activeReviewPosition = testimonials.length ? ((reviewIndex % testimonials.length) + testimonials.length) % testimonials.length : 0;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handleMotionChange = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    handleMotionChange();
+    mediaQuery.addEventListener("change", handleMotionChange);
+
+    return () => mediaQuery.removeEventListener("change", handleMotionChange);
+  }, []);
+
+  useEffect(() => {
+    setReviewIndex(testimonials.length > 1 ? testimonials.length : 0);
+    setIsReviewAnimating(true);
+    setReviewDragOffset(0);
+  }, [testimonials.length]);
+
+  useEffect(() => {
+    if (isReviewAnimating) {
+      return undefined;
+    }
+
+    const frameId = window.requestAnimationFrame(() => setIsReviewAnimating(true));
+    return () => window.cancelAnimationFrame(frameId);
+  }, [isReviewAnimating]);
+
+  useEffect(() => {
+    if (!canLoopReviews || isReviewPaused || prefersReducedMotion) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setReviewDragOffset(0);
+      setIsReviewAnimating(true);
+      setReviewIndex((current) => current + 1);
+    }, REVIEW_AUTOPLAY_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, [canLoopReviews, isReviewPaused, prefersReducedMotion]);
+
+  const moveReview = (direction: "next" | "prev") => {
+    if (!canLoopReviews) {
+      return;
+    }
+
+    setReviewDragOffset(0);
+    setIsReviewAnimating(true);
+    setReviewIndex((current) => current + (direction === "next" ? 1 : -1));
+  };
+
+  const finishReviewDrag = (pointerId?: number) => {
+    const pointerState = reviewPointerStateRef.current;
+
+    if (!pointerState || (pointerId !== undefined && pointerState.pointerId !== pointerId)) {
+      return;
+    }
+
+    const delta = pointerState.currentX - pointerState.startX;
+    reviewPointerStateRef.current = null;
+
+    setReviewDragOffset(0);
+    setIsReviewPaused(false);
+
+    if (Math.abs(delta) >= REVIEW_SWIPE_THRESHOLD) {
+      moveReview(delta < 0 ? "next" : "prev");
+      return;
+    }
+
+    setIsReviewAnimating(true);
+  };
+
+  const handleReviewPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!canLoopReviews) {
+      return;
+    }
+
+    reviewPointerStateRef.current = {
+      currentX: event.clientX,
+      dragging: false,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+    };
+    setIsReviewPaused(true);
+    setIsReviewAnimating(false);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleReviewPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const pointerState = reviewPointerStateRef.current;
+
+    if (!pointerState || pointerState.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const delta = event.clientX - pointerState.startX;
+    pointerState.currentX = event.clientX;
+    pointerState.dragging = pointerState.dragging || Math.abs(delta) > 6;
+    setReviewDragOffset(delta);
+  };
+
+  const handleReviewTransitionEnd = () => {
+    if (!canLoopReviews) {
+      return;
+    }
+
+    if (reviewIndex >= testimonials.length * 2) {
+      setIsReviewAnimating(false);
+      setReviewIndex((current) => current - testimonials.length);
+      return;
+    }
+
+    if (reviewIndex < testimonials.length) {
+      setIsReviewAnimating(false);
+      setReviewIndex((current) => current + testimonials.length);
+    }
+  };
 
   if (activePage !== "hotel") {
     return (
@@ -383,59 +509,137 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
               </a>
             </article>
 
-            <div className="hotel-reference-proof-grid">
-              {testimonials.map((testimonial, index) => (
-                <article className="quote-card hotel-reference-proof-card" key={testimonial.name} tabIndex={0}>
-                  <div className="hotel-reference-proof-card-top">
-                    <div className="hotel-reference-proof-card-person">
-                      <span className="hotel-reference-proof-avatar" aria-hidden="true">
-                        {getReviewInitials(testimonial.name)}
-                      </span>
-                      <div>
-                        {editorMode ? (
-                          <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.name`} label={`Nombre testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.name} />
-                        ) : (
-                          <strong>{testimonial.name}</strong>
-                        )}
-                        <span className="hotel-reference-proof-card-meta">
-                          {editorMode ? (
-                            <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Fecha testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.role} />
-                          ) : (
-                            testimonial.role
-                          )}
+            {canLoopReviews ? (
+              <div
+                className="hotel-reference-proof-carousel"
+                onBlurCapture={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                    setIsReviewPaused(false);
+                  }
+                }}
+                onFocusCapture={() => setIsReviewPaused(true)}
+                onMouseEnter={() => setIsReviewPaused(true)}
+                onMouseLeave={() => setIsReviewPaused(false)}
+              >
+                <div className="hotel-reference-proof-carousel-head">
+                  <div className="hotel-reference-proof-carousel-status" aria-live="polite">
+                    <strong>{`${activeReviewPosition + 1}/${testimonials.length}`}</strong>
+                    <span>{prefersReducedMotion ? "Navegacion manual" : "Rotacion automatica"}</span>
+                  </div>
+                  <div className="hotel-reference-proof-carousel-controls" aria-label="Controles de resenas">
+                    <button className="hotel-reference-proof-carousel-button" onClick={() => moveReview("prev")} type="button" aria-label="Ver resena anterior">
+                      <span aria-hidden="true">←</span>
+                    </button>
+                    <button className="hotel-reference-proof-carousel-button" onClick={() => moveReview("next")} type="button" aria-label="Ver siguiente resena">
+                      <span aria-hidden="true">→</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div
+                  className={`hotel-reference-proof-viewport${reviewPointerStateRef.current ? " is-dragging" : ""}`}
+                  onLostPointerCapture={(event) => finishReviewDrag(event.pointerId)}
+                  onPointerCancel={(event) => finishReviewDrag(event.pointerId)}
+                  onPointerDown={handleReviewPointerDown}
+                  onPointerMove={handleReviewPointerMove}
+                  onPointerUp={(event) => finishReviewDrag(event.pointerId)}
+                >
+                  <div
+                    className={`hotel-reference-proof-track${isReviewAnimating ? "" : " is-instant"}`}
+                    onTransitionEnd={handleReviewTransitionEnd}
+                    style={{ transform: `translate3d(calc(${-reviewIndex * 100}% + ${reviewDragOffset}px), 0, 0)` }}
+                  >
+                    {reviewSlides.map((testimonial, index) => (
+                      <article className="quote-card hotel-reference-proof-card hotel-reference-proof-slide" key={`${testimonial.name}-${index}`} tabIndex={0}>
+                        <div className="hotel-reference-proof-card-top">
+                          <div className="hotel-reference-proof-card-person">
+                            <span className="hotel-reference-proof-avatar" aria-hidden="true">
+                              {getReviewInitials(testimonial.name)}
+                            </span>
+                            <div>
+                              <strong>{testimonial.name}</strong>
+                              <span className="hotel-reference-proof-card-meta">{testimonial.role}</span>
+                            </div>
+                          </div>
+                          <div className="hotel-reference-proof-card-rating">
+                            <strong>{Math.min(Math.max(testimonial.rating ?? 5, 0), 5)}/5</strong>
+                            <div className="hotel-reference-proof-stars hotel-reference-proof-card-stars" aria-label={`Puntuacion ${testimonial.rating ?? 5} de 5`}>
+                              {renderReviewStars(testimonial.rating ?? 5)}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="hotel-reference-proof-card-meta-row">
+                          <span className="hotel-reference-proof-card-source">Google Reviews</span>
+                          <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
+                          <span>{testimonial.segment || "Experiencia destacada"}</span>
+                        </div>
+                        <p>{testimonial.quote}</p>
+                        <div className="hotel-reference-proof-card-footer">
+                          <span>{testimonial.location || "Google Reviews"}</span>
+                          <a className="hotel-reference-proof-card-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
+                            Abrir fuente
+                          </a>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="hotel-reference-proof-grid">
+                {testimonials.map((testimonial, index) => (
+                  <article className="quote-card hotel-reference-proof-card" key={testimonial.name} tabIndex={0}>
+                    <div className="hotel-reference-proof-card-top">
+                      <div className="hotel-reference-proof-card-person">
+                        <span className="hotel-reference-proof-avatar" aria-hidden="true">
+                          {getReviewInitials(testimonial.name)}
                         </span>
+                        <div>
+                          {editorMode ? (
+                            <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.name`} label={`Nombre testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.name} />
+                          ) : (
+                            <strong>{testimonial.name}</strong>
+                          )}
+                          <span className="hotel-reference-proof-card-meta">
+                            {editorMode ? (
+                              <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Fecha testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.role} />
+                            ) : (
+                              testimonial.role
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="hotel-reference-proof-card-rating">
+                        <strong>{Math.min(Math.max(testimonial.rating ?? 5, 0), 5)}/5</strong>
+                        <div className="hotel-reference-proof-stars hotel-reference-proof-card-stars" aria-label={`Puntuacion ${testimonial.rating ?? 5} de 5`}>
+                          {renderReviewStars(testimonial.rating ?? 5)}
+                        </div>
                       </div>
                     </div>
-                    <div className="hotel-reference-proof-card-rating">
-                      <strong>{Math.min(Math.max(testimonial.rating ?? 5, 0), 5)}/5</strong>
-                      <div className="hotel-reference-proof-stars hotel-reference-proof-card-stars" aria-label={`Puntuacion ${testimonial.rating ?? 5} de 5`}>
-                        {renderReviewStars(testimonial.rating ?? 5)}
-                      </div>
+                    <div className="hotel-reference-proof-card-meta-row">
+                      <span className="hotel-reference-proof-card-source">Google Reviews</span>
+                      <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
+                      {editorMode ? (
+                        <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.segment`} label={`Tema testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.segment || "Experiencia destacada"} />
+                      ) : (
+                        <span>{testimonial.segment || "Experiencia destacada"}</span>
+                      )}
                     </div>
-                  </div>
-                  <div className="hotel-reference-proof-card-meta-row">
-                    <span className="hotel-reference-proof-card-source">Google Reviews</span>
-                    <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
                     {editorMode ? (
-                      <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.segment`} label={`Tema testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.segment || "Experiencia destacada"} />
+                      <InlineTextField as="p" controls={editorTextControls} displayValue={`"${testimonial.quote}"`} enabled fieldKey={`testimonials.${index}.quote`} label={`Cita testimonio hotel ${index + 1}`} minRows={3} multiline section="testimonials" value={testimonial.quote} />
                     ) : (
-                      <span>{testimonial.segment || "Experiencia destacada"}</span>
+                      <p>{testimonial.quote}</p>
                     )}
-                  </div>
-                  {editorMode ? (
-                    <InlineTextField as="p" controls={editorTextControls} displayValue={`"${testimonial.quote}"`} enabled fieldKey={`testimonials.${index}.quote`} label={`Cita testimonio hotel ${index + 1}`} minRows={3} multiline section="testimonials" value={testimonial.quote} />
-                  ) : (
-                    <p>{testimonial.quote}</p>
-                  )}
-                  <div className="hotel-reference-proof-card-footer">
-                    <span>{testimonial.location || "Google Reviews"}</span>
-                    <a className="hotel-reference-proof-card-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
-                      Abrir fuente
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
+                    <div className="hotel-reference-proof-card-footer">
+                      <span>{testimonial.location || "Google Reviews"}</span>
+                      <a className="hotel-reference-proof-card-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
+                        Abrir fuente
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       ) : null}
@@ -644,8 +848,6 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
             })}
         </div>
       </footer>
-
-      <HotelFloatingCta href={reservationHref} label="Consultar ahora" note="Disponibilidad y tarifas" />
     </>
   );
 }

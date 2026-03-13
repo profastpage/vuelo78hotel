@@ -15,7 +15,6 @@ export function FloatingReservationWidget({ content, isLocalEnvironment = false 
   const widgetCopy = useMemo(() => resolveBookingWidget(content), [content]);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<WidgetMode>("chat");
-  const [triggerCopyMode, setTriggerCopyMode] = useState<WidgetMode>("chat");
   const [selectedPlanId, setSelectedPlanId] = useState(widgetCopy.options[0]?.id || "");
   const [guestName, setGuestName] = useState("");
   const [scheduleValue, setScheduleValue] = useState("");
@@ -36,14 +35,6 @@ export function FloatingReservationWidget({ content, isLocalEnvironment = false 
     }
   }, [quantityValue, widgetCopy.quantityOptions]);
 
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setTriggerCopyMode((current) => (current === "chat" ? "action" : "chat"));
-    }, 3000);
-
-    return () => window.clearInterval(timer);
-  }, []);
-
   if (!cleanWhatsappNumber || !widgetCopy.options.length) {
     return null;
   }
@@ -62,6 +53,8 @@ export function FloatingReservationWidget({ content, isLocalEnvironment = false 
     notes,
   });
   const triggerIcon = open ? "x" : getWidgetSystemEmoji("spark");
+  const closedTriggerLabel = widgetCopy.bookingCtaLabel || widgetCopy.triggerActionLabel || "Reservar";
+  const closedTriggerHint = widgetCopy.triggerActionHint || widgetCopy.directWhatsappHint || "Disponibilidad y tarifas";
 
   return (
     <div className={`floating-live-widget${open ? " is-open" : ""}${isLocalEnvironment ? " is-local-env" : ""}`}>
@@ -77,7 +70,7 @@ export function FloatingReservationWidget({ content, isLocalEnvironment = false 
             return;
           }
 
-          setMode(triggerCopyMode);
+          setMode("action");
           setOpen(true);
         }}
       >
@@ -85,8 +78,8 @@ export function FloatingReservationWidget({ content, isLocalEnvironment = false 
           {triggerIcon}
         </span>
         <span className="floating-live-widget-trigger-copy">
-          <strong>{open ? "Cerrar" : triggerCopyMode === "chat" ? widgetCopy.triggerChatLabel : widgetCopy.triggerActionLabel}</strong>
-          <span>{open ? "Volver al sitio" : triggerCopyMode === "chat" ? widgetCopy.triggerChatHint : widgetCopy.triggerActionHint}</span>
+          <strong>{open ? "Cerrar" : closedTriggerLabel}</strong>
+          <span>{open ? "Volver al sitio" : closedTriggerHint}</span>
         </span>
       </button>
 

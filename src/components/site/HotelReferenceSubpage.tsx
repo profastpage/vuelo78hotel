@@ -1,6 +1,5 @@
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
-import { HotelFloatingCta } from "./HotelFloatingCta";
 import { HotelMobileMenu } from "./HotelMobileMenu";
 import { InlineImageField } from "./InlineImageField";
 import { InlineTextField } from "./InlineTextField";
@@ -320,8 +319,6 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
             })}
         </div>
       </footer>
-
-      <HotelFloatingCta href={reservationHref} label="Reservar ahora" note="Canal directo del hotel" />
     </>
   );
 }

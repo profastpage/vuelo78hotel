@@ -9152,6 +9152,122 @@ button {
   background: #00aa6c;
 }
 
+.hotel-reference-proof-carousel {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.hotel-reference-proof-carousel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.hotel-reference-proof-carousel-status {
+  display: grid;
+  gap: 4px;
+}
+
+.hotel-reference-proof-carousel-status strong {
+  font-size: 0.88rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #173f7b;
+}
+
+.hotel-reference-proof-carousel-status span {
+  color: #6d786f;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hotel-reference-proof-carousel-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hotel-reference-proof-carousel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 170, 108, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 246, 0.96)),
+    rgba(255, 255, 255, 0.88);
+  color: #093324;
+  box-shadow:
+    0 14px 28px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease;
+}
+
+.hotel-reference-proof-carousel-button:hover,
+.hotel-reference-proof-carousel-button:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(0, 170, 108, 0.28);
+  background: #00aa6c;
+  color: #ffffff;
+  box-shadow:
+    0 18px 32px rgba(0, 170, 108, 0.16),
+    0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.hotel-reference-proof-carousel-button:focus-visible {
+  outline: 2px solid rgba(0, 170, 108, 0.24);
+  outline-offset: 3px;
+}
+
+.hotel-reference-proof-viewport {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  border-radius: 30px;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.hotel-reference-proof-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.hotel-reference-proof-viewport.is-dragging a,
+.hotel-reference-proof-viewport.is-dragging button {
+  pointer-events: none;
+}
+
+.hotel-reference-proof-track {
+  display: flex;
+  align-items: stretch;
+  will-change: transform;
+  transition: transform 0.46s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hotel-reference-proof-track.is-instant {
+  transition-duration: 0.01ms;
+}
+
+.hotel-reference-proof-slide {
+  box-sizing: border-box;
+  flex: 0 0 100%;
+  min-width: 0;
+  padding-right: 4px;
+}
+
 .hotel-reference-related-grid,
 .hotel-reference-proof-grid {
   display: grid;
@@ -11067,6 +11183,26 @@ button {
   background: #00aa6c;
 }
 
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-proof-carousel-status strong,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-proof-carousel-button {
+  color: #f4f7fb;
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-proof-carousel-status span {
+  color: #aab6c8;
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-proof-carousel-button {
+  border-color: rgba(52, 224, 161, 0.18);
+  background: linear-gradient(180deg, rgba(10, 22, 40, 0.96), rgba(10, 19, 36, 0.96));
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-proof-carousel-button:hover,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-proof-carousel-button:focus-visible {
+  background: #00aa6c;
+  color: #082519;
+}
+
 .page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-proof-card {
   background: linear-gradient(180deg, rgba(10, 22, 40, 0.96), rgba(10, 19, 36, 0.96));
   border-color: rgba(52, 224, 161, 0.14);
@@ -11163,10 +11299,6 @@ button {
     min-height: 280px;
   }
 
-  .hotel-reference-mobile-float {
-    display: grid;
-  }
-
   .hotel-reference-tab-panels {
     min-height: 0;
   }
@@ -11194,6 +11326,83 @@ button {
   .hotel-reference-rail {
     grid-auto-columns: minmax(240px, 82vw);
   }
+
+  .hotel-reference-proof-carousel-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hotel-reference-proof-carousel-button {
+    width: calc(50% - 6px);
+    border-radius: 18px;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget {
+    left: 12px;
+    right: auto;
+    bottom: 12px;
+    width: auto;
+    justify-items: start;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget-trigger {
+    width: auto;
+    min-width: 0;
+    min-height: 52px;
+    margin-right: 0;
+    padding: 6px 12px 6px 6px;
+    gap: 10px;
+    box-shadow: 0 18px 38px rgba(18, 43, 87, 0.24);
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget-trigger-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.05rem;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget-trigger-copy {
+    gap: 0;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget-trigger-copy strong {
+    font-size: 0.98rem;
+    line-height: 1;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget-trigger-copy span {
+    display: none;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget-panel {
+    width: min(calc(100vw - 24px), 360px);
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget.is-open .floating-live-widget-trigger {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    gap: 0;
+    border-radius: 999px;
+    z-index: 2;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget.is-open .floating-live-widget-trigger-copy {
+    display: none;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget.is-open .floating-live-widget-trigger-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .page-shell.mode-reference-clone-hotel .floating-live-widget.is-open .floating-live-widget-panel {
+    padding-top: 64px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -11212,5 +11421,13 @@ button {
   .hotel-reference-proof-card-rating {
     justify-items: start;
     text-align: left;
+  }
+
+  .hotel-reference-proof-carousel-head {
+    align-items: stretch;
+  }
+
+  .hotel-reference-proof-slide {
+    padding-right: 0;
   }
 }
