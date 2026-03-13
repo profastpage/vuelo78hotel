@@ -315,6 +315,12 @@ function buildExperienceGalleryItems(
       imagePosition: heroImagePosition || galleryItems[0]?.imagePosition,
     },
     {
+      title: "Desayuno y mañanas con más calma",
+      subtitle: "Desayuno",
+      imageSrc: services[3]?.imageSrc || galleryItems[3]?.imageSrc || services[2]?.imageSrc || heroImage,
+      imagePosition: services[3]?.imagePosition || galleryItems[3]?.imagePosition || services[2]?.imagePosition || heroImagePosition,
+    },
+    {
       title: "Desayuno, servicio y momentos del hotel",
       subtitle: "Restaurante",
       imageSrc: galleryItems[3]?.imageSrc || services[2]?.imageSrc || heroImage,
