@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { SiteContent } from "@/types/site";
 
 type HotelBookingBarProps = {
@@ -27,6 +27,9 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
   const [checkOut, setCheckOut] = useState("");
   const [roomId, setRoomId] = useState(options[0]?.id ?? "");
   const [promoCode, setPromoCode] = useState("");
+  const checkInRef = useRef<HTMLInputElement>(null);
+  const checkOutRef = useRef<HTMLInputElement>(null);
+  const roomSelectRef = useRef<HTMLSelectElement>(null);
 
   useEffect(() => {
     if (checkIn || checkOut) {
@@ -104,13 +107,32 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
     window.open(href, "_blank", "noopener,noreferrer");
   }
 
+  function openField(control: HTMLInputElement | HTMLSelectElement | null) {
+    if (!control) {
+      return;
+    }
+
+    control.focus();
+
+    if ("showPicker" in control && typeof control.showPicker === "function") {
+      control.showPicker();
+      return;
+    }
+
+    control.click();
+  }
+
   return (
     <>
       <form className="hotel-reference-booking-bar" id="reserva" onSubmit={handleSubmit}>
-        <label className="hotel-reference-booking-field hotel-reference-booking-input">
+        <label
+          className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
+          onClick={() => openField(checkInRef.current)}
+        >
           <span>{bookingWidget.scheduleLabel || "Entrada"}</span>
           <input
             aria-label={bookingWidget.scheduleLabel || "Entrada"}
+            ref={checkInRef}
             min={formatDate(new Date())}
             onChange={(event) => setCheckIn(event.target.value)}
             type="date"
@@ -118,10 +140,14 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           />
         </label>
 
-        <label className="hotel-reference-booking-field hotel-reference-booking-input">
+        <label
+          className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
+          onClick={() => openField(checkOutRef.current)}
+        >
           <span>{bookingWidget.timelineLabel || "Salida"}</span>
           <input
             aria-label={bookingWidget.timelineLabel || "Salida"}
+            ref={checkOutRef}
             min={checkIn || formatDate(new Date())}
             onChange={(event) => setCheckOut(event.target.value)}
             type="date"
@@ -129,9 +155,17 @@ export function HotelBookingBar({ brandName, contactPhone, bookingWidget }: Hote
           />
         </label>
 
-        <label className="hotel-reference-booking-field hotel-reference-booking-input">
+        <label
+          className="hotel-reference-booking-field hotel-reference-booking-input is-interactive"
+          onClick={() => openField(roomSelectRef.current)}
+        >
           <span>{bookingWidget.detailLabel || "Habitacion"}</span>
-          <select aria-label={bookingWidget.detailLabel || "Habitacion"} onChange={(event) => setRoomId(event.target.value)} value={roomId}>
+          <select
+            aria-label={bookingWidget.detailLabel || "Habitacion"}
+            onChange={(event) => setRoomId(event.target.value)}
+            ref={roomSelectRef}
+            value={roomId}
+          >
             {options.map((option) => (
               <option key={option.id} value={option.id}>
                 {option.label} · {option.price}
