@@ -5,7 +5,7 @@
     "description": "Descansa cerca del aeropuerto con habitaciones comodas, piscina y desayuno incluido.",
     "subheadline": "Habitaciones comodas, piscina y atencion las 24 horas.",
     "primaryCtaLabel": "Reservar",
-    "primaryCtaHref": "https://wa.me/51903011285?text=Hola%20%F0%9F%91%8B%0A%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20sobre%20*Vuelo%2078%20Hotel*.%0A%E2%9C%A8%20Agradecer%C3%A9%20informaci%C3%B3n%20sobre%20disponibilidad%2C%20tarifas%20y%20detalles%20del%20hotel.%0A%0AMuchas%20gracias.%20Quedo%20atento(a)%20a%20su%20respuesta.",
+    "primaryCtaHref": "https://api.whatsapp.com/send/?phone=51903011285&text=Hola%20%F0%9F%91%8B%0A%0ADeseo%20m%C3%A1s%20informaci%C3%B3n%20sobre%20*Vuelo%2078%20Hotel*.%0A%E2%9C%A8%20Agradecer%C3%A9%20informaci%C3%B3n%20sobre%20disponibilidad%2C%20tarifas%20y%20detalles%20del%20hotel.%0A%0AMuchas%20gracias.%20Quedo%20atento(a)%20a%20su%20respuesta.&type=phone_number&app_absent=0",
     "secondaryCtaLabel": "Ver habitaciones",
     "secondaryCtaHref": "#habitaciones",
     "heroTag": "HOTEL EN TARAPOTO",

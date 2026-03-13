@@ -5,6 +5,7 @@ export type HotelLocale = "es" | "en";
 export const HOTEL_LOCALE_STORAGE_KEY = "vuelo78hotel-locale";
 export const HOTEL_WHATSAPP_PHONE_DISPLAY = "+51 903 011 285";
 export const HOTEL_WHATSAPP_PHONE_DIGITS = "51903011285";
+const HOTEL_WHATSAPP_BASE_URL = "https://api.whatsapp.com/send/";
 
 type HotelUiCopy = {
   sectionLinks: Array<{ label: string; href: string }>;
@@ -891,7 +892,7 @@ export function buildHotelWhatsAppHref({
           "Gracias. Agradecere su apoyo con disponibilidad, condiciones y confirmacion de la reserva.",
         ];
 
-  return `https://wa.me/${HOTEL_WHATSAPP_PHONE_DIGITS}?text=${encodeURIComponent(cleanLines.filter(Boolean).join("\n"))}`;
+  return buildHotelWhatsappUrl(cleanLines.filter(Boolean).join("\n"));
   const lines =
     locale === "en"
       ? [
@@ -929,7 +930,7 @@ export function buildHotelWhatsAppHref({
           "Agradecere su apoyo con disponibilidad, condiciones y confirmacion. Muchas gracias.",
         ];
 
-  return `https://wa.me/${HOTEL_WHATSAPP_PHONE_DIGITS}?text=${encodeURIComponent(lines.filter(Boolean).join("\n"))}`;
+  return buildHotelWhatsappUrl(lines.filter(Boolean).join("\n"));
 }
 
 export function buildProfessionalHotelWhatsAppHref({
@@ -1000,7 +1001,7 @@ export function buildProfessionalHotelWhatsAppHref({
 
   void sourceLabel;
 
-  return `https://wa.me/${HOTEL_WHATSAPP_PHONE_DIGITS}?text=${encodeURIComponent(
+  return buildHotelWhatsappUrl(
     [
       `${locale === "en" ? "Hello" : "Hola"} ${wave}`,
       "",
@@ -1010,7 +1011,7 @@ export function buildProfessionalHotelWhatsAppHref({
       "",
       closingLine,
     ].join("\n"),
-  )}`;
+  );
 }
 
 export function buildHotelWhatsAppHrefV2({
@@ -1085,7 +1086,7 @@ export function buildHotelWhatsAppHrefV2({
 
   void sourceLabel;
 
-  return `https://wa.me/${HOTEL_WHATSAPP_PHONE_DIGITS}?text=${encodeURIComponent(
+  return buildHotelWhatsappUrl(
     [
       `${locale === "en" ? "Hello" : "Hola"} ${wave}`,
       "",
@@ -1095,7 +1096,12 @@ export function buildHotelWhatsAppHrefV2({
       "",
       closingLine,
     ].join("\n"),
-  )}`;
+  );
+}
+
+function buildHotelWhatsappUrl(message: string) {
+  const text = encodeURIComponent(message);
+  return `${HOTEL_WHATSAPP_BASE_URL}?phone=${HOTEL_WHATSAPP_PHONE_DIGITS}&text=${text}&type=phone_number&app_absent=0`;
 }
 
 export function formatHotelHumanDate(value: string, locale: HotelLocale) {

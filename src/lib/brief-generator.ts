@@ -324,7 +324,7 @@ function buildPrimaryCtaHref(brief: BriefData) {
         "Thank you.",
       ].join("\n"),
   );
-  return `https://wa.me/${cleanNumber}?text=${message}`;
+  return `https://api.whatsapp.com/send/?phone=${cleanNumber}&text=${message}&type=phone_number&app_absent=0`;
 }
 
 function buildStats(brief: BriefData) {
