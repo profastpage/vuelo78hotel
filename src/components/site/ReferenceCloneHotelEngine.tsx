@@ -167,6 +167,7 @@ export function ReferenceCloneHotelEngine({
             editorTextControls={editorTextControls}
             location={content.location}
             mediaItems={locationMedia}
+            reservationHref={reservationHref}
           />
         ) : null}
 

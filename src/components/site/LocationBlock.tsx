@@ -15,18 +15,28 @@ type LocationBlockProps = {
   location: LocationInfo;
   contactEmail?: string;
   contactPhone?: string;
+  reservationHref?: string;
   editorMode?: boolean;
   editorTextControls?: EditorTextControls;
   mediaItems?: LocationMediaItem[];
 };
 
-export function LocationBlock({ location, contactEmail, contactPhone, editorMode = false, editorTextControls, mediaItems = [] }: LocationBlockProps) {
+export function LocationBlock({
+  location,
+  contactEmail,
+  contactPhone,
+  reservationHref,
+  editorMode = false,
+  editorTextControls,
+  mediaItems = [],
+}: LocationBlockProps) {
   if (!location?.address) return null;
 
   const locationQuery = encodeURIComponent([location.address, location.city].filter(Boolean).join(", "));
   const mapsSearchUrl = location.mapsLink || `https://www.google.com/maps?q=${locationQuery}`;
   const mapsEmbedUrl = location.mapsEmbedUrl || `https://www.google.com/maps?q=${locationQuery}&output=embed`;
   const featuredMedia = mediaItems.find((item) => item?.imageSrc);
+  const primaryHref = reservationHref || mapsSearchUrl;
 
   return (
     <section className="scene scene-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
@@ -98,8 +108,17 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
             ) : null}
           </div>
 
-          <a className="primary-button hotel-home-location-button" href={mapsSearchUrl} target="_blank" rel="noopener noreferrer">
+          <a
+            className="primary-button hotel-home-location-button"
+            href={primaryHref}
+            rel={primaryHref === mapsSearchUrl ? "noopener noreferrer" : undefined}
+            target={primaryHref === mapsSearchUrl ? "_blank" : undefined}
+          >
             Reservar por WhatsApp
+          </a>
+
+          <a className="hotel-home-location-directions" href={mapsSearchUrl} target="_blank" rel="noopener noreferrer">
+            Ver ruta en Google Maps
           </a>
         </div>
       </div>
