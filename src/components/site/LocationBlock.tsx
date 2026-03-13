@@ -1,6 +1,7 @@
 import { Mail, MapPinned, Phone } from "lucide-react";
 import type { ImagePosition, LocationInfo } from "@/types/site";
 import type { EditorTextControls } from "./editor-text-types";
+import { renderBalancedSectionTitle } from "./headline-balance";
 import { InlineTextField } from "./InlineTextField";
 import { getMediaStyle } from "./rendering";
 
@@ -39,9 +40,9 @@ export function LocationBlock({
   const primaryHref = reservationHref || mapsSearchUrl;
 
   return (
-    <section className="scene scene-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
+      <section className="scene scene-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
       <div className="hotel-home-location-heading">
-        <h2>Ubicacion</h2>
+        <h2>{renderBalancedSectionTitle("Ubicacion y llegada")}</h2>
       </div>
 
       <div className="hotel-home-location-grid">

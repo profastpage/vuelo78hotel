@@ -1,3 +1,5 @@
+import { renderBalancedSectionTitle } from "./headline-balance";
+
 type HotelPremiumBookingCtaProps = {
   description: string;
   href: string;
@@ -9,7 +11,7 @@ export function HotelPremiumBookingCta({ description, href, title }: HotelPremiu
     <section className="scene hotel-deluxe-section hotel-deluxe-booking-cta" id="cta-final">
       <div className="hotel-deluxe-booking-cta-shell">
         <span className="scene-chip">Reserva directa</span>
-        <h2>{title}</h2>
+        <h2>{renderBalancedSectionTitle(title)}</h2>
         <p>{description}</p>
         <a className="primary-button hotel-deluxe-whatsapp-button hotel-deluxe-booking-cta-button" href={href}>
           Reservar por WhatsApp

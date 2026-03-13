@@ -1,4 +1,5 @@
 import { Coffee, ConciergeBell, Snowflake, Tv, Waves, Wifi } from "lucide-react";
+import { renderBalancedSectionTitle } from "./headline-balance";
 
 type HotelPremiumAmenity = {
   description: string;
@@ -12,9 +13,9 @@ type HotelPremiumAmenitiesProps = {
 
 export function HotelPremiumAmenities({ items }: HotelPremiumAmenitiesProps) {
   return (
-    <section className="scene hotel-deluxe-section hotel-deluxe-amenities hotel-home-amenities" id="servicios">
+      <section className="scene hotel-deluxe-section hotel-deluxe-amenities hotel-home-amenities" id="servicios">
       <div className="hotel-home-amenity-heading">
-        <h2>Nuestros Servicios</h2>
+        <h2>{renderBalancedSectionTitle("Servicios esenciales")}</h2>
       </div>
 
       <div className="hotel-deluxe-amenity-strip hotel-home-amenity-strip" role="list" aria-label="Servicios del hotel">

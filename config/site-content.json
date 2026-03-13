@@ -16,8 +16,8 @@
     }
   },
   "narrative": {
-    "title": "Descansa en Tarapoto con una reserva directa y atencion cercana.",
-    "body": "Una landing clara para mostrar habitaciones, servicios y la experiencia del hotel con un recorrido facil de entender.",
+    "title": "Reserva directa y descanso sereno",
+    "body": "Habitaciones, servicios y una experiencia clara para reservar con mas confianza.",
     "goal": "Generar reservas directas por WhatsApp y consultas de disponibilidad"
   },
   "theme": {
@@ -36,11 +36,11 @@
     "supportLabel": "Habitaciones destacadas",
     "proofLabel": "Clientes reales",
     "storyChip": "Habitacion principal",
-    "storyTitle": "Elige la habitacion ideal para tu viaje",
+    "storyTitle": "Elige tu habitacion ideal",
     "testimonialsChip": "Resenas verificadas",
-    "testimonialsTitle": "Comentarios de huespedes que ya se alojaron con nosotros",
+    "testimonialsTitle": "Lo que dicen nuestros huespedes",
     "faqChip": "Preguntas frecuentes",
-    "faqTitle": "Dudas comunes antes de confirmar la reserva"
+    "faqTitle": "Antes de reservar"
   },
   "stats": [
     {

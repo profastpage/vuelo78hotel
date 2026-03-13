@@ -137,8 +137,8 @@ export function ReferenceCloneHotelEngine({
         <HotelPremiumRoomsSection
           eyebrow="Nuestras habitaciones"
           rooms={roomCards}
-          subtitle="Opciones comodas para pareja, familia o viaje de trabajo, con reserva directa por WhatsApp."
-          title="Habitaciones pensadas para descansar con comodidad."
+          subtitle="Opciones comodas para pareja, familia o viaje de trabajo con reserva directa."
+          title="Habitaciones disenadas para tu descanso"
         />
 
         {testimonials.length ? (
@@ -152,8 +152,8 @@ export function ReferenceCloneHotelEngine({
               segment: item.segment,
               rating: item.rating ?? 5,
             }))}
-            subtitle="Tres opiniones breves para mostrar ubicacion, descanso y buena atencion."
-            title="Opiniones de Nuestros Huespedes"
+            subtitle="Opiniones breves sobre descanso, ubicacion y buena atencion."
+            title="Lo que dicen nuestros huespedes"
           />
         ) : null}
 
@@ -174,7 +174,7 @@ export function ReferenceCloneHotelEngine({
         <HotelPremiumBookingCta
           description="Consulta disponibilidad y recibe confirmacion rapida por WhatsApp."
           href={reservationHref}
-          title="Reserva tu habitacion ahora."
+          title="Reserva directa por WhatsApp"
         />
 
         <HotelPremiumFooter

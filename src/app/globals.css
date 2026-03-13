@@ -17027,6 +17027,131 @@ body {
   border-radius: 24px;
 }
 
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-experience,
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-rooms,
+.page-shell.mode-reference-clone-hotel .hotel-home-testimonials,
+.page-shell.mode-reference-clone-hotel .hotel-home-location,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq,
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-booking-cta {
+  margin-top: clamp(28px, 4vw, 54px);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-section-heading,
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-heading,
+.page-shell.mode-reference-clone-hotel .hotel-home-location-heading,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq .section-copy,
+.page-shell.mode-reference-clone-hotel .hotel-reference-section-heading {
+  gap: 14px;
+  margin-bottom: clamp(10px, 1.8vw, 22px);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-section-heading h2,
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-heading h2,
+.page-shell.mode-reference-clone-hotel .hotel-home-location-heading h2,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq .section-copy h2,
+.page-shell.mode-reference-clone-hotel .hotel-reference-section-heading h2 {
+  position: relative;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-section-heading h2::after,
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-heading h2::after,
+.page-shell.mode-reference-clone-hotel .hotel-home-location-heading h2::after,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq .section-copy h2::after,
+.page-shell.mode-reference-clone-hotel .hotel-reference-section-heading h2::after {
+  content: "";
+  display: block;
+  width: clamp(44px, 5vw, 64px);
+  height: 2px;
+  margin: 16px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(214, 185, 122, 0.86), rgba(191, 149, 79, 0.72));
+  box-shadow: 0 1px 8px rgba(184, 143, 74, 0.16);
+  opacity: 0.82;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-section-heading p,
+.page-shell.mode-reference-clone-hotel .hotel-reference-section-heading p,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq .section-copy p,
+.page-shell.mode-reference-clone-hotel .hotel-home-location-copy p,
+.page-shell.mode-reference-clone-hotel .hotel-home-location-details p,
+.page-shell.mode-reference-clone-hotel .hotel-home-location-details a {
+  max-width: 54ch;
+  line-height: 1.74;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-experience,
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-rooms,
+.page-shell.mode-reference-clone-hotel .hotel-home-testimonials,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq,
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-booking-cta-shell {
+  padding: clamp(32px, 4vw, 46px);
+  border-color: rgba(131, 101, 58, 0.11);
+  background:
+    radial-gradient(circle at top right, rgba(211, 173, 97, 0.12), transparent 23%),
+    radial-gradient(circle at bottom left, rgba(182, 145, 79, 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(253, 248, 241, 0.98), rgba(244, 235, 223, 0.94));
+  box-shadow: 0 26px 58px rgba(78, 58, 31, 0.08);
+}
+
+.page-shell.mode-reference-clone-hotel .scene-landing-faq {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(131, 101, 58, 0.11);
+  border-radius: 34px;
+}
+
+.page-shell.mode-reference-clone-hotel .scene-landing-faq::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 38%),
+    radial-gradient(circle at 18% 20%, rgba(211, 173, 97, 0.08), transparent 26%);
+}
+
+.page-shell.mode-reference-clone-hotel .scene-landing-faq > * {
+  position: relative;
+  z-index: 1;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-amenities {
+  padding: 10px 0 4px;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-strip {
+  padding: 18px 24px;
+  border-top-color: rgba(138, 111, 73, 0.16);
+  border-bottom-color: rgba(138, 111, 73, 0.16);
+  background:
+    radial-gradient(circle at top center, rgba(214, 185, 122, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(253, 247, 239, 0.82), rgba(244, 236, 225, 0.76));
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-location-grid {
+  border-color: rgba(132, 102, 60, 0.11);
+  background:
+    radial-gradient(circle at top right, rgba(211, 173, 97, 0.12), transparent 23%),
+    linear-gradient(180deg, rgba(252, 246, 237, 0.98), rgba(240, 229, 214, 0.94));
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-reference-story-split,
+.page-shell.mode-reference-clone-hotel .hotel-reference-related,
+.page-shell.mode-reference-clone-hotel .hotel-reference-modal-grid,
+.page-shell.mode-reference-clone-hotel .hotel-reference-rail-shell,
+.page-shell.mode-reference-clone-hotel .hotel-reference-map-layout {
+  margin-top: clamp(28px, 4vw, 54px);
+  padding: clamp(30px, 3.8vw, 42px);
+  border-radius: 34px;
+  border: 1px solid rgba(131, 101, 58, 0.11);
+  background:
+    radial-gradient(circle at top right, rgba(211, 173, 97, 0.1), transparent 24%),
+    linear-gradient(180deg, rgba(252, 247, 240, 0.98), rgba(244, 236, 225, 0.94));
+  box-shadow: 0 24px 54px rgba(78, 58, 31, 0.08);
+}
+
 .page-shell.mode-reference-clone-hotel .hotel-reference-mobile-float {
   bottom: max(18px, calc(env(safe-area-inset-bottom, 0px) + 10px));
   right: max(18px, calc(env(safe-area-inset-right, 0px) + 10px));

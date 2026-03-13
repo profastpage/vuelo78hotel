@@ -1,3 +1,5 @@
+import { renderBalancedSectionTitle } from "./headline-balance";
+
 type HotelPremiumRoom = {
   benefits: string[];
   description: string;
@@ -21,7 +23,7 @@ export function HotelPremiumRoomsSection({ eyebrow, rooms, subtitle, title }: Ho
     <section className="scene hotel-deluxe-section hotel-deluxe-rooms" id="habitaciones">
       <div className="hotel-deluxe-section-heading">
         <span className="scene-chip">{eyebrow}</span>
-        <h2>{title}</h2>
+        <h2>{renderBalancedSectionTitle(title)}</h2>
         <p>{subtitle}</p>
       </div>
 

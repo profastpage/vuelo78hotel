@@ -1,3 +1,5 @@
+import { renderBalancedSectionTitle } from "./headline-balance";
+
 type ExperienceGalleryItem = {
   imagePosition?: { x?: number; y?: number };
   imageSrc?: string;
@@ -13,9 +15,9 @@ export function HotelPremiumExperienceGallery({ items }: HotelPremiumExperienceG
   return (
     <section className="scene hotel-deluxe-section hotel-deluxe-experience" id="experiencia">
       <div className="hotel-deluxe-section-heading hotel-deluxe-experience-heading">
-        <span className="scene-chip">Experiencia Vuelo 78 Hotel</span>
-        <h2>Piscina, habitaciones y espacios pensados para descansar con calma.</h2>
-        <p>Una mirada al ambiente del hotel para transmitir comodidad, descanso y una experiencia mas cercana desde el primer scroll.</p>
+        <span className="scene-chip">Experiencia del hotel</span>
+        <h2>{renderBalancedSectionTitle("Espacios pensados para descansar")}</h2>
+        <p>Piscina, habitaciones y ambientes serenos presentados con una lectura mas limpia.</p>
       </div>
 
       <div className="hotel-deluxe-experience-grid">
