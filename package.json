@@ -4,7 +4,7 @@
     "private":  true,
     "scripts":  {
                     "dev":  "next dev",
-                    "build":  "next build",
+                    "build":  "node scripts/ensure-next-validator.mjs && next build",
                     "start":  "next start",
                     "capture:reference":  "node scripts/capture-reference-site.mjs",
                     "brief:extract":  "node scripts/generate-website.mjs --extract-only",
