@@ -10,7 +10,7 @@ import type { EditorTextControls } from "./editor-text-types";
 import { HOTEL_NAV_ITEMS, HOTEL_VISIBLE_NAV_ITEMS, type HotelPageSlug, getHotelPageHref, getHotelPageIndex, getHotelPageLabel } from "@/lib/hotel-pages";
 import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
-import { HOTEL_WHATSAPP_PHONE_DISPLAY, buildHotelWhatsAppHref, getHotelUi, t, type HotelLocale } from "@/lib/hotel-experience";
+import { HOTEL_WHATSAPP_PHONE_DISPLAY, buildProfessionalHotelWhatsAppHref, getHotelUi, normalizeHotelSpanishText, normalizeHotelSpanishValue, t, type HotelLocale } from "@/lib/hotel-experience";
 
 type Props = {
   profile: ClientProfile;
@@ -65,7 +65,7 @@ export function HotelReferenceSubpage({
   const contactPhone = normalizeHotelPhone(content.contact.whatsappNumber);
   const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
   const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
-  const reservationHref = buildHotelWhatsAppHref({
+  const reservationHref = buildProfessionalHotelWhatsAppHref({
     locale,
     hotelName: content.brand.name,
     intent: "subpage",
@@ -75,7 +75,7 @@ export function HotelReferenceSubpage({
   const mapHref = locationQuery ? `https://www.google.com/maps?q=${locationQuery}` : reservationHref;
   const mapEmbedHref = locationQuery ? `https://www.google.com/maps?q=${locationQuery}&output=embed` : "";
   const normalizedHours = content.location?.hours?.includes("24 horas")
-    ? t(locale, "Recepcion 24 horas", "24-hour reception")
+    ? t(locale, "Recepción 24 horas", "24-hour reception")
     : content.location?.hours;
   const data = getPageData(pageSlug, content, services, bookingWidget.options?.slice(0, 1)?.[0]?.price || "S/ 249", locale);
   const pageIndex = HOTEL_NAV_ITEMS.findIndex((item) => item.slug === pageSlug);
@@ -97,7 +97,7 @@ export function HotelReferenceSubpage({
   const rail: RailItem[] = [
     ...galleryItems.map((item, index) => ({
       title: item.title,
-      subtitle: index === 0 ? getHotelPageLabel(pageSlug) : item.subtitle || "Vuelo 78",
+      subtitle: index === 0 ? currentPageLabel : item.subtitle || "Vuelo 78",
       imageSrc: item.imageSrc || heroImage,
       imagePosition: item.imagePosition || heroImagePosition,
       description: getHotelReferenceRailCopy(pageSlug, index, locale),
@@ -106,7 +106,7 @@ export function HotelReferenceSubpage({
     })),
     ...services.map((item, index) => ({
       title: item.title,
-      subtitle: getHotelPageLabel(pageSlug),
+      subtitle: currentPageLabel,
       imageSrc: item.imageSrc || heroImage,
       imagePosition: item.imagePosition || heroImagePosition,
       description: getHotelReferenceRailCopy(pageSlug, index + galleryItems.length, locale),
@@ -637,7 +637,7 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
     },
   };
 
-  return map[pageSlug];
+  return locale === "es" ? normalizeHotelSpanishValue(map[pageSlug]) : map[pageSlug];
 }
 
 function getHotelReferenceRailCopy(pageSlug: Exclude<HotelPageSlug, "hotel">, index: number, locale: HotelLocale) {
@@ -663,7 +663,8 @@ function getHotelReferenceRailCopy(pageSlug: Exclude<HotelPageSlug, "hotel">, in
           galeria: ["Imagen amplia del hotel.", "Ordena las fotos con mejor ritmo.", "Ideal para arquitectura y servicio.", "Mantiene el tono premium del sitio.", "Puede crecer sin rehacer la pagina."],
           mapa: ["Escena de llegada o fachada.", "Sirve para accesos y referencias.", "Da mas tranquilidad antes de reservar.", "Puede usarse con imagenes del entorno.", "Cierra mejor la promesa de ubicacion."],
         };
-  return text[pageSlug][index % text[pageSlug].length];
+  const selected = text[pageSlug][index % text[pageSlug].length];
+  return locale === "es" ? normalizeHotelSpanishText(selected) : selected;
 }
 
 function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteContent, locale: HotelLocale) {
@@ -673,13 +674,13 @@ function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteConten
   });
 
   if (validItems.length > 0) {
-    return validItems;
+    return locale === "es" ? normalizeHotelSpanishValue(validItems) : validItems;
   }
 
   const hotelName = content.brand.name || "el hotel";
   const checkInWindow = content.location?.hours || (locale === "en" ? "24 hours" : "24 horas");
 
-  return [
+  const fallbackItems = [
     {
       question: locale === "en" ? "How do I book directly with the hotel?" : "Como reservo directamente con el hotel?",
       answer:
@@ -702,6 +703,8 @@ function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteConten
           : "Si. Puedes consultar fechas, tarifas y condiciones antes de confirmar tu reserva con el hotel.",
     },
   ];
+
+  return locale === "es" ? normalizeHotelSpanishValue(fallbackItems) : fallbackItems;
 }
 
 function normalizeHotelPhone(value?: string) {

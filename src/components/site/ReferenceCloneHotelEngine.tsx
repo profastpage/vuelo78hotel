@@ -21,7 +21,7 @@ import { resolveBookingWidget } from "@/lib/booking-widget";
 import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
 import {
   HOTEL_LOCALE_STORAGE_KEY,
-  buildHotelWhatsAppHref,
+  buildProfessionalHotelWhatsAppHref,
   getHotelUi,
   localizeHotelContent,
   resolveHotelLocale,
@@ -99,25 +99,25 @@ export function ReferenceCloneHotelEngine({
   const displayBrandName = getDisplayBrandName(localizedContent.brand.name);
   const detailsHref = localizedContent.brand.secondaryCtaHref || "#habitaciones";
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || localizedContent.brand.primaryCtaLabel || ui.floating.label;
-  const headerReservationHref = buildHotelWhatsAppHref({
+  const headerReservationHref = buildProfessionalHotelWhatsAppHref({
     locale,
     hotelName: displayBrandName,
     intent: "header",
     sourceLabel: locale === "en" ? "Top menu" : "Menu superior",
   });
-  const heroReservationHref = buildHotelWhatsAppHref({
+  const heroReservationHref = buildProfessionalHotelWhatsAppHref({
     locale,
     hotelName: displayBrandName,
     intent: "hero",
     sourceLabel: locale === "en" ? "Hero main CTA" : "Hero principal",
   });
-  const locationReservationHref = buildHotelWhatsAppHref({
+  const locationReservationHref = buildProfessionalHotelWhatsAppHref({
     locale,
     hotelName: displayBrandName,
     intent: "location",
     sourceLabel: ui.location.title,
   });
-  const bookingSectionHref = buildHotelWhatsAppHref({
+  const bookingSectionHref = buildProfessionalHotelWhatsAppHref({
     locale,
     hotelName: displayBrandName,
     intent: "booking-cta",
@@ -130,7 +130,7 @@ export function ReferenceCloneHotelEngine({
     imageSrc: services[index]?.imageSrc || galleryItems[index]?.imageSrc || heroImage,
     price: option.price,
     rateLabel: option.rateLabel,
-    reservationHref: buildHotelWhatsAppHref({
+    reservationHref: buildProfessionalHotelWhatsAppHref({
       locale,
       hotelName: displayBrandName,
       intent: "room",
@@ -200,10 +200,10 @@ export function ReferenceCloneHotelEngine({
           rooms={roomCards}
           subtitle={t(
             locale,
-            "Opciones comodas para pareja, familia o viaje de trabajo con reserva directa.",
+            "Opciones cómodas para pareja, familia o viaje de trabajo con reserva directa.",
             "Comfortable options for couples, families or business travel with direct booking.",
           )}
-          title={t(locale, "Habitaciones disenadas para tu descanso", "Rooms designed for your rest")}
+          title={t(locale, "Habitaciones diseñadas para tu descanso", "Rooms designed for your rest")}
         />
 
         {testimonials.length ? (
@@ -220,10 +220,10 @@ export function ReferenceCloneHotelEngine({
             locale={locale}
             subtitle={t(
               locale,
-              "Opiniones breves sobre descanso, ubicacion y buena atencion.",
+              "Opiniones breves sobre descanso, ubicación y buena atención.",
               "Short reviews about rest, location and attentive service.",
             )}
-            title={t(locale, "Lo que dicen nuestros huespedes", "What our guests say")}
+            title={t(locale, "Lo que dicen nuestros huéspedes", "What our guests say")}
           />
         ) : null}
 
@@ -245,7 +245,7 @@ export function ReferenceCloneHotelEngine({
         <HotelPremiumBookingCta
           description={t(
             locale,
-            "Consulta disponibilidad y recibe confirmacion rapida por WhatsApp.",
+            "Consulta disponibilidad y recibe confirmación rápida por WhatsApp.",
             "Check availability and receive a fast confirmation on WhatsApp.",
           )}
           href={bookingSectionHref}
@@ -276,11 +276,11 @@ export function ReferenceCloneHotelEngine({
 
 function buildAmenities(content: SiteContent) {
   const baseItems = [
-    { title: "Desayuno incluido", icon: "breakfast", description: "Empieza la maniana con mas comodidad antes de salir por la ciudad." },
-    { title: "WiFi gratis", icon: "wifi", description: "Conexion estable para descansar, trabajar o coordinar tu viaje." },
-    { title: "Piscina", icon: "pool", description: "Un espacio de descanso que acompana la experiencia del hotel." },
-    { title: "Aire acondicionado", icon: "air", description: "Confort termico para descansar mejor en cualquier horario." },
-    { title: "Atencion 24/7", icon: "hospitality", description: "Recepcion y asistencia para confirmar tu llegada con tranquilidad." },
+    { title: "Desayuno incluido", icon: "breakfast", description: "Empieza la mañana con más comodidad antes de salir por la ciudad." },
+    { title: "WiFi gratis", icon: "wifi", description: "Conexión estable para descansar, trabajar o coordinar tu viaje." },
+    { title: "Piscina", icon: "pool", description: "Un espacio de descanso que acompaña la experiencia del hotel." },
+    { title: "Aire acondicionado", icon: "air", description: "Confort térmico para descansar mejor en cualquier horario." },
+    { title: "Atención 24/7", icon: "hospitality", description: "Recepción y asistencia para confirmar tu llegada con tranquilidad." },
   ];
 
   return baseItems.map((item, index) => ({
@@ -304,7 +304,7 @@ function buildExperienceGalleryItems(
     },
     {
       title: "Habitaciones listas para desconectar",
-      subtitle: "Habitacion",
+      subtitle: "Habitación",
       imageSrc: services[0]?.imageSrc || galleryItems[1]?.imageSrc || heroImage,
       imagePosition: services[0]?.imagePosition || galleryItems[1]?.imagePosition || heroImagePosition,
     },
@@ -326,7 +326,7 @@ function buildExperienceGalleryItems(
 }
 
 function buildHeroDescription(content: SiteContent, cityLabel: string) {
-  return content.brand.description || `Descansa en ${cityLabel} con habitaciones comodas y reserva directa por WhatsApp.`;
+  return content.brand.description || `Descansa en ${cityLabel} con habitaciones cómodas y reserva directa por WhatsApp.`;
 }
 
 function buildHeroSlides(

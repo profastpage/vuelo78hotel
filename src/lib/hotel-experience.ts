@@ -173,6 +173,156 @@ export function t(locale: HotelLocale, es: string, en: string) {
   return locale === "en" ? en : es;
 }
 
+export function normalizeHotelSpanishText(value: string) {
+  if (!value || /^https?:\/\//.test(value) || value.startsWith("/")) {
+    return value;
+  }
+
+  const replacements: Array<[RegExp, string]> = [
+    [/Â¿/g, "¿"],
+    [/Â¡/g, "¡"],
+    [/\bUbicacion\b/g, "Ubicación"],
+    [/\bubicacion\b/g, "ubicación"],
+    [/\bInformacion\b/g, "Información"],
+    [/\binformacion\b/g, "información"],
+    [/\bHabitacion\b/g, "Habitación"],
+    [/\bhabitacion\b/g, "habitación"],
+    [/\bHuesped\b/g, "Huésped"],
+    [/\bhuesped\b/g, "huésped"],
+    [/\bHuespedes\b/g, "Huéspedes"],
+    [/\bhuespedes\b/g, "huéspedes"],
+    [/\bRecepcion\b/g, "Recepción"],
+    [/\brecepcion\b/g, "recepción"],
+    [/\bMas\b/g, "Más"],
+    [/\bmas\b/g, "más"],
+    [/\bGaleria\b/g, "Galería"],
+    [/\bgaleria\b/g, "galería"],
+    [/\bResenas\b/g, "Reseñas"],
+    [/\bresenas\b/g, "reseñas"],
+    [/\bAtencion\b/g, "Atención"],
+    [/\batencion\b/g, "atención"],
+    [/\bTambien\b/g, "También"],
+    [/\btambien\b/g, "también"],
+    [/\bRapida\b/g, "Rápida"],
+    [/\brapida\b/g, "rápida"],
+    [/\bComoda\b/g, "Cómoda"],
+    [/\bcomoda\b/g, "cómoda"],
+    [/\bComodas\b/g, "Cómodas"],
+    [/\bcomodas\b/g, "cómodas"],
+    [/\bDiseno\b/g, "Diseño"],
+    [/\bdiseno\b/g, "diseño"],
+    [/\bDisenada\b/g, "Diseñada"],
+    [/\bdisenada\b/g, "diseñada"],
+    [/\bDisenadas\b/g, "Diseñadas"],
+    [/\bdisenadas\b/g, "diseñadas"],
+    [/\bDescripcion\b/g, "Descripción"],
+    [/\bdescripcion\b/g, "descripción"],
+    [/\bConexion\b/g, "Conexión"],
+    [/\bconexion\b/g, "conexión"],
+    [/\bCodigo\b/g, "Código"],
+    [/\bcodigo\b/g, "código"],
+    [/\bPolitica\b/g, "Política"],
+    [/\bpolitica\b/g, "política"],
+    [/\bJerarquia\b/g, "Jerarquía"],
+    [/\bjerarquia\b/g, "jerarquía"],
+    [/\bImagenes\b/g, "Imágenes"],
+    [/\bimagenes\b/g, "imágenes"],
+    [/\bAqui\b/g, "Aquí"],
+    [/\baqui\b/g, "aquí"],
+    [/\bCategoria\b/g, "Categoría"],
+    [/\bcategoria\b/g, "categoría"],
+    [/\bCategorias\b/g, "Categorías"],
+    [/\bcategorias\b/g, "categorías"],
+    [/\bEstadia\b/g, "Estadía"],
+    [/\bestadia\b/g, "estadía"],
+    [/\bBano\b/g, "Baño"],
+    [/\bbano\b/g, "baño"],
+    [/\bSenales\b/g, "Señales"],
+    [/\bsenales\b/g, "señales"],
+    [/\bSenal\b/g, "Señal"],
+    [/\bsenal\b/g, "señal"],
+    [/\bPagina\b/g, "Página"],
+    [/\bpagina\b/g, "página"],
+    [/\bPaginas\b/g, "Páginas"],
+    [/\bpaginas\b/g, "páginas"],
+    [/\bCercania\b/g, "Cercanía"],
+    [/\bcercania\b/g, "cercanía"],
+    [/\bFacil\b/g, "Fácil"],
+    [/\bfacil\b/g, "fácil"],
+    [/\bManiana\b/g, "Mañana"],
+    [/\bmaniana\b/g, "mañana"],
+    [/\bMinimo\b/g, "Mínimo"],
+    [/\bminimo\b/g, "mínimo"],
+    [/\bElectronico\b/g, "Electrónico"],
+    [/\belectronico\b/g, "electrónico"],
+    [/\bIngles\b/g, "Inglés"],
+    [/\bingles\b/g, "inglés"],
+    [/\bEspanol\b/g, "Español"],
+    [/\bespanol\b/g, "español"],
+    [/\bDia\b/g, "Día"],
+    [/\bdia\b/g, "día"],
+    [/\bDias\b/g, "Días"],
+    [/\bdias\b/g, "días"],
+    [/\bCotizacion\b/g, "Cotización"],
+    [/\bcotizacion\b/g, "cotización"],
+    [/\bTecnica\b/g, "Técnica"],
+    [/\btecnica\b/g, "técnica"],
+    [/\bTrafico\b/g, "Tráfico"],
+    [/\btrafico\b/g, "tráfico"],
+    [/\bCoctel\b/g, "Cóctel"],
+    [/\bcoctel\b/g, "cóctel"],
+    [/\bNumero\b/g, "Número"],
+    [/\bnumero\b/g, "número"],
+    [/\bOpcion\b/g, "Opción"],
+    [/\bopcion\b/g, "opción"],
+    [/\bAgil\b/g, "Ágil"],
+    [/\bagil\b/g, "ágil"],
+    [/\bMenu\b/g, "Menú"],
+    [/\bmenu\b/g, "menú"],
+    [/\bCafe\b/g, "Café"],
+    [/\bcafe\b/g, "café"],
+    [/\bTardio\b/g, "Tardío"],
+    [/\btardio\b/g, "tardío"],
+    [/\bLavanderia\b/g, "Lavandería"],
+    [/\blavanderia\b/g, "lavandería"],
+    [/\bConfirmacion\b/g, "Confirmación"],
+    [/\bconfirmacion\b/g, "confirmación"],
+    [/\bCoordinacion\b/g, "Coordinación"],
+    [/\bcoordinacion\b/g, "coordinación"],
+    [/\bPequeno\b/g, "Pequeño"],
+    [/\bpequeno\b/g, "pequeño"],
+    [/\bPequenos\b/g, "Pequeños"],
+    [/\bpequenos\b/g, "pequeños"],
+    [/\bRapidamente\b/g, "Rápidamente"],
+    [/\brapidamente\b/g, "rápidamente"],
+    [/Como te llamas\?/g, "Cómo te llamas?"],
+    [/Como llegar/g, "Cómo llegar"],
+    [/Como reservo/g, "Cómo reservo"],
+    [/Que horario maneja recepcion\?/g, "Qué horario maneja recepción?"],
+    [/Si\. Puedes/g, "Sí. Puedes"],
+  ];
+
+  return replacements.reduce((current, [pattern, replacement]) => current.replace(pattern, replacement), value);
+}
+
+export function normalizeHotelSpanishValue<T>(value: T): T {
+  if (typeof value === "string") {
+    return normalizeHotelSpanishText(value) as T;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => normalizeHotelSpanishValue(item)) as T;
+  }
+
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, normalizeHotelSpanishValue(entry)]),
+    ) as T;
+  }
+
+  return value;
+}
+
 export function getHotelUi(locale: HotelLocale): HotelUiCopy {
   if (locale === "en") {
     return {
@@ -321,15 +471,15 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
       { label: "Experiencia", href: "#experiencia" },
       { label: "Habitaciones", href: "#habitaciones" },
       { label: "Servicios", href: "#servicios" },
-      { label: "Ubicacion", href: "#ubicacion" },
+      { label: "Ubicación", href: "#ubicacion" },
     ],
     header: {
       navAria: "Secciones principales",
       localeButton: "EN / ES",
-      localeAria: "Cambiar idioma entre ingles y espanol",
+      localeAria: "Cambiar idioma entre inglés y español",
       ctaSuffix: "por WhatsApp",
       mobileWhatsapp: "WhatsApp",
-      mobileMenuAria: "Abrir menu",
+      mobileMenuAria: "Abrir menú",
     },
     hero: {
       directKicker: "Reserva directa sin intermediarios",
@@ -338,12 +488,12 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
       secondaryCta: "Ver habitaciones",
       bookingKicker: "Reserva directa",
       bookingDescription: "Consulta disponibilidad y recibe respuesta directa del hotel.",
-      benefits: ["Desayuno incluido", "WiFi gratis", "Aire acondicionado", "Recepcion 24h"],
+      benefits: ["Desayuno incluido", "WiFi gratis", "Aire acondicionado", "Recepción 24 h"],
     },
     experience: {
       chip: "Experiencia del hotel",
       title: "Espacios pensados para descansar",
-      description: "Piscina, habitaciones y ambientes serenos presentados con una lectura mas limpia.",
+      description: "Piscina, habitaciones y ambientes serenos presentados con una lectura más limpia.",
     },
     rooms: {
       eyebrow: "Nuestras habitaciones",
@@ -353,7 +503,7 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
     },
     testimonials: {
       eyebrow: "Opiniones reales",
-      verifiedGuest: "Huesped verificado",
+      verifiedGuest: "Huésped verificado",
       starsLabel: "estrellas",
     },
     amenities: {
@@ -361,12 +511,12 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
       listAria: "Servicios del hotel",
     },
     location: {
-      title: "Ubicacion y llegada",
-      cardTitle: "Ubicacion",
-      mapTitle: "Mapa de ubicacion",
-      address: "Direccion",
+      title: "Ubicación y llegada",
+      cardTitle: "Ubicación",
+      mapTitle: "Mapa de ubicación",
+      address: "Dirección",
       city: "Ciudad",
-      phone: "Telefono",
+      phone: "Teléfono",
       email: "Email",
       reserveWhatsapp: "Reservar por WhatsApp",
       googleMaps: "Ver ruta en Google Maps",
@@ -380,19 +530,19 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
     floating: {
       label: "Reservar",
       note: "Disponibilidad y tarifas",
-      chip: "Reserva rapida",
-      title: "Confirma tu estadia",
-      description: "Selecciona habitacion, fechas y huespedes. Al reservar se abrira WhatsApp con el resumen listo.",
-      close: "Cerrar reserva rapida",
+      chip: "Reserva rápida",
+      title: "Confirma tu estadía",
+      description: "Selecciona habitación, fechas y huéspedes. Al reservar se abrirá WhatsApp con el resumen listo.",
+      close: "Cerrar reserva rápida",
     },
     contact: {
       eyebrow: "Reservas directas",
       whatsappTitle: "Escribir por WhatsApp",
       whatsappSubtitle: "Canal directo para confirmar disponibilidad",
       shellKicker: "Consulta de reserva",
-      shellDescription: "Comparte tus fechas y el tipo de habitacion que buscas. El hotel te responde con disponibilidad y tarifa.",
+      shellDescription: "Comparte tus fechas y el tipo de habitación que buscas. El hotel te responde con disponibilidad y tarifa.",
       response: "Respuesta",
-      responseValue: "Atencion prioritaria",
+      responseValue: "Atención prioritaria",
       responseDescription: "Ideal para confirmar habitaciones, tarifas y cualquier solicitud especial antes de tu llegada.",
       directChannel: "Canal directo",
       directValue: "Reserva sin intermediarios",
@@ -402,47 +552,47 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
       format: "Formato",
       formatValue: "Reserva guiada",
       availability: "Disponibilidad",
-      availabilityValue: "Todos los dias",
+      availabilityValue: "Todos los días",
       name: "Nombre",
       email: "Email",
-      phone: "Telefono",
+      phone: "Teléfono",
       message: "Mensaje",
       required: "*",
       optional: "(opcional)",
       namePlaceholder: "Tu nombre completo",
       emailPlaceholder: "Tu correo",
-      phonePlaceholder: "Tu telefono",
-      messagePlaceholder: "Indicanos tus fechas, tipo de habitacion y cualquier detalle importante para tu reserva.",
+      phonePlaceholder: "Tu teléfono",
+      messagePlaceholder: "Indícanos tus fechas, tipo de habitación y cualquier detalle importante para tu reserva.",
       send: "Enviar consulta",
       sending: "Enviando...",
       note: "Canal recomendado para consultas de disponibilidad, tarifas y reservas personalizadas.",
       success: "Mensaje enviado. Te responderemos a la brevedad.",
       error: "Error inesperado. Intenta nuevamente.",
       validations: {
-        name: "Ingresa tu nombre completo (minimo 2 caracteres).",
-        email: "Ingresa un correo electronico valido.",
+        name: "Ingresa tu nombre completo (mínimo 2 caracteres).",
+        email: "Ingresa un correo electrónico válido.",
         message: "El mensaje debe tener al menos 10 caracteres.",
       },
     },
     subpage: {
       confirmAvailability: "Confirmar disponibilidad",
       viewMap: "Ver mapa",
-      moreInfo: "Mas informacion",
+      moreInfo: "Más información",
       beforeBooking: "Antes de reservar",
-      beforeBookingDescription: "Resuelve horarios, condiciones y servicios con una lectura mas directa.",
+      beforeBookingDescription: "Resuelve horarios, condiciones y servicios con una lectura más directa.",
       openDetail: "Abrir detalle",
-      infoChip: "Informacion",
+      infoChip: "Información",
       reserve: "Reservar",
       writeHotel: "Escribir al hotel",
-      gallery: "Galeria",
-      location: "Ubicacion",
+      gallery: "Galería",
+      location: "Ubicación",
       openMap: "Abrir mapa",
       routeMaps: "Ver en Google Maps",
       hotelPhoto: "Foto del hotel",
       arrivalPhoto: "Llegada y fachada del hotel",
-      direction: "Direccion",
+      direction: "Dirección",
       city: "Ciudad",
-      reception: "Recepcion",
+      reception: "Recepción",
       mapFallback: "Ver en Google Maps",
     },
     faq: {
@@ -471,7 +621,7 @@ export function localizeHotelContent(content: SiteContent, locale: HotelLocale):
   };
 
   if (locale === "es") {
-    return withPhone;
+    return normalizeHotelSpanishValue(withPhone);
   }
 
   const ui = getHotelUi(locale);
@@ -780,6 +930,87 @@ export function buildHotelWhatsAppHref({
         ];
 
   return `https://wa.me/${HOTEL_WHATSAPP_PHONE_DIGITS}?text=${encodeURIComponent(lines.filter(Boolean).join("\n"))}`;
+}
+
+export function buildProfessionalHotelWhatsAppHref({
+  locale,
+  hotelName,
+  intent,
+  sourceLabel,
+  roomLabel,
+  checkIn = "",
+  checkOut = "",
+  guests,
+  price,
+  rateLabel,
+  nights = 0,
+  notes,
+}: HotelWhatsappParams) {
+  const resolvedHotelName = `*${hotelName.trim() || "Vuelo 78 Hotel"}*`;
+  const wave = "\u{1F44B}";
+  const sparkle = "\u2728";
+  const hotel = "\u{1F3E8}";
+  const bed = "\u{1F6CF}\uFE0F";
+  const calendar = "\u{1F4C5}";
+  const moon = "\u{1F319}";
+  const guestsEmoji = "\u{1F465}";
+  const money = "\u{1F4B5}";
+  const noteEmoji = "\u{1F4DD}";
+  const wantsBooking = intent === "widget" || intent === "room" || intent === "booking-cta";
+  const introLine =
+    locale === "en"
+      ? wantsBooking
+        ? `I would like to book at ${resolvedHotelName}.`
+        : `I would like more information about ${resolvedHotelName}.`
+      : wantsBooking
+        ? `Deseo reservar en ${resolvedHotelName}.`
+        : `Deseo más información sobre ${resolvedHotelName}.`;
+  const supportLine =
+    locale === "en"
+      ? wantsBooking
+        ? `${sparkle} I would appreciate your help confirming availability and the best rate.`
+        : `${sparkle} I would appreciate information about availability, rates and hotel details.`
+      : wantsBooking
+        ? `${sparkle} Agradeceré su apoyo para confirmar disponibilidad y la mejor tarifa.`
+        : `${sparkle} Agradeceré información sobre disponibilidad, tarifas y detalles del hotel.`;
+  const detailLines =
+    locale === "en"
+      ? [
+          roomLabel ? `${bed} *Room of interest:* ${roomLabel}` : null,
+          checkIn ? `${calendar} *Check-in:* ${formatHotelHumanDate(checkIn, locale)}` : null,
+          checkOut ? `${moon} *Check-out:* ${formatHotelHumanDate(checkOut, locale)}` : null,
+          nights > 0 ? `${hotel} *Stay:* ${nights} ${nights === 1 ? "night" : "nights"}` : null,
+          guests ? `${guestsEmoji} *Guests:* ${guests} ${guests === "1" ? "guest" : "guests"}` : null,
+          price ? `${money} *Reference rate:* ${price}${rateLabel ? ` ${rateLabel}` : ""}` : null,
+          notes ? `${noteEmoji} *Special request:* ${notes}` : null,
+        ]
+      : [
+          roomLabel ? `${bed} *Habitación de interés:* ${roomLabel}` : null,
+          checkIn ? `${calendar} *Entrada:* ${formatHotelHumanDate(checkIn, locale)}` : null,
+          checkOut ? `${moon} *Salida:* ${formatHotelHumanDate(checkOut, locale)}` : null,
+          nights > 0 ? `${hotel} *Estadía:* ${nights} ${nights === 1 ? "noche" : "noches"}` : null,
+          guests ? `${guestsEmoji} *Huéspedes:* ${guests} ${guests === "1" ? "huésped" : "huéspedes"}` : null,
+          price ? `${money} *Tarifa referencial:* ${price}${rateLabel ? ` ${rateLabel}` : ""}` : null,
+          notes ? `${noteEmoji} *Solicitud especial:* ${notes}` : null,
+        ];
+  const closingLine =
+    locale === "en"
+      ? "Thank you. I remain attentive to your response."
+      : "Muchas gracias. Quedo atento(a) a su respuesta.";
+
+  void sourceLabel;
+
+  return `https://wa.me/${HOTEL_WHATSAPP_PHONE_DIGITS}?text=${encodeURIComponent(
+    [
+      `${locale === "en" ? "Hello" : "Hola"} ${wave}`,
+      "",
+      introLine,
+      supportLine,
+      ...detailLines.filter(Boolean),
+      "",
+      closingLine,
+    ].join("\n"),
+  )}`;
 }
 
 export function formatHotelHumanDate(value: string, locale: HotelLocale) {

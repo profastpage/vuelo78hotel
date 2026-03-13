@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import type { EditorTextControls } from "./editor-text-types";
 import { renderBalancedSectionTitle } from "./headline-balance";
 import { InlineTextField } from "./InlineTextField";
-import { buildHotelWhatsAppHref, getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
+import { buildProfessionalHotelWhatsAppHref, getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
 
 type ContactFormProps = {
   title: string;
@@ -91,7 +91,7 @@ export function ContactForm({ title, description, brandName = "Vuelo 78 Hotel", 
   }
 
   const whatsappHref = whatsappNumber
-    ? buildHotelWhatsAppHref({
+    ? buildProfessionalHotelWhatsAppHref({
         locale,
         hotelName: brandName,
         intent: "contact",

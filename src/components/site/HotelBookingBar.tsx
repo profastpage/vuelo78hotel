@@ -3,7 +3,7 @@
 import { BedDouble, CalendarDays, MessageSquareText, MoonStar, UserRound, Users } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { SiteContent } from "@/types/site";
-import { buildHotelWhatsAppHref, getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
+import { buildProfessionalHotelWhatsAppHref, getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
 
 type HotelBookingBarProps = {
   brandName: string;
@@ -88,7 +88,7 @@ export function HotelBookingBar({
       return;
     }
 
-    const href = buildHotelWhatsAppHref({
+    const href = buildProfessionalHotelWhatsAppHref({
       locale,
       hotelName: brandName,
       intent: "widget",
@@ -130,12 +130,21 @@ export function HotelBookingBar({
           onClick={() => openField(roomSelectRef.current)}
         >
           <div className="hotel-deluxe-booking-label-row">
-            <span>{bookingWidget.detailLabel || (locale === "en" ? "Room" : "Habitacion")}</span>
+            <span>{bookingWidget.detailLabel || (locale === "en" ? "Room" : "Habitación")}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
               <BedDouble size={17} strokeWidth={1.8} />
             </span>
           </div>
-          <select aria-label={bookingWidget.detailLabel || (locale === "en" ? "Room" : "Habitacion")} onChange={(event) => setRoomId(event.target.value)} ref={roomSelectRef} value={roomId}>
+          <select
+            aria-label={bookingWidget.detailLabel || (locale === "en" ? "Room" : "Habitación")}
+            onChange={(event) => {
+              setRoomId(event.target.value);
+              window.requestAnimationFrame(() => event.currentTarget.blur());
+            }}
+            onClick={(event) => event.stopPropagation()}
+            ref={roomSelectRef}
+            value={roomId}
+          >
             {options.map((option) => (
               <option key={option.id} value={option.id}>
                 {option.label} - {option.price}
@@ -189,15 +198,24 @@ export function HotelBookingBar({
           onClick={() => openField(guestSelectRef.current)}
         >
           <div className="hotel-deluxe-booking-label-row">
-            <span>{bookingWidget.quantityLabel || (locale === "en" ? "Guests" : "Huespedes")}</span>
+            <span>{bookingWidget.quantityLabel || (locale === "en" ? "Guests" : "Huéspedes")}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
               <Users size={17} strokeWidth={1.8} />
             </span>
           </div>
-          <select aria-label={bookingWidget.quantityLabel || (locale === "en" ? "Guests" : "Huespedes")} onChange={(event) => setGuests(event.target.value)} ref={guestSelectRef} value={guests}>
+          <select
+            aria-label={bookingWidget.quantityLabel || (locale === "en" ? "Guests" : "Huéspedes")}
+            onChange={(event) => {
+              setGuests(event.target.value);
+              window.requestAnimationFrame(() => event.currentTarget.blur());
+            }}
+            onClick={(event) => event.stopPropagation()}
+            ref={guestSelectRef}
+            value={guests}
+          >
             {(bookingWidget.quantityOptions?.length ? bookingWidget.quantityOptions : ["1", "2", "3", "4", "5+"]).map((option) => (
               <option key={option} value={option}>
-                {option} {option === "1" ? (locale === "en" ? "guest" : "huesped") : locale === "en" ? "guests" : "huespedes"}
+                {option} {option === "1" ? (locale === "en" ? "guest" : "huésped") : locale === "en" ? "guests" : "huéspedes"}
               </option>
             ))}
           </select>
@@ -231,7 +249,7 @@ export function HotelBookingBar({
 
       {selectedRoom ? (
         <div className="hotel-reference-booking-summary hotel-home-booking-summary" aria-live="polite">
-          <span>{selectedRoom.badge || bookingWidget.selectionTitle || (locale === "en" ? "Current selection" : "Seleccion actual")}</span>
+          <span>{selectedRoom.badge || bookingWidget.selectionTitle || (locale === "en" ? "Current selection" : "Selección actual")}</span>
           <strong>{selectedRoom.label}</strong>
           <b>{selectedRoom.price}</b>
           <small>
@@ -239,7 +257,7 @@ export function HotelBookingBar({
               ? `${stayNights} ${stayNights === 1 ? (locale === "en" ? "night" : "noche") : locale === "en" ? "nights" : "noches"}`
               : selectedRoom.stayLabel}
             {" - "}
-            {guests} {guests === "1" ? (locale === "en" ? "guest" : "huesped") : locale === "en" ? "guests" : "huespedes"}
+            {guests} {guests === "1" ? (locale === "en" ? "guest" : "huésped") : locale === "en" ? "guests" : "huéspedes"}
           </small>
         </div>
       ) : null}
