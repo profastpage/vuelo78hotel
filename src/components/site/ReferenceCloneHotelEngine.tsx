@@ -31,7 +31,7 @@ type AmenityItem = {
   label: string;
 };
 
-const DEFAULT_AMENITY_ICONS = ["wi-fi", "aire", "seguridad", "ducha", "tv", "desayuno"];
+const DEFAULT_AMENITY_ICONS = ["desayuno", "wi-fi", "aire", "reserva", "bano", "servicio"];
 const REVIEW_AUTOPLAY_MS = 4800;
 const REVIEW_SWIPE_THRESHOLD = 56;
 
@@ -354,8 +354,8 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
           <div className="hotel-reference-tab-sidebar">
             <article className="hotel-reference-tab-intro">
               <span className="scene-chip">Estancia curada</span>
-              <h3>Explora la estancia correcta segun tu viaje y reserva sin friccion.</h3>
-              <p>Este bloque ordena la decision: habitacion principal, opcion flexible y beneficio de reservar directo, todo antes de llegar al formulario final.</p>
+              <h3>Elige la opcion ideal para tu viaje.</h3>
+              <p>Comparacion clara, reserva directa y menos friccion antes del siguiente paso.</p>
             </article>
 
             <div className="hotel-reference-tab-list" role="tablist" aria-label="Categorias de estancia">
@@ -383,11 +383,11 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
           <div className="hotel-reference-tab-panels">
             <article className="hotel-reference-tab-panel hotel-reference-tab-panel-1">
               <div className="hotel-reference-tab-panel-head">
-                <span className="scene-chip">Habitacion</span>
-                <span className="hotel-reference-tab-kicker">Suite amplia</span>
+                <span className="scene-chip">Suite</span>
+                <span className="hotel-reference-tab-kicker">Principal</span>
               </div>
-              <h3>Una suite comoda para descansar con mas calma en Tarapoto.</h3>
-              <p>Ideal para quien prioriza amplitud, descanso y una reserva clara desde el primer contacto con el hotel.</p>
+              <h3>Suite serena</h3>
+              <p>Amplia, comoda y lista para descansar con mejor contexto desde el primer scroll.</p>
               <div className="hotel-reference-tab-content">
                 <ul className="hotel-reference-tab-points">
                   <li>Cama amplia y ambiente tranquilo</li>
@@ -407,10 +407,10 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
             <article className="hotel-reference-tab-panel hotel-reference-tab-panel-2">
               <div className="hotel-reference-tab-panel-head">
                 <span className="scene-chip">Flexible</span>
-                <span className="hotel-reference-tab-kicker">Flexible</span>
+                <span className="hotel-reference-tab-kicker">Practica</span>
               </div>
-              <h3>Una opcion flexible para estancias cortas o llegadas practicas.</h3>
-              <p>Pensada para viajeros de paso, escalas o visitas cortas que buscan descansar sin complicar la reserva.</p>
+              <h3>Estadia flexible</h3>
+              <p>Practica para escalas, trabajo o visitas cortas con reserva simple y llegada agil.</p>
               <div className="hotel-reference-tab-content">
                 <ul className="hotel-reference-tab-points">
                   <li>Ingreso agil y coordinacion rapida</li>
@@ -430,10 +430,10 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
             <article className="hotel-reference-tab-panel hotel-reference-tab-panel-3">
               <div className="hotel-reference-tab-panel-head">
                 <span className="scene-chip">Directo</span>
-                <span className="hotel-reference-tab-kicker">Reserva directa</span>
+                <span className="hotel-reference-tab-kicker">Canal hotel</span>
               </div>
-              <h3>Reserva directo con el hotel y resuelve dudas antes de confirmar.</h3>
-              <p>Este panel refuerza la atencion humana, la claridad de tarifa y la ventaja de escribir sin intermediarios.</p>
+              <h3>Reserva directa</h3>
+              <p>Habla con el hotel, valida disponibilidad y confirma con claridad antes de pagar.</p>
               <div className="hotel-reference-tab-content">
                 <ul className="hotel-reference-tab-points">
                   <li>Confirmacion rapida de fechas</li>
@@ -648,7 +648,9 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
         <div className="hotel-reference-amenities">
           {amenities.map((amenity, index) => (
             <article className="hotel-reference-amenity" key={`${amenity.label}-${index}`}>
-              <span className={`hotel-reference-amenity-icon icon-${DEFAULT_AMENITY_ICONS[index % DEFAULT_AMENITY_ICONS.length]}`} aria-hidden="true" />
+              <span className={`hotel-reference-amenity-icon icon-${amenity.icon}`} aria-hidden="true">
+                <AmenityIcon kind={amenity.icon} />
+              </span>
               {editorMode && index < content.highlights.length ? (
                 <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`highlights.${index}`} label={`Amenidad ${index + 1}`} section="services" value={amenity.label} />
               ) : (
@@ -863,7 +865,7 @@ function buildAmenityItems(content: SiteContent): AmenityItem[] {
   const uniqueAmenities = Array.from(new Set(amenities)).slice(0, 6);
   if (uniqueAmenities.length) {
     return uniqueAmenities.map((label, index) => ({
-      icon: DEFAULT_AMENITY_ICONS[index % DEFAULT_AMENITY_ICONS.length],
+      icon: resolveAmenityIcon(label, index),
       label,
     }));
   }
@@ -876,6 +878,128 @@ function buildAmenityItems(content: SiteContent): AmenityItem[] {
     { icon: "tv", label: "TV por cable" },
     { icon: "desayuno", label: "Desayuno incluido" },
   ];
+}
+
+function resolveAmenityIcon(label: string, index: number) {
+  const text = label.trim().toLowerCase();
+
+  if (text.includes("wifi") || text.includes("wi-fi") || text.includes("internet")) {
+    return "wi-fi";
+  }
+
+  if (text.includes("aire") || text.includes("clima") || text.includes("acondicionado")) {
+    return "aire";
+  }
+
+  if (text.includes("desayuno") || text.includes("breakfast") || text.includes("cafe")) {
+    return "desayuno";
+  }
+
+  if (text.includes("reserva") || text.includes("directa") || text.includes("whatsapp")) {
+    return "reserva";
+  }
+
+  if (text.includes("bano") || text.includes("baño") || text.includes("ducha") || text.includes("privado")) {
+    return "bano";
+  }
+
+  if (text.includes("atencion") || text.includes("atención") || text.includes("recepcion") || text.includes("recepción") || text.includes("rapida") || text.includes("rápida")) {
+    return "servicio";
+  }
+
+  if (text.includes("seguridad") || text.includes("caja fuerte")) {
+    return "seguridad";
+  }
+
+  if (text.includes("tv") || text.includes("television") || text.includes("televisión") || text.includes("cable")) {
+    return "tv";
+  }
+
+  return DEFAULT_AMENITY_ICONS[index % DEFAULT_AMENITY_ICONS.length];
+}
+
+function AmenityIcon({ kind }: { kind: string }) {
+  switch (kind) {
+    case "desayuno":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <path d="M5 11h10a3 3 0 0 1 0 6H9a4 4 0 0 1-4-4v-2Z" />
+          <path d="M15 12h1a2 2 0 1 1 0 4h-1" />
+          <path d="M8 5v3" />
+          <path d="M11 4v4" />
+          <path d="M14 5v3" />
+        </svg>
+      );
+    case "wi-fi":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <path d="M4.5 9.5a12 12 0 0 1 15 0" />
+          <path d="M7.5 12.5a7.5 7.5 0 0 1 9 0" />
+          <path d="M10.5 15.5a3.5 3.5 0 0 1 3 0" />
+          <circle cx="12" cy="18" r="1.2" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "aire":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <path d="M12 3v18" />
+          <path d="M7.5 5.5 16.5 18.5" />
+          <path d="M16.5 5.5 7.5 18.5" />
+          <path d="M4 12h16" />
+        </svg>
+      );
+    case "reserva":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <rect x="4" y="5" width="16" height="15" rx="3" />
+          <path d="M8 3.5v4" />
+          <path d="M16 3.5v4" />
+          <path d="M4 10h16" />
+          <path d="m9.5 15 1.8 1.8L15 13" />
+        </svg>
+      );
+    case "bano":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <path d="M7 7a3 3 0 0 1 6 0v3" />
+          <path d="M5 10h10" />
+          <path d="M15 10.5c2.2 0 4 1.8 4 4V16" />
+          <path d="M8 13.5v2.5" />
+          <path d="M11 13.5v3.5" />
+          <path d="M14 13.5v2.5" />
+        </svg>
+      );
+    case "servicio":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <path d="M6.5 14a5.5 5.5 0 0 1 11 0" />
+          <path d="M5 14v2.5A1.5 1.5 0 0 0 6.5 18H8v-5H6.5A1.5 1.5 0 0 0 5 14Z" />
+          <path d="M19 14v2.5a1.5 1.5 0 0 1-1.5 1.5H16v-5h1.5A1.5 1.5 0 0 1 19 14Z" />
+          <path d="M12 18v2h2" />
+        </svg>
+      );
+    case "seguridad":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <path d="M12 3 6 5.5v5.8c0 4 2.4 7 6 9.2 3.6-2.2 6-5.2 6-9.2V5.5L12 3Z" />
+          <path d="m9.5 11.8 1.6 1.6 3.4-3.7" />
+        </svg>
+      );
+    case "tv":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <rect x="4" y="6" width="16" height="11" rx="2.5" />
+          <path d="M10 20h4" />
+          <path d="M12 17v3" />
+        </svg>
+      );
+    default:
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+          <path d="m12 4 1.9 4.6L19 10l-4 3.4 1.2 5.1L12 15.8 7.8 18.5 9 13.4 5 10l5.1-1.4L12 4Z" />
+        </svg>
+      );
+  }
 }
 
 function isHotelBenefit(value: string) {
