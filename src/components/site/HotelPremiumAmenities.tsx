@@ -13,8 +13,8 @@ export function HotelPremiumAmenities({ items }: HotelPremiumAmenitiesProps) {
     <section className="scene hotel-deluxe-section hotel-deluxe-amenities" id="servicios">
       <div className="hotel-deluxe-section-heading">
         <span className="scene-chip">Servicios y amenities</span>
-        <h2>Todo lo importante para una estancia comoda y facil de reservar.</h2>
-        <p>Beneficios visibles, lectura rapida y una experiencia mas boutique desde el primer scroll.</p>
+        <h2>Servicios pensados para una estancia comoda y sin complicaciones.</h2>
+        <p>Todo lo necesario para descansar bien y moverte con facilidad durante tu viaje.</p>
       </div>
 
       <div className="hotel-deluxe-amenity-grid">

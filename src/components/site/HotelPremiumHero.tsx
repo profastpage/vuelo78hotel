@@ -57,8 +57,8 @@ export function HotelPremiumHero({
 
       <div className="hotel-deluxe-booking-shell">
         <div className="hotel-deluxe-booking-head">
-          <span className="hotel-deluxe-booking-kicker">Reserva directa sin intermediarios</span>
-          <p>Confirma fechas, habitacion y tarifa desde la web y termina la conversacion por WhatsApp.</p>
+          <span className="hotel-deluxe-booking-kicker">Reserva directa</span>
+          <p>Elige tus fechas y consulta disponibilidad por WhatsApp en pocos pasos.</p>
         </div>
         <HotelBookingBar bookingWidget={bookingWidget} brandName={brandName} contactPhone={contactPhone} />
         <div className="hotel-deluxe-benefits" aria-label="Beneficios principales del hotel">

@@ -58,7 +58,13 @@ export function HotelPremiumHeader({
         <a className="hotel-reference-header-cta hotel-deluxe-header-cta" href={reservationHref}>
           {bookingCtaLabel} por WhatsApp
         </a>
-        <HotelMobileMenu activeSlug="hotel" bookingCtaLabel={`${bookingCtaLabel} por WhatsApp`} pages={pages} reservationHref={reservationHref} />
+        <HotelMobileMenu
+          activeSlug="hotel"
+          bookingCtaLabel={`${bookingCtaLabel} por WhatsApp`}
+          links={sectionLinks}
+          pages={pages}
+          reservationHref={reservationHref}
+        />
       </div>
     </header>
   );

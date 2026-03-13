@@ -14,11 +14,8 @@ export function HotelPremiumExperienceGallery({ items }: HotelPremiumExperienceG
     <section className="scene hotel-deluxe-section hotel-deluxe-experience" id="experiencia">
       <div className="hotel-deluxe-section-heading hotel-deluxe-experience-heading">
         <span className="scene-chip">Experiencia Vuelo 78 Hotel</span>
-        <h2>Un recorrido visual para transmitir descanso, comodidad y una estancia mas boutique.</h2>
-        <p>
-          Espacios pensados para mostrar atmosfera, llegada, descanso y momentos del hotel antes de que el usuario entre a
-          elegir habitacion.
-        </p>
+        <h2>Piscina, habitaciones y espacios pensados para disfrutar tu estadia.</h2>
+        <p>Conoce el ambiente del hotel antes de reservar y descubre una experiencia comoda, tranquila y cercana.</p>
       </div>
 
       <div className="hotel-deluxe-experience-grid">

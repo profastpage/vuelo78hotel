@@ -2,8 +2,8 @@
   "brand": {
     "name": "Vuelo 78 Hotel Tarapoto",
     "headline": "Descanso con reserva directa",
-    "description": "Hotel en Tarapoto con reserva directa, habitaciones comodas y una llegada simple cerca del aeropuerto.",
-    "subheadline": "Habitaciones comodas y atencion cercana.",
+    "description": "Descansa cerca del aeropuerto con habitaciones comodas, piscina y desayuno incluido.",
+    "subheadline": "Habitaciones comodas, piscina y atencion las 24 horas.",
     "primaryCtaLabel": "Reservar",
     "primaryCtaHref": "https://wa.me/51987654321?text=Hola%20%F0%9F%91%8B%0A%0AMe%20interesa%20reservar%20en%20Vuelo%2078%20Hotel%20Tarapoto.%0A%0A%F0%9F%8F%A8%20Quiero%20informacion%20sobre%20disponibilidad%0A%F0%9F%9B%8F%EF%B8%8F%20Tipos%20de%20habitacion%20y%20tarifas%0A%F0%9F%93%85%20Opciones%20de%20fecha%20para%20mi%20estadia%0A%0AMuchas%20gracias.",
     "secondaryCtaLabel": "Ver habitaciones",
@@ -16,9 +16,9 @@
     }
   },
   "narrative": {
-    "title": "Una experiencia hotelera mas cercana al referente visual",
-    "body": "Una propuesta hotelera clara, visual y contemporanea para mostrar habitaciones, servicios y experiencias con mas valor percibido desde el primer scroll.",
-    "goal": "Generar reservas directas y consultas de disponibilidad"
+    "title": "Descansa en Tarapoto con una reserva directa y atencion cercana.",
+    "body": "Una landing clara para mostrar habitaciones, servicios y la experiencia del hotel con un recorrido facil de entender.",
+    "goal": "Generar reservas directas por WhatsApp y consultas de disponibilidad"
   },
   "theme": {
     "mode": "Light",
@@ -36,9 +36,9 @@
     "supportLabel": "Habitaciones destacadas",
     "proofLabel": "Clientes reales",
     "storyChip": "Habitacion principal",
-    "storyTitle": "Elige la estancia que mejor se ajusta a tu viaje",
+    "storyTitle": "Elige la habitacion ideal para tu viaje",
     "testimonialsChip": "Resenas verificadas",
-    "testimonialsTitle": "Lo que dicen nuestros clientes reales",
+    "testimonialsTitle": "Comentarios de huespedes que ya se alojaron con nosotros",
     "faqChip": "Preguntas frecuentes",
     "faqTitle": "Dudas comunes antes de confirmar la reserva"
   },
@@ -59,7 +59,7 @@
   "services": [
     {
       "title": "Suite principal con vista natural",
-      "description": "Habitacion amplia con cama premium, atmosfera tranquila y una reserva directa visible desde el primer scroll.",
+      "description": "Habitacion amplia con cama comoda, buena iluminacion y un ambiente tranquilo para descansar mejor.",
       "imageSrc": "/assets/uploads/hotel-deluxe-wide.jpg",
       "imagePosition": {
         "x": 50,
@@ -68,7 +68,7 @@
     },
     {
       "title": "Habitacion superior doble",
-      "description": "Opcion flexible para pareja, familia corta o viaje de trabajo con lectura clara y beneficios visibles.",
+      "description": "Una opcion comoda para pareja o viaje de trabajo, con espacio funcional y descanso asegurado.",
       "imageSrc": "/assets/uploads/hotel-deluxe-pool.jpg",
       "imagePosition": {
         "x": 50,
@@ -77,7 +77,7 @@
     },
     {
       "title": "Estadia ejecutiva flexible",
-      "description": "Alternativa pensada para reservas cortas, llegada agil y una experiencia hotelera premium pero simple.",
+      "description": "Ideal para una estancia corta, una llegada practica o una noche de descanso antes de continuar el viaje.",
       "imageSrc": "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde.jfif",
       "imagePosition": {
         "x": 50,
@@ -86,7 +86,7 @@
     },
     {
       "title": "Galeria y experiencia del hotel",
-      "description": "Bloque visual para mostrar ambientes, descanso y puntos diferenciales sin perder ritmo editorial.",
+      "description": "Espacios del hotel para conocer la piscina, las areas comunes y el ambiente de la estadia.",
       "imageSrc": "/assets/uploads/hotel-e958a5dd-c4f1-4619-b0cd-7449eb4b6695.webp",
       "imagePosition": {
         "x": 54,
@@ -95,7 +95,7 @@
     },
     {
       "title": "Reserva directa y asistencia",
-      "description": "Modulo de contacto y reserva para confirmar disponibilidad, fechas y tipo de habitacion con menos friccion.",
+      "description": "Canal directo para consultar disponibilidad, fechas y tipo de habitacion por WhatsApp.",
       "imageSrc": "/assets/uploads/hotel-deluxe-wide.jpg",
       "imagePosition": {
         "x": 50,
@@ -233,7 +233,7 @@
     "title": "Confirma tu fecha y recibe ayuda para reservar",
     "description": "Comparte tus fechas, tipo de habitacion y numero de huespedes. El equipo te responde con disponibilidad y tarifa directa por WhatsApp.",
     "whatsappNumber": "+51987654321",
-    "email": "hola@auralis.studio"
+    "email": ""
   },
   "bookingWidget": {
     "preset": "hotel",
@@ -283,7 +283,7 @@
         "price": "S/ 249",
         "rateLabel": "por noche",
         "stayLabel": "1 noche",
-        "summary": "Vista destacada, cama amplia y una entrada hotelera clara desde el primer scroll.",
+        "summary": "Habitacion amplia, cama comoda y una opcion ideal para descansar con tranquilidad.",
         "perks": [
           "Desayuno",
           "WiFi",
@@ -301,7 +301,7 @@
         "price": "S/ 289",
         "rateLabel": "por noche",
         "stayLabel": "1 noche",
-        "summary": "Pensada para viajes de pareja o trabajo con ritmo visual premium.",
+        "summary": "Pensada para viajes de pareja o trabajo, con comodidad y atencion directa del hotel.",
         "perks": [
           "WiFi",
           "Bano privado",
@@ -319,7 +319,7 @@
         "price": "S/ 179",
         "rateLabel": "por estadia",
         "stayLabel": "6 horas",
-        "summary": "Opcion corta para descansar, esperar un vuelo o usar la experiencia del hotel por menos tiempo.",
+        "summary": "Opcion corta para descansar, esperar un vuelo o pasar unas horas con mayor comodidad.",
         "perks": [
           "WiFi",
           "Ingreso agil",
@@ -337,7 +337,7 @@
         "price": "S/ 349",
         "rateLabel": "por noche",
         "stayLabel": "2 noches",
-        "summary": "Mayor amplitud para familia o grupos cortos con reserva directa y mejor tarifa web.",
+        "summary": "Mayor amplitud para familia o grupos pequenos con una reserva directa y facil de coordinar.",
         "perks": [
           "Desayuno",
           "WiFi",
@@ -367,8 +367,8 @@
   },
   "location": {
     "address": "Jr. Jorge Chavez 1793, Barrio Huayco",
-    "city": "Tarapoto 22201, San Martin, Peru",
-    "hours": "Recepcion 24 horas · a una cuadra del aeropuerto",
+    "city": "Tarapoto, San Martin, Peru",
+    "hours": "Recepcion 24 horas y a una cuadra del aeropuerto",
     "mapsEmbedUrl": "https://www.google.com/maps?q=Jiron%20Jorge%20Chavez%201793%2C%20Tarapoto%2C%20Peru&output=embed",
     "mapsLink": "https://www.google.com/maps?q=Jiron%20Jorge%20Chavez%201793%2C%20Tarapoto%2C%20Peru"
   },

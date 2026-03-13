@@ -130,12 +130,12 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
           <article className="contact-signal-card">
             <span>Respuesta</span>
             <strong>Atencion prioritaria</strong>
-            <p>Disponible para confirmar habitaciones, tarifas y solicitudes especiales con mejor orden visual.</p>
+            <p>Ideal para confirmar habitaciones, tarifas y cualquier solicitud especial antes de tu llegada.</p>
           </article>
           <article className="contact-signal-card">
             <span>Canal directo</span>
             <strong>Reserva sin intermediarios</strong>
-            <p>WhatsApp visible y formulario elegante para llevar la consulta al siguiente paso con menos friccion.</p>
+            <p>Escribe por WhatsApp o deja tu consulta para recibir una respuesta clara del hotel.</p>
           </article>
         </div>
 
@@ -175,8 +175,8 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
 
       <div className="contact-form-shell" data-animate data-animate-delay="80">
         <div className="contact-form-shell-top">
-          <span className="contact-form-shell-kicker">Formulario de reserva</span>
-          <p>Comparte fechas, tipo de habitacion o solicitud especial. La respuesta queda orientada a cerrar tu estadia con claridad.</p>
+          <span className="contact-form-shell-kicker">Consulta de reserva</span>
+          <p>Comparte tus fechas y el tipo de habitacion que buscas. El hotel te responde con disponibilidad y tarifa.</p>
         </div>
 
         <form className="contact-form contact-form-deluxe" onSubmit={handleSubmit} noValidate>
@@ -203,7 +203,7 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
               Email <span className="field-required" aria-hidden="true">*</span>
               <input
                 name="email"
-                placeholder="correo@ejemplo.com"
+                placeholder="Tu correo"
                 required
                 type="email"
                 aria-invalid={!!fieldErrors.email}
@@ -222,7 +222,7 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
             Telefono <span className="field-optional">(opcional)</span>
             <input
               name="phone"
-              placeholder="+51 999 999 999"
+              placeholder="Tu telefono"
               type="tel"
               autoComplete="tel"
             />
@@ -232,7 +232,7 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
             Mensaje <span className="field-required" aria-hidden="true">*</span>
             <textarea
               name="message"
-              placeholder="Cuentanos fechas, tipo de habitacion y cualquier detalle que debamos considerar..."
+              placeholder="Indicanos tus fechas, tipo de habitacion y cualquier detalle importante para tu reserva."
               required
               rows={6}
               aria-invalid={!!fieldErrors.message}

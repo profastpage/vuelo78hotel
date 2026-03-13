@@ -9,11 +9,14 @@ type HotelNavItem = {
 type HotelMobileMenuProps = {
   activeSlug: HotelPageSlug;
   bookingCtaLabel: string;
+  links?: readonly { label: string; href: string }[];
   pages: readonly HotelNavItem[];
   reservationHref: string;
 };
 
-export function HotelMobileMenu({ activeSlug, bookingCtaLabel, pages, reservationHref }: HotelMobileMenuProps) {
+export function HotelMobileMenu({ activeSlug, bookingCtaLabel, links, pages, reservationHref }: HotelMobileMenuProps) {
+  const navLinks = links?.length ? links : pages;
+
   return (
     <details className="hotel-reference-mobile-menu">
       <summary className="hotel-reference-mobile-toggle" aria-label="Abrir menu">
@@ -24,8 +27,8 @@ export function HotelMobileMenu({ activeSlug, bookingCtaLabel, pages, reservatio
 
       <div className="hotel-reference-mobile-panel">
         <nav className="hotel-reference-mobile-links" aria-label="Menu del hotel">
-          {pages.map((page) => (
-            <a className={page.slug === activeSlug ? "is-active" : undefined} href={page.href} key={page.slug}>
+          {navLinks.map((page) => (
+            <a className={"slug" in page && page.slug === activeSlug ? "is-active" : undefined} href={page.href} key={page.href}>
               {page.label}
             </a>
           ))}

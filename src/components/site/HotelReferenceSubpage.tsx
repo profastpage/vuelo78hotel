@@ -48,9 +48,10 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
   const faqs = buildHotelReferenceFaqs(getVisibleFaqs(content).slice(0, 4), content);
   const galleryItems = getGalleryItems(content, content.brand.name);
   const bookingWidget = resolveBookingWidget(content, profile);
+  const contactPhone = normalizeHotelPhone(content.contact.whatsappNumber);
   const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
   const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
-  const reservationHref = content.brand.primaryCtaHref || "#contacto";
+  const reservationHref = normalizeReservationHref(content.brand.primaryCtaHref, contactPhone, content.brand.name);
   const locationQuery = encodeURIComponent([content.location?.address, content.location?.city].filter(Boolean).join(", "));
   const mapHref = locationQuery ? `https://www.google.com/maps?q=${locationQuery}` : reservationHref;
   const mapEmbedHref = locationQuery ? `https://www.google.com/maps?q=${locationQuery}&output=embed` : "";
@@ -92,11 +93,11 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
     })),
   ].slice(0, 5);
   const storyMedia = rail[0];
-  const storyChip = content.uiText?.storyChip || data.story.chip;
-  const storyTitle = content.uiText?.storyTitle || data.story.title;
-  const storyBody = content.narrative.goal || data.story.body;
-  const railTitle = content.uiText?.storyTitle || data.railTitle;
-  const railDescription = content.narrative.goal || data.railDescription;
+  const storyChip = data.story.chip;
+  const storyTitle = data.story.title;
+  const storyBody = data.story.body;
+  const railTitle = data.railTitle;
+  const railDescription = data.railDescription;
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
   const leadPrice = bookingWidget.options?.[0]?.price || "Tarifa directa";
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
@@ -191,9 +192,9 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
 
       <section className="scene hotel-reference-modal-grid" data-animate data-animate-delay="130" data-editor-section="faqs">
         <div className="hotel-reference-section-heading">
-          <span className="scene-chip">Popup / detalle</span>
-          <h2>Capas de apoyo para ampliar informacion sin ensuciar la pagina.</h2>
-          <p>Replican el patron de popup del referente con contenido nuevo, copy propio y CTA directo.</p>
+          <span className="scene-chip">Mas informacion</span>
+          <h2>Detalles utiles antes de confirmar tu reserva.</h2>
+          <p>Una forma simple de resolver dudas sobre horarios, condiciones y servicios del hotel.</p>
         </div>
         <div className="hotel-reference-modal-cards">
           {modalItems.map((modal, index) => (
@@ -204,7 +205,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
               </summary>
               <div className="hotel-reference-modal-panel" role="dialog" aria-label={modal.title}>
                 <div className="hotel-reference-modal-content">
-                  <span className="scene-chip">Detalle</span>
+                  <span className="scene-chip">Informacion</span>
                   {editorMode ? <InlineTextField as="h3" controls={editorTextControls} enabled fieldKey={`faqs.${index}.question`} label={`Cabecera popup ${index + 1}`} section="faqs" value={modal.title} /> : <h3>{modal.title}</h3>}
                   {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={`faqs.${index}.answer`} label={`Contenido popup ${index + 1}`} minRows={4} multiline section="faqs" value={modal.body} /> : <p>{modal.body}</p>}
                   <div className="hotel-reference-room-actions">
@@ -220,7 +221,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
 
       <section className="scene hotel-reference-rail-shell" data-animate data-animate-delay="170" data-editor-section="gallery">
         <div className="hotel-reference-section-heading">
-          <span className="scene-chip">Slider / rail</span>
+          <span className="scene-chip">Galeria</span>
           {editorMode ? <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="uiText.storyTitle" label="Titulo rail" minRows={3} multiline section="gallery" value={railTitle} /> : <h2>{railTitle}</h2>}
           {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion rail" minRows={3} multiline section="gallery" value={railDescription} /> : <p>{railDescription}</p>}
         </div>
@@ -245,7 +246,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
           <article className="hotel-reference-map-card">
             <span className="scene-chip">Ubicacion</span>
             {editorMode ? <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="location.city" label="Ciudad del hotel" section="contact" value={content.location?.city || "Tarapoto, Peru"} /> : <h2>{content.location?.city || "Tarapoto, Peru"}</h2>}
-            {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.address" label="Direccion del hotel" minRows={3} multiline section="contact" value={`${content.location?.address || "Tarapoto, Peru"}. La pagina de mapa ahora muestra la direccion exacta, el embed real de Google Maps y fotos del hotel para ubicar la llegada sin adivinar.`} /> : <p>{content.location?.address || "Tarapoto, Peru"}. La pagina de mapa ahora muestra la direccion exacta, el embed real de Google Maps y fotos del hotel para ubicar la llegada sin adivinar.</p>}
+            {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.address" label="Direccion del hotel" minRows={3} multiline section="contact" value={`${content.location?.address || "Tarapoto, Peru"}. Aqui puedes revisar el mapa, la direccion exacta y una vista de llegada antes de reservar.`} /> : <p>{content.location?.address || "Tarapoto, Peru"}. Aqui puedes revisar el mapa, la direccion exacta y una vista de llegada antes de reservar.</p>}
             <div className="hotel-reference-facts-grid">
               <article><span>Direccion</span><strong>{content.location?.address || "Tarapoto"}</strong></article>
               <article><span>Ciudad</span><strong>{content.location?.city || "Tarapoto, Peru"}</strong></article>
@@ -281,7 +282,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
                   />
                   <div className="hotel-reference-map-gallery-copy">
                     <strong>{index === 0 ? "Foto del hotel" : item.title}</strong>
-                    <span>{index === 0 ? "Referencia visual de llegada y fachada" : item.description}</span>
+                    <span>{index === 0 ? "Llegada y fachada del hotel" : item.description}</span>
                   </div>
                 </article>
               ))}
@@ -297,7 +298,7 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
         editorMode={editorMode}
         editorTextControls={editorTextControls}
         title={content.contact.title || "Confirma disponibilidad y reserva con claridad"}
-        whatsappNumber={content.contact.whatsappNumber}
+        whatsappNumber={contactPhone}
       />
 
       <footer className="scene hotel-reference-footer">
@@ -328,14 +329,14 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
   const firstServices = services.slice(0, 3);
   const sharedCards = firstServices.length
     ? firstServices.map((service, index) => ({
-        eyebrow: index === 0 ? "Destacado" : "Bloque",
+        eyebrow: index === 0 ? "Destacado" : "Servicio",
         title: service.title,
         description: service.description,
       }))
     : [
-        { eyebrow: "Bloque", title: "Habitacion premium", description: "Placeholder listo para editar." },
-        { eyebrow: "Bloque", title: "Experiencia directa", description: "Placeholder listo para editar." },
-        { eyebrow: "Bloque", title: "Reserva clara", description: "Placeholder listo para editar." },
+        { eyebrow: "Destacado", title: "Habitacion principal", description: "Una opcion comoda para descansar con reserva directa." },
+        { eyebrow: "Servicio", title: "Espacios del hotel", description: "Piscina, zonas comunes y una llegada simple." },
+        { eyebrow: "Reserva", title: "Atencion directa", description: "Consulta disponibilidad y confirma tu estadia por WhatsApp." },
       ];
 
   const map: Record<Exclude<HotelPageSlug, "hotel">, Data> = {
@@ -344,63 +345,63 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       title: "Ofertas directas",
       description: "Promociones claras para reservar mejor.",
       metrics: [{ label: "Planes", value: "03" }, { label: "Destino", value: city }, { label: "Reserva", value: "Directa" }],
-      story: { chip: "Ofertas", title: "Promociones con orden visual y CTA temprano.", body: "Mantiene el ritmo del referente: hero dominante, bloques editoriales, popup y rail horizontal." },
+      story: { chip: "Ofertas", title: "Promociones directas para reservar mejor.", body: "Consulta paquetes, fines de semana y tarifas especiales con una lectura clara y rapida." },
       cards: sharedCards,
-      modals: [{ title: "Promo fin de semana", body: "Capa lista para condiciones, vigencia y beneficio principal." }, { title: "Escapada flexible", body: "Espacio para day use, late check-out o mejora de categoria." }, { title: "Plan corporativo", body: "Ideal para trabajo, estadias cortas o convenio de empresa." }],
-      railTitle: "Un rail para upgrades, perks y visuales de campana.",
-      railDescription: "Se desplaza bien en celular y sostiene el tono premium del sitio.",
+      modals: [{ title: "Promo fin de semana", body: "Consulta vigencia, tipo de habitacion y beneficio incluido antes de reservar." }, { title: "Escapada flexible", body: "Ideal para day use, late check-out o una noche de descanso cerca del aeropuerto." }, { title: "Plan corporativo", body: "Opciones practicas para viajes de trabajo, traslados y estadias cortas." }],
+      railTitle: "Promociones y escenas del hotel en un recorrido simple.",
+      railDescription: "Una galeria ligera para reforzar beneficios sin saturar la pagina.",
       faqTitle: "Preguntas frecuentes sobre ofertas y reservas",
-      contactDescription: "Usa esta pagina para anuncios, campañas y consultas de disponibilidad con menos friccion.",
+      contactDescription: "Consulta disponibilidad, promociones vigentes y condiciones de reserva de forma directa.",
     },
     experiencias: {
       kicker: "Estancia y atmosfera",
       title: "Momentos memorables",
       description: "Detalles que elevan cada estancia.",
       metrics: [{ label: "Atencion", value: "24/7" }, { label: "Entorno", value: "Urbano" }, { label: "Mood", value: "Premium" }],
-      story: { chip: "Experiencias", title: "Narrativa hotelera con imagen grande y copy breve.", body: "Sirve para vender sensacion, calma, pequenos momentos y valor mas alla del cuarto." },
+      story: { chip: "Experiencias", title: "Momentos para descansar, desconectar y disfrutar la estadia.", body: "Una lectura breve para mostrar piscina, llegada, desayuno y pequenos detalles del hotel." },
       cards: sharedCards,
-      modals: [{ title: "Llegada sin friccion", body: "Panel para check-in, bienvenida y soporte de llegada." }, { title: "Momentos del hotel", body: "Bloque para lounge, descanso o day use con lenguaje mas editorial." }, { title: "Estadia flexible", body: "Espacio para upgrades o solicitudes antes de llegar." }],
-      railTitle: "Escenas visuales para sostener una narrativa mas hotelera.",
-      railDescription: "Buen formato para materiales, texturas, amenities y detalles sin sobrecargar la pagina.",
+      modals: [{ title: "Llegada tranquila", body: "Informacion util para check-in, bienvenida y coordinacion antes de llegar." }, { title: "Momentos del hotel", body: "Una capa breve para piscina, descanso o espacios comunes." }, { title: "Estadia flexible", body: "Opciones para pedidos especiales o ajustes antes del viaje." }],
+      railTitle: "Una galeria pensada para transmitir descanso y comodidad.",
+      railDescription: "Ideal para mostrar piscina, habitaciones, detalles y ambiente sin exceso de texto.",
       faqTitle: "Preguntas frecuentes sobre la experiencia y la estancia",
-      contactDescription: "La pagina queda preparada para vender sensaciones y diferenciales sin caer en texto plano.",
+      contactDescription: "Consulta por disponibilidad, servicios y detalles de tu estadia antes de reservar.",
     },
     habitaciones: {
       kicker: "Suites y categorias",
       title: "Suites y habitaciones",
       description: `Categorias claras desde ${leadPrice}.`,
       metrics: [{ label: "Categorias", value: `${Math.max(services.length, 3)}` }, { label: "Tarifa", value: leadPrice }, { label: "Canal", value: "WhatsApp" }],
-      story: { chip: "Habitaciones", title: "La misma direccion del referente convertida en sistema reutilizable.", body: "Pagina ideal para suites, dobles, familiares o day use con imagen dominante y acciones visibles." },
+      story: { chip: "Habitaciones", title: "Categorias claras para elegir la estancia que mejor se adapta a tu viaje.", body: "Compara opciones, revisa beneficios y reserva directo con el hotel." },
       cards: sharedCards,
-      modals: [{ title: "Amenidades incluidas", body: "Detalle de WiFi, desayuno, aire, smart TV y otros perks." }, { title: "Politica de reserva", body: "Horario, anticipos, cancelacion y condiciones de estadia." }, { title: "Upgrade o pedido especial", body: "Bloque para cama extra, decoracion o asistencia previa." }],
-      railTitle: "Slider editorial para reforzar atmosfera y materialidad.",
-      railDescription: "Se usa para angulos del cuarto, detalles y pequenos momentos de la estancia.",
+      modals: [{ title: "Amenidades incluidas", body: "Consulta WiFi, desayuno, aire acondicionado y detalles de cada categoria." }, { title: "Politica de reserva", body: "Revisa horarios, anticipos, cancelaciones y condiciones de estadia." }, { title: "Pedido especial", body: "Espacio para cama extra, decoracion o coordinaciones previas a tu llegada." }],
+      railTitle: "Habitaciones, detalles y ambiente en un recorrido visual breve.",
+      railDescription: "Muestra cama, bano, escritorio o amplitud sin perder una lectura clara.",
       faqTitle: "Preguntas frecuentes sobre habitaciones, tarifas y check-in",
-      contactDescription: "La pagina de habitaciones queda lista para fotos reales, descripciones finas y una reserva directa mas clara.",
+      contactDescription: "Escribe para confirmar tarifa, tipo de habitacion y disponibilidad en tus fechas.",
     },
     servicios: {
       kicker: "Amenities y soporte",
       title: "Servicios esenciales",
       description: "Beneficios visibles para una estancia fluida.",
       metrics: [{ label: "Amenities", value: "Premium" }, { label: "Atencion", value: "Humana" }, { label: "Apoyo", value: "Directo" }],
-      story: { chip: "Servicios", title: "Los servicios se traducen en valor percibido.", body: "La composicion usa tarjetas grandes y superficies limpias para vender soporte, desayuno, conectividad y asistencia." },
+      story: { chip: "Servicios", title: "Todo lo necesario para una estancia comoda y bien atendida.", body: "Aqui se resumen desayuno, conectividad, asistencia y apoyo durante tu llegada." },
       cards: sharedCards,
-      modals: [{ title: "Desayuno y horarios", body: "Espacio para horarios, formato y detalles del servicio." }, { title: "Apoyo antes de llegar", body: "Panel para traslado, indicaciones y check-in tardio." }, { title: "Servicios a medida", body: "Perfecto para lavanderia, decoracion o pedidos especiales." }],
-      railTitle: "Rail para amenities sin caer en una ficha tecnica.",
-      railDescription: "Combina fotografia, microcopy y senales rapidas de valor.",
+      modals: [{ title: "Desayuno y horarios", body: "Consulta horarios, formato del desayuno y detalles del servicio." }, { title: "Apoyo antes de llegar", body: "Informacion sobre traslado, indicaciones y check-in tardio." }, { title: "Servicios a medida", body: "Espacio para lavanderia, decoracion o pedidos especiales." }],
+      railTitle: "Servicios y espacios del hotel en una galeria ligera.",
+      railDescription: "Una forma limpia de mostrar beneficios sin convertir la pagina en una ficha tecnica.",
       faqTitle: "Preguntas frecuentes sobre servicios y asistencia",
-      contactDescription: "Esta pagina ayuda a sostener la promesa premium del hotel con una lectura mucho mas clara.",
+      contactDescription: "Consulta servicios disponibles, horarios y detalles antes de confirmar tu reserva.",
     },
     restaurante: {
       kicker: "Desayuno y gastronomia",
       title: "Cocina y desayuno",
       description: "Propuesta cuidada, breve y bien presentada.",
       metrics: [{ label: "Servicio", value: "Desayuno" }, { label: "Ambiente", value: "Calmo" }, { label: "Reserva", value: "Simple" }],
-      story: { chip: "Restaurante", title: "Imagen dominante, texto corto y capas de detalle.", body: "Funciona para desayuno, brunch, lounge o bar con una estetica coherente con el hotel." },
+      story: { chip: "Restaurante", title: "Desayuno y momentos del hotel con una presentacion mas cuidada.", body: "Sirve para mostrar el ambiente, el servicio y la experiencia de comer dentro del hotel." },
       cards: sharedCards,
-      modals: [{ title: "Menu destacado", body: "Espacio para platos firma, bebidas o propuesta del dia." }, { title: "Horario de servicio", body: "Ideal para explicar desayuno incluido o modalidad a la carta." }, { title: "Cena privada", body: "Bloque para reservar mesa o experiencia gastronomica especial." }],
-      railTitle: "Un rail horizontal para platos, escenas y pequenos momentos.",
-      railDescription: "Muy util para trafico de redes y para mantener la pagina mas visual.",
+      modals: [{ title: "Menu destacado", body: "Consulta platos, bebidas o sugerencias del dia." }, { title: "Horario de servicio", body: "Confirma desayuno incluido y horarios del restaurante." }, { title: "Cena privada", body: "Espacio para consultar una mesa o una atencion especial." }],
+      railTitle: "Escenas del restaurante y del desayuno en un formato visual simple.",
+      railDescription: "Ayuda a mostrar ambiente y servicio con una lectura mas elegante.",
       faqTitle: "Preguntas frecuentes sobre restaurante, desayunos y reservas",
       contactDescription: "La pagina queda lista para integrar carta real, fotos propias y reserva de mesa.",
     },
@@ -409,11 +410,11 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       title: "Eventos corporativos",
       description: "Espacios listos para reuniones y celebraciones.",
       metrics: [{ label: "Formato", value: "Flexible" }, { label: "Montajes", value: "03+" }, { label: "Respuesta", value: "Rapida" }],
-      story: { chip: "Eventos", title: "Jerarquia limpia para vender salones, reuniones y celebraciones.", body: "La direccion visual evita verse como folleto PDF y acerca la consulta comercial." },
+      story: { chip: "Eventos", title: "Espacios listos para reuniones, celebraciones y encuentros corporativos.", body: "Una lectura breve para presentar el salon, el montaje y el canal de contacto." },
       cards: sharedCards,
-      modals: [{ title: "Solicitar cotizacion", body: "Bloque para rango de aforo, respuesta y datos basicos." }, { title: "Montajes disponibles", body: "Espacio para directorio, auditorio, banquete o coctel." }, { title: "Catering y soporte", body: "Panel para cafe, menu, audiovisuales y coordinacion." }],
-      railTitle: "Carrusel para salones, montajes y escenas de uso.",
-      railDescription: "Refuerza visualmente el espacio antes del contacto o la cotizacion.",
+      modals: [{ title: "Solicitar cotizacion", body: "Comparte aforo estimado, fecha y requerimientos para recibir una propuesta." }, { title: "Montajes disponibles", body: "Consulta formatos como directorio, auditorio, banquete o coctel." }, { title: "Catering y soporte", body: "Revisa opciones de cafe, menu, audiovisuales y coordinacion." }],
+      railTitle: "Salones y montajes en una galeria clara y directa.",
+      railDescription: "Refuerza el espacio antes del contacto o de la cotizacion final.",
       faqTitle: "Preguntas frecuentes sobre aforos, cotizaciones y montajes",
       contactDescription: "La pagina de eventos queda lista para captar leads mas calificados y mostrar espacios con mejor jerarquia.",
     },
@@ -422,11 +423,11 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       title: "Galeria del hotel",
       description: "Imagenes curadas para recorrer el hotel.",
       metrics: [{ label: "Imagenes", value: `${Math.max(services.length + 2, 6)}` }, { label: "Formato", value: "Editorial" }, { label: "Uso", value: "Responsive" }],
-      story: { chip: "Galeria", title: "La imagen manda, pero con control compositivo.", body: "Usa modulos amplios, rail horizontal y bloques curados para evitar una grilla generica." },
+      story: { chip: "Galeria", title: "Imagenes para recorrer el hotel con una lectura clara.", body: "Una seleccion visual para conocer habitaciones, piscina y espacios comunes." },
       cards: sharedCards,
-      modals: [{ title: "Coleccion habitaciones", body: "Abre una serie visual mas enfocada del inventario." }, { title: "Ambientes del hotel", body: "Agrupa lobby, zonas comunes y atmosfera general." }, { title: "Experiencias y detalles", body: "Ideal para close-ups, texturas y pequenos momentos." }],
-      railTitle: "Slider visual listo para reemplazar con imagenes reales.",
-      railDescription: "Da una experiencia cercana al referente: visual, limpia y facil de recorrer.",
+      modals: [{ title: "Coleccion habitaciones", body: "Una vista mas enfocada de las principales categorias del hotel." }, { title: "Ambientes del hotel", body: "Espacios comunes, lobby y atmosfera general de la estancia." }, { title: "Experiencias y detalles", body: "Pequenos momentos que ayudan a imaginar la experiencia completa." }],
+      railTitle: "Una galeria visual para recorrer el hotel sin perder orden.",
+      railDescription: "Imagenes grandes y limpias para mostrar el hotel con mejor presencia.",
       faqTitle: "Preguntas frecuentes sobre imagenes y colecciones",
       contactDescription: "La galeria queda estructurada para crecer con material propio sin perder ritmo ni legibilidad.",
     },
@@ -435,11 +436,11 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
       title: "Ubicacion precisa",
       description: "Acceso simple, referencias claras y llegada segura.",
       metrics: [{ label: "Ciudad", value: city }, { label: "Acceso", value: "Facil" }, { label: "Canal", value: "Directo" }],
-      story: { chip: "Mapa", title: "La ubicacion tambien vende confianza.", body: "Se combina mapa visual, textos cortos y CTA de reserva para que la llegada se sienta sencilla." },
+      story: { chip: "Mapa", title: "La ubicacion tambien ayuda a reservar con mas confianza.", body: "Mapa, direccion y referencias claras para que la llegada se sienta simple desde el primer vistazo." },
       cards: sharedCards,
-      modals: [{ title: "Como llegar", body: "Espacio para aeropuerto, terminal, taxis y referencias simples." }, { title: "Entorno del hotel", body: "Bloque para restaurantes cercanos, plazas y puntos utiles." }, { title: "Check-in y contacto", body: "Panel para horarios, confirmaciones y soporte directo." }],
-      railTitle: "Recorrido visual para reforzar contexto y llegada.",
-      railDescription: "Sirve para fachada, calles cercanas, lobby o puntos de acceso.",
+      modals: [{ title: "Como llegar", body: "Consulta aeropuerto, taxis, accesos y referencias simples." }, { title: "Entorno del hotel", body: "Lugares cercanos y puntos utiles para orientarte mejor." }, { title: "Check-in y contacto", body: "Horarios, confirmaciones y apoyo directo antes de tu llegada." }],
+      railTitle: "Llegada, entorno y acceso en un recorrido visual breve.",
+      railDescription: "Una ayuda simple para ubicar el hotel con mayor confianza.",
       faqTitle: "Preguntas frecuentes sobre ubicacion, acceso y llegada",
       contactDescription: "La pagina de mapa deja lista una capa de confianza logistica que ayuda a convertir mejor.",
     },
@@ -450,14 +451,14 @@ function getPageData(pageSlug: Exclude<HotelPageSlug, "hotel">, content: SiteCon
 
 function getHotelReferenceRailCopy(pageSlug: Exclude<HotelPageSlug, "hotel">, index: number) {
   const text: Record<Exclude<HotelPageSlug, "hotel">, string[]> = {
-    ofertas: ["Upgrade, promo o paquete con lectura clara.", "Beneficio clave y CTA visible.", "Pieza util para pauta y temporada alta.", "Visual corto con sentido comercial.", "Bloque horizontal muy usable en celular."],
-    experiencias: ["Escena para llegada o descanso.", "Ayuda a construir deseo.", "Sirve para materiales y detalles.", "Sostiene narrativa sin mucho texto.", "Tambien funciona para day use."],
-    habitaciones: ["Panel listo para fotos reales.", "Muestra cama, bano o escritorio.", "Refuerza amplitud antes del detalle.", "Permite comparar angulos sin ruido.", "Se integra bien con reserva directa."],
-    servicios: ["Amenity convertido en valor percibido.", "Ideal para desayuno o conectividad.", "Ordena beneficios con mejor tono.", "Mantiene ritmo visual limpio.", "Puede cambiarse por senales de confianza."],
-    restaurante: ["Perfecto para platos o escenas suaves.", "Aporta deseo sin romper la linea.", "Sirve para brunch, bar o desayuno.", "Muy util si llega trafico de redes.", "Se desplaza bien en movil."],
-    eventos: ["Espacio para salones y montajes.", "Puede mostrar directorio o coctel.", "Funciona como resumen visual.", "Deja imaginar el uso rapidamente.", "Se adapta a corporativo y privado."],
-    galeria: ["Tarjeta preparada para foto grande.", "Ordena imagenes sin collage caotico.", "Ideal para arquitectura y servicio.", "Sostiene tono premium con placeholders.", "Puede crecer sin rehacer la pagina."],
-    mapa: ["Escena de llegada o fachada.", "Sirve para accesos y referencias.", "Tranquiliza antes de la reserva.", "Puede usarse con imagenes del barrio.", "Cierra mejor la promesa logistica."],
+    ofertas: ["Promocion visible y facil de consultar.", "Beneficio claro antes de reservar.", "Ideal para temporadas y escapadas.", "Una ayuda visual para decidir rapido.", "Se recorre bien tambien en celular."],
+    experiencias: ["Escena de llegada o descanso.", "Ayuda a imaginar la estadia.", "Sirve para detalles y momentos del hotel.", "Mantiene una lectura breve y agradable.", "Tambien funciona para day use."],
+    habitaciones: ["Vista general de la habitacion.", "Muestra cama, bano o escritorio.", "Refuerza amplitud y comodidad.", "Permite comparar angulos sin ruido.", "Se integra bien con reserva directa."],
+    servicios: ["Un beneficio visible desde el primer vistazo.", "Ideal para desayuno o conectividad.", "Resume valor sin texto excesivo.", "Mantiene ritmo visual limpio.", "Puede alternarse con senales de confianza."],
+    restaurante: ["Escena suave del servicio.", "Ayuda a mostrar ambiente y sabor.", "Sirve para desayuno, brunch o bar.", "Tambien apoya trafico de redes.", "Se desplaza bien en movil."],
+    eventos: ["Espacio para salones y montajes.", "Puede mostrar directorio o coctel.", "Funciona como resumen visual.", "Ayuda a imaginar el uso rapidamente.", "Se adapta a corporativo y privado."],
+    galeria: ["Imagen amplia del hotel.", "Ordena las fotos con mejor ritmo.", "Ideal para arquitectura y servicio.", "Mantiene el tono premium del sitio.", "Puede crecer sin rehacer la pagina."],
+    mapa: ["Escena de llegada o fachada.", "Sirve para accesos y referencias.", "Da mas tranquilidad antes de reservar.", "Puede usarse con imagenes del entorno.", "Cierra mejor la promesa de ubicacion."],
   };
   return text[pageSlug][index % text[pageSlug].length];
 }
@@ -465,7 +466,7 @@ function getHotelReferenceRailCopy(pageSlug: Exclude<HotelPageSlug, "hotel">, in
 function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteContent) {
   const validItems = items.filter((item) => {
     const text = `${item.question} ${item.answer}`.toLowerCase();
-    return !/(tripadvisor|rio hotels tarapoto|rio hotel|trip advisor)/i.test(text);
+    return !/(tripadvisor|rio hotels tarapoto|rio hotel|trip advisor|referencia|clonarse|tabs detectadas|popup|modal)/i.test(text);
   });
 
   if (validItems.length > 0) {
@@ -486,8 +487,32 @@ function buildHotelReferenceFaqs(items: SiteContent["faqs"], content: SiteConten
     },
     {
       question: "Puedo consultar antes de pagar?",
-      answer: "Si. La pagina esta pensada para resolver dudas, confirmar fechas y luego avanzar con una reserva mucho mas clara.",
+      answer: "Si. Puedes consultar fechas, tarifas y condiciones antes de confirmar tu reserva con el hotel.",
     },
   ];
 }
+
+function normalizeHotelPhone(value?: string) {
+  const digits = value?.replace(/\D/g, "");
+  if (!digits || digits === "51987654321") {
+    return "+51979180559";
+  }
+
+  return value!;
+}
+
+function normalizeReservationHref(value: string | undefined, phone: string, brandName: string) {
+  if (!value) {
+    const cleanPhone = phone.replace(/\D/g, "");
+    return cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hola, quiero reservar en ${brandName}.`)}` : "#contacto";
+  }
+
+  if (/51987654321/.test(value)) {
+    const cleanPhone = phone.replace(/\D/g, "");
+    return cleanPhone ? `https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Hola, quiero reservar en ${brandName}.`)}` : "#contacto";
+  }
+
+  return value;
+}
+
 

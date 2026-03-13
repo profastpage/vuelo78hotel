@@ -29,9 +29,8 @@ type ReferenceCloneHotelEngineProps = {
 };
 
 const SECTION_LINKS = [
-  { label: "Hotel", href: "#inicio" },
+  { label: "Experiencia", href: "#experiencia" },
   { label: "Habitaciones", href: "#habitaciones" },
-  { label: "Opiniones", href: "#opiniones" },
   { label: "Servicios", href: "#servicios" },
   { label: "Ubicacion", href: "#ubicacion" },
 ] as const;
@@ -68,9 +67,10 @@ export function ReferenceCloneHotelEngine({
   const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
   const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
   const heroSlides = buildHeroSlides(content, services, galleryItems, heroImage, heroImagePosition);
-  const contactPhone = content.contact.whatsappNumber || profile.brandConfig.whatsappNumber;
+  const contactPhone = normalizeHotelPhone(content.contact.whatsappNumber || profile.brandConfig.whatsappNumber);
   const cityLabel = getCityLabel(content.location?.city);
-  const reservationHref = content.brand.primaryCtaHref || buildReservationHref(contactPhone, content.brand.name);
+  const displayBrandName = getDisplayBrandName(content.brand.name);
+  const reservationHref = normalizeReservationHref(content.brand.primaryCtaHref, contactPhone, content.brand.name);
   const detailsHref = content.brand.secondaryCtaHref || "#habitaciones";
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
   const roomCards = bookingOptions.map((option, index) => ({
@@ -100,7 +100,7 @@ export function ReferenceCloneHotelEngine({
     },
     ...galleryItems.slice(0, 2).map((item, index) => ({
       title: index === 0 ? "Entorno y acceso" : item.title,
-      subtitle: index === 0 ? "Referencia visual para reconocer la llegada" : item.subtitle,
+      subtitle: index === 0 ? "Vista de llegada al hotel" : item.subtitle,
       imageSrc: item.imageSrc,
       imagePosition: item.imagePosition,
     })),
@@ -111,7 +111,7 @@ export function ReferenceCloneHotelEngine({
       <div className="hotel-deluxe-shell">
         <HotelPremiumHeader
           bookingCtaLabel={bookingCtaLabel}
-          brandName={content.brand.name}
+          brandName={displayBrandName}
           brandTag={content.brand.heroTag || "Hotel en Tarapoto"}
           pages={pages}
           reservationHref={reservationHref}
@@ -121,12 +121,12 @@ export function ReferenceCloneHotelEngine({
         <HotelPremiumHero
           benefits={benefits}
           bookingWidget={bookingWidget}
-          brandName={content.brand.name}
+          brandName={displayBrandName}
           cityLabel={cityLabel}
           contactPhone={contactPhone}
           detailsHref={detailsHref}
           heroDescription={buildHeroDescription(content, cityLabel)}
-          heroTag={content.brand.heroTag || "Hotel boutique en Tarapoto"}
+          heroTag={content.brand.heroTag || "Hotel en Tarapoto"}
           reservationHref={reservationHref}
           slides={heroSlides}
         />
@@ -136,21 +136,22 @@ export function ReferenceCloneHotelEngine({
         <HotelPremiumRoomsSection
           eyebrow="Nuestras habitaciones"
           rooms={roomCards}
-          subtitle="Categorias claras, beneficios visibles y una ruta directa para consultar disponibilidad por WhatsApp."
-          title="Habitaciones disenadas para descansar mejor y reservar sin friccion."
+          subtitle="Opciones comodas para pareja, familia o viaje de trabajo, con reserva directa por WhatsApp."
+          title="Habitaciones pensadas para descansar con comodidad."
         />
 
         {testimonials.length ? (
           <HotelPremiumTestimonials
             items={testimonials.map((item) => ({
               name: item.name,
-              quote: item.quote,
+              avatarSrc: item.avatarSrc,
+              quote: truncateText(item.quote, 132),
               role: item.role,
               segment: item.segment,
               rating: item.rating ?? 5,
             }))}
-            subtitle="Solo tres resenas visibles, faciles de escanear y conectadas con confianza real."
-            title="Lo que valoran los huespedes despues de su estancia."
+            subtitle="Tres comentarios claros para mostrar lo que mas valoran quienes ya se alojaron con nosotros."
+            title="Lo que destacan nuestros huespedes."
           />
         ) : null}
 
@@ -168,17 +169,17 @@ export function ReferenceCloneHotelEngine({
         ) : null}
 
         <HotelPremiumBookingCta
-          description="Consulta disponibilidad, tarifas y tipo de habitacion. El equipo responde rapido y te ayuda a cerrar tu reserva sin intermediarios."
+          description="Consulta disponibilidad y recibe confirmacion rapida por WhatsApp."
           href={reservationHref}
-          title="Reserva directa por WhatsApp y recibe respuesta clara en minutos."
+          title="Reserva tu habitacion ahora."
         />
 
         <HotelPremiumFooter
           address={content.location?.address || "Tarapoto, Peru"}
-          brandName={content.brand.name}
+          brandName={displayBrandName}
           city={content.location?.city}
           email={content.contact.email}
-          phone={content.contact.whatsappNumber}
+          phone={contactPhone}
         />
       </div>
 
@@ -222,7 +223,7 @@ function buildExperienceGalleryItems(
       imagePosition: services[0]?.imagePosition || galleryItems[1]?.imagePosition || heroImagePosition,
     },
     {
-      title: "Lobby y llegada con atmosfera serena",
+      title: "Lobby y llegada con ambiente tranquilo",
       subtitle: "Lobby",
       imageSrc: heroImage || galleryItems[0]?.imageSrc,
       imagePosition: heroImagePosition || galleryItems[0]?.imagePosition,
@@ -239,8 +240,7 @@ function buildExperienceGalleryItems(
 }
 
 function buildHeroDescription(content: SiteContent, cityLabel: string) {
-  const base = content.brand.description || content.narrative.body;
-  return `Reserva directa sin intermediarios en ${cityLabel}. ${base}`;
+  return content.brand.description || `Descansa en ${cityLabel} con habitaciones comodas y reserva directa por WhatsApp.`;
 }
 
 function buildHeroSlides(
@@ -293,6 +293,31 @@ function getCityLabel(value?: string) {
   return (value || "Tarapoto").split(",")[0]?.trim() || "Tarapoto";
 }
 
+function getDisplayBrandName(value: string) {
+  return value.replace(/\s+Tarapoto$/i, "").trim() || value;
+}
+
+function normalizeHotelPhone(value?: string) {
+  const digits = value?.replace(/\D/g, "");
+  if (!digits || digits === "51987654321") {
+    return "+51979180559";
+  }
+
+  return value!;
+}
+
+function normalizeReservationHref(value: string | undefined, phone: string, brandName: string) {
+  if (!value) {
+    return buildReservationHref(phone, brandName);
+  }
+
+  if (/51987654321/.test(value)) {
+    return buildReservationHref(phone, brandName);
+  }
+
+  return value;
+}
+
 function getRoomDescription(summary: string, fallback?: string) {
   const source = fallback || summary;
   const cleanSource = source.trim();
@@ -302,4 +327,13 @@ function getRoomDescription(summary: string, fallback?: string) {
   }
 
   return `${cleanSource.slice(0, 117).trimEnd()}...`;
+}
+
+function truncateText(value: string, maxLength: number) {
+  const cleanValue = value.trim();
+  if (cleanValue.length <= maxLength) {
+    return cleanValue;
+  }
+
+  return `${cleanValue.slice(0, maxLength - 3).trimEnd()}...`;
 }
