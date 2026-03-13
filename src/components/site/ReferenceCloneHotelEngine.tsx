@@ -126,7 +126,7 @@ export function ReferenceCloneHotelEngine({
           contactPhone={contactPhone}
           detailsHref={detailsHref}
           heroDescription={buildHeroDescription(content, cityLabel)}
-          heroHeadline={content.brand.headline || "Descanso con reserva directa"}
+          heroHeadline={content.brand.headline || "Bienvenido a Vuelo 78 Hotel"}
           heroTag={content.brand.heroTag || "Hotel en Tarapoto"}
           reservationHref={reservationHref}
           slides={heroSlides}
@@ -152,8 +152,8 @@ export function ReferenceCloneHotelEngine({
               segment: item.segment,
               rating: item.rating ?? 5,
             }))}
-            subtitle="Historias breves con contexto visual para transmitir confianza, descanso y buena atencion antes de reservar."
-            title="Experiencias reales de huespedes."
+            subtitle="Tres opiniones breves para mostrar ubicacion, descanso y buena atencion."
+            title="Opiniones de Nuestros Huespedes"
           />
         ) : null}
 

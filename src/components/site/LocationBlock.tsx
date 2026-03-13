@@ -1,4 +1,4 @@
-import { Clock3, Mail, MapPinned, Navigation, Phone } from "lucide-react";
+import { Mail, MapPinned, Phone } from "lucide-react";
 import type { ImagePosition, LocationInfo } from "@/types/site";
 import type { EditorTextControls } from "./editor-text-types";
 import { InlineTextField } from "./InlineTextField";
@@ -27,65 +27,56 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
   const mapsSearchUrl = location.mapsLink || `https://www.google.com/maps?q=${locationQuery}`;
   const mapsEmbedUrl = location.mapsEmbedUrl || `https://www.google.com/maps?q=${locationQuery}&output=embed`;
   const featuredMedia = mediaItems.find((item) => item?.imageSrc);
-  const normalizedHours = location.hours?.includes("24 horas") ? "Recepcion 24 horas" : location.hours;
 
   return (
-    <section className="scene scene-location hotel-deluxe-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
-      <div className="hotel-deluxe-section-heading hotel-deluxe-location-heading">
-        <span className="scene-chip">Ubicacion</span>
-        <h2>Llega con confianza y ubica el hotel antes de reservar.</h2>
-        <p>Mapa visible, direccion clara y acceso directo a Google Maps para reforzar confianza y facilitar la llegada.</p>
+    <section className="scene scene-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
+      <div className="hotel-home-location-heading">
+        <h2>Ubicacion</h2>
       </div>
 
-      <div className="location-grid hotel-deluxe-location-grid">
-        <div className="location-info hotel-deluxe-location-info" data-animate>
-          <div className="location-heading hotel-deluxe-location-card-head">
-            <span className="hotel-deluxe-location-eyebrow">Tarapoto</span>
-            <h2>{location.address}</h2>
-            {location.city ? <p>{location.city}</p> : null}
+      <div className="hotel-home-location-grid">
+        <div className="hotel-home-location-map-shell" data-animate data-animate-delay="120">
+          <iframe
+            src={mapsEmbedUrl}
+            title="Mapa de ubicacion"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="hotel-home-location-iframe"
+          />
+        </div>
+
+        <div className="hotel-home-location-card" data-animate>
+          <div className="hotel-home-location-copy">
+            <h3>Ubicacion</h3>
+            {editorMode ? (
+              <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.address" label="Direccion" section="contact" value={location.address} />
+            ) : (
+              <p>{location.address}</p>
+            )}
+            {location.city ? (
+              editorMode ? (
+                <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.city" label="Ciudad" section="contact" value={location.city} />
+              ) : (
+                <p>{location.city}</p>
+              )
+            ) : null}
           </div>
 
-          <div className="location-details hotel-deluxe-location-details">
-            <div className="location-row hotel-deluxe-location-row">
-              <span className="location-icon hotel-deluxe-location-icon" aria-hidden="true">
-                <MapPinned size={18} strokeWidth={1.8} />
+          <div className="hotel-home-location-details">
+            <div className="hotel-home-location-row">
+              <span className="hotel-home-location-icon" aria-hidden="true">
+                <MapPinned size={16} strokeWidth={1.8} />
               </span>
               <div>
-                {editorMode ? (
-                  <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="location.address" label="Direccion" section="contact" value={location.address} />
-                ) : (
-                  <strong>{location.address}</strong>
-                )}
-                {location.city ? (
-                  editorMode ? (
-                    <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.city" label="Ciudad" section="contact" value={location.city} />
-                  ) : (
-                    <p>{location.city}</p>
-                  )
-                ) : null}
+                <strong>Direccion</strong>
+                <p>{location.address}</p>
               </div>
             </div>
 
-            {normalizedHours ? (
-              <div className="location-row hotel-deluxe-location-row">
-                <span className="location-icon hotel-deluxe-location-icon" aria-hidden="true">
-                  <Clock3 size={18} strokeWidth={1.8} />
-                </span>
-                <div>
-                  <strong>Horario</strong>
-                  {editorMode ? (
-                    <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.hours" label="Horarios" section="contact" value={normalizedHours} />
-                  ) : (
-                    <p>{normalizedHours}</p>
-                  )}
-                </div>
-              </div>
-            ) : null}
-
             {contactPhone ? (
-              <div className="location-row hotel-deluxe-location-row">
-                <span className="location-icon hotel-deluxe-location-icon" aria-hidden="true">
-                  <Phone size={18} strokeWidth={1.8} />
+              <div className="hotel-home-location-row">
+                <span className="hotel-home-location-icon" aria-hidden="true">
+                  <Phone size={16} strokeWidth={1.8} />
                 </span>
                 <div>
                   <strong>Telefono</strong>
@@ -95,9 +86,9 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
             ) : null}
 
             {contactEmail ? (
-              <div className="location-row hotel-deluxe-location-row">
-                <span className="location-icon hotel-deluxe-location-icon" aria-hidden="true">
-                  <Mail size={18} strokeWidth={1.8} />
+              <div className="hotel-home-location-row">
+                <span className="hotel-home-location-icon" aria-hidden="true">
+                  <Mail size={16} strokeWidth={1.8} />
                 </span>
                 <div>
                   <strong>Email</strong>
@@ -107,39 +98,24 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
             ) : null}
           </div>
 
-          <div className="hotel-deluxe-location-actions">
-            <a className="primary-button hotel-deluxe-location-button" href={mapsSearchUrl} target="_blank" rel="noopener noreferrer">
-              <Navigation size={16} strokeWidth={1.8} />
-              Abrir en Google Maps
-            </a>
-          </div>
-
-          {featuredMedia ? (
-            <article className="hotel-deluxe-location-photo">
-              <div
-                className={`hotel-deluxe-location-photo-media ${featuredMedia.imageSrc ? "has-media-image" : "media-fallback-hotel"}`}
-                style={getMediaStyle(featuredMedia.imageSrc, "0.08", featuredMedia.imagePosition)}
-              />
-              <div className="hotel-deluxe-location-photo-copy">
-                <strong>{featuredMedia.title}</strong>
-                {featuredMedia.subtitle ? <span>{featuredMedia.subtitle}</span> : null}
-              </div>
-            </article>
-          ) : null}
-        </div>
-
-        <div className="location-stage hotel-deluxe-location-stage" data-animate data-animate-delay="120">
-          <div className="location-map hotel-deluxe-location-map">
-            <iframe
-              src={mapsEmbedUrl}
-              title="Mapa de ubicacion"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="location-iframe hotel-deluxe-location-iframe"
-            />
-          </div>
+          <a className="primary-button hotel-home-location-button" href={mapsSearchUrl} target="_blank" rel="noopener noreferrer">
+            Reservar por WhatsApp
+          </a>
         </div>
       </div>
+
+      {featuredMedia ? (
+        <article className="hotel-home-location-support">
+          <div
+            className={`hotel-home-location-support-media ${featuredMedia.imageSrc ? "has-media-image" : "media-fallback-hotel"}`}
+            style={getMediaStyle(featuredMedia.imageSrc, "0.08", featuredMedia.imagePosition)}
+          />
+          <div className="hotel-home-location-support-copy">
+            <strong>{featuredMedia.title}</strong>
+            {featuredMedia.subtitle ? <span>{featuredMedia.subtitle}</span> : null}
+          </div>
+        </article>
+      ) : null}
     </section>
   );
 }

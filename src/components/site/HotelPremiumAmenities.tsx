@@ -12,22 +12,19 @@ type HotelPremiumAmenitiesProps = {
 
 export function HotelPremiumAmenities({ items }: HotelPremiumAmenitiesProps) {
   return (
-    <section className="scene hotel-deluxe-section hotel-deluxe-amenities" id="servicios">
-      <div className="hotel-deluxe-section-heading">
-        <span className="scene-chip">Servicios y amenities</span>
-        <h2>Todo lo necesario para una estancia comoda y bien resuelta.</h2>
-        <p>Servicios clave con una lectura mas limpia, moderna y coherente con una experiencia hotelera premium.</p>
+    <section className="scene hotel-deluxe-section hotel-deluxe-amenities hotel-home-amenities" id="servicios">
+      <div className="hotel-home-amenity-heading">
+        <h2>Nuestros Servicios</h2>
       </div>
 
-      <div className="hotel-deluxe-amenity-strip" role="list" aria-label="Servicios del hotel">
+      <div className="hotel-deluxe-amenity-strip hotel-home-amenity-strip" role="list" aria-label="Servicios del hotel">
         {items.map((item, index) => (
-          <article className="hotel-deluxe-amenity-item" key={item.title} role="listitem">
-            <span className="hotel-deluxe-amenity-icon" aria-hidden="true">
+          <article className="hotel-deluxe-amenity-item hotel-home-amenity-item" key={item.title} role="listitem">
+            <span className="hotel-deluxe-amenity-icon hotel-home-amenity-icon" aria-hidden="true">
               <AmenityIcon icon={item.icon} index={index} />
             </span>
-            <div className="hotel-deluxe-amenity-copy">
+            <div className="hotel-deluxe-amenity-copy hotel-home-amenity-copy">
               <strong>{item.title}</strong>
-              <p>{item.description}</p>
             </div>
           </article>
         ))}
