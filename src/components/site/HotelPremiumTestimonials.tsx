@@ -36,9 +36,11 @@ export function HotelPremiumTestimonials({ items, subtitle, title }: HotelPremiu
             </div>
 
             <div className="hotel-deluxe-testimonial-stars" aria-label={`${item.rating} estrellas`}>
-              {Array.from({ length: 5 }, (_, index) => (
-                <span className={index < Math.round(item.rating) ? "is-filled" : ""} key={`${item.name}-${index}`}>
-                  ★
+              {Array.from({ length: 5 }, (_, starIndex) => (
+                <span className={starIndex < Math.round(item.rating) ? "is-filled" : ""} key={`${item.name}-${starIndex}`}>
+                  <svg aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="m10 2.4 2.28 4.62 5.1.74-3.69 3.6.87 5.08L10 14.04 5.44 16.44l.87-5.08-3.69-3.6 5.1-.74L10 2.4Z" />
+                  </svg>
                 </span>
               ))}
             </div>

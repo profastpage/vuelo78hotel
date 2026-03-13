@@ -190,11 +190,11 @@ export function ReferenceCloneHotelEngine({
 
 function buildAmenities(content: SiteContent) {
   const baseItems = [
-    { title: "Desayuno buffet", icon: "☕", description: "Empieza el dia con una estancia mas comoda y una salida mas simple." },
-    { title: "WiFi gratis", icon: "Wi", description: "Conexion estable para descanso, trabajo o coordinacion de viaje." },
-    { title: "Piscina", icon: "✦", description: "Un diferencial visual del hotel que acompana la experiencia premium." },
-    { title: "Aire acondicionado", icon: "AC", description: "Confort termico para descansar mejor en cualquier horario." },
-    { title: "Traslado aeropuerto", icon: "✈", description: "Cercania y apoyo de llegada para una reserva mas confiable." },
+    { title: "Desayuno incluido", icon: "breakfast", description: "Empieza la maniana con mas comodidad antes de salir por la ciudad." },
+    { title: "WiFi gratis", icon: "wifi", description: "Conexion estable para descansar, trabajar o coordinar tu viaje." },
+    { title: "Piscina", icon: "pool", description: "Un espacio de descanso que acompana la experiencia del hotel." },
+    { title: "Aire acondicionado", icon: "air", description: "Confort termico para descansar mejor en cualquier horario." },
+    { title: "Atencion 24/7", icon: "hospitality", description: "Recepcion y asistencia para confirmar tu llegada con tranquilidad." },
   ];
 
   return baseItems.map((item, index) => ({

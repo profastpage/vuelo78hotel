@@ -39,7 +39,7 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
           </div>
           <div className="location-details">
             <div className="location-row">
-              <span className="location-icon" aria-hidden="true">M</span>
+              <span className="location-icon" aria-hidden="true">{renderLocationIcon("map")}</span>
               <div>
                 {editorMode ? (
                   <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="location.address" label="Direccion" section="contact" value={location.address} />
@@ -57,7 +57,7 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
             </div>
             {normalizedHours ? (
               <div className="location-row">
-                <span className="location-icon" aria-hidden="true">H</span>
+                <span className="location-icon" aria-hidden="true">{renderLocationIcon("clock")}</span>
                 <div>
                   <strong>Horarios</strong>
                   {editorMode ? (
@@ -70,7 +70,7 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
             ) : null}
             {contactPhone ? (
               <div className="location-row">
-                <span className="location-icon" aria-hidden="true">T</span>
+                <span className="location-icon" aria-hidden="true">{renderLocationIcon("phone")}</span>
                 <div>
                   <a href={`tel:${contactPhone.replace(/\D/g, "")}`}>{contactPhone}</a>
                 </div>
@@ -78,7 +78,7 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
             ) : null}
             {contactEmail ? (
               <div className="location-row">
-                <span className="location-icon" aria-hidden="true">@</span>
+                <span className="location-icon" aria-hidden="true">{renderLocationIcon("mail")}</span>
                 <div>
                   <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
                 </div>
@@ -108,7 +108,7 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
                 rel="noopener noreferrer"
                 aria-label="Abrir en Google Maps"
               >
-                <span className="location-map-icon" aria-hidden="true">M</span>
+                <span className="location-map-icon" aria-hidden="true">{renderLocationIcon("map")}</span>
                 <span>Ver en Google Maps</span>
               </a>
             )}
@@ -134,4 +134,48 @@ export function LocationBlock({ location, contactEmail, contactPhone, editorMode
       </div>
     </section>
   );
+}
+
+function renderLocationIcon(type: "clock" | "mail" | "map" | "phone") {
+  const commonProps = {
+    fill: "none",
+    height: 18,
+    stroke: "currentColor",
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    strokeWidth: 1.7,
+    viewBox: "0 0 24 24",
+    width: 18,
+  };
+
+  switch (type) {
+    case "map":
+      return (
+        <svg {...commonProps}>
+          <path d="M9 18 3.5 20V6L9 4l6 2 5.5-2v14L15 20l-6-2Z" />
+          <path d="M9 4v14" />
+          <path d="M15 6v14" />
+        </svg>
+      );
+    case "clock":
+      return (
+        <svg {...commonProps}>
+          <circle cx="12" cy="12" r="8" />
+          <path d="M12 8v4l2.5 2.5" />
+        </svg>
+      );
+    case "phone":
+      return (
+        <svg {...commonProps}>
+          <path d="M7.5 5.5c.6-.6 1.5-.7 2.2-.2l1.7 1.1c.7.5 1 1.4.7 2.2l-.5 1.2c1.2 2 2.9 3.7 4.9 4.9l1.2-.5c.8-.3 1.7 0 2.2.7l1.1 1.7c.5.7.4 1.6-.2 2.2l-1 1c-.7.7-1.7 1-2.6.8C10.9 21 3 13.1 2.2 7.1c-.2-.9.1-1.9.8-2.6l1-1Z" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...commonProps}>
+          <path d="M4 7h16v10H4z" />
+          <path d="m4 8 8 6 8-6" />
+        </svg>
+      );
+  }
 }
