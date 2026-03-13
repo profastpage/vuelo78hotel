@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { getClientProfile, getSiteContent } from "@/lib/site-config";
 import { buildSiteMetadata, buildJsonLdScript } from "@/lib/seo";
 import { AnimationsProvider } from "@/components/site/AnimationsProvider";
 import "./globals.css";
 
-const sans = Space_Grotesk({
+const sans = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-const serif = Playfair_Display({
+const serif = Cormorant_Garamond({
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
   variable: "--font-serif",
 });
 

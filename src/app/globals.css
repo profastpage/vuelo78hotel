@@ -8311,12 +8311,20 @@ button {
   display: none;
 }
 
+.page-shell.mode-reference-clone-hotel {
+  --display-font: var(--font-serif);
+  --body-font: var(--font-sans);
+}
+
 .page-shell.mode-reference-clone-hotel .scene-chip {
   min-height: 34px;
   padding-inline: 16px;
   border-color: rgba(196, 168, 103, 0.3);
   background: rgba(214, 191, 138, 0.14);
   color: #ba9c55;
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
+  font-size: 0.74rem;
+  font-weight: 700;
   letter-spacing: 0.18em;
 }
 
@@ -8324,6 +8332,9 @@ button {
   background: #173f7b;
   color: #ffffff;
   box-shadow: none;
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .page-shell.mode-reference-clone-hotel .primary-button::after {
@@ -8334,6 +8345,9 @@ button {
   border-color: rgba(23, 63, 123, 0.18);
   color: #173f7b;
   background: #ffffff;
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .page-shell.mode-reference-clone-hotel .contact-panel {
@@ -8444,21 +8458,27 @@ button {
 }
 
 .hotel-reference-brand-copy strong {
-  font-size: 1.5rem;
+  font-family: var(--display-font, var(--font-serif)), serif;
+  font-size: 1.55rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
 }
 
 .hotel-reference-brand-copy small {
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   opacity: 0.92;
 }
 
 .hotel-reference-brand-small {
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   opacity: 0.92;
 }
@@ -8478,7 +8498,10 @@ button {
 
 .hotel-reference-nav a,
 .hotel-reference-header-cta {
-  font-size: 0.98rem;
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
   color: #ffffff;
 }
 
@@ -8552,8 +8575,10 @@ button {
 }
 
 .hotel-reference-kicker {
-  font-size: 0.84rem;
-  letter-spacing: 0.24em;
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   opacity: 0.92;
 }
@@ -8561,10 +8586,11 @@ button {
 .hotel-reference-hero-copy h2 {
   margin: 0;
   max-width: 8ch;
-  font-family: var(--font-serif), serif;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(2.9rem, 5vw, 4.7rem);
-  line-height: 0.96;
-  letter-spacing: -0.04em;
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
 }
 
 .hotel-reference-hero-copy p {
@@ -8766,10 +8792,11 @@ button {
 
 .hotel-reference-intro h1 {
   margin: 18px 0 0;
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(2.8rem, 5vw, 4.3rem);
-  line-height: 1.02;
-  letter-spacing: -0.05em;
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.035em;
 }
 
 .hotel-reference-intro p {
@@ -8856,9 +8883,11 @@ button {
 
 .hotel-reference-room-copy h2 {
   margin: 0;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(2rem, 3vw, 3rem);
-  line-height: 1;
-  letter-spacing: -0.045em;
+  font-weight: 600;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
 }
 
 .hotel-reference-room-copy p {
@@ -8922,6 +8951,7 @@ button {
 
 .hotel-reference-rate-tab strong,
 .hotel-reference-rate-panel strong {
+  font-family: var(--body-font, var(--font-sans)), sans-serif;
   font-size: 1.45rem;
   line-height: 1.06;
   color: #173f7b;
@@ -8986,9 +9016,11 @@ button {
 .hotel-reference-section-heading h2 {
   margin: 0;
   max-width: 16ch;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(2rem, 3.4vw, 3.3rem);
-  line-height: 0.98;
-  letter-spacing: -0.05em;
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
 }
 
 .hotel-reference-section-heading p {
@@ -9302,9 +9334,11 @@ button {
 }
 
 .hotel-reference-room-card-copy strong {
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(1.9rem, 2.4vw, 2.5rem);
-  line-height: 1;
-  letter-spacing: -0.05em;
+  font-weight: 600;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
 }
 
 .hotel-reference-room-card-copy p {
@@ -10479,9 +10513,11 @@ button {
 .hotel-reference-hero-copy h1 {
   margin: 0;
   max-width: 8ch;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(3.2rem, 6.4vw, 5.6rem);
-  line-height: 0.92;
-  letter-spacing: -0.07em;
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
 }
 
 .hotel-reference-hero-copy-wide {
@@ -10671,9 +10707,11 @@ button {
 .hotel-reference-map-card h2 {
   margin: 0;
   max-width: 14ch;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(2rem, 3.4vw, 3.2rem);
-  line-height: 0.96;
-  letter-spacing: -0.05em;
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
 }
 
 .hotel-reference-story-copy p,
@@ -10749,9 +10787,11 @@ button {
 .hotel-reference-tab-intro h3 {
   margin: 0;
   max-width: 11ch;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(2rem, 3.2vw, 3.15rem);
-  line-height: 0.96;
-  letter-spacing: -0.055em;
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
   color: #173f7b;
 }
 
@@ -10822,9 +10862,11 @@ button {
 .hotel-reference-tab-panel h3 {
   margin: 0;
   max-width: 9ch;
+  font-family: var(--display-font, var(--font-serif)), serif;
   font-size: clamp(2.5rem, 4.1vw, 4.25rem);
-  line-height: 0.92;
-  letter-spacing: -0.06em;
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
   color: #173f7b;
 }
 
