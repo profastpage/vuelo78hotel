@@ -1,0 +1,77 @@
+General business data:
+- Business name: Vuelo 78 Hotel Tarapoto
+- Project type: Landing Page
+- Industry: Hoteleria
+- Main offer: Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium
+- Primary goal: Generar reservas directas y consultas de disponibilidad
+- Target audience: Viajeros que buscan descanso, buena ubicacion y una reserva clara desde el primer scroll
+- Location: Lima, Peru
+- WhatsApp: +51987654321
+- Email: hola@auralis.studio
+- Visual style: premium
+- Theme: Light
+- Layout mode: block
+- Shell mode: full-bleed
+- Text align: left
+- Button shape: rounded
+- Primary color: #C9A44F
+- Secondary color: #173F7B
+
+Reference cloning:
+- REFERENCE_MODE: true
+- REFERENCE_WEBSITE: https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/
+- REFERENCE_CAPTURE_MODE: layout-text-widgets
+
+Business context:
+Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirada en https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/, conservando layout, ritmo visual, widgets y jerarquia premium de secciones. Todo texto, branding, logos e imagenes deben ser nuevos y orientados a reservas directas.
+
+Recommended page flow:
+- Navbar | hero split con media dominante | widgets: cta-group
+- Popup o modal | tabs con paneles | widgets: form, tabs, popup, slider, cta-group
+- Popup o modal | stack simple | widgets: popup
+- Footer | bloque de formulario | widgets: form, popup, cta-group
+- Seccion 5 | layout editorial con media | widgets: cta-group
+- Popup o modal | bloque de formulario | widgets: form, popup
+- Seccion 7 | layout editorial con media
+
+Services:
+- Hero shell: conservar una apertura visual fuerte con CTA principal visible.
+- Sistema de secciones: respetar el ritmo del layout y el orden general de navegacion.
+- Tabs: mantener la experiencia tabulada con labels nuevas y contenido editable.
+- Slider o carousel: reproducir rieles y navegacion horizontal con placeholders.
+- Popup o modal: recrear la capa emergente con copy nuevo y disparadores equivalentes.
+
+Benefits:
+- Conservar 7 bloques principales con jerarquia visual parecida.
+- Mantener cta-group x4, popup x4, form x3 dentro del flujo final.
+- Usar una paleta nueva inspirada en #000000, #0000EE, #FFFFFF, #E6E6E6 sin copiar branding.
+- Traducir el sistema tipografico de referencia a fuentes nuevas con rol similar.
+- Reemplazar todas las imagenes por placeholders con el mismo peso compositivo.
+
+FAQ:
+- Que debe clonarse de la web de referencia? Solo layout, composicion, patrones interactivos y jerarquia visual. Nunca marca, logos, textos ni imagenes reales.
+- Se deben conservar las tabs detectadas? Si. Deben replicarse las tabs con labels nuevas y contenido real del nuevo cliente.
+- El popup o modal debe mantenerse? Si, pero con nuevo copy, nuevos triggers y sin copiar ningun asset del sitio original.
+
+Testimonials:
+- Cliente 1 | Referencia visual | El nuevo sitio conserva la fuerza visual del referente sin parecer una copia.
+- Cliente 2 | UX | La estructura se siente familiar, clara y lista para vender con contenido propio.
+- Cliente 3 | Conversion | El layout y los widgets mantienen el nivel premium sin reciclar textos ni imagenes.
+
+CTA:
+- Primary CTA: Reservar
+- Secondary CTA: Ver habitaciones
+- Contact title: Confirma disponibilidad y reserva con claridad
+- Contact description: Usa la estructura capturada para mostrar habitaciones, beneficios y una reserva directa sin friccion.
+
+Reference layout blueprint:
+- Secciones detectadas: 7
+- Widgets detectados: cta-group x4, popup x4, form x3, tabs x1, slider x1
+- Paleta observada: #000000, #0000EE, #FFFFFF, #E6E6E6, #0E3064, #1A1A1A, #808080, #767676, #666666, #FFF
+- Tipografias observadas: poppins-regular | Arial | lato | Lato, Arial, sans-serif | poppins-medium | Lato | Lato,Arial,sans-serif | var(--tabs-font-family,Lato,Arial,sans-serif)
+- Reglas de clonacion: copiar composicion y patron interactivo; reemplazar todo texto e imagen.
+
+Notes for AI copy:
+- Analyze the reference website only for layout inspiration.
+- Recreate structure, widgets, tabs, popups, and section flow with new copy and placeholder media.
+- Do not copy brand names, logos, text, or images from the reference website.

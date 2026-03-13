@@ -1,0 +1,81 @@
+{
+  "clientCode": "CLIENTE 4",
+  "clientName": "Vuelo 78 Hotel Tarapoto",
+  "businessName": "Vuelo 78 Hotel Tarapoto",
+  "folderName": "CLIENTE 4 - Vuelo 78 Hotel Tarapoto",
+  "projectType": "Landing Page",
+  "industry": "Hoteleria",
+  "createdAt": "2026-03-10",
+  "templateVersion": "2026.03.07",
+  "reference": {
+    "enabled": true,
+    "website": "https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/",
+    "captureMode": "layout-text-widgets"
+  },
+  "brandConfig": {
+    "businessDescription": "Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirada en https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/, conservando layout, ritmo visual, widgets y jerarquia premium de secciones. Todo texto, branding, logos e imagenes deben ser nuevos y orientados a reservas directas.",
+    "offerSummary": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+    "primaryGoal": "Generar reservas directas y consultas de disponibilidad",
+    "specialty": "Hero shell",
+    "copyStyle": "conversion-focused, sharp, persuasive, premium, objection-aware",
+    "whatsappNumber": "+51987654321",
+    "email": "hola@auralis.studio",
+    "themeMode": "Light",
+    "visualStyle": "premium",
+    "layoutMode": "block",
+    "shellMode": "full-bleed",
+    "visualConcept": "hoteleria campaign page",
+    "layoutMood": "conversion-first and premium",
+    "visualSignature": "signature-cascade",
+    "accentColor": "#C9A44F",
+    "accentAltColor": "#173F7B",
+    "textAlign": "left",
+    "buttonShape": "rounded",
+    "starterKit": "hotel",
+    "artDirection": "Arquitectura, amenities, calma premium y reserva directa.",
+    "positioningMode": "Hospitalidad premium con reserva clara y confianza inmediata."
+  },
+  "modules": {
+    "whatsappCTA": false,
+    "leadForm": false,
+    "booking": true,
+    "blog": false,
+    "auth": false,
+    "cart": false,
+    "payments": false,
+    "multiTenant": false
+  },
+  "automation": {
+    "aiRouting": {
+      "primarySkill": "master-fullstack",
+      "frontendSkill": "master-frontend",
+      "backendSkill": "master-backend",
+      "escalationSkill": "master-fullstack",
+      "brandSkill": "brand-system",
+      "copySkill": "copy-positioning",
+      "marketingSkill": "landing-page-director",
+      "shellSkill": "app-shell-architect",
+      "dashboardSkill": "",
+      "designSystemSkill": "design-system-builder",
+      "criticSkill": "design-critic",
+      "conversionSkill": "conversion-critic",
+      "routeReason": "El proyecto tiene modulos o flujos que pueden requerir UI y backend.",
+      "frontendOnlyWhen": "Usar master-frontend solo para layout o polish visual sin tocar logica.",
+      "backendOnlyWhen": "Usar master-backend solo para server/data puro sin cambios UI.",
+      "referenceMode": true,
+      "referenceWebsite": "https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/",
+      "referenceRule": "Usar la referencia solo para layout, widgets, estructura y ritmo visual sin copiar marca ni contenido.",
+      "recommendedSequence": [
+        "brand-system",
+        "copy-positioning",
+        "landing-page-director",
+        "app-shell-architect",
+        "design-system-builder",
+        "master-fullstack",
+        "conversion-critic",
+        "design-critic"
+      ],
+      "qualityBar": "premium-saleable-mobile-first"
+    }
+  }
+}

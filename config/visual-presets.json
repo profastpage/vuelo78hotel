@@ -1,0 +1,330 @@
+{
+  "version": "2026.03.08",
+  "visualStyles": [
+    {
+      "key": "normal",
+      "label": "Normal",
+      "intent": "Balanced default with clean hierarchy and broad commercial adaptability.",
+      "composition": {
+        "heroLayout": "Split hero with one dominant message and one support media area.",
+        "gridSystem": "Balanced 2-column or 12-column grid without forced asymmetry.",
+        "sectionRhythm": "Even cadence with one emphasis shift every 2 sections.",
+        "hierarchy": "Clear headline > support copy > CTA > proof.",
+        "cards": "Medium-sized cards with stable spacing and moderate contrast.",
+        "density": "Medium density, easy scanning, no crowding.",
+        "backgrounds": "Layered gradients or soft shells without heavy effects.",
+        "responsive": "Predictable stacking with minimal layout drama on mobile."
+      }
+    },
+    {
+      "key": "minimalista",
+      "label": "Minimalista",
+      "intent": "Reduced noise, editorial clarity, and generous negative space.",
+      "composition": {
+        "heroLayout": "Clean split hero with restrained copy and quiet media.",
+        "gridSystem": "Simple split or narrow editorial column with wide breathing room.",
+        "sectionRhythm": "Longer pauses between sections and fewer but larger modules.",
+        "hierarchy": "Few emphatic elements with sober typography and sharp priorities.",
+        "cards": "Large, sparse cards with strong padding and little ornament.",
+        "density": "Low density with visible air around every block.",
+        "backgrounds": "Soft tonal fields, light texture, low-effect surfaces.",
+        "responsive": "Collapse to a calm single-column flow without stacked clutter."
+      }
+    },
+    {
+      "key": "glassmorphism",
+      "label": "Glassmorphism",
+      "intent": "Layered translucent surfaces, controlled blur, and subtle glow depth.",
+      "composition": {
+        "heroLayout": "Floating-panel hero with foreground cards crossing the media field.",
+        "gridSystem": "Layered grid with overlapping panels and controlled offsets.",
+        "sectionRhythm": "Depth shifts between sections through opacity and panel elevation.",
+        "hierarchy": "Primary message anchored by luminous panels and contrast islands.",
+        "cards": "Translucent cards, soft borders, stacked depth, minimal hard blocks.",
+        "density": "Medium density with visual depth replacing extra content.",
+        "backgrounds": "Blurred gradients, glows, glass shells, and atmospheric layering.",
+        "responsive": "Remove risky overlaps on mobile and keep only shallow depth cues."
+      }
+    },
+    {
+      "key": "bento",
+      "label": "Bento",
+      "intent": "Modular, dashboard-like composition with irregular grid balance.",
+      "composition": {
+        "heroLayout": "Hero embedded into a modular canvas with adjacent feature tiles.",
+        "gridSystem": "Irregular bento grid with varied spans and card proportions.",
+        "sectionRhythm": "Fast modular rhythm with deliberate size changes between cards.",
+        "hierarchy": "Large anchor tile plus supporting utility and metric tiles.",
+        "cards": "Mixed card sizes, dashboard logic, strong module identity.",
+        "density": "Medium-high density, but with strict grouping and legibility.",
+        "backgrounds": "Structured shells, subtle layers, grid-led composition.",
+        "responsive": "Irregular desktop grid becomes 2-column then 1-column without micro-cards."
+      }
+    },
+    {
+      "key": "editorial",
+      "label": "Editorial",
+      "intent": "Asymmetric narrative layout driven by typography, image rhythm, and contrast.",
+      "composition": {
+        "heroLayout": "Asymmetric hero with dominant headline and offset media.",
+        "gridSystem": "Editorial columns with uneven spans and intentional imbalance.",
+        "sectionRhythm": "Narrative pacing with bold shifts between dense and airy sections.",
+        "hierarchy": "Typography-first with image acting as dramatic support.",
+        "cards": "Few cards, often taller or offset, integrated into the narrative flow.",
+        "density": "Medium density with contrast between quiet and assertive moments.",
+        "backgrounds": "Large fields, typographic whitespace, expressive framing.",
+        "responsive": "Preserve headline drama on mobile while reducing asymmetry safely."
+      }
+    },
+    {
+      "key": "immersive",
+      "label": "Immersive",
+      "intent": "Cinematic composition with dominant hero media and fewer, larger sections.",
+      "composition": {
+        "heroLayout": "Large visual hero with overlays, short copy, and suspended CTA.",
+        "gridSystem": "Big scene blocks rather than repeated standard sections.",
+        "sectionRhythm": "Slow cinematic rhythm with less fragmentation and more impact.",
+        "hierarchy": "Visual-first with message and action layered on top.",
+        "cards": "Large statement cards or panels, not small repetitive blocks.",
+        "density": "Low density, high impact, few elements per viewport.",
+        "backgrounds": "Cinematic gradients, dark overlays, atmospheric media shells.",
+        "responsive": "Keep the visual scene but simplify overlays and text grouping on mobile."
+      }
+    },
+    {
+      "key": "saas-modern-ui",
+      "label": "SaaS Modern UI",
+      "intent": "Product-led, structured, conversion-focused, and cleanly scalable.",
+      "composition": {
+        "heroLayout": "Product-first split hero with proof cards and interface previews.",
+        "gridSystem": "Structured 12-column layout mixing proof, feature, and metric modules.",
+        "sectionRhythm": "Alternates product explanation, proof, workflow, and CTA moments.",
+        "hierarchy": "Headline, product preview, trust metrics, and next step are all explicit.",
+        "cards": "Functional product cards, metric cards, and utility blocks with high clarity.",
+        "density": "Medium density optimized for fast scanning and conversion.",
+        "backgrounds": "Controlled gradients, dark shells, and polished UI framing.",
+        "responsive": "Product, copy, and proof stack in a stable order without crushed columns."
+      }
+    },
+    {
+      "key": "minimal-business",
+      "label": "Minimal Business",
+      "intent": "Executive, sober, legible, and high-trust business presentation.",
+      "composition": {
+        "heroLayout": "Measured split hero with strong business statement and compact proof.",
+        "gridSystem": "Disciplined business grid with restrained asymmetry.",
+        "sectionRhythm": "Stable and formal spacing, avoiding visual noise.",
+        "hierarchy": "Authority first, then service clarity, then proof and contact.",
+        "cards": "Rectilinear, sober cards with firm spacing and minimal styling.",
+        "density": "Medium-low density with trust and legibility over spectacle.",
+        "backgrounds": "Quiet surfaces, subtle gradients, executive polish.",
+        "responsive": "Compact and highly readable on mobile without secondary ornament."
+      }
+    },
+    {
+      "key": "web-visual-imagenes-grandes",
+      "label": "Web visual con imagenes grandes",
+      "intent": "Large-media-first composition with editorial hierarchy and strong image presence.",
+      "composition": {
+        "heroLayout": "Media-dominant hero with copy framing the image rather than competing with it.",
+        "gridSystem": "Wide visual panels with fewer narrow text columns.",
+        "sectionRhythm": "Large visual beats interrupted by smaller informational moments.",
+        "hierarchy": "Image first, then headline, then selective supporting copy.",
+        "cards": "Image-led cards with short labels and compact metadata.",
+        "density": "Low-medium density with generous media breathing room.",
+        "backgrounds": "Image-driven shells, layered overlays, subtle editorial gradients.",
+        "responsive": "Crop and reorder media carefully so mobile still feels visual, not chaotic."
+      }
+    },
+    {
+      "key": "interactive-motion-ui",
+      "label": "Interactive Motion UI",
+      "intent": "Highly current, dynamic UI with intentional motion and clear conversion paths.",
+      "composition": {
+        "heroLayout": "Dynamic hero with layered motion targets and clear focus path.",
+        "gridSystem": "Flexible system that supports moving panels, reveals, and transitions.",
+        "sectionRhythm": "Frequent but controlled rhythm changes guided by motion cues.",
+        "hierarchy": "Motion supports hierarchy instead of replacing it.",
+        "cards": "Cards designed for reveal, hover, or step-based interaction.",
+        "density": "Medium density with breathing room for motion and focus.",
+        "backgrounds": "Layered gradients, soft depth, and movement-aware surfaces.",
+        "responsive": "Motion softens on mobile while structure remains clear and performant."
+      }
+    },
+    {
+      "key": "luxury",
+      "label": "Luxury",
+      "intent": "Elegant, restrained, premium, and high-trust.",
+      "composition": {
+        "heroLayout": "Monumental hero with reduced copy and deliberate visual restraint.",
+        "gridSystem": "Large spans, few modules, and careful proportion control.",
+        "sectionRhythm": "Slow premium rhythm with high-value whitespace.",
+        "hierarchy": "Authority and desirability before detail density.",
+        "cards": "Large premium cards, often fewer per section, with material emphasis.",
+        "density": "Low density with focus on perceived value.",
+        "backgrounds": "Deep tones, subtle shine, refined gradients, tactile surfaces.",
+        "responsive": "Keep premium calm on mobile by reducing secondary chrome."
+      }
+    },
+    {
+      "key": "tecnologico",
+      "label": "Tecnologico",
+      "intent": "Sharp, system-oriented, futuristic, and product-driven.",
+      "composition": {
+        "heroLayout": "Command-center hero with interface fragments, stats, or tech panels.",
+        "gridSystem": "Structured system grid with panels, rails, and data emphasis.",
+        "sectionRhythm": "Fast and precise cadence with frequent proof and system references.",
+        "hierarchy": "Product/system, benefits, proof, and action in a tight loop.",
+        "cards": "High-contrast utility cards and system modules.",
+        "density": "Medium-high density while maintaining strict grouping.",
+        "backgrounds": "Dark technical gradients, grid hints, focused glow accents.",
+        "responsive": "Technical density compresses into stacked utility sections without overflow."
+      }
+    },
+    {
+      "key": "espacial",
+      "label": "Espacial",
+      "intent": "Atmospheric, futuristic, and expansive without harming clarity.",
+      "composition": {
+        "heroLayout": "Deep-scene hero with distant glow, large negative space, and floating content.",
+        "gridSystem": "Asymmetric but sparse layout with orbit-like spacing.",
+        "sectionRhythm": "Long atmospheric pauses with occasional concentrated content clusters.",
+        "hierarchy": "Message emerges from the atmosphere, supported by selective anchors.",
+        "cards": "Floating panels and isolated proof cards.",
+        "density": "Low-medium density, prioritizing immersion over volume.",
+        "backgrounds": "Cosmic gradients, halos, glow fields, and layered atmospherics.",
+        "responsive": "Atmosphere remains, but empty space is reduced and content grouped tightly."
+      }
+    },
+    {
+      "key": "moderno",
+      "label": "Moderno",
+      "intent": "Current, fluid, commercially polished, and versatile.",
+      "composition": {
+        "heroLayout": "Contemporary hero with strong CTA path and flexible media framing.",
+        "gridSystem": "Fluid modern grid with moderate asymmetry and varied card sizes.",
+        "sectionRhythm": "Alternates denser sections with lighter CTA or proof sections.",
+        "hierarchy": "Commercial clarity with modern pacing and balanced emphasis.",
+        "cards": "Rounded, commercial, versatile cards with current polish.",
+        "density": "Medium density with strong scanability.",
+        "backgrounds": "Gradient fields, subtle shapes, polished shells.",
+        "responsive": "Comfortable collapse preserving conversion priority and visual freshness."
+      }
+    },
+    {
+      "key": "editor",
+      "label": "Editor",
+      "intent": "Curated, typographic, magazine-like, and compositionally refined.",
+      "composition": {
+        "heroLayout": "Split or stacked editorial hero with curated type and art direction.",
+        "gridSystem": "Magazine-inspired composition with curated cards and image slots.",
+        "sectionRhythm": "Alternates editorial spreads, captions, and compact proof blocks.",
+        "hierarchy": "Type and image share authorship in a curated rhythm.",
+        "cards": "Captioned cards, tall media blocks, and curated content modules.",
+        "density": "Medium density with controlled visual styling.",
+        "backgrounds": "Editorial color fields, texture hints, and framing accents.",
+        "responsive": "Keeps editorial identity but normalizes risky offsets on mobile."
+      }
+    },
+    {
+      "key": "premium",
+      "label": "Premium",
+      "intent": "Elevated, rich, polished, and intentionally high-value.",
+      "composition": {
+        "heroLayout": "Showcase hero with premium surfaces and strong proof anchor.",
+        "gridSystem": "Rich modular grid balancing desirability and clarity.",
+        "sectionRhythm": "High-low rhythm with statement sections and restrained utility sections.",
+        "hierarchy": "Desire, proof, and action sequenced with visible polish.",
+        "cards": "Rich premium cards with depth, material contrast, and clean spacing.",
+        "density": "Medium density with visible polish and stronger surfaces.",
+        "backgrounds": "Premium gradients, controlled reflections, and layered panels.",
+        "responsive": "Strips non-essential luxury chrome before compromising readability."
+      }
+    },
+    {
+      "key": "pro",
+      "label": "Pro",
+      "intent": "Operationally clean, credible, and efficient.",
+      "composition": {
+        "heroLayout": "Utility-first hero with clear offer, proof, and direct next step.",
+        "gridSystem": "Practical grid with aligned cards and straightforward section logic.",
+        "sectionRhythm": "Fast business rhythm with little decorative pause.",
+        "hierarchy": "Offer, credibility, process, and CTA remain constantly legible.",
+        "cards": "Functional cards with low ornament and strong labels.",
+        "density": "Medium-high density while preserving order.",
+        "backgrounds": "Simple shells and disciplined contrast.",
+        "responsive": "Highly stable mobile stacking with no ornamental overlap."
+      }
+    },
+    {
+      "key": "3d",
+      "label": "3D",
+      "intent": "Dimensional, layered, and depth-aware without harming UX.",
+      "composition": {
+        "heroLayout": "Depth-led hero with object or panel layering around the main message.",
+        "gridSystem": "Layer-friendly layout with foreground and midground modules.",
+        "sectionRhythm": "Depth moments alternate with flatter readability sections.",
+        "hierarchy": "Depth supports focus instead of scattering attention.",
+        "cards": "Volume-aware cards with lighting or object cues.",
+        "density": "Medium density with spatial separation doing some of the work.",
+        "backgrounds": "Perspective gradients, depth shadows, and object framing.",
+        "responsive": "3D cues simplify on mobile to avoid clutter and performance loss."
+      }
+    },
+    {
+      "key": "9bit",
+      "label": "9bit",
+      "intent": "Pixel-inspired, stylized, and intentionally nostalgic.",
+      "composition": {
+        "heroLayout": "Arcade-like hero with strong blocks, labels, and intentional nostalgia.",
+        "gridSystem": "Chunkier grid with card logic that supports retro modularity.",
+        "sectionRhythm": "Punchy, rhythmic, and more segmented than premium/editorial styles.",
+        "hierarchy": "Headline, action, and modular proof remain loud and clear.",
+        "cards": "Pixel-framed cards, strong labels, and obvious module boundaries.",
+        "density": "Medium density with visually chunkier grouping.",
+        "backgrounds": "Retro grids, dither-inspired tones, and stylized contrast.",
+        "responsive": "Retro framing remains, but spacing expands enough to stay readable."
+      }
+    }
+  ],
+  "layoutModes": [
+    {
+      "key": "soft",
+      "label": "Soft shell",
+      "intent": "Framed but not heavy. Default safe mode."
+    },
+    {
+      "key": "block",
+      "label": "Con bloques",
+      "intent": "Structured section shells and cards."
+    },
+    {
+      "key": "fluid",
+      "label": "Sin bloques",
+      "intent": "Lighter framing, softer surfaces, still ordered."
+    },
+    {
+      "key": "mixed",
+      "label": "Mixto",
+      "intent": "Curated mix of framed and fluid sections."
+    }
+  ],
+  "engineDefaults": {
+    "landing": {
+      "recommendedStyles": ["normal", "saas-modern-ui", "glassmorphism", "immersive", "moderno", "premium"],
+      "recommendedLayoutModes": ["soft", "mixed", "fluid"]
+    },
+    "brand": {
+      "recommendedStyles": ["normal", "minimal-business", "editorial", "web-visual-imagenes-grandes", "editor", "premium"],
+      "recommendedLayoutModes": ["soft", "block", "mixed"]
+    },
+    "storefront": {
+      "recommendedStyles": ["normal", "bento", "saas-modern-ui", "glassmorphism", "moderno", "premium", "tecnologico"],
+      "recommendedLayoutModes": ["block", "soft", "mixed"]
+    },
+    "agency": {
+      "recommendedStyles": ["normal", "minimal-business", "editorial", "saas-modern-ui", "interactive-motion-ui", "pro"],
+      "recommendedLayoutModes": ["soft", "block", "mixed"]
+    }
+  }
+}

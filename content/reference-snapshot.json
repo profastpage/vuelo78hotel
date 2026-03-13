@@ -1,0 +1,181 @@
+{
+  "sourceUrl": "https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/",
+  "capturedAt": "2026-03-11T00:57:17.576Z",
+  "meta": {
+    "title": "Premium Suite King Bed | ESTELAR Miraflores",
+    "description": "Premium Suite King Bed del ESTELAR Miraflores. Reserva habitaciones de nuestro hotel en Perú - Lima. [Web Oficial].",
+    "language": "es"
+  },
+  "widgets": [
+    {
+      "name": "cta-group",
+      "count": 4
+    },
+    {
+      "name": "popup",
+      "count": 4
+    },
+    {
+      "name": "form",
+      "count": 3
+    },
+    {
+      "name": "tabs",
+      "count": 1
+    },
+    {
+      "name": "slider",
+      "count": 1
+    }
+  ],
+  "sections": [
+    {
+      "index": 1,
+      "label": "Navbar",
+      "type": "navbar",
+      "headings": [
+        "Premium Suite King Bed ESTELAR Miraflores"
+      ],
+      "widgets": [
+        "cta-group"
+      ],
+      "cardCount": 0,
+      "hasMedia": true,
+      "ctaCount": 17,
+      "layout": "hero split con media dominante"
+    },
+    {
+      "index": 2,
+      "label": "Popup o modal",
+      "type": "popup",
+      "headings": [
+        "Premium Suite King Bed",
+        "Confort en nuestro Hotel, ESTELAR Miraflores"
+      ],
+      "widgets": [
+        "form",
+        "tabs",
+        "popup",
+        "slider",
+        "cta-group"
+      ],
+      "cardCount": 0,
+      "hasMedia": true,
+      "ctaCount": 70,
+      "layout": "tabs con paneles"
+    },
+    {
+      "index": 3,
+      "label": "Popup o modal",
+      "type": "popup",
+      "headings": [],
+      "widgets": [
+        "popup"
+      ],
+      "cardCount": 0,
+      "hasMedia": true,
+      "ctaCount": 2,
+      "layout": "stack simple"
+    },
+    {
+      "index": 4,
+      "label": "Footer",
+      "type": "footer",
+      "headings": [],
+      "widgets": [
+        "form",
+        "popup",
+        "cta-group"
+      ],
+      "cardCount": 0,
+      "hasMedia": true,
+      "ctaCount": 24,
+      "layout": "bloque de formulario"
+    },
+    {
+      "index": 5,
+      "label": "Seccion 5",
+      "type": "content",
+      "headings": [],
+      "widgets": [
+        "cta-group"
+      ],
+      "cardCount": 0,
+      "hasMedia": true,
+      "ctaCount": 3,
+      "layout": "layout editorial con media"
+    },
+    {
+      "index": 6,
+      "label": "Popup o modal",
+      "type": "popup",
+      "headings": [],
+      "widgets": [
+        "form",
+        "popup"
+      ],
+      "cardCount": 0,
+      "hasMedia": false,
+      "ctaCount": 2,
+      "layout": "bloque de formulario"
+    },
+    {
+      "index": 7,
+      "label": "Seccion 7",
+      "type": "content",
+      "headings": [],
+      "widgets": [],
+      "cardCount": 0,
+      "hasMedia": true,
+      "ctaCount": 2,
+      "layout": "layout editorial con media"
+    }
+  ],
+  "designTokens": {
+    "palette": [
+      "#000000",
+      "#0000EE",
+      "#FFFFFF",
+      "#E6E6E6",
+      "#0E3064",
+      "#1A1A1A",
+      "#808080",
+      "#767676",
+      "#666666",
+      "#FFF"
+    ],
+    "fonts": [
+      "poppins-regular",
+      "Arial",
+      "lato",
+      "Lato, Arial, sans-serif",
+      "poppins-medium",
+      "Lato",
+      "Lato,Arial,sans-serif",
+      "var(--tabs-font-family,Lato,Arial,sans-serif)"
+    ],
+    "radii": [
+      "30px 30px 0px 0px",
+      "30px",
+      "15px",
+      "15px 15px 0px 0px",
+      "7px",
+      "4px",
+      "0px 0px 15px 15px",
+      "50%"
+    ],
+    "heroMediaUrl": "https://media/uploads/cms_apps/imagenes/inner-estelar-peru-miraflores-habitaciones_3bSqiaz.webp?q=pr:sharp/rs:fill/w:1920/h:800/f:jpg"
+  },
+  "assets": {
+    "stylesheets": [
+      "https://www.estelarmiraflores.com/roi-widgets/static/css/engine-skeleton.min.css?v=f20f4221db5bc17c995f0d6bf843f39f",
+      "https://www.estelarmiraflores.com/roi-widgets/static/css/engine-custom.min.css?v=2584b0359edae8e1f3ea8212290f78f1",
+      "https://www.estelarmiraflores.com/bookcore/static/css/v4/search-engine-styles-skeleton.min.css?v=f5efae376b2e454482f1659beec7a505",
+      "https://www.estelarmiraflores.com/bookcore/static/css/v4/search-engine-styles-custom.min.css?v=94c45e96e2f694fb9f3b3a97f831b576",
+      "https://www.estelarmiraflores.com/static/miraflores/css/habitacion_detalle.min.css?v=0248ea3a2f71fc723387074c39ba8fb8"
+    ],
+    "imageCount": 28,
+    "videoCount": 0
+  },
+  "captureMethod": "browser"
+}

@@ -1,0 +1,9 @@
+Follow the repository contract before editing.
+
+- Read `AGENTS.md`, `ai/prompt-web-generator.md`, `content/raw.txt`, and `content/brief.yaml` before changing AI-generated website content.
+- Treat `content/brief.yaml` as the primary structured source of truth for generated website content.
+- Preserve the current Next.js App Router structure, reusable components, engines, routes, and responsive behavior.
+- Do not redesign the whole site, delete components, or break layout balance.
+- Keep hero and section titles concise, balanced, and within 2 lines on desktop and mobile.
+- Subtitle copy may be wider than the title when needed for clarity.
+- Reuse existing components and generate professional, conversion-focused copy.

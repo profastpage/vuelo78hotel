@@ -1,0 +1,455 @@
+{
+  "version": "2026.03.11",
+  "kits": [
+    {
+      "key": "hotel",
+      "label": "Hotel Signature",
+      "match": {
+        "projectTypes": ["Landing Page", "Website"],
+        "keywords": ["hotel", "hoteleria", "hostal", "hostel", "resort", "hospitality", "habitacion", "turismo"]
+      },
+      "theme": {
+        "mode": "Light",
+        "visualStyle": "premium",
+        "layoutMode": "block",
+        "shellMode": "full-bleed",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#C9A44F",
+        "secondaryColor": "#173F7B",
+        "visualSignature": "signature-aura"
+      },
+      "designSystem": {
+        "typography": "serif-display with quiet sans ui",
+        "density": "airy premium",
+        "motion": "slow-fade and subtle parallax",
+        "surface": "editorial layered hospitality shells"
+      },
+      "brand": {
+        "heroTag": "Hospitalidad premium",
+        "brandThesis": "La web debe cerrar la percepcion de descanso, confianza y reserva directa en el primer viewport.",
+        "positioning": "Reserva directa con atmosfera premium y menos friccion.",
+        "proofAngle": "Habitaciones, amenities, ubicacion y senales de confianza visibles.",
+        "ctaStrategy": "Disponibilidad, habitaciones y reserva directa.",
+        "artDirection": "Arquitectura, amenities, texturas calidas y fotografia hotelera editorial."
+      },
+      "sections": {
+        "pricing": "stay-packages",
+        "team": "hospitality",
+        "timeline": "guest-journey"
+      },
+      "scorecardTargets": {
+        "visual": 92,
+        "conversion": 88,
+        "trust": 93,
+        "responsive": 95,
+        "content": 90
+      }
+    },
+    {
+      "key": "clinic",
+      "label": "Clinical Trust",
+      "match": {
+        "projectTypes": ["Landing Page", "Website"],
+        "keywords": ["clinica", "clinic", "medical", "salud", "odontologia", "dentista", "doctor", "psicologia"]
+      },
+      "theme": {
+        "mode": "Light",
+        "visualStyle": "minimal-business",
+        "layoutMode": "soft",
+        "shellMode": "framed",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#1D8A8A",
+        "secondaryColor": "#103B4A",
+        "visualSignature": "signature-lumen"
+      },
+      "designSystem": {
+        "typography": "clear sans with calm display moments",
+        "density": "measured trust-first",
+        "motion": "soft reveal only",
+        "surface": "sterile clean cards with low noise"
+      },
+      "brand": {
+        "heroTag": "Confianza clinica",
+        "brandThesis": "La interfaz debe reducir ansiedad y elevar claridad antes del contacto.",
+        "positioning": "Atencion profesional, segura y facil de entender.",
+        "proofAngle": "Equipo, procesos, testimonios y FAQ medicas claras.",
+        "ctaStrategy": "Agendar evaluacion o contacto inmediato.",
+        "artDirection": "Luz limpia, precision, calma y nitidez sanitaria."
+      },
+      "sections": {
+        "pricing": "consultation-plans",
+        "team": "specialists",
+        "timeline": "care-path"
+      },
+      "scorecardTargets": {
+        "visual": 88,
+        "conversion": 84,
+        "trust": 95,
+        "responsive": 95,
+        "content": 92
+      }
+    },
+    {
+      "key": "restaurant",
+      "label": "Restaurant Showcase",
+      "match": {
+        "projectTypes": ["Landing Page", "Website"],
+        "keywords": ["restaurante", "restaurant", "gastro", "cafeteria", "cafe", "bar", "menu", "carta"]
+      },
+      "theme": {
+        "mode": "Dark",
+        "visualStyle": "web-visual-imagenes-grandes",
+        "layoutMode": "mixed",
+        "shellMode": "framed-seamless",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#C15A2B",
+        "secondaryColor": "#2B1C16",
+        "visualSignature": "signature-cascade"
+      },
+      "designSystem": {
+        "typography": "expressive serif with compact support sans",
+        "density": "showcase-led",
+        "motion": "smooth stagger and hover lift",
+        "surface": "warm editorial panels and image-led cards"
+      },
+      "brand": {
+        "heroTag": "Experiencia gastronomica",
+        "brandThesis": "La pagina debe abrir apetito, identidad y accion inmediata.",
+        "positioning": "Carta, atmosfera y reservas en una narrativa visual fuerte.",
+        "proofAngle": "Platos, ambiente, ubicacion y prueba social.",
+        "ctaStrategy": "Reservar mesa o ver carta.",
+        "artDirection": "Food editorial, interiores calidos y close-ups de alto contraste."
+      },
+      "sections": {
+        "pricing": "signature-menu",
+        "team": "chef-crew",
+        "timeline": "dining-experience"
+      },
+      "scorecardTargets": {
+        "visual": 93,
+        "conversion": 87,
+        "trust": 86,
+        "responsive": 94,
+        "content": 88
+      }
+    },
+    {
+      "key": "law-firm",
+      "label": "Legal Authority",
+      "match": {
+        "projectTypes": ["Landing Page", "Website"],
+        "keywords": ["abogado", "law", "legal", "juridico", "estudio", "bufete", "litigio", "asesoria legal"]
+      },
+      "theme": {
+        "mode": "Light",
+        "visualStyle": "pro",
+        "layoutMode": "soft",
+        "shellMode": "framed",
+        "textAlign": "left",
+        "buttonShape": "square",
+        "primaryColor": "#1F3B73",
+        "secondaryColor": "#111827",
+        "visualSignature": "signature-forge"
+      },
+      "designSystem": {
+        "typography": "executive serif with disciplined sans",
+        "density": "measured authority",
+        "motion": "minimal",
+        "surface": "firm business cards with low ornament"
+      },
+      "brand": {
+        "heroTag": "Autoridad legal",
+        "brandThesis": "La web debe verse seria, precisa y confiable desde el primer scroll.",
+        "positioning": "Asesoria legal clara con autoridad visible.",
+        "proofAngle": "Casos, experiencia, proceso y claridad de contacto.",
+        "ctaStrategy": "Solicitar consulta y explicar especialidades.",
+        "artDirection": "Corporativo sobrio, composicion firme y acentos premium discretos."
+      },
+      "sections": {
+        "pricing": "consultation-plans",
+        "team": "partners",
+        "timeline": "case-flow"
+      },
+      "scorecardTargets": {
+        "visual": 86,
+        "conversion": 83,
+        "trust": 95,
+        "responsive": 94,
+        "content": 92
+      }
+    },
+    {
+      "key": "beauty",
+      "label": "Beauty Editorial",
+      "match": {
+        "projectTypes": ["Landing Page", "Website"],
+        "keywords": ["belleza", "beauty", "peluqueria", "salon", "spa", "lashes", "cosmetica", "estetica"]
+      },
+      "theme": {
+        "mode": "Light",
+        "visualStyle": "editorial",
+        "layoutMode": "mixed",
+        "shellMode": "framed-seamless",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#B76E79",
+        "secondaryColor": "#111827",
+        "visualSignature": "signature-cascade"
+      },
+      "designSystem": {
+        "typography": "fashion serif with polished sans",
+        "density": "editorial airy",
+        "motion": "soft reveal with premium hover states",
+        "surface": "lookbook cards and soft beauty panels"
+      },
+      "brand": {
+        "heroTag": "Beauty editorial",
+        "brandThesis": "La pagina debe vender resultado, confianza y deseo visual sin verse genérica.",
+        "positioning": "Servicios de belleza presentados con identidad y reserva clara.",
+        "proofAngle": "Resultados, servicios estrella, testimonios y agenda.",
+        "ctaStrategy": "Reservar cita y destacar servicio estrella.",
+        "artDirection": "Lookbook comercial, close-up de resultado y ritmo editorial."
+      },
+      "sections": {
+        "pricing": "signature-services",
+        "team": "stylists",
+        "timeline": "appointment-flow"
+      },
+      "scorecardTargets": {
+        "visual": 94,
+        "conversion": 87,
+        "trust": 88,
+        "responsive": 94,
+        "content": 89
+      }
+    },
+    {
+      "key": "saas-ops",
+      "label": "SaaS Ops Console",
+      "match": {
+        "projectTypes": ["Landing Page", "Website", "E-commerce"],
+        "keywords": ["saas", "software", "crm", "operaciones", "ops", "dashboard", "leads", "automation"]
+      },
+      "theme": {
+        "mode": "Dark",
+        "visualStyle": "saas-modern-ui",
+        "layoutMode": "mixed",
+        "shellMode": "framed",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#56A2FF",
+        "secondaryColor": "#0F172A",
+        "visualSignature": "signature-axis"
+      },
+      "designSystem": {
+        "typography": "system sans with dense display utility",
+        "density": "operator-dense",
+        "motion": "precise staged reveal",
+        "surface": "console panels, metrics and structured rails"
+      },
+      "brand": {
+        "heroTag": "Operator precision",
+        "brandThesis": "Debe sentirse como producto serio, rapido y escalable desde el primer viewport.",
+        "positioning": "Control operativo con claridad, velocidad y senales de producto real.",
+        "proofAngle": "Metricas, workflows, integraciones y casos de uso concretos.",
+        "ctaStrategy": "Solicitar demo o explorar el flujo del producto.",
+        "artDirection": "Console premium, densidad controlada, paneles y contraste tecnico."
+      },
+      "sections": {
+        "pricing": "saas-plans",
+        "team": "product-ops",
+        "timeline": "implementation-steps"
+      },
+      "scorecardTargets": {
+        "visual": 91,
+        "conversion": 90,
+        "trust": 89,
+        "responsive": 93,
+        "content": 90
+      }
+    },
+    {
+      "key": "luxury-service",
+      "label": "Luxury Service",
+      "match": {
+        "projectTypes": ["Landing Page", "Website"],
+        "keywords": ["luxury", "premium", "boutique", "alta gama", "exclusive", "concierge", "wedding", "interiorismo"]
+      },
+      "theme": {
+        "mode": "Light",
+        "visualStyle": "luxury",
+        "layoutMode": "fluid",
+        "shellMode": "framed-seamless",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#C7A76C",
+        "secondaryColor": "#1A2232",
+        "visualSignature": "signature-aura"
+      },
+      "designSystem": {
+        "typography": "high-contrast serif with restrained sans",
+        "density": "luxury spacious",
+        "motion": "slow editorial transitions",
+        "surface": "quiet premium shells and material contrast"
+      },
+      "brand": {
+        "heroTag": "Servicio premium",
+        "brandThesis": "La experiencia debe sentirse valiosa, serena y muy bien dirigida.",
+        "positioning": "Servicio de alta gama explicado con calma y autoridad.",
+        "proofAngle": "Experiencia, atencion personalizada y resultado visible.",
+        "ctaStrategy": "Solicitar consulta o experiencia personalizada.",
+        "artDirection": "Quiet luxury, tipografia elegante y composicion monumenta."
+      },
+      "sections": {
+        "pricing": "signature-services",
+        "team": "concierge",
+        "timeline": "white-glove-process"
+      },
+      "scorecardTargets": {
+        "visual": 95,
+        "conversion": 84,
+        "trust": 91,
+        "responsive": 93,
+        "content": 89
+      }
+    },
+    {
+      "key": "fintech-trust",
+      "label": "Fintech Trust",
+      "match": {
+        "projectTypes": ["Landing Page", "Website", "E-commerce"],
+        "keywords": ["fintech", "finance", "finanzas", "payments", "pagos", "inversion", "banking", "wallet"]
+      },
+      "theme": {
+        "mode": "Dark",
+        "visualStyle": "tecnologico",
+        "layoutMode": "block",
+        "shellMode": "framed",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#4FD1C5",
+        "secondaryColor": "#0B1220",
+        "visualSignature": "signature-lumen"
+      },
+      "designSystem": {
+        "typography": "sharp sans with executive metrics emphasis",
+        "density": "trust-dense",
+        "motion": "measured product reveal",
+        "surface": "high-contrast trust panels"
+      },
+      "brand": {
+        "heroTag": "Finanzas claras",
+        "brandThesis": "Debe transmitir seguridad y sofisticacion operativa sin verse fria o genérica.",
+        "positioning": "Producto financiero serio, entendible y listo para confiar.",
+        "proofAngle": "Seguridad, cifras, cumplimiento y claridad funcional.",
+        "ctaStrategy": "Abrir cuenta, solicitar demo o hablar con ventas.",
+        "artDirection": "Console financiera, acentos controlados y proof de confianza."
+      },
+      "sections": {
+        "pricing": "saas-plans",
+        "team": "risk-team",
+        "timeline": "activation-flow"
+      },
+      "scorecardTargets": {
+        "visual": 90,
+        "conversion": 88,
+        "trust": 95,
+        "responsive": 93,
+        "content": 91
+      }
+    },
+    {
+      "key": "creative-tool",
+      "label": "Creative Tool",
+      "match": {
+        "projectTypes": ["Landing Page", "Website", "E-commerce"],
+        "keywords": ["creative", "design", "editor", "studio", "creator", "portfolio", "tool", "canvas"]
+      },
+      "theme": {
+        "mode": "Light",
+        "visualStyle": "editor",
+        "layoutMode": "mixed",
+        "shellMode": "framed-seamless",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#8B5CF6",
+        "secondaryColor": "#111827",
+        "visualSignature": "signature-drift"
+      },
+      "designSystem": {
+        "typography": "editorial display with product sans",
+        "density": "curated medium",
+        "motion": "expressive but light",
+        "surface": "gallery-editor hybrid surfaces"
+      },
+      "brand": {
+        "heroTag": "Creative workflow",
+        "brandThesis": "Debe sentirse como herramienta con criterio creativo y no como landing SaaS genérica.",
+        "positioning": "Proceso creativo mas claro, visual y potente.",
+        "proofAngle": "Output, sistema, before-after y flujo de trabajo.",
+        "ctaStrategy": "Explorar demo o empezar a crear.",
+        "artDirection": "Magazine-tool hybrid, interfaces curadas y ritmo visual expresivo."
+      },
+      "sections": {
+        "pricing": "creator-plans",
+        "team": "creative-team",
+        "timeline": "workflow-steps"
+      },
+      "scorecardTargets": {
+        "visual": 94,
+        "conversion": 85,
+        "trust": 84,
+        "responsive": 93,
+        "content": 88
+      }
+    },
+    {
+      "key": "ai-app",
+      "label": "AI App Launch",
+      "match": {
+        "projectTypes": ["Landing Page", "Website", "E-commerce"],
+        "keywords": ["ai", "artificial intelligence", "inteligencia artificial", "agent", "automation", "copilot", "model", "assistant"]
+      },
+      "theme": {
+        "mode": "Dark",
+        "visualStyle": "interactive-motion-ui",
+        "layoutMode": "mixed",
+        "shellMode": "framed",
+        "textAlign": "left",
+        "buttonShape": "rounded",
+        "primaryColor": "#7C3AED",
+        "secondaryColor": "#0A1020",
+        "visualSignature": "signature-lumen"
+      },
+      "designSystem": {
+        "typography": "future-facing sans with product display accents",
+        "density": "launch-balanced",
+        "motion": "meaningful staged motion",
+        "surface": "glow-edged panels and product-demo surfaces"
+      },
+      "brand": {
+        "heroTag": "AI product launch",
+        "brandThesis": "La pagina debe verse novedosa y creible al mismo tiempo.",
+        "positioning": "Producto de IA claro, util y listo para probar.",
+        "proofAngle": "Casos de uso, workflow, velocidad y diferenciacion.",
+        "ctaStrategy": "Probar, pedir demo o unirse a la lista.",
+        "artDirection": "Glow controlado, producto al frente y narrativa de sistema."
+      },
+      "sections": {
+        "pricing": "ai-plans",
+        "team": "builders",
+        "timeline": "activation-flow"
+      },
+      "scorecardTargets": {
+        "visual": 93,
+        "conversion": 89,
+        "trust": 87,
+        "responsive": 92,
+        "content": 89
+      }
+    }
+  ]
+}

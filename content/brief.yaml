@@ -1,0 +1,116 @@
+businessName: 'Vuelo 78 Hotel Tarapoto'
+projectType: 'Landing Page'
+industry: 'Hoteleria'
+businessDescription: 'Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirada en https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/, conservando layout, ritmo visual, widgets y jerarquia premium de secciones. Todo texto, branding, logos e imagenes deben ser nuevos y orientados a reservas directas.'
+mainOffer: 'Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium'
+primaryGoal: 'Generar reservas directas y consultas de disponibilidad'
+targetAudience: 'Clientes ideales de Vuelo 78 Hotel Tarapoto interesados en hero shell.'
+location: 'Lima, Peru'
+contact:
+  whatsapp: '+51987654321'
+  email: 'hola@auralis.studio'
+brand:
+  themeMode: 'Light'
+  visualStyle: 'premium'
+  layoutMode: 'block'
+  shellMode: 'full-bleed'
+  textAlign: 'left'
+  buttonShape: 'rounded'
+  primaryColor: '#C9A44F'
+  secondaryColor: '#173F7B'
+  copyStyle: 'conversion-focused, sharp, persuasive, premium, objection-aware'
+  visualConcept: 'hoteleria campaign page'
+  layoutMood: 'conversion-first and premium'
+  visualSignature: 'signature-cascade'
+reference:
+  enabled: true
+  website: 'https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/'
+  captureMode: 'layout-text-widgets'
+hero:
+  tag: 'Hotel en Tarapoto'
+  headline: 'Vuelo 78 Hotel Tarapoto'
+  subtitle: 'Hotel en Tarapoto con habitaciones comodas, reserva directa y una experiencia visual clara desde el primer scroll.'
+services:
+  - title: 'Suite principal con vista natural'
+    description: 'Habitacion amplia con cama premium, atmosfera tranquila y una reserva directa visible desde el primer scroll.'
+  - title: 'Habitacion superior doble'
+    description: 'Opcion flexible para pareja, familia corta o viaje de trabajo con lectura clara y beneficios visibles.'
+  - title: 'Estadia ejecutiva flexible'
+    description: 'Alternativa pensada para reservas cortas, llegada agil y una experiencia hotelera premium pero simple.'
+  - title: 'Galeria y experiencia del hotel'
+    description: 'Bloque visual para mostrar ambientes, descanso y puntos diferenciales sin perder ritmo editorial.'
+  - title: 'Reserva directa y asistencia'
+    description: 'Modulo de contacto y reserva para confirmar disponibilidad, fechas y tipo de habitacion con menos friccion.'
+benefits:
+  - 'Conservar 7 bloques principales con jerarquia visual parecida.'
+  - 'Mantener cta-group x4, popup x4, form x3 dentro del flujo final.'
+  - 'Usar una paleta nueva inspirada en #000000, #0000EE, #FFFFFF, #E6E6E6 sin copiar branding.'
+  - 'Traducir el sistema tipografico de referencia a fuentes nuevas con rol similar.'
+  - 'Reemplazar todas las imagenes por placeholders con el mismo peso compositivo.'
+faq:
+  - question: '¿Que debe clonarse de la web de referencia?'
+    answer: 'Solo layout, composicion, patrones interactivos y jerarquia visual. Nunca marca, logos, textos ni imagenes reales.'
+  - question: '¿Se deben conservar las tabs detectadas?'
+    answer: 'Si. Deben replicarse las tabs con labels nuevas y contenido real del nuevo cliente.'
+  - question: '¿El popup o modal debe mantenerse?'
+    answer: 'Si, pero con nuevo copy, nuevos triggers y sin copiar ningun asset del sitio original.'
+testimonials:
+  - name: 'Alex Rivera'
+    role: 'Founder'
+    quote: 'La reserva se siente mucho mas clara y el hotel transmite un nivel premium desde la primera vista.'
+  - name: 'Mia Chen'
+    role: 'Director'
+    quote: 'Ahora la pagina ordena mejor las habitaciones, beneficios y el camino directo para consultar disponibilidad.'
+  - name: 'Jordan Patel'
+    role: 'Operations Lead'
+    quote: 'El resultado se ve serio, limpio y mucho mas cercano a la experiencia de un hotel real.'
+cta:
+  primaryLabel: 'Reservar'
+  secondaryLabel: 'Ver habitaciones'
+  contactTitle: 'Confirma disponibilidad y reserva con claridad'
+  contactDescription: 'Comparte fechas, tipo de habitacion y objetivo del viaje. La pagina ya queda preparada para mostrar habitaciones, beneficios y una reserva directa sin friccion.'
+products: []
+keywords:
+  - 'Vuelo 78 Hotel Tarapoto'
+  - 'Hoteleria'
+  - 'Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium'
+  - 'Suite principal con vista natural'
+  - 'Habitacion superior doble'
+  - 'Estadia ejecutiva flexible'
+pages:
+  - 'Hotel'
+  - 'Ofertas'
+  - 'Habitaciones'
+  - 'Servicios'
+  - 'Galeria'
+  - 'Reserva'
+  - 'Mapa'
+strategy:
+  starterKit: 'hotel'
+  starterKitLabel: 'Hotel Signature'
+  brandThesis: 'La web debe cerrar la percepcion de descanso, confianza y reserva directa en el primer viewport.'
+  positioning: 'Reserva directa con atmosfera premium y menos friccion.'
+  proofAngle: 'Habitaciones, amenities, ubicacion y senales de confianza visibles.'
+  ctaStrategy: 'Disponibilidad, habitaciones y reserva directa.'
+  artDirection: 'Arquitectura, amenities, texturas calidas y fotografia hotelera editorial.'
+  recommendedSkillSequence:
+    - 'brand-system'
+    - 'copy-positioning'
+    - 'landing-page-director'
+    - 'app-shell-architect'
+    - 'design-system-builder'
+    - 'master-fullstack'
+    - 'conversion-critic'
+    - 'design-critic'
+designSystem:
+  starterKit: 'hotel'
+  typographySystem: 'serif-display with quiet sans ui'
+  densityProfile: 'airy premium'
+  motionProfile: 'slow-fade and subtle parallax'
+  surfaceProfile: 'editorial layered hospitality shells'
+scorecardTargets:
+  visual: 92
+  conversion: 88
+  trust: 93
+  responsive: 95
+  content: 90

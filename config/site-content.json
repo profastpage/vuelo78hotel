@@ -1,0 +1,396 @@
+{
+  "brand": {
+    "name": "Vuelo 78 Hotel Tarapoto",
+    "headline": "Vuelo 78 Hotel Tarapoto",
+    "description": "Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirada en https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/, conservando layout, ritmo visual, widgets y jerarquia premium de secciones. Todo texto, branding, logos e imagenes deben ser nuevos y orientados a reservas directas.",
+    "subheadline": "Hotel en Tarapoto con habitaciones comodas, reserva directa y una experiencia visual clara desde el primer scroll.",
+    "primaryCtaLabel": "Reservar",
+    "primaryCtaHref": "https://wa.me/51987654321?text=Hola%20%F0%9F%91%8B%0A%0AMe%20interesa%20reservar%20en%20Vuelo%2078%20Hotel%20Tarapoto.%0A%0A%F0%9F%8F%A8%20Quiero%20informacion%20sobre%20disponibilidad%0A%F0%9F%9B%8F%EF%B8%8F%20Tipos%20de%20habitacion%20y%20tarifas%0A%F0%9F%93%85%20Opciones%20de%20fecha%20para%20mi%20estadia%0A%0AMuchas%20gracias.",
+    "secondaryCtaLabel": "Ver habitaciones",
+    "secondaryCtaHref": "#habitaciones",
+    "heroTag": "Hotel en Tarapoto",
+    "heroImageSrc": "/assets/uploads/hotel-e958a5dd-c4f1-4619-b0cd-7449eb4b6695.webp",
+    "heroImagePosition": {
+      "x": 50,
+      "y": 50
+    }
+  },
+  "narrative": {
+    "title": "Una experiencia hotelera mas cercana al referente visual",
+    "body": "Vuelo 78 Hotel Tarapoto necesita una web hotelera inspirada en https://www.estelarmiraflores.com/es/habitaciones/suite-estelar/, conservando layout, ritmo visual, widgets y jerarquia premium de secciones. Todo texto, branding, logos e imagenes deben ser nuevos y orientados a reservas directas.",
+    "goal": "Generar reservas directas y consultas de disponibilidad"
+  },
+  "theme": {
+    "mode": "Light",
+    "visualStyle": "premium",
+    "layoutMode": "block",
+    "shellMode": "framed-seamless",
+    "textAlign": "center",
+    "buttonShape": "rounded",
+    "starterKit": "hotel",
+    "accentColor": "#010afe",
+    "accentAltColor": "#010afe"
+  },
+  "uiText": {
+    "heroLabel": "Hotel y descanso",
+    "supportLabel": "Habitaciones y servicios",
+    "proofLabel": "Huespedes y confianza",
+    "storyChip": "Suite",
+    "storyTitle": "Comodidad y servicios antes de reservar",
+    "testimonialsChip": "Testimonios",
+    "testimonialsTitle": "Senales reales antes de reservar",
+    "faqChip": "Preguntas frecuentes",
+    "faqTitle": "Dudas comunes antes de confirmar la reserva"
+  },
+  "stats": [
+    {
+      "label": "Destino",
+      "value": "Lima"
+    },
+    {
+      "label": "Habitaciones",
+      "value": "5"
+    },
+    {
+      "label": "Reserva",
+      "value": "WhatsApp"
+    }
+  ],
+  "services": [
+    {
+      "title": "Suite principal con vista natural",
+      "description": "Habitacion amplia con cama premium, atmosfera tranquila y una reserva directa visible desde el primer scroll.",
+      "imageSrc": "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde-a8673db4-c6f0-4ca9-821f-f17389ef6602.jfif",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Habitacion superior doble",
+      "description": "Opcion flexible para pareja, familia corta o viaje de trabajo con lectura clara y beneficios visibles.",
+      "imageSrc": "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde-172ec7d3-2936-4e5c-9bb3-266285ad872d.jfif",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Estadia ejecutiva flexible",
+      "description": "Alternativa pensada para reservas cortas, llegada agil y una experiencia hotelera premium pero simple.",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Galeria y experiencia del hotel",
+      "description": "Bloque visual para mostrar ambientes, descanso y puntos diferenciales sin perder ritmo editorial.",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Reserva directa y asistencia",
+      "description": "Modulo de contacto y reserva para confirmar disponibilidad, fechas y tipo de habitacion con menos friccion.",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    }
+  ],
+  "highlights": [
+    "Conservar 7 bloques principales con jerarquia visual parecida.",
+    "Mantener cta-group x4, popup x4, form x3 dentro del flujo final.",
+    "Usar una paleta nueva inspirada en #000000, #0000EE, #FFFFFF, #E6E6E6 sin copiar branding.",
+    "Traducir el sistema tipografico de referencia a fuentes nuevas con rol similar.",
+    "Reemplazar todas las imagenes por placeholders con el mismo peso compositivo."
+  ],
+  "testimonials": [
+    {
+      "name": "Alex Rivera",
+      "role": "Founder",
+      "quote": "La reserva se siente mucho mas clara y el hotel transmite un nivel premium desde la primera vista.",
+      "avatarSrc": "",
+      "location": "Lima, Peru",
+      "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+      "rating": 5
+    },
+    {
+      "name": "Mia Chen",
+      "role": "Director",
+      "quote": "Ahora la pagina ordena mejor las habitaciones, beneficios y el camino directo para consultar disponibilidad.",
+      "avatarSrc": "",
+      "location": "Lima, Peru",
+      "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+      "rating": 5
+    },
+    {
+      "name": "Jordan Patel",
+      "role": "Operations Lead",
+      "quote": "El resultado se ve serio, limpio y mucho mas cercano a la experiencia de un hotel real.",
+      "avatarSrc": "",
+      "location": "Lima, Peru",
+      "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+      "rating": 5
+    }
+  ],
+  "faqs": [
+    {
+      "question": "¿Que debe clonarse de la web de referencia?",
+      "answer": "Solo layout, composicion, patrones interactivos y jerarquia visual. Nunca marca, logos, textos ni imagenes reales."
+    },
+    {
+      "question": "¿Se deben conservar las tabs detectadas?",
+      "answer": "Si. Deben replicarse las tabs con labels nuevas y contenido real del nuevo cliente."
+    },
+    {
+      "question": "¿El popup o modal debe mantenerse?",
+      "answer": "Si, pero con nuevo copy, nuevos triggers y sin copiar ningun asset del sitio original."
+    }
+  ],
+  "pages": [
+    "Hotel",
+    "Ofertas",
+    "Habitaciones",
+    "Servicios",
+    "Galeria",
+    "Reserva",
+    "Mapa"
+  ],
+  "products": [],
+  "galleryKeywords": [
+    "Vuelo 78 Hotel Tarapoto",
+    "Hoteleria",
+    "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
+    "Suite principal con vista natural",
+    "Habitacion superior doble",
+    "Estadia ejecutiva flexible"
+  ],
+  "galleryItems": [
+    {
+      "title": "Suite principal con vista natural",
+      "subtitle": "Vuelo 78 Hotel Tarapoto",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Habitacion superior doble",
+      "subtitle": "Layout hotel editable",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Estadia ejecutiva flexible",
+      "subtitle": "Layout hotel editable",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Galeria y experiencia del hotel",
+      "subtitle": "Layout hotel editable",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    },
+    {
+      "title": "Reserva directa y asistencia",
+      "subtitle": "Layout hotel editable",
+      "imageSrc": "",
+      "imagePosition": {
+        "x": 50,
+        "y": 50
+      }
+    }
+  ],
+  "contact": {
+    "title": "Confirma disponibilidad y reserva con claridad",
+    "description": "Comparte fechas, tipo de habitacion y objetivo del viaje. La pagina ya queda preparada para mostrar habitaciones, beneficios y una reserva directa sin friccion.",
+    "whatsappNumber": "+51987654321",
+    "email": "hola@auralis.studio"
+  },
+  "bookingWidget": {
+    "preset": "hotel",
+    "title": "Reserva directa y asistencia rapida",
+    "description": "Coordina disponibilidad, tipo de habitacion y llegada desde una barra clara inspirada en el hotel de referencia.",
+    "adminLabel": "Equipo de reservas",
+    "adminRole": "Reservas y atencion",
+    "adminStatus": "En linea para responder rapido",
+    "actionVerb": "reservar",
+    "triggerChatLabel": "Consultar ahora",
+    "triggerChatHint": "Disponibilidad y tarifas",
+    "triggerActionLabel": "Reservar",
+    "triggerActionHint": "Reserva directa",
+    "tabChatLabel": "Chat",
+    "tabActionLabel": "Reserva",
+    "chatCtaLabel": "Hablar con reservas",
+    "chatCtaHint": "Confirma habitacion y llegada",
+    "directWhatsappLabel": "WhatsApp",
+    "directWhatsappHint": "Tarifas y detalles",
+    "bookingCtaLabel": "Reservar",
+    "summaryLabel": "Codigo promocional",
+    "summaryText": "Opcional",
+    "formNameLabel": "Nombre",
+    "formNamePlaceholder": "Como te llamas?",
+    "scheduleLabel": "Entrada",
+    "schedulePlaceholder": "Flexible",
+    "scheduleInputType": "date",
+    "quantityLabel": "Huespedes",
+    "quantityOptions": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5+"
+    ],
+    "notesLabel": "Solicitud especial",
+    "notesPlaceholder": "Cama extra, early check-in, desayuno, traslado...",
+    "selectionTitle": "Habitacion",
+    "detailLabel": "Habitacion",
+    "priceLabel": "Tarifa",
+    "timelineLabel": "Salida",
+    "options": [
+      {
+        "id": "suite-principal",
+        "label": "Suite principal",
+        "roomType": "Suite principal",
+        "price": "S/ 249",
+        "rateLabel": "por noche",
+        "stayLabel": "1 noche",
+        "summary": "Vista destacada, cama amplia y una entrada hotelera clara desde el primer scroll.",
+        "perks": [
+          "Desayuno",
+          "WiFi",
+          "Aire acondicionado",
+          "Reserva directa"
+        ],
+        "emoji": "🛏️",
+        "badge": "Principal",
+        "highlighted": true
+      },
+      {
+        "id": "habitacion-superior",
+        "label": "Habitacion superior",
+        "roomType": "Habitacion superior",
+        "price": "S/ 289",
+        "rateLabel": "por noche",
+        "stayLabel": "1 noche",
+        "summary": "Pensada para viajes de pareja o trabajo con ritmo visual premium.",
+        "perks": [
+          "WiFi",
+          "Bano privado",
+          "Atencion rapida",
+          "Late check-out sujeto"
+        ],
+        "emoji": "🛎️",
+        "badge": "Superior",
+        "highlighted": false
+      },
+      {
+        "id": "escapada-corta",
+        "label": "Estadia flexible",
+        "roomType": "Estadia flexible",
+        "price": "S/ 179",
+        "rateLabel": "por estadia",
+        "stayLabel": "6 horas",
+        "summary": "Opcion corta para descansar, esperar un vuelo o usar la experiencia del hotel por menos tiempo.",
+        "perks": [
+          "WiFi",
+          "Ingreso agil",
+          "Toallas",
+          "Atencion directa"
+        ],
+        "emoji": "☀️",
+        "badge": "Flexible",
+        "highlighted": false
+      },
+      {
+        "id": "plan-4",
+        "label": "Opcion 4",
+        "roomType": "Detalle por confirmar",
+        "price": "Consultar",
+        "rateLabel": "precio base",
+        "stayLabel": "A coordinar",
+        "summary": "Nueva opcion lista para editar.",
+        "perks": [
+          "Beneficio 1",
+          "Beneficio 2"
+        ],
+        "emoji": "✨",
+        "badge": "Mas elegida",
+        "highlighted": false
+      }
+    ]
+  },
+  "pricing": {
+    "title": "",
+    "description": "",
+    "tiers": []
+  },
+  "team": {
+    "title": "",
+    "description": "",
+    "members": []
+  },
+  "timeline": {
+    "title": "",
+    "description": "",
+    "items": []
+  },
+  "location": {
+    "address": "Lima, Peru",
+    "city": "Lima, Peru",
+    "hours": "",
+    "mapsEmbedUrl": "",
+    "mapsLink": ""
+  },
+  "visibility": {
+    "highlights": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "galleryItems": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "services": [
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "products": [],
+    "testimonials": [
+      true,
+      true,
+      true
+    ],
+    "faqs": [
+      true,
+      true,
+      true
+    ]
+  }
+}

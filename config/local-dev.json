@@ -1,0 +1,8 @@
+{
+    "packageManager":  "npm",
+    "installCommand":  "npm install",
+    "devCommand":  "npm run dev -- --port 3004",
+    "appUrl":  "http://localhost:3004",
+    "autoOpenBrowser":  true,
+    "waitSeconds":  45
+}

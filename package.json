@@ -1,0 +1,35 @@
+{
+    "name":  "client-web-starter",
+    "version":  "0.1.0",
+    "private":  true,
+    "scripts":  {
+                    "dev":  "next dev",
+                    "build":  "next build",
+                    "start":  "next start",
+                    "capture:reference":  "node scripts/capture-reference-site.mjs",
+                    "brief:extract":  "node scripts/generate-website.mjs --extract-only",
+                    "generate:website":  "node scripts/generate-website.mjs",
+                    "typecheck":  "node -e \"try{require(\u0027fs\u0027).rmSync(\u0027tsconfig.tsbuildinfo\u0027,{force:true})}catch(e){} try{require(\u0027fs\u0027).rmSync(\u0027.next\u0027,{recursive:true,force:true})}catch(e){}\" \u0026\u0026 tsc --noEmit",
+                    "qa:project":  "node scripts/qa-project.mjs",
+                    "qa:content":  "node scripts/qa-content.mjs",
+                    "qa:visual":  "node scripts/qa-visual.mjs",
+                    "qa:template":  "node scripts/qa-template.mjs",
+                    "qa":  "npm run typecheck \u0026\u0026 npm run qa:project \u0026\u0026 npm run qa:content \u0026\u0026 npm run qa:scorecards \u0026\u0026 npm run qa:template",
+                    "qa:scorecards":  "node scripts/qa-scorecards.mjs"
+                },
+    "dependencies":  {
+                         "cheerio":  "^1.1.2",
+                         "next":  "16.1.6",
+                         "react":  "19.2.0",
+                         "react-dom":  "19.2.0",
+                         "yaml":  "^2.8.2",
+                         "zod":  "^4.1.11",
+                         "playwright-core":  "^1.53.0"
+                     },
+    "devDependencies":  {
+                            "@types/node":  "^24.7.2",
+                            "@types/react":  "^19.2.2",
+                            "@types/react-dom":  "^19.2.2",
+                            "typescript":  "^5.9.3"
+                        }
+}
