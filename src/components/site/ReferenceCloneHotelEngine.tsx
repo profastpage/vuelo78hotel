@@ -77,12 +77,6 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
   const introSectionTitle = content.narrative.title || "Habitaciones, ubicacion y reserva directa en un solo recorrido.";
   const introSectionCopy = content.brand.description || subtitle;
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
-  const leadPrice = bookingOptions[0]?.price || "Tarifa directa";
-  const heroFacts = [
-    { label: "Ubicacion", value: content.location?.city || "Tarapoto" },
-    { label: "Reserva", value: "Directa" },
-    { label: "Desde", value: leadPrice },
-  ];
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
   const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
 
@@ -164,30 +158,6 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
               ) : (
                 <p>{subtitle}</p>
               )}
-              <div className="hotel-reference-hero-actions">
-                <a className="primary-button" href={reservationHref}>
-                  {editorMode ? (
-                    <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA hero hotel" section="hero" showTrigger={false} value={bookingCtaLabel} />
-                  ) : (
-                    bookingCtaLabel
-                  )}
-                </a>
-                <a className="secondary-button" href={detailsHref}>
-                  {editorMode ? (
-                    <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="brand.secondaryCtaLabel" label="CTA secundario hero hotel" section="hero" showTrigger={false} value={content.brand.secondaryCtaLabel || "Ver habitaciones"} />
-                  ) : (
-                    "Ver habitaciones"
-                  )}
-                </a>
-              </div>
-              <div className="hotel-reference-hero-meta" aria-label="Datos rapidos del hotel">
-                {heroFacts.map((fact, index) => (
-                  <article className="hotel-reference-hero-meta-card" key={`${fact.label}-${index}`}>
-                    <span>{fact.label}</span>
-                    <strong>{fact.value}</strong>
-                  </article>
-                ))}
-              </div>
             </div>
           </div>
         </InlineImageField>

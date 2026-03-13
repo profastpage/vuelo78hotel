@@ -8342,9 +8342,9 @@ button {
 
 .hotel-reference-shell {
   position: relative;
-  width: 100%;
-  margin: 0;
-  padding-top: 0;
+  width: min(1348px, calc(100% - 20px));
+  margin: 0 auto;
+  padding-top: 12px;
 }
 
 .hotel-reference-hero {
@@ -8403,28 +8403,12 @@ button {
 }
 
 .hotel-reference-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 24px;
   align-items: center;
-  padding: 18px max(18px, calc((100vw - 1288px) / 2 + 30px)) 18px;
-  border: 0;
-  border-bottom: 1px solid rgba(129, 180, 255, 0.14);
-  border-radius: 0 0 28px 28px;
-  background:
-    radial-gradient(circle at 15% 0%, rgba(114, 175, 255, 0.22), transparent 28%),
-    radial-gradient(circle at 85% 10%, rgba(255, 214, 140, 0.16), transparent 24%),
-    linear-gradient(180deg, rgba(12, 44, 96, 0.98), rgba(23, 63, 123, 0.96) 58%, rgba(15, 40, 82, 0.96));
+  padding: 26px 30px 0;
   color: #ffffff;
-  box-shadow:
-    0 18px 44px rgba(7, 18, 38, 0.22),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(18px);
-  z-index: 140;
 }
 
 .hotel-reference-header::before {
@@ -8432,13 +8416,7 @@ button {
 }
 
 .hotel-reference-header::after {
-  content: "";
-  position: absolute;
-  inset: auto 24px 0;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(212, 179, 107, 0.9), rgba(255, 255, 255, 0));
-  opacity: 0.72;
-  pointer-events: none;
+  display: none;
 }
 
 .hotel-reference-brand {
@@ -8567,9 +8545,9 @@ button {
 
 .hotel-reference-hero-copy {
   display: grid;
-  gap: 18px;
-  width: min(100%, 720px);
-  padding: clamp(130px, 15vw, 188px) 30px 124px;
+  gap: 14px;
+  width: min(100%, 520px);
+  padding: clamp(96px, 14vw, 164px) 30px 110px;
   color: #ffffff;
 }
 
@@ -9865,6 +9843,7 @@ button {
   .hotel-reference-hero {
     min-height: 540px;
     border-radius: 0 0 28px 28px;
+    isolation: auto;
   }
 
   .hotel-reference-header {
@@ -9915,13 +9894,15 @@ button {
   }
 
   .hotel-reference-mobile-menu {
-    position: static;
+    position: relative;
     display: block;
     justify-self: end;
     z-index: 221;
   }
 
   .hotel-reference-mobile-toggle {
+    position: relative;
+    z-index: 222;
     display: inline-grid;
     gap: 4px;
     width: 52px;
@@ -9975,7 +9956,7 @@ button {
       radial-gradient(circle at 20% 0%, rgba(114, 175, 255, 0.18), transparent 32%),
       linear-gradient(180deg, rgba(10, 35, 76, 0.99), rgba(18, 53, 105, 0.99));
     box-shadow: 0 28px 44px rgba(7, 18, 38, 0.34);
-    z-index: 219;
+    z-index: 221;
   }
 
   .hotel-reference-mobile-links {
