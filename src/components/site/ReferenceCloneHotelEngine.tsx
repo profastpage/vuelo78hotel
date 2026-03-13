@@ -1,3 +1,6 @@
+"use client";
+
+import { useId, useState } from "react";
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
 import { HotelBookingBar } from "./HotelBookingBar";
@@ -81,8 +84,11 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
   const highlightedReviewAverage = highlightedReviewCount
     ? (testimonials.reduce((total, item) => total + Math.min(Math.max(item.rating ?? 5, 0), 5), 0) / highlightedReviewCount).toFixed(1).replace(".0", "")
     : "5";
+  const rateGroupName = useId();
+  const [selectedBookingOptionId, setSelectedBookingOptionId] = useState(bookingOptions.find((option) => option.highlighted)?.id ?? bookingOptions[0]?.id ?? "");
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
   const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
+  const activeBookingOption = bookingOptions.find((option) => option.id === selectedBookingOptionId) ?? bookingOptions[0];
 
   if (activePage !== "hotel") {
     return (
@@ -346,56 +352,89 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
                   <span />
                 </span>
                 <div>
-                  <strong>Tripadvisor</strong>
-                  <span>Resenas reales de clientes</span>
+                  <strong>Opiniones verificadas</strong>
+                  <span>Google Reviews con estilo premium inspirado en TripAdvisor</span>
                 </div>
               </div>
               <div className="hotel-reference-proof-score">
-                <strong>4,3</strong>
-                <span>/ 5</span>
+                <strong>{highlightedReviewAverage}/5</strong>
+                <span>en resenas destacadas</span>
               </div>
-              <div className="hotel-reference-proof-stars" aria-label="Valoracion general 4,3 de 5">
+              <div className="hotel-reference-proof-stars hotel-reference-proof-stars-deluxe" aria-label={`Valoracion visible ${highlightedReviewAverage} de 5`}>
                 <span>★</span>
                 <span>★</span>
                 <span>★</span>
                 <span>★</span>
                 <span className="is-muted">★</span>
               </div>
-              <p>Basado en 6 opiniones publicas de la ficha real del hotel. La lectura se centra en limpieza, atencion del personal y cercania al aeropuerto.</p>
+              <div className="hotel-reference-proof-metrics" aria-label="Resumen de resenas">
+                <article className="hotel-reference-proof-metric">
+                  <strong>{highlightedReviewCount}</strong>
+                  <span>resenas visibles</span>
+                </article>
+                <article className="hotel-reference-proof-metric">
+                  <strong>Google</strong>
+                  <span>fuente enlazada</span>
+                </article>
+              </div>
+              <p>Basado en las resenas visibles del hotel en Google Travel que compartiste. Se repiten piscina, limpieza, cercania al aeropuerto y amabilidad del personal.</p>
               <a className="hotel-reference-proof-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
-                Ver ficha completa
+                Ver opiniones reales
               </a>
             </article>
 
             <div className="hotel-reference-proof-grid">
-            {testimonials.map((testimonial, index) => (
-              <article className="quote-card hotel-reference-proof-card" key={testimonial.name}>
-                <div className="hotel-reference-proof-card-top">
-                  <span className="hotel-reference-proof-card-source">Tripadvisor</span>
-                  <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
+              {testimonials.map((testimonial, index) => (
+                <article className="quote-card hotel-reference-proof-card" key={testimonial.name} tabIndex={0}>
+                  <div className="hotel-reference-proof-card-top">
+                    <div className="hotel-reference-proof-card-person">
+                      <span className="hotel-reference-proof-avatar" aria-hidden="true">
+                        {getReviewInitials(testimonial.name)}
+                      </span>
+                      <div>
+                        {editorMode ? (
+                          <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.name`} label={`Nombre testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.name} />
+                        ) : (
+                          <strong>{testimonial.name}</strong>
+                        )}
+                        <span className="hotel-reference-proof-card-meta">
+                          {editorMode ? (
+                            <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Fecha testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.role} />
+                          ) : (
+                            testimonial.role
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="hotel-reference-proof-card-rating">
+                      <strong>{Math.min(Math.max(testimonial.rating ?? 5, 0), 5)}/5</strong>
+                      <div className="hotel-reference-proof-stars hotel-reference-proof-card-stars" aria-label={`Puntuacion ${testimonial.rating ?? 5} de 5`}>
+                        {renderReviewStars(testimonial.rating ?? 5)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="hotel-reference-proof-card-meta-row">
+                    <span className="hotel-reference-proof-card-source">Google Reviews</span>
+                    <span className="hotel-reference-proof-card-divider" aria-hidden="true" />
+                    {editorMode ? (
+                      <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.segment`} label={`Tema testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.segment || "Experiencia destacada"} />
+                    ) : (
+                      <span>{testimonial.segment || "Experiencia destacada"}</span>
+                    )}
+                  </div>
                   {editorMode ? (
-                    <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Rol testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.role} />
+                    <InlineTextField as="p" controls={editorTextControls} displayValue={`"${testimonial.quote}"`} enabled fieldKey={`testimonials.${index}.quote`} label={`Cita testimonio hotel ${index + 1}`} minRows={3} multiline section="testimonials" value={testimonial.quote} />
                   ) : (
-                    <span>{testimonial.role}</span>
+                    <p>{testimonial.quote}</p>
                   )}
-                </div>
-                {editorMode ? (
-                  <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.name`} label={`Nombre testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.name} />
-                ) : (
-                  <strong>{testimonial.name}</strong>
-                )}
-                {editorMode ? (
-                  <InlineTextField as="span" controls={editorTextControls} enabled fieldKey={`testimonials.${index}.role`} label={`Rol testimonio hotel ${index + 1}`} section="testimonials" value={testimonial.location || testimonial.role} />
-                ) : (
-                  <span>{testimonial.location || testimonial.role}</span>
-                )}
-                {editorMode ? (
-                  <InlineTextField as="p" controls={editorTextControls} displayValue={`"${testimonial.quote}"`} enabled fieldKey={`testimonials.${index}.quote`} label={`Cita testimonio hotel ${index + 1}`} minRows={3} multiline section="testimonials" value={testimonial.quote} />
-                ) : (
-                  <p>{testimonial.quote}</p>
-                )}
-              </article>
-            ))}
+                  <div className="hotel-reference-proof-card-footer">
+                    <span>{testimonial.location || "Google Reviews"}</span>
+                    <a className="hotel-reference-proof-card-link" href={googleReviewsHref} target="_blank" rel="noopener noreferrer">
+                      Abrir fuente
+                    </a>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>
@@ -415,53 +454,77 @@ export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMo
           ))}
         </div>
 
-        <article className="hotel-reference-room-copy">
-          {editorMode ? (
-            <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.storyChip" label="Chip de suite" section="story" value={content.uiText?.storyChip || "Suite"} />
-          ) : (
-            <span className="scene-chip">Suite</span>
-          )}
-          {editorMode ? (
-            <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="brand.headline" label="Titulo de habitacion" minRows={3} multiline section="story" value={introTitle} />
-          ) : (
-            <h2>{introTitle}</h2>
-          )}
-          {editorMode ? (
-            <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.body" label="Cuerpo de habitacion" minRows={4} multiline section="story" value={introCopy} />
-          ) : (
-            <p>{introCopy}</p>
-          )}
+        <div className="hotel-reference-details-main">
+          <article className="hotel-reference-room-copy">
+            {editorMode ? (
+              <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey="uiText.storyChip" label="Chip de suite" section="story" value={content.uiText?.storyChip || "Suite"} />
+            ) : (
+              <span className="scene-chip">Suite</span>
+            )}
+            {editorMode ? (
+              <InlineTextField as="h2" controls={editorTextControls} enabled fieldKey="brand.headline" label="Titulo de habitacion" minRows={3} multiline section="story" value={introTitle} />
+            ) : (
+              <h2>{introTitle}</h2>
+            )}
+            {editorMode ? (
+              <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.body" label="Cuerpo de habitacion" minRows={4} multiline section="story" value={introCopy} />
+            ) : (
+              <p>{introCopy}</p>
+            )}
 
-          <div className="hotel-reference-room-actions">
-            <a className="primary-button" href={reservationHref}>
-              {editorMode ? (
-                <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA principal habitacion" section="story" showTrigger={false} value={bookingCtaLabel} />
-              ) : (
-                bookingCtaLabel
-              )}
-            </a>
-            <a className="secondary-button" href={detailsHref}>
-              {editorMode ? (
-                <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="brand.secondaryCtaLabel" label="CTA secundario habitacion" section="story" showTrigger={false} value={content.brand.secondaryCtaLabel || "Ver detalles"} />
-              ) : (
-                "Ver detalles"
-              )}
-            </a>
-          </div>
+            <div className="hotel-reference-room-actions">
+              <a className="primary-button" href={reservationHref}>
+                {editorMode ? (
+                  <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA principal habitacion" section="story" showTrigger={false} value={bookingCtaLabel} />
+                ) : (
+                  bookingCtaLabel
+                )}
+              </a>
+              <a className="secondary-button" href={detailsHref}>
+                {editorMode ? (
+                  <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="brand.secondaryCtaLabel" label="CTA secundario habitacion" section="story" showTrigger={false} value={content.brand.secondaryCtaLabel || "Ver detalles"} />
+                ) : (
+                  "Ver detalles"
+                )}
+              </a>
+            </div>
+          </article>
 
-          {bookingOptions.length ? (
-            <div className="hotel-reference-rate-grid">
-              {bookingOptions.map((option) => (
-                <article className={`hotel-reference-rate-card${option.highlighted ? " is-highlighted" : ""}`} key={option.id}>
-                  <span>{option.badge || option.roomType}</span>
-                  <strong>{option.label}</strong>
-                  <p>{option.summary}</p>
-                  <b>{option.price}</b>
-                </article>
-              ))}
+          {bookingOptions.length && activeBookingOption ? (
+            <div className="hotel-reference-rate-selector">
+              <div className="hotel-reference-rate-tabs" role="radiogroup" aria-label="Seleccionar tipo de habitacion">
+                {bookingOptions.map((option) => {
+                  const isSelected = option.id === activeBookingOption.id;
+
+                  return (
+                    <label className={`hotel-reference-rate-tab${isSelected ? " is-active" : ""}`} key={option.id}>
+                      <input
+                        checked={isSelected}
+                        className="hotel-reference-rate-input"
+                        name={rateGroupName}
+                        onChange={() => setSelectedBookingOptionId(option.id)}
+                        type="radio"
+                      />
+                      <span>{option.badge || option.roomType}</span>
+                      <strong>{option.label}</strong>
+                      <small>{option.price}</small>
+                    </label>
+                  );
+                })}
+              </div>
+
+              <article className="hotel-reference-rate-panel">
+                <span>{activeBookingOption.badge || activeBookingOption.roomType}</span>
+                <strong>{activeBookingOption.label}</strong>
+                <p>{activeBookingOption.summary}</p>
+                <div className="hotel-reference-rate-panel-meta">
+                  <b>{activeBookingOption.price}</b>
+                  <small>{activeBookingOption.rateLabel || "Tarifa directa"}</small>
+                </div>
+              </article>
             </div>
           ) : null}
-        </article>
+        </div>
       </section>
 
       <section className="scene hotel-reference-related" data-animate data-animate-delay="170" id="servicios">
@@ -707,4 +770,26 @@ function buildWhatsappHref(phone: string, brandName: string, planLabel?: string)
   ];
 
   return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
+}
+
+function renderReviewStars(rating: number) {
+  const safeRating = Math.min(Math.max(Math.round(rating), 0), 5);
+
+  return Array.from({ length: 5 }, (_, index) => (
+    <span className={index < safeRating ? "is-filled" : "is-muted"} key={`review-star-${safeRating}-${index}`}>
+      ★
+    </span>
+  ));
+}
+
+function getReviewInitials(name: string) {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) {
+    return "VH";
+  }
+
+  return parts
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("");
 }
