@@ -23,6 +23,7 @@ import { getEngineKind, getEngineVariant, getLayoutModeClass, getNicheSlug, getS
 type SiteRendererProps = {
   profile: ClientProfile;
   content: SiteContent;
+  pageSlug?: string;
   referenceSnapshot?: ReferenceSnapshot | null;
   editorMode?: boolean;
   editorOverlay?: ReactNode;
@@ -31,7 +32,7 @@ type SiteRendererProps = {
   editorTextControls?: EditorTextControls;
 };
 
-export function SiteRenderer({ profile, content, referenceSnapshot = null, editorMode = false, editorOverlay, editorImageControls, editorItemControls, editorTextControls }: SiteRendererProps) {
+export function SiteRenderer({ profile, content, pageSlug, referenceSnapshot = null, editorMode = false, editorOverlay, editorImageControls, editorItemControls, editorTextControls }: SiteRendererProps) {
   const themeMode = content.theme.mode.toLowerCase() === "light" ? "light" : "dark";
   const activeVisualStyle = content.theme.visualStyle || profile.brandConfig.visualStyle;
   const engine = getEngineKind(profile);
@@ -111,6 +112,7 @@ export function SiteRenderer({ profile, content, referenceSnapshot = null, edito
           editorImageControls={editorImageControls}
           editorMode={editorMode}
           editorTextControls={editorTextControls}
+          pageSlug={pageSlug}
           profile={profile}
         />
       ) : null}

@@ -8071,9 +8071,29 @@ button {
   min-height: clamp(430px, 54vw, 620px);
   border-radius: 0 0 34px 34px;
   overflow: hidden;
+  isolation: isolate;
   background-color: #c6ad7a;
   background-size: cover;
   background-position: center;
+}
+
+.hotel-reference-hero-slides {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hotel-reference-hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hotel-reference-hero-slide.is-active {
+  opacity: 1;
 }
 
 .hotel-reference-hero::after {
@@ -8175,6 +8195,59 @@ button {
   backdrop-filter: blur(10px);
 }
 
+.hotel-reference-hero-thumbs {
+  position: absolute;
+  right: 30px;
+  bottom: 34px;
+  z-index: 2;
+  display: grid;
+  gap: 12px;
+  width: min(100%, 340px);
+}
+
+.hotel-reference-hero-thumb {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 22px;
+  background: rgba(7, 16, 29, 0.42);
+  color: #ffffff;
+  text-align: left;
+  backdrop-filter: blur(14px);
+}
+
+.hotel-reference-hero-thumb.is-active {
+  border-color: rgba(255, 255, 255, 0.48);
+  background: rgba(7, 16, 29, 0.58);
+  transform: translateY(-2px);
+}
+
+.hotel-reference-hero-thumb-media {
+  min-height: 72px;
+  border-radius: 16px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hotel-reference-hero-thumb-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.hotel-reference-hero-thumb-copy strong {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hotel-reference-hero-thumb-copy small {
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.5;
+}
+
 .hotel-reference-hero-copy {
   display: grid;
   gap: 14px;
@@ -8244,6 +8317,29 @@ button {
   color: #17376d;
 }
 
+.hotel-reference-booking-input input,
+.hotel-reference-booking-input select {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #17376d;
+  font-size: 1rem;
+  font-weight: 700;
+  outline: none;
+}
+
+.hotel-reference-booking-input small {
+  color: #8d94a0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.hotel-reference-booking-input input::placeholder {
+  color: #8d94a0;
+}
+
 .hotel-reference-booking-button {
   display: inline-grid;
   place-items: center;
@@ -8253,6 +8349,34 @@ button {
   background: #173f7b;
   color: #ffffff;
   font-weight: 700;
+  border: 0;
+  font-size: 1rem;
+}
+
+.hotel-reference-booking-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 16px;
+  width: min(100%, 820px);
+  margin: 14px auto 0;
+  padding: 16px 20px;
+  border: 1px solid rgba(16, 59, 112, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 18px 34px rgba(31, 41, 55, 0.08);
+  text-align: center;
+}
+
+.hotel-reference-booking-summary span,
+.hotel-reference-booking-summary small {
+  color: #697383;
+}
+
+.hotel-reference-booking-summary strong,
+.hotel-reference-booking-summary b {
+  color: #17376d;
 }
 
 .hotel-reference-intro {
@@ -8584,9 +8708,38 @@ button {
   border-color: rgba(255, 255, 255, 0.18);
 }
 
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-hero-thumb {
+  border-color: rgba(201, 164, 79, 0.14);
+  background: rgba(7, 14, 27, 0.56);
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-hero-thumb.is-active {
+  border-color: rgba(201, 164, 79, 0.38);
+  background: rgba(7, 14, 27, 0.72);
+}
+
 .page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-bar {
   background: linear-gradient(180deg, rgba(10, 20, 39, 0.98), rgba(8, 17, 33, 0.98));
   box-shadow: 0 28px 46px rgba(0, 0, 0, 0.34);
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-input input,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-input select,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-summary strong,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-summary b {
+  color: #f3f6fb;
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-input small,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-summary span,
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-summary small {
+  color: #aab6c8;
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-summary {
+  background: rgba(9, 18, 36, 0.82);
+  border-color: rgba(201, 164, 79, 0.14);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.24);
 }
 
 .page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-button {
@@ -8668,6 +8821,12 @@ button {
   .hotel-reference-booking-bar {
     width: min(100%, calc(100% - 40px));
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hotel-reference-hero-thumbs {
+    right: 20px;
+    bottom: 24px;
+    width: min(320px, calc(100% - 40px));
   }
 
   .hotel-reference-booking-button {
@@ -9157,33 +9316,85 @@ button {
   }
 
   .hotel-reference-header {
-    grid-template-columns: 1fr;
-    justify-items: start;
-    gap: 16px;
-    padding: 20px 18px 0;
+    position: fixed;
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    justify-items: stretch;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 24px;
+    background: rgba(8, 16, 30, 0.56);
+    box-shadow: 0 18px 34px rgba(15, 23, 42, 0.18);
+    backdrop-filter: blur(16px);
+    z-index: 14;
   }
 
   .hotel-reference-nav {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .hotel-reference-nav::-webkit-scrollbar {
     display: none;
   }
 
+  .hotel-reference-nav a {
+    flex: 0 0 auto;
+    padding: 9px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 0.82rem;
+  }
+
   .hotel-reference-header-cta {
-    display: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding-inline: 16px;
   }
 
   .hotel-reference-hero-copy {
     width: 100%;
-    padding: 148px 18px 120px;
+    justify-items: center;
+    padding: 176px 18px 196px;
+    text-align: center;
   }
 
   .hotel-reference-hero-copy h2 {
-    max-width: 8ch;
+    max-width: 10ch;
     font-size: clamp(2.4rem, 10vw, 3.6rem);
+  }
+
+  .hotel-reference-hero-copy p {
+    max-width: 30ch;
+  }
+
+  .hotel-reference-hero-thumbs {
+    left: 18px;
+    right: 18px;
+    bottom: 26px;
+    width: auto;
+  }
+
+  .hotel-reference-hero-thumb {
+    grid-template-columns: 64px minmax(0, 1fr);
+    padding: 10px;
   }
 
   .hotel-reference-booking-bar {
     width: calc(100% - 24px);
-    margin-top: -34px;
+    margin-top: -54px;
     grid-template-columns: 1fr;
   }
 
@@ -9192,11 +9403,19 @@ button {
     padding: 18px;
     border-right: 0;
     border-bottom: 1px solid rgba(16, 59, 112, 0.08);
+    text-align: center;
   }
 
   .hotel-reference-booking-button {
     min-width: 0;
     min-height: 72px;
+  }
+
+  .hotel-reference-booking-summary {
+    width: calc(100% - 24px);
+    margin-top: 12px;
+    border-radius: 24px;
+    padding: 16px;
   }
 
   .hotel-reference-intro {
@@ -9215,7 +9434,53 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .hotel-reference-room-copy,
+  .hotel-reference-section-heading,
+  .location-info,
+  .hotel-reference-footer-brand,
+  .hotel-reference-footer-links {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .hotel-reference-room-actions,
+  .hotel-reference-room-card-actions {
+    justify-content: center;
+  }
+
+  .hotel-reference-details > .hotel-reference-room-copy {
+    order: 1;
+  }
+
+  .hotel-reference-details > .hotel-reference-amenities {
+    order: 2;
+  }
+
+  .hotel-reference-rate-grid {
+    width: 100%;
+  }
+
+  .hotel-reference-rate-card,
+  .hotel-reference-room-card-copy {
+    text-align: center;
+  }
+
+  .location-row {
+    justify-content: center;
+    text-align: center;
+  }
+
   .hotel-reference-room-card-copy strong {
     font-size: clamp(1.6rem, 8vw, 2.2rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .hotel-reference-amenities {
+    grid-template-columns: 1fr;
+  }
+
+  .hotel-reference-hero-thumb-copy small {
+    display: none;
   }
 }

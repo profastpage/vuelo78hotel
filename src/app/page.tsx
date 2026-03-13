@@ -7,5 +7,5 @@ export default function HomePage() {
   const profile = getClientProfile();
   const content = getSiteContent();
 
-  return <SiteRenderer content={content} profile={profile} />;
+  return <SiteRenderer content={content} pageSlug="hotel" profile={profile} />;
 }

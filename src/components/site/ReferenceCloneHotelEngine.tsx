@@ -1,17 +1,22 @@
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
+import { HotelBookingBar } from "./HotelBookingBar";
+import { HotelHeroShowcase, type HotelHeroSlide } from "./HotelHeroShowcase";
+import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
 import type { EditorImageControls } from "./editor-image-types";
 import type { EditorTextControls } from "./editor-text-types";
 import { InlineImageField } from "./InlineImageField";
 import { InlineTextField } from "./InlineTextField";
 import { LandingFaqAccordion } from "./LandingFaqAccordion";
 import { LocationBlock } from "./LocationBlock";
-import { getGalleryItems, getMediaStyle, getPageHref, getVisibleFaqs, getVisibleServices, getVisibleTestimonials } from "./rendering";
+import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices, getVisibleTestimonials } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
+import { HOTEL_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
 
 type ReferenceCloneHotelEngineProps = {
   profile: ClientProfile;
   content: SiteContent;
+  pageSlug?: string;
   editorMode?: boolean;
   editorImageControls?: EditorImageControls;
   editorTextControls?: EditorTextControls;
@@ -24,8 +29,9 @@ type AmenityItem = {
 
 const DEFAULT_AMENITY_ICONS = ["wi-fi", "aire", "seguridad", "ducha", "tv", "desayuno"];
 
-export function ReferenceCloneHotelEngine({ profile, content, editorMode = false, editorImageControls, editorTextControls }: ReferenceCloneHotelEngineProps) {
-  const pages = content.pages.slice(0, 7);
+export function ReferenceCloneHotelEngine({ profile, content, pageSlug, editorMode = false, editorImageControls, editorTextControls }: ReferenceCloneHotelEngineProps) {
+  const activePage = normalizeHotelPageSlug(pageSlug);
+  const pages = HOTEL_NAV_ITEMS;
   const galleryItems = getGalleryItems(content, profile.industry);
   const services = getVisibleServices(content);
   const faqs = getVisibleFaqs(content).slice(0, 4);
@@ -34,6 +40,7 @@ export function ReferenceCloneHotelEngine({ profile, content, editorMode = false
   const bookingOptions = bookingWidget.options?.slice(0, 3) ?? [];
   const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || "";
   const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition;
+  const heroSlides = buildHeroSlides(content, services, galleryItems, heroImage, heroImagePosition);
   const roomGallery = [galleryItems[0], ...galleryItems.slice(1, 4)].filter(Boolean);
   const mainRoom = roomGallery[0];
   const relatedRooms = services.slice(0, 3).map((service, index) => ({
@@ -51,31 +58,25 @@ export function ReferenceCloneHotelEngine({ profile, content, editorMode = false
   const introTitle = content.brand.headline;
   const introCopy = content.narrative.body || content.brand.description;
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
-  const bookingEntryLabel = bookingWidget.scheduleLabel || "Entrada";
-  const bookingEntryValue = bookingWidget.schedulePlaceholder || "Flexible";
-  const bookingExitLabel = bookingWidget.timelineLabel || "Salida";
-  const bookingExitValue = bookingOptions[0]?.stayLabel || "1 noche";
-  const bookingRoomLabel = bookingWidget.detailLabel || "Habitacion";
-  const bookingRoomValue = bookingOptions[0]?.roomType || "1 habitacion";
-  const bookingPromoLabel = bookingWidget.summaryLabel || "Codigo promocional";
-  const bookingPromoValue = bookingWidget.summaryText || "Opcional";
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
   const galleryUploading = editorMode && editorImageControls?.uploadingField === "galeria 1";
+
+  if (activePage !== "hotel") {
+    return <HotelReferenceSubpage content={content} pageSlug={activePage} profile={profile} />;
+  }
 
   return (
       <>
       <section className="hotel-reference-shell" id="inicio" data-editor-section="hero">
         <InlineImageField enabled={editorMode} fieldKey="hero" label="Hero hotel" onChange={editorMode ? editorImageControls?.onHeroImageChange : undefined} uploading={heroUploading}>
-          <div
-            className={`hotel-reference-hero ${heroImage ? "has-media-image" : "media-fallback-hotel"}`}
-            style={getMediaStyle(heroImage, "0.18", heroImagePosition)}
-          >
+          <div className={`hotel-reference-hero ${heroImage ? "has-media-image" : "media-fallback-hotel"}`}>
+            <HotelHeroShowcase slides={heroSlides} />
             <div className="hotel-reference-hero-overlay" aria-hidden="true" />
 
             <header className="hotel-reference-header">
-              <a className="hotel-reference-brand" href="#inicio" aria-label={`Ir al inicio de ${mainTitle}`}>
+              <a className="hotel-reference-brand" href="/" aria-label={`Ir al inicio de ${mainTitle}`}>
                 <span className="hotel-reference-brand-mark" aria-hidden="true">
-                  e
+                  v
                 </span>
                 <span className="hotel-reference-brand-copy">
                   {editorMode ? (
@@ -93,11 +94,11 @@ export function ReferenceCloneHotelEngine({ profile, content, editorMode = false
 
               <nav className="hotel-reference-nav" aria-label="Secciones principales">
                 {pages.map((page, index) => (
-                  <a href={getPageHref(page)} key={`${page}-${index}`}>
+                  <a href={page.href} key={`${page.label}-${index}`}>
                     {editorMode ? (
-                      <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link hotel ${index + 1}`} section="hero" showTrigger={false} value={page} />
+                      <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link hotel ${index + 1}`} section="hero" showTrigger={false} value={page.label} />
                     ) : (
-                      page
+                      page.label
                     )}
                   </a>
                 ))}
@@ -132,63 +133,7 @@ export function ReferenceCloneHotelEngine({ profile, content, editorMode = false
           </div>
         </InlineImageField>
 
-        <div className="hotel-reference-booking-bar" id="reserva">
-          <div className="hotel-reference-booking-field">
-            {editorMode ? (
-              <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.scheduleLabel" label="Label entrada hotel" section="booking" showTrigger={false} value={bookingEntryLabel} />
-            ) : (
-              <span>{bookingEntryLabel}</span>
-            )}
-            {editorMode ? (
-              <InlineTextField as="strong" compact controls={editorTextControls} enabled fieldKey="bookingWidget.schedulePlaceholder" label="Valor entrada hotel" section="booking" showTrigger={false} value={bookingEntryValue} />
-            ) : (
-              <strong>{bookingEntryValue}</strong>
-            )}
-          </div>
-          <div className="hotel-reference-booking-field">
-            {editorMode ? (
-              <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.timelineLabel" label="Label salida hotel" section="booking" showTrigger={false} value={bookingExitLabel} />
-            ) : (
-              <span>{bookingExitLabel}</span>
-            )}
-            {editorMode ? (
-              <InlineTextField as="strong" compact controls={editorTextControls} enabled fieldKey="bookingWidget.options.0.stayLabel" label="Valor salida hotel" section="booking" showTrigger={false} value={bookingExitValue} />
-            ) : (
-              <strong>{bookingExitValue}</strong>
-            )}
-          </div>
-          <div className="hotel-reference-booking-field">
-            {editorMode ? (
-              <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.detailLabel" label="Label habitacion hotel" section="booking" showTrigger={false} value={bookingRoomLabel} />
-            ) : (
-              <span>{bookingRoomLabel}</span>
-            )}
-            {editorMode ? (
-              <InlineTextField as="strong" compact controls={editorTextControls} enabled fieldKey="bookingWidget.options.0.roomType" label="Valor habitacion hotel" section="booking" showTrigger={false} value={bookingRoomValue} />
-            ) : (
-              <strong>{bookingRoomValue}</strong>
-            )}
-          </div>
-          <div className="hotel-reference-booking-field">
-            {editorMode ? (
-              <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.summaryLabel" label="Label promo hotel" section="booking" showTrigger={false} value={bookingPromoLabel} />
-            ) : (
-              <span>{bookingPromoLabel}</span>
-            )}
-            {editorMode ? (
-              <InlineTextField as="strong" compact controls={editorTextControls} enabled fieldKey="bookingWidget.summaryText" label="Valor promo hotel" section="booking" showTrigger={false} value={bookingPromoValue} />
-            ) : (
-              <strong>{bookingPromoValue}</strong>
-            )}
-          </div>
-          <a className="hotel-reference-booking-button" href={reservationHref}>
-            {editorMode ? (
-              <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA booking hotel" section="booking" showTrigger={false} value={bookingCtaLabel} />
-            ) : (
-              bookingCtaLabel
-            )}
-          </a>
-        </div>
+        <HotelBookingBar brandName={content.brand.name} bookingWidget={bookingWidget} contactPhone={contactPhone} />
       </section>
 
       <section className="scene hotel-reference-intro" id="habitaciones" data-animate data-animate-delay="60">
@@ -227,6 +172,66 @@ export function ReferenceCloneHotelEngine({ profile, content, editorMode = false
           <span />
           <span />
           <span />
+        </div>
+      </section>
+
+      <section className="scene hotel-reference-tabs" data-animate data-animate-delay="110">
+        <input className="hotel-reference-tab-input" defaultChecked id="hotel-tab-1" name="hotel-tabs" type="radio" />
+        <input className="hotel-reference-tab-input" id="hotel-tab-2" name="hotel-tabs" type="radio" />
+        <input className="hotel-reference-tab-input" id="hotel-tab-3" name="hotel-tabs" type="radio" />
+
+        <div className="hotel-reference-tab-shell">
+          <div className="hotel-reference-tab-list" role="tablist" aria-label="Categorias de estancia">
+            <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-1">Suite signature</label>
+            <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-2">Escapada flexible</label>
+            <label className="hotel-reference-tab-trigger" htmlFor="hotel-tab-3">Reserva directa</label>
+          </div>
+
+          <div className="hotel-reference-tab-panels">
+            <article className="hotel-reference-tab-panel hotel-reference-tab-panel-1">
+              <span className="scene-chip">Tab / panel</span>
+              <h3>Una ficha amplia para vender la habitacion destacada.</h3>
+              <p>Replica la sensacion del bloque tabulado del referente: texto corto, beneficios visibles y un CTA que llega antes del siguiente scroll.</p>
+              <ul className="hotel-reference-tab-points">
+                <li>Cama amplia y luz calmada</li>
+                <li>Desayuno y WiFi visibles</li>
+                <li>Reserva directa por WhatsApp</li>
+              </ul>
+            </article>
+            <article className="hotel-reference-tab-panel hotel-reference-tab-panel-2">
+              <span className="scene-chip">Tab / panel</span>
+              <h3>Un panel para day use, late check-out o estadias cortas.</h3>
+              <p>Permite cambiar contenido sin tocar la composicion principal y mantener opciones de estancia listas para campana o temporada.</p>
+              <ul className="hotel-reference-tab-points">
+                <li>Ingreso agil</li>
+                <li>Uso por horas o noche</li>
+                <li>Upgrade segun disponibilidad</li>
+              </ul>
+            </article>
+            <article className="hotel-reference-tab-panel hotel-reference-tab-panel-3">
+              <span className="scene-chip">Tab / panel</span>
+              <h3>Un panel final para objeciones, tarifas y accion.</h3>
+              <p>Sirve para reforzar politica de reserva, soporte humano y beneficios de evitar intermediarios.</p>
+              <ul className="hotel-reference-tab-points">
+                <li>Confirmacion mas clara</li>
+                <li>Atencion directa del hotel</li>
+                <li>Condiciones editables</li>
+              </ul>
+            </article>
+          </div>
+
+          <details className="hotel-reference-inline-modal">
+            <summary className="hotel-reference-inline-summary">
+              <span>Popup / apoyo</span>
+              <strong>Ver detalle</strong>
+            </summary>
+            <div className="hotel-reference-inline-panel">
+              <span className="scene-chip">Popup</span>
+              <h3>Una capa emergente para ampliar beneficios o condiciones.</h3>
+              <p>Este patron imita el comportamiento de popup del referente sin copiar textos ni estructura propietaria. Aqui puedes mostrar upgrade, politicas o un mini brief de reserva.</p>
+              <a className="primary-button" href={reservationHref}>Reservar ahora</a>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -433,11 +438,11 @@ export function ReferenceCloneHotelEngine({ profile, content, editorMode = false
         </div>
         <div className="hotel-reference-footer-links">
           {pages.map((page, index) => (
-            <a href={getPageHref(page)} key={`${page}-${index}`}>
+            <a href={page.href} key={`${page.label}-${index}`}>
               {editorMode ? (
-                <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link footer hotel ${index + 1}`} section="contact" showTrigger={false} value={page} />
+                <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={`pages.${index}`} label={`Link footer hotel ${index + 1}`} section="contact" showTrigger={false} value={page.label} />
               ) : (
-                page
+                page.label
               )}
             </a>
           ))}
@@ -471,6 +476,37 @@ function buildAmenityItems(content: SiteContent): AmenityItem[] {
     { icon: "tv", label: "TV por cable" },
     { icon: "desayuno", label: "Desayuno incluido" },
   ];
+}
+
+function buildHeroSlides(
+  content: SiteContent,
+  services: SiteContent["services"],
+  galleryItems: ReturnType<typeof getGalleryItems>,
+  heroImage: string,
+  heroImagePosition: SiteContent["brand"]["heroImagePosition"],
+): HotelHeroSlide[] {
+  const candidates: HotelHeroSlide[] = [
+    {
+      title: content.brand.heroTag || "Reserva directa",
+      subtitle: content.brand.subheadline || content.narrative.goal,
+      imageSrc: heroImage,
+      imagePosition: heroImagePosition,
+    },
+    ...galleryItems.map((item) => ({
+      title: item.title,
+      subtitle: item.subtitle,
+      imageSrc: item.imageSrc || "",
+      imagePosition: item.imagePosition,
+    })),
+    ...services.map((service) => ({
+      title: service.title,
+      subtitle: service.description,
+      imageSrc: service.imageSrc || "",
+      imagePosition: service.imagePosition,
+    })),
+  ].filter((item) => Boolean(item.imageSrc));
+
+  return Array.from(new Map(candidates.map((item) => [item.imageSrc, item])).values()).slice(0, 4);
 }
 
 function buildWhatsappHref(phone: string, brandName: string, planLabel?: string) {

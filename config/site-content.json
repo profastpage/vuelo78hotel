@@ -45,7 +45,7 @@
   "stats": [
     {
       "label": "Destino",
-      "value": "Lima"
+      "value": "Tarapoto"
     },
     {
       "label": "Habitaciones",
@@ -60,46 +60,46 @@
     {
       "title": "Suite principal con vista natural",
       "description": "Habitacion amplia con cama premium, atmosfera tranquila y una reserva directa visible desde el primer scroll.",
-      "imageSrc": "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde-a8673db4-c6f0-4ca9-821f-f17389ef6602.jfif",
+      "imageSrc": "/assets/uploads/hotel-deluxe-wide.jpg",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 44
       }
     },
     {
       "title": "Habitacion superior doble",
       "description": "Opcion flexible para pareja, familia corta o viaje de trabajo con lectura clara y beneficios visibles.",
-      "imageSrc": "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde-172ec7d3-2936-4e5c-9bb3-266285ad872d.jfif",
+      "imageSrc": "/assets/uploads/hotel-deluxe-pool.jpg",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 60
       }
     },
     {
       "title": "Estadia ejecutiva flexible",
       "description": "Alternativa pensada para reservas cortas, llegada agil y una experiencia hotelera premium pero simple.",
-      "imageSrc": "",
+      "imageSrc": "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde.jfif",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 48
       }
     },
     {
       "title": "Galeria y experiencia del hotel",
       "description": "Bloque visual para mostrar ambientes, descanso y puntos diferenciales sin perder ritmo editorial.",
-      "imageSrc": "",
+      "imageSrc": "/assets/uploads/hotel-e958a5dd-c4f1-4619-b0cd-7449eb4b6695.webp",
       "imagePosition": {
-        "x": 50,
-        "y": 50
+        "x": 54,
+        "y": 40
       }
     },
     {
       "title": "Reserva directa y asistencia",
       "description": "Modulo de contacto y reserva para confirmar disponibilidad, fechas y tipo de habitacion con menos friccion.",
-      "imageSrc": "",
+      "imageSrc": "/assets/uploads/hotel-deluxe-wide.jpg",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 56
       }
     }
   ],
@@ -108,7 +108,7 @@
     "Mantener cta-group x4, popup x4, form x3 dentro del flujo final.",
     "Usar una paleta nueva inspirada en #000000, #0000EE, #FFFFFF, #E6E6E6 sin copiar branding.",
     "Traducir el sistema tipografico de referencia a fuentes nuevas con rol similar.",
-    "Reemplazar todas las imagenes por placeholders con el mismo peso compositivo."
+    "Ambientes reales del hotel comprimidos para web sin perder presencia visual."
   ],
   "testimonials": [
     {
@@ -116,7 +116,7 @@
       "role": "Founder",
       "quote": "La reserva se siente mucho mas clara y el hotel transmite un nivel premium desde la primera vista.",
       "avatarSrc": "",
-      "location": "Lima, Peru",
+      "location": "Tarapoto, Peru",
       "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
       "rating": 5
     },
@@ -125,7 +125,7 @@
       "role": "Director",
       "quote": "Ahora la pagina ordena mejor las habitaciones, beneficios y el camino directo para consultar disponibilidad.",
       "avatarSrc": "",
-      "location": "Lima, Peru",
+      "location": "Tarapoto, Peru",
       "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
       "rating": 5
     },
@@ -134,7 +134,7 @@
       "role": "Operations Lead",
       "quote": "El resultado se ve serio, limpio y mucho mas cercano a la experiencia de un hotel real.",
       "avatarSrc": "",
-      "location": "Lima, Peru",
+      "location": "Tarapoto, Peru",
       "segment": "Hotel en Tarapoto con habitaciones comodas, reserva directa y experiencia premium",
       "rating": 5
     }
@@ -175,46 +175,46 @@
     {
       "title": "Suite principal con vista natural",
       "subtitle": "Vuelo 78 Hotel Tarapoto",
-      "imageSrc": "",
+      "imageSrc": "/assets/uploads/hotel-e958a5dd-c4f1-4619-b0cd-7449eb4b6695.webp",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 48
       }
     },
     {
       "title": "Habitacion superior doble",
-      "subtitle": "Layout hotel editable",
-      "imageSrc": "",
+      "subtitle": "Reserva directa y estancia premium",
+      "imageSrc": "/assets/uploads/hotel-deluxe-wide.jpg",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 44
       }
     },
     {
       "title": "Estadia ejecutiva flexible",
-      "subtitle": "Layout hotel editable",
-      "imageSrc": "",
+      "subtitle": "Vistas y calma tropical",
+      "imageSrc": "/assets/uploads/hotel-deluxe-pool.jpg",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 58
       }
     },
     {
       "title": "Galeria y experiencia del hotel",
-      "subtitle": "Layout hotel editable",
-      "imageSrc": "",
+      "subtitle": "Habitaciones y descanso inmediato",
+      "imageSrc": "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde.jfif",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 48
       }
     },
     {
       "title": "Reserva directa y asistencia",
-      "subtitle": "Layout hotel editable",
-      "imageSrc": "",
+      "subtitle": "Asistencia rapida por WhatsApp",
+      "imageSrc": "/assets/uploads/hotel-deluxe-wide.jpg",
       "imagePosition": {
         "x": 50,
-        "y": 50
+        "y": 56
       }
     }
   ],
@@ -320,19 +320,21 @@
         "highlighted": false
       },
       {
-        "id": "plan-4",
-        "label": "Opcion 4",
-        "roomType": "Detalle por confirmar",
-        "price": "Consultar",
-        "rateLabel": "precio base",
-        "stayLabel": "A coordinar",
-        "summary": "Nueva opcion lista para editar.",
+        "id": "suite-familiar",
+        "label": "Suite familiar",
+        "roomType": "Suite familiar",
+        "price": "S/ 349",
+        "rateLabel": "por noche",
+        "stayLabel": "2 noches",
+        "summary": "Mayor amplitud para familia o grupos cortos con reserva directa y mejor tarifa web.",
         "perks": [
-          "Beneficio 1",
-          "Beneficio 2"
+          "Desayuno",
+          "WiFi",
+          "Late check-out sujeto",
+          "Atencion prioritaria"
         ],
         "emoji": "✨",
-        "badge": "Mas elegida",
+        "badge": "Familiar",
         "highlighted": false
       }
     ]
@@ -353,11 +355,11 @@
     "items": []
   },
   "location": {
-    "address": "Lima, Peru",
-    "city": "Lima, Peru",
-    "hours": "",
-    "mapsEmbedUrl": "",
-    "mapsLink": ""
+    "address": "Jiron Jorge Chavez 1793",
+    "city": "Tarapoto, San Martin, Peru",
+    "hours": "Recepcion 24 horas · a una cuadra del aeropuerto",
+    "mapsEmbedUrl": "https://www.google.com/maps?q=Jiron%20Jorge%20Chavez%201793%2C%20Tarapoto%2C%20Peru&output=embed",
+    "mapsLink": "https://www.google.com/maps?q=Jiron%20Jorge%20Chavez%201793%2C%20Tarapoto%2C%20Peru"
   },
   "visibility": {
     "highlights": [
