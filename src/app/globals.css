@@ -17021,6 +17021,32 @@ body {
   letter-spacing: 0.01em;
 }
 
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-footer {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 52px 20px 26px;
+  text-align: center;
+  background: transparent;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-footer-line {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: rgba(91, 85, 75, 0.72);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-footer-line a {
+  color: rgba(91, 85, 75, 0.88);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-footer-line a:hover {
+  color: #21482c;
+}
+
 .page-shell.mode-reference-clone-hotel .hotel-home-location-support {
   max-width: 620px;
   margin-top: 18px;
@@ -17526,6 +17552,11 @@ body {
     width: 100%;
     min-width: 0;
     text-align: center;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-footer {
+    padding-top: 40px;
+    padding-bottom: 22px;
   }
 }
 
