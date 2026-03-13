@@ -14,7 +14,9 @@ export function HotelPremiumFooter({ address, brandName, city, email, phone }: H
 
   return (
     <footer className="hotel-deluxe-footer">
-      <p className="hotel-deluxe-footer-line">© 2026 {brandName} · Todos los derechos reservados.</p>
+      <p className="hotel-deluxe-footer-line">
+        {"\u00A9"} 2026 {brandName} {"\u00B7"} Todos los derechos reservados.
+      </p>
       <p className="hotel-deluxe-footer-line">Desarrollado por Fast Page Pro.</p>
     </footer>
   );

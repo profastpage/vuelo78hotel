@@ -122,12 +122,41 @@ export function HotelBookingBar({
     control.click();
   }
 
+  function handleSelectChange(
+    event: React.ChangeEvent<HTMLSelectElement>,
+    updateValue: (value: string) => void,
+  ) {
+    updateValue(event.target.value);
+
+    window.setTimeout(() => {
+      event.currentTarget.blur();
+
+      if (document.activeElement instanceof HTMLElement && document.activeElement !== document.body) {
+        document.activeElement.blur();
+      }
+    }, 0);
+  }
+
+  function handlePickerWrapperMouseDown(
+    event: React.MouseEvent<HTMLDivElement>,
+    control: HTMLInputElement | HTMLSelectElement | null,
+  ) {
+    const target = event.target;
+
+    if (target instanceof HTMLElement && target.closest("input, select, option")) {
+      return;
+    }
+
+    event.preventDefault();
+    openField(control);
+  }
+
   return (
     <>
       <form className="hotel-reference-booking-bar hotel-home-booking-form" id={compact ? undefined : "reserva"} onSubmit={handleSubmit}>
-        <label
+        <div
           className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
-          onClick={() => openField(roomSelectRef.current)}
+          onMouseDown={(event) => handlePickerWrapperMouseDown(event, roomSelectRef.current)}
         >
           <div className="hotel-deluxe-booking-label-row">
             <span>{bookingWidget.detailLabel || (locale === "en" ? "Room" : "Habitación")}</span>
@@ -137,10 +166,7 @@ export function HotelBookingBar({
           </div>
           <select
             aria-label={bookingWidget.detailLabel || (locale === "en" ? "Room" : "Habitación")}
-            onChange={(event) => {
-              setRoomId(event.target.value);
-              window.requestAnimationFrame(() => event.currentTarget.blur());
-            }}
+            onChange={(event) => handleSelectChange(event, setRoomId)}
             onClick={(event) => event.stopPropagation()}
             ref={roomSelectRef}
             value={roomId}
@@ -151,7 +177,7 @@ export function HotelBookingBar({
               </option>
             ))}
           </select>
-        </label>
+        </div>
 
         <label
           className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
@@ -193,9 +219,9 @@ export function HotelBookingBar({
           />
         </label>
 
-        <label
+        <div
           className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field is-interactive"
-          onClick={() => openField(guestSelectRef.current)}
+          onMouseDown={(event) => handlePickerWrapperMouseDown(event, guestSelectRef.current)}
         >
           <div className="hotel-deluxe-booking-label-row">
             <span>{bookingWidget.quantityLabel || (locale === "en" ? "Guests" : "Huéspedes")}</span>
@@ -205,10 +231,7 @@ export function HotelBookingBar({
           </div>
           <select
             aria-label={bookingWidget.quantityLabel || (locale === "en" ? "Guests" : "Huéspedes")}
-            onChange={(event) => {
-              setGuests(event.target.value);
-              window.requestAnimationFrame(() => event.currentTarget.blur());
-            }}
+            onChange={(event) => handleSelectChange(event, setGuests)}
             onClick={(event) => event.stopPropagation()}
             ref={guestSelectRef}
             value={guests}
@@ -219,7 +242,7 @@ export function HotelBookingBar({
               </option>
             ))}
           </select>
-        </label>
+        </div>
 
         {!hideNotes ? (
           <label className="hotel-reference-booking-field hotel-reference-booking-input hotel-home-booking-field hotel-home-booking-field-notes">

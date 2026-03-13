@@ -17844,3 +17844,73 @@ body {
   }
 }
 
+/* Final spacing and widget polish */
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-shell {
+  gap: clamp(24px, 3vw, 38px);
+  padding-bottom: 58px;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-booking-field select {
+  cursor: pointer;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-experience,
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-rooms,
+.page-shell.mode-reference-clone-hotel .hotel-home-testimonials,
+.page-shell.mode-reference-clone-hotel .hotel-home-location,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq,
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-booking-cta {
+  margin-top: clamp(18px, 2.4vw, 30px);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-reference-story-split,
+.page-shell.mode-reference-clone-hotel .hotel-reference-related,
+.page-shell.mode-reference-clone-hotel .hotel-reference-modal-grid,
+.page-shell.mode-reference-clone-hotel .hotel-reference-rail-shell,
+.page-shell.mode-reference-clone-hotel .hotel-reference-map-layout {
+  margin-top: clamp(18px, 2.4vw, 30px);
+  padding: clamp(24px, 3.2vw, 34px);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-section-heading,
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-heading,
+.page-shell.mode-reference-clone-hotel .hotel-home-location-heading,
+.page-shell.mode-reference-clone-hotel .scene-landing-faq .section-copy,
+.page-shell.mode-reference-clone-hotel .hotel-reference-section-heading {
+  margin-bottom: clamp(8px, 1.2vw, 16px);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-amenities {
+  padding: 6px 0 2px;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-strip {
+  padding: 14px 22px;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-footer {
+  width: 100%;
+  place-items: center;
+  justify-content: center;
+  padding-top: 34px;
+  padding-bottom: 24px;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-deluxe-footer-line {
+  width: 100%;
+  text-align: center;
+}
+
+@media (min-width: 861px) {
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-experience-grid {
+    align-items: start;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-experience-card.card-4 {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, clamp(440px, 56vw, 820px));
+    min-height: 228px;
+  }
+}
+
