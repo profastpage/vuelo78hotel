@@ -1,5 +1,7 @@
 import { Coffee, ConciergeBell, Snowflake, Tv, Waves, Wifi } from "lucide-react";
 import { renderBalancedSectionTitle } from "./headline-balance";
+import type { HotelLocale } from "@/lib/hotel-experience";
+import { getHotelUi } from "@/lib/hotel-experience";
 
 type HotelPremiumAmenity = {
   description: string;
@@ -9,16 +11,19 @@ type HotelPremiumAmenity = {
 
 type HotelPremiumAmenitiesProps = {
   items: HotelPremiumAmenity[];
+  locale: HotelLocale;
 };
 
-export function HotelPremiumAmenities({ items }: HotelPremiumAmenitiesProps) {
+export function HotelPremiumAmenities({ items, locale }: HotelPremiumAmenitiesProps) {
+  const ui = getHotelUi(locale);
+
   return (
-      <section className="scene hotel-deluxe-section hotel-deluxe-amenities hotel-home-amenities" id="servicios">
+    <section className="scene hotel-deluxe-section hotel-deluxe-amenities hotel-home-amenities" id="servicios">
       <div className="hotel-home-amenity-heading">
-        <h2>{renderBalancedSectionTitle("Servicios esenciales")}</h2>
+        <h2>{renderBalancedSectionTitle(ui.amenities.title)}</h2>
       </div>
 
-      <div className="hotel-deluxe-amenity-strip hotel-home-amenity-strip" role="list" aria-label="Servicios del hotel">
+      <div className="hotel-deluxe-amenity-strip hotel-home-amenity-strip" role="list" aria-label={ui.amenities.listAria}>
         {items.map((item, index) => (
           <article className="hotel-deluxe-amenity-item hotel-home-amenity-item" key={item.title} role="listitem">
             <span className="hotel-deluxe-amenity-icon hotel-home-amenity-icon" aria-hidden="true">

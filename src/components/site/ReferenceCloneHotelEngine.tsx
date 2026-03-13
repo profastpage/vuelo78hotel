@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { HotelFloatingCta } from "./HotelFloatingCta";
 import { HotelPremiumAmenities } from "./HotelPremiumAmenities";
@@ -18,6 +19,17 @@ import type { EditorTextControls } from "./editor-text-types";
 import { getGalleryItems, getVisibleServices, getVisibleTestimonials } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
 import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
+import {
+  HOTEL_LOCALE_STORAGE_KEY,
+  buildHotelWhatsAppHref,
+  getHotelUi,
+  localizeHotelContent,
+  resolveHotelLocale,
+  t,
+  toggleHotelLocale,
+  type HotelLocale,
+  HOTEL_WHATSAPP_PHONE_DISPLAY,
+} from "@/lib/hotel-experience";
 
 type ReferenceCloneHotelEngineProps = {
   profile: ClientProfile;
@@ -28,13 +40,6 @@ type ReferenceCloneHotelEngineProps = {
   editorTextControls?: EditorTextControls;
 };
 
-const SECTION_LINKS = [
-  { label: "Experiencia", href: "#experiencia" },
-  { label: "Habitaciones", href: "#habitaciones" },
-  { label: "Servicios", href: "#servicios" },
-  { label: "Ubicacion", href: "#ubicacion" },
-] as const;
-
 export function ReferenceCloneHotelEngine({
   profile,
   content,
@@ -43,36 +48,81 @@ export function ReferenceCloneHotelEngine({
   editorImageControls,
   editorTextControls,
 }: ReferenceCloneHotelEngineProps) {
+  const [locale, setLocale] = useState<HotelLocale>(() => {
+    if (typeof window === "undefined") {
+      return "es";
+    }
+
+    return resolveHotelLocale(window.localStorage.getItem(HOTEL_LOCALE_STORAGE_KEY));
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    window.localStorage.setItem(HOTEL_LOCALE_STORAGE_KEY, locale);
+    document.documentElement.lang = locale === "en" ? "en" : "es";
+  }, [locale]);
+
   const activePage = normalizeHotelPageSlug(pageSlug);
+  const localizedContent = localizeHotelContent(content, locale);
+  const ui = getHotelUi(locale);
   const pages = HOTEL_VISIBLE_NAV_ITEMS;
 
   if (activePage !== "hotel") {
     return (
       <HotelReferenceSubpage
-        content={content}
+        content={localizedContent}
         editorImageControls={editorImageControls}
         editorMode={editorMode}
         editorTextControls={editorTextControls}
+        locale={locale}
+        onLocaleToggle={() => setLocale((current) => toggleHotelLocale(current))}
         pageSlug={activePage}
         profile={profile}
       />
     );
   }
 
-  const galleryItems = getGalleryItems(content, profile.industry);
-  const services = getVisibleServices(content);
-  const testimonials = getVisibleTestimonials(content).slice(0, 3);
-  const bookingWidget = resolveBookingWidget(content, profile);
+  const galleryItems = getGalleryItems(localizedContent, profile.industry);
+  const services = getVisibleServices(localizedContent);
+  const testimonials = getVisibleTestimonials(localizedContent).slice(0, 3);
+  const bookingWidget = resolveBookingWidget(localizedContent, profile);
   const bookingOptions = bookingWidget.options?.slice(0, 3) ?? [];
-  const heroImage = content.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
-  const heroImagePosition = content.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
-  const heroSlides = buildHeroSlides(content, services, galleryItems, heroImage, heroImagePosition);
-  const contactPhone = normalizeHotelPhone(content.contact.whatsappNumber || profile.brandConfig.whatsappNumber);
-  const cityLabel = getCityLabel(content.location?.city);
-  const displayBrandName = getDisplayBrandName(content.brand.name);
-  const reservationHref = normalizeReservationHref(content.brand.primaryCtaHref, contactPhone, content.brand.name);
-  const detailsHref = content.brand.secondaryCtaHref || "#habitaciones";
-  const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
+  const heroImage = localizedContent.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
+  const heroImagePosition =
+    localizedContent.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
+  const heroSlides = buildHeroSlides(localizedContent, services, galleryItems, heroImage, heroImagePosition);
+  const contactPhone = normalizeHotelPhone(localizedContent.contact.whatsappNumber || profile.brandConfig.whatsappNumber);
+  const cityLabel = getCityLabel(localizedContent.location?.city);
+  const displayBrandName = getDisplayBrandName(localizedContent.brand.name);
+  const detailsHref = localizedContent.brand.secondaryCtaHref || "#habitaciones";
+  const bookingCtaLabel = bookingWidget.bookingCtaLabel || localizedContent.brand.primaryCtaLabel || ui.floating.label;
+  const headerReservationHref = buildHotelWhatsAppHref({
+    locale,
+    hotelName: displayBrandName,
+    intent: "header",
+    sourceLabel: locale === "en" ? "Top menu" : "Menu superior",
+  });
+  const heroReservationHref = buildHotelWhatsAppHref({
+    locale,
+    hotelName: displayBrandName,
+    intent: "hero",
+    sourceLabel: locale === "en" ? "Hero main CTA" : "Hero principal",
+  });
+  const locationReservationHref = buildHotelWhatsAppHref({
+    locale,
+    hotelName: displayBrandName,
+    intent: "location",
+    sourceLabel: ui.location.title,
+  });
+  const bookingSectionHref = buildHotelWhatsAppHref({
+    locale,
+    hotelName: displayBrandName,
+    intent: "booking-cta",
+    sourceLabel: locale === "en" ? "Final booking block" : "Bloque final de reserva",
+  });
   const roomCards = bookingOptions.map((option, index) => ({
     benefits: option.perks.slice(0, 3),
     description: getRoomDescription(option.summary, services[index]?.description),
@@ -80,27 +130,34 @@ export function ReferenceCloneHotelEngine({
     imageSrc: services[index]?.imageSrc || galleryItems[index]?.imageSrc || heroImage,
     price: option.price,
     rateLabel: option.rateLabel,
-    reservationHref: buildReservationHref(contactPhone, content.brand.name, option.label),
+    reservationHref: buildHotelWhatsAppHref({
+      locale,
+      hotelName: displayBrandName,
+      intent: "room",
+      sourceLabel: option.label,
+      price: option.price,
+      rateLabel: option.rateLabel,
+      roomLabel: option.label,
+    }),
     title: option.label,
   }));
-  const benefits = [
-    { icon: "breakfast" as const, label: "Desayuno incluido" },
-    { icon: "wifi" as const, label: "WiFi gratis" },
-    { icon: "air" as const, label: "Aire acondicionado" },
-    { icon: "reception" as const, label: "Recepcion 24h" },
-  ];
+  const benefitIcons: Array<"breakfast" | "wifi" | "air" | "reception"> = ["breakfast", "wifi", "air", "reception"];
+  const benefits = ui.hero.benefits.map((label, index) => ({
+    icon: benefitIcons[index] || "reception",
+    label,
+  }));
   const experienceGalleryItems = buildExperienceGalleryItems(services, galleryItems, heroImage, heroImagePosition);
-  const amenities = buildAmenities(content);
+  const amenities = buildAmenities(localizedContent);
   const locationMedia = [
     {
-      title: "Foto del hotel",
-      subtitle: "Fachada y llegada principal",
+      title: ui.location.supportPhoto,
+      subtitle: ui.location.supportArrival,
       imageSrc: heroImage,
       imagePosition: heroImagePosition,
     },
     ...galleryItems.slice(0, 2).map((item, index) => ({
-      title: index === 0 ? "Entorno y acceso" : item.title,
-      subtitle: index === 0 ? "Vista de llegada al hotel" : item.subtitle,
+      title: index === 0 ? t(locale, "Entorno y acceso", "Surroundings and access") : item.title,
+      subtitle: index === 0 ? t(locale, "Vista de llegada al hotel", "Arrival view of the hotel") : item.subtitle,
       imageSrc: item.imageSrc,
       imagePosition: item.imagePosition,
     })),
@@ -112,10 +169,12 @@ export function ReferenceCloneHotelEngine({
         <HotelPremiumHeader
           bookingCtaLabel={bookingCtaLabel}
           brandName={displayBrandName}
-          brandTag={content.brand.heroTag || "Hotel en Tarapoto"}
+          brandTag={localizedContent.brand.heroTag || t(locale, "Hotel en Tarapoto", "Hotel in Tarapoto")}
+          locale={locale}
+          onLocaleToggle={() => setLocale((current) => toggleHotelLocale(current))}
           pages={pages}
-          reservationHref={reservationHref}
-          sectionLinks={SECTION_LINKS}
+          reservationHref={headerReservationHref}
+          sectionLinks={ui.sectionLinks}
         />
 
         <HotelPremiumHero
@@ -125,20 +184,26 @@ export function ReferenceCloneHotelEngine({
           cityLabel={cityLabel}
           contactPhone={contactPhone}
           detailsHref={detailsHref}
-          heroDescription={buildHeroDescription(content, cityLabel)}
-          heroHeadline={content.brand.headline || "Bienvenido a Vuelo 78 Hotel"}
-          heroTag={content.brand.heroTag || "Hotel en Tarapoto"}
-          reservationHref={reservationHref}
+          heroDescription={buildHeroDescription(localizedContent, cityLabel)}
+          heroHeadline={localizedContent.brand.headline || t(locale, "Bienvenido a Vuelo 78 Hotel", "Welcome to Vuelo 78 Hotel")}
+          heroTag={localizedContent.brand.heroTag || t(locale, "Hotel en Tarapoto", "Hotel in Tarapoto")}
+          locale={locale}
+          reservationHref={heroReservationHref}
           slides={heroSlides}
         />
 
-        <HotelPremiumExperienceGallery items={experienceGalleryItems} />
+        <HotelPremiumExperienceGallery items={experienceGalleryItems} locale={locale} />
 
         <HotelPremiumRoomsSection
-          eyebrow="Nuestras habitaciones"
+          eyebrow={ui.rooms.eyebrow}
+          locale={locale}
           rooms={roomCards}
-          subtitle="Opciones comodas para pareja, familia o viaje de trabajo con reserva directa."
-          title="Habitaciones disenadas para tu descanso"
+          subtitle={t(
+            locale,
+            "Opciones comodas para pareja, familia o viaje de trabajo con reserva directa.",
+            "Comfortable options for couples, families or business travel with direct booking.",
+          )}
+          title={t(locale, "Habitaciones disenadas para tu descanso", "Rooms designed for your rest")}
         />
 
         {testimonials.length ? (
@@ -152,36 +217,47 @@ export function ReferenceCloneHotelEngine({
               segment: item.segment,
               rating: item.rating ?? 5,
             }))}
-            subtitle="Opiniones breves sobre descanso, ubicacion y buena atencion."
-            title="Lo que dicen nuestros huespedes"
+            locale={locale}
+            subtitle={t(
+              locale,
+              "Opiniones breves sobre descanso, ubicacion y buena atencion.",
+              "Short reviews about rest, location and attentive service.",
+            )}
+            title={t(locale, "Lo que dicen nuestros huespedes", "What our guests say")}
           />
         ) : null}
 
-        <HotelPremiumAmenities items={amenities} />
+        <HotelPremiumAmenities items={amenities} locale={locale} />
 
-        {content.location?.address ? (
+        {localizedContent.location?.address ? (
           <LocationBlock
-            contactEmail={content.contact.email}
-            contactPhone={content.contact.whatsappNumber}
+            contactEmail={localizedContent.contact.email}
+            contactPhone={contactPhone}
             editorMode={editorMode}
             editorTextControls={editorTextControls}
-            location={content.location}
+            locale={locale}
+            location={localizedContent.location}
             mediaItems={locationMedia}
-            reservationHref={reservationHref}
+            reservationHref={locationReservationHref}
           />
         ) : null}
 
         <HotelPremiumBookingCta
-          description="Consulta disponibilidad y recibe confirmacion rapida por WhatsApp."
-          href={reservationHref}
-          title="Reserva directa por WhatsApp"
+          description={t(
+            locale,
+            "Consulta disponibilidad y recibe confirmacion rapida por WhatsApp.",
+            "Check availability and receive a fast confirmation on WhatsApp.",
+          )}
+          href={bookingSectionHref}
+          locale={locale}
+          title={t(locale, "Reserva directa por WhatsApp", "Direct booking via WhatsApp")}
         />
 
         <HotelPremiumFooter
-          address={content.location?.address || "Tarapoto, Peru"}
+          address={localizedContent.location?.address || "Tarapoto, Peru"}
           brandName={displayBrandName}
-          city={content.location?.city}
-          email={content.contact.email}
+          city={localizedContent.location?.city}
+          email={localizedContent.contact.email}
           phone={contactPhone}
         />
       </div>
@@ -190,8 +266,9 @@ export function ReferenceCloneHotelEngine({
         bookingWidget={bookingWidget}
         brandName={displayBrandName}
         contactPhone={contactPhone}
-        label="Reservar"
-        note="Disponibilidad y tarifas"
+        label={ui.floating.label}
+        locale={locale}
+        note={ui.floating.note}
       />
     </>
   );
@@ -283,21 +360,6 @@ function buildHeroSlides(
   return Array.from(new Map(candidates.map((item) => [item.imageSrc, item])).values()).slice(0, 4);
 }
 
-function buildReservationHref(phone: string, brandName: string, roomLabel?: string) {
-  const cleanPhone = String(phone || "").replace(/[^\d]/g, "");
-  if (!cleanPhone) {
-    return "#cta-final";
-  }
-
-  const lines = [
-    `Hola, quiero reservar en ${brandName}.`,
-    roomLabel ? `Me interesa la habitacion ${roomLabel}.` : "Quiero confirmar disponibilidad y tarifas.",
-    "Quedo atento a opciones por WhatsApp.",
-  ];
-
-  return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(lines.join("\n"))}`;
-}
-
 function getCityLabel(value?: string) {
   return (value || "Tarapoto").split(",")[0]?.trim() || "Tarapoto";
 }
@@ -307,24 +369,7 @@ function getDisplayBrandName(value: string) {
 }
 
 function normalizeHotelPhone(value?: string) {
-  const digits = value?.replace(/\D/g, "");
-  if (!digits || digits === "51987654321") {
-    return "+51979180559";
-  }
-
-  return value!;
-}
-
-function normalizeReservationHref(value: string | undefined, phone: string, brandName: string) {
-  if (!value) {
-    return buildReservationHref(phone, brandName);
-  }
-
-  if (/51987654321/.test(value)) {
-    return buildReservationHref(phone, brandName);
-  }
-
-  return value;
+  return HOTEL_WHATSAPP_PHONE_DISPLAY;
 }
 
 function getRoomDescription(summary: string, fallback?: string) {

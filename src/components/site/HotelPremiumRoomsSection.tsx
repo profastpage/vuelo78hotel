@@ -1,4 +1,6 @@
 import { renderBalancedSectionTitle } from "./headline-balance";
+import type { HotelLocale } from "@/lib/hotel-experience";
+import { getHotelUi } from "@/lib/hotel-experience";
 
 type HotelPremiumRoom = {
   benefits: string[];
@@ -13,12 +15,15 @@ type HotelPremiumRoom = {
 
 type HotelPremiumRoomsSectionProps = {
   eyebrow: string;
+  locale: HotelLocale;
   rooms: HotelPremiumRoom[];
   subtitle: string;
   title: string;
 };
 
-export function HotelPremiumRoomsSection({ eyebrow, rooms, subtitle, title }: HotelPremiumRoomsSectionProps) {
+export function HotelPremiumRoomsSection({ eyebrow, locale, rooms, subtitle, title }: HotelPremiumRoomsSectionProps) {
+  const ui = getHotelUi(locale);
+
   return (
     <section className="scene hotel-deluxe-section hotel-deluxe-rooms" id="habitaciones">
       <div className="hotel-deluxe-section-heading">
@@ -40,7 +45,7 @@ export function HotelPremiumRoomsSection({ eyebrow, rooms, subtitle, title }: Ho
                 <p>{room.description}</p>
               </div>
 
-              <ul className="hotel-deluxe-room-benefits" aria-label={`Beneficios de ${room.title}`}>
+              <ul className="hotel-deluxe-room-benefits" aria-label={`${ui.rooms.benefitsAriaPrefix} ${room.title}`}>
                 {room.benefits.map((benefit) => (
                   <li key={benefit}>{benefit}</li>
                 ))}
@@ -49,10 +54,10 @@ export function HotelPremiumRoomsSection({ eyebrow, rooms, subtitle, title }: Ho
               <div className="hotel-deluxe-room-footer">
                 <div className="hotel-deluxe-room-price">
                   <b>{room.price}</b>
-                  <span>{room.rateLabel || "por noche"}</span>
+                  <span>{room.rateLabel || ui.rooms.perNight}</span>
                 </div>
                 <a className="primary-button hotel-deluxe-room-cta" href={room.reservationHref}>
-                  Reservar ahora
+                  {ui.rooms.reserveNow}
                 </a>
               </div>
             </div>

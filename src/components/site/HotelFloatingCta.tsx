@@ -4,12 +4,14 @@ import { CalendarDays, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { SiteContent } from "@/types/site";
 import { HotelBookingBar } from "./HotelBookingBar";
+import { getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
 
 type HotelFloatingCtaProps = {
   bookingWidget: NonNullable<SiteContent["bookingWidget"]>;
   brandName: string;
   contactPhone: string;
   label: string;
+  locale: HotelLocale;
   note: string;
 };
 
@@ -18,10 +20,12 @@ export function HotelFloatingCta({
   brandName,
   contactPhone,
   label,
+  locale,
   note,
 }: HotelFloatingCtaProps) {
   const [isOpen, setIsOpen] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
+  const ui = getHotelUi(locale);
 
   useEffect(() => {
     if (!isOpen) {
@@ -56,7 +60,7 @@ export function HotelFloatingCta({
       <button
         aria-controls="hotel-floating-booking-panel"
         aria-expanded={isOpen}
-        aria-label={isOpen ? "Cerrar widget de reserva" : `${label}. ${note}`}
+        aria-label={isOpen ? ui.floating.close : `${label}. ${note}`}
         className="hotel-reference-mobile-float-trigger"
         onClick={() => setIsOpen((current) => !current)}
         type="button"
@@ -77,15 +81,15 @@ export function HotelFloatingCta({
       </button>
 
       {isOpen ? (
-        <div className="hotel-reference-mobile-float-panel" id="hotel-floating-booking-panel" role="dialog" aria-label="Reserva rapida">
+        <div className="hotel-reference-mobile-float-panel" id="hotel-floating-booking-panel" role="dialog" aria-label={ui.floating.title}>
           <div className="hotel-reference-mobile-float-panel-head">
             <div>
-              <span className="scene-chip">Reserva rapida</span>
-              <strong>Confirma tu estadia</strong>
-              <p>Selecciona habitacion, fechas y huespedes. Al reservar se abrira WhatsApp con el resumen listo.</p>
+              <span className="scene-chip">{ui.floating.chip}</span>
+              <strong>{ui.floating.title}</strong>
+              <p>{ui.floating.description}</p>
             </div>
             <button
-              aria-label="Cerrar reserva rapida"
+              aria-label={ui.floating.close}
               className="hotel-reference-mobile-float-close"
               onClick={() => setIsOpen(false)}
               type="button"
@@ -100,6 +104,7 @@ export function HotelFloatingCta({
             compact
             contactPhone={contactPhone}
             hideNotes
+            locale={locale}
             onSubmitComplete={() => setIsOpen(false)}
           />
         </div>

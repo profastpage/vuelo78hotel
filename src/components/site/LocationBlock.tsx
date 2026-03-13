@@ -4,6 +4,8 @@ import type { EditorTextControls } from "./editor-text-types";
 import { renderBalancedSectionTitle } from "./headline-balance";
 import { InlineTextField } from "./InlineTextField";
 import { getMediaStyle } from "./rendering";
+import type { HotelLocale } from "@/lib/hotel-experience";
+import { getHotelUi } from "@/lib/hotel-experience";
 
 type LocationMediaItem = {
   title: string;
@@ -20,6 +22,7 @@ type LocationBlockProps = {
   editorMode?: boolean;
   editorTextControls?: EditorTextControls;
   mediaItems?: LocationMediaItem[];
+  locale?: HotelLocale;
 };
 
 export function LocationBlock({
@@ -30,9 +33,11 @@ export function LocationBlock({
   editorMode = false,
   editorTextControls,
   mediaItems = [],
+  locale = "es",
 }: LocationBlockProps) {
   if (!location?.address) return null;
 
+  const ui = getHotelUi(locale);
   const locationQuery = encodeURIComponent([location.address, location.city].filter(Boolean).join(", "));
   const mapsSearchUrl = location.mapsLink || `https://www.google.com/maps?q=${locationQuery}`;
   const mapsEmbedUrl = location.mapsEmbedUrl || `https://www.google.com/maps?q=${locationQuery}&output=embed`;
@@ -40,16 +45,16 @@ export function LocationBlock({
   const primaryHref = reservationHref || mapsSearchUrl;
 
   return (
-      <section className="scene scene-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
+    <section className="scene scene-location hotel-home-location" id="ubicacion" data-animate data-editor-section="location">
       <div className="hotel-home-location-heading">
-        <h2>{renderBalancedSectionTitle("Ubicacion y llegada")}</h2>
+        <h2>{renderBalancedSectionTitle(ui.location.title)}</h2>
       </div>
 
       <div className="hotel-home-location-grid">
         <div className="hotel-home-location-map-shell" data-animate data-animate-delay="120">
           <iframe
             src={mapsEmbedUrl}
-            title="Mapa de ubicacion"
+            title={ui.location.mapTitle}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             className="hotel-home-location-iframe"
@@ -58,15 +63,15 @@ export function LocationBlock({
 
         <div className="hotel-home-location-card" data-animate>
           <div className="hotel-home-location-copy">
-            <h3>Ubicacion</h3>
+            <h3>{ui.location.cardTitle}</h3>
             {editorMode ? (
-              <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.address" label="Direccion" section="contact" value={location.address} />
+              <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.address" label={ui.location.address} section="contact" value={location.address} />
             ) : (
               <p>{location.address}</p>
             )}
             {location.city ? (
               editorMode ? (
-                <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.city" label="Ciudad" section="contact" value={location.city} />
+                <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="location.city" label={ui.location.city} section="contact" value={location.city} />
               ) : (
                 <p>{location.city}</p>
               )
@@ -79,7 +84,7 @@ export function LocationBlock({
                 <MapPinned size={16} strokeWidth={1.8} />
               </span>
               <div>
-                <strong>Direccion</strong>
+                <strong>{ui.location.address}</strong>
                 <p>{location.address}</p>
               </div>
             </div>
@@ -90,7 +95,7 @@ export function LocationBlock({
                   <Phone size={16} strokeWidth={1.8} />
                 </span>
                 <div>
-                  <strong>Telefono</strong>
+                  <strong>{ui.location.phone}</strong>
                   <a href={`tel:${contactPhone.replace(/\D/g, "")}`}>{contactPhone}</a>
                 </div>
               </div>
@@ -102,7 +107,7 @@ export function LocationBlock({
                   <Mail size={16} strokeWidth={1.8} />
                 </span>
                 <div>
-                  <strong>Email</strong>
+                  <strong>{ui.location.email}</strong>
                   <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
                 </div>
               </div>
@@ -115,11 +120,11 @@ export function LocationBlock({
             rel={primaryHref === mapsSearchUrl ? "noopener noreferrer" : undefined}
             target={primaryHref === mapsSearchUrl ? "_blank" : undefined}
           >
-            Reservar por WhatsApp
+            {ui.location.reserveWhatsapp}
           </a>
 
           <a className="hotel-home-location-directions" href={mapsSearchUrl} target="_blank" rel="noopener noreferrer">
-            Ver ruta en Google Maps
+            {ui.location.googleMaps}
           </a>
         </div>
       </div>

@@ -4,10 +4,13 @@ import { FormEvent, useState } from "react";
 import type { EditorTextControls } from "./editor-text-types";
 import { renderBalancedSectionTitle } from "./headline-balance";
 import { InlineTextField } from "./InlineTextField";
+import { buildHotelWhatsAppHref, getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
 
 type ContactFormProps = {
   title: string;
   description: string;
+  brandName?: string;
+  locale?: HotelLocale;
   whatsappNumber?: string;
   editorMode?: boolean;
   editorTextControls?: EditorTextControls;
@@ -19,7 +22,8 @@ type FieldErrors = {
   message?: string;
 };
 
-function validateForm(data: FormData): FieldErrors {
+function validateForm(data: FormData, locale: HotelLocale): FieldErrors {
+  const ui = getHotelUi(locale);
   const errors: FieldErrors = {};
 
   const name = String(data.get("name") ?? "").trim();
@@ -27,21 +31,22 @@ function validateForm(data: FormData): FieldErrors {
   const message = String(data.get("message") ?? "").trim();
 
   if (name.length < 2) {
-    errors.name = "Ingresa tu nombre completo (minimo 2 caracteres).";
+    errors.name = ui.contact.validations.name;
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    errors.email = "Ingresa un correo electronico valido.";
+    errors.email = ui.contact.validations.email;
   }
 
   if (message.length < 10) {
-    errors.message = "El mensaje debe tener al menos 10 caracteres.";
+    errors.message = ui.contact.validations.message;
   }
 
   return errors;
 }
 
-export function ContactForm({ title, description, whatsappNumber, editorMode = false, editorTextControls }: ContactFormProps) {
+export function ContactForm({ title, description, brandName = "Vuelo 78 Hotel", locale = "es", whatsappNumber, editorMode = false, editorTextControls }: ContactFormProps) {
+  const ui = getHotelUi(locale);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -50,7 +55,7 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    const errors = validateForm(formData);
+    const errors = validateForm(formData, locale);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       return;
@@ -77,22 +82,27 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
       }
 
       setStatus("success");
-      setMessage("Mensaje enviado. Te responderemos a la brevedad.");
+      setMessage(ui.contact.success);
       event.currentTarget.reset();
     } catch (error) {
       setStatus("error");
-      setMessage(error instanceof Error ? error.message : "Error inesperado. Intenta nuevamente.");
+      setMessage(error instanceof Error ? error.message : ui.contact.error);
     }
   }
 
   const whatsappHref = whatsappNumber
-    ? `https://wa.me/${whatsappNumber.replace(/\D/g, "")}?text=${encodeURIComponent("Hola, me contacto desde su sitio web.")}`
+    ? buildHotelWhatsAppHref({
+        locale,
+        hotelName: brandName,
+        intent: "contact",
+        sourceLabel: ui.contact.whatsappTitle,
+      })
     : null;
 
   return (
     <section className="contact-panel contact-panel-deluxe" data-editor-section="contact" id="contacto" data-animate>
       <div className="contact-panel-copy" data-animate>
-        <span className="eyebrow">Reservas directas</span>
+        <span className="eyebrow">{ui.contact.eyebrow}</span>
         {editorMode ? (
           <InlineTextField
             as="h2"
@@ -128,29 +138,29 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
 
         <div className="contact-panel-signals" aria-label="Beneficios de contacto">
           <article className="contact-signal-card">
-            <span>Respuesta</span>
-            <strong>Atencion prioritaria</strong>
-            <p>Ideal para confirmar habitaciones, tarifas y cualquier solicitud especial antes de tu llegada.</p>
+            <span>{ui.contact.response}</span>
+            <strong>{ui.contact.responseValue}</strong>
+            <p>{ui.contact.responseDescription}</p>
           </article>
           <article className="contact-signal-card">
-            <span>Canal directo</span>
-            <strong>Reserva sin intermediarios</strong>
-            <p>Escribe por WhatsApp o deja tu consulta para recibir una respuesta clara del hotel.</p>
+            <span>{ui.contact.directChannel}</span>
+            <strong>{ui.contact.directValue}</strong>
+            <p>{ui.contact.directDescription}</p>
           </article>
         </div>
 
         <div className="contact-panel-facts" aria-label="Datos de confianza">
           <div>
-            <span>Tiempo estimado</span>
-            <strong>Menos de 30 min</strong>
+            <span>{ui.contact.estimatedTime}</span>
+            <strong>{ui.contact.estimatedValue}</strong>
           </div>
           <div>
-            <span>Formato</span>
-            <strong>Reserva guiada</strong>
+            <span>{ui.contact.format}</span>
+            <strong>{ui.contact.formatValue}</strong>
           </div>
           <div>
-            <span>Disponibilidad</span>
-            <strong>Todos los dias</strong>
+            <span>{ui.contact.availability}</span>
+            <strong>{ui.contact.availabilityValue}</strong>
           </div>
         </div>
 
@@ -160,14 +170,14 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
             href={whatsappHref}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Contactar por WhatsApp"
+            aria-label={locale === "en" ? "Contact on WhatsApp" : "Contactar por WhatsApp"}
           >
             <span className="whatsapp-link-icon" aria-hidden="true">
               <span />
             </span>
             <span className="whatsapp-link-copy">
-              <strong>Escribir por WhatsApp</strong>
-              <small>Canal directo para confirmar disponibilidad</small>
+              <strong>{ui.contact.whatsappTitle}</strong>
+              <small>{ui.contact.whatsappSubtitle}</small>
             </span>
           </a>
         ) : null}
@@ -175,17 +185,17 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
 
       <div className="contact-form-shell" data-animate data-animate-delay="80">
         <div className="contact-form-shell-top">
-          <span className="contact-form-shell-kicker">Consulta de reserva</span>
-          <p>Comparte tus fechas y el tipo de habitacion que buscas. El hotel te responde con disponibilidad y tarifa.</p>
+          <span className="contact-form-shell-kicker">{ui.contact.shellKicker}</span>
+          <p>{ui.contact.shellDescription}</p>
         </div>
 
         <form className="contact-form contact-form-deluxe" onSubmit={handleSubmit} noValidate>
           <div className="contact-form-inline">
             <label className={fieldErrors.name ? "has-error" : ""}>
-              Nombre <span className="field-required" aria-hidden="true">*</span>
+              {ui.contact.name} <span className="field-required" aria-hidden="true">{ui.contact.required}</span>
               <input
                 name="name"
-                placeholder="Tu nombre completo"
+                placeholder={ui.contact.namePlaceholder}
                 required
                 type="text"
                 aria-invalid={!!fieldErrors.name}
@@ -200,10 +210,10 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
             </label>
 
             <label className={fieldErrors.email ? "has-error" : ""}>
-              Email <span className="field-required" aria-hidden="true">*</span>
+              {ui.contact.email} <span className="field-required" aria-hidden="true">{ui.contact.required}</span>
               <input
                 name="email"
-                placeholder="Tu correo"
+                placeholder={ui.contact.emailPlaceholder}
                 required
                 type="email"
                 aria-invalid={!!fieldErrors.email}
@@ -219,20 +229,20 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
           </div>
 
           <label>
-            Telefono <span className="field-optional">(opcional)</span>
+            {ui.contact.phone} <span className="field-optional">{ui.contact.optional}</span>
             <input
               name="phone"
-              placeholder="Tu telefono"
+              placeholder={ui.contact.phonePlaceholder}
               type="tel"
               autoComplete="tel"
             />
           </label>
 
           <label className={fieldErrors.message ? "has-error" : ""}>
-            Mensaje <span className="field-required" aria-hidden="true">*</span>
+            {ui.contact.message} <span className="field-required" aria-hidden="true">{ui.contact.required}</span>
             <textarea
               name="message"
-              placeholder="Indicanos tus fechas, tipo de habitacion y cualquier detalle importante para tu reserva."
+              placeholder={ui.contact.messagePlaceholder}
               required
               rows={6}
               aria-invalid={!!fieldErrors.message}
@@ -247,9 +257,9 @@ export function ContactForm({ title, description, whatsappNumber, editorMode = f
 
           <div className="contact-form-actions">
             <button disabled={status === "loading"} type="submit" aria-busy={status === "loading"}>
-              {status === "loading" ? "Enviando..." : "Enviar consulta"}
+              {status === "loading" ? ui.contact.sending : ui.contact.send}
             </button>
-            <p className="contact-form-note">Canal recomendado para consultas de disponibilidad, tarifas y reservas personalizadas.</p>
+            <p className="contact-form-note">{ui.contact.note}</p>
           </div>
 
           {message ? (
