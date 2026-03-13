@@ -9477,17 +9477,21 @@ button {
     rgba(7, 17, 33, 0.36);
 }
 
-.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-mobile-float {
-  background:
-    linear-gradient(180deg, rgba(11, 23, 43, 0.98), rgba(9, 19, 36, 0.96)),
-    rgba(9, 19, 36, 0.94);
-  border-color: rgba(201, 164, 79, 0.18);
-  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.32);
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-mobile-float-word span {
   color: #f4f7fb;
 }
 
-.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-mobile-float-copy small {
-  color: #aab6c8;
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-mobile-float-button {
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.1), transparent 42%),
+    linear-gradient(180deg, rgba(20, 57, 122, 0.98), rgba(9, 27, 59, 0.98)),
+    rgba(9, 19, 36, 0.96);
+  border-color: rgba(201, 164, 79, 0.18);
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.32);
+}
+
+.page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-mobile-float-label {
+  color: #f4f7fb;
 }
 
 .page-shell.mode-reference-clone-hotel.theme-dark .hotel-reference-booking-input input,
@@ -10390,65 +10394,123 @@ button {
 
 .hotel-reference-mobile-float {
   position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
+  left: 16px;
+  bottom: 16px;
   z-index: 110;
   display: none;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 12px;
-  min-height: 62px;
-  padding: 10px 14px 10px 10px;
-  border: 1px solid rgba(70, 120, 214, 0.24);
-  border-radius: 999px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 248, 252, 0.96)),
-    rgba(255, 255, 255, 0.9);
-  box-shadow: 0 22px 42px rgba(8, 21, 42, 0.18);
+  justify-items: start;
+  gap: 8px;
+  width: min(calc(100vw - 32px), 220px);
   text-decoration: none;
   color: #173f7b;
 }
 
+.hotel-reference-mobile-float-word {
+  position: relative;
+  display: block;
+  min-width: 104px;
+  height: 18px;
+  margin-left: 12px;
+  overflow: hidden;
+}
+
+.hotel-reference-mobile-float-word span {
+  position: absolute;
+  inset: 0 auto auto 0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #173f7b;
+  opacity: 0;
+  transform: translateY(12px) scale(0.94);
+  filter: blur(8px);
+  animation: hotel-reference-float-word-swap 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.hotel-reference-mobile-float-word span:nth-child(2) {
+  animation-delay: 2.4s;
+}
+
+.hotel-reference-mobile-float-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 58px;
+  padding: 10px 18px 10px 12px;
+  border: 1px solid rgba(70, 120, 214, 0.22);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.26), transparent 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(239, 245, 255, 0.96));
+  box-shadow:
+    0 18px 34px rgba(18, 43, 87, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  overflow: hidden;
+}
+
+.hotel-reference-mobile-float-button::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 56%);
+  pointer-events: none;
+}
+
 .hotel-reference-mobile-float-icon {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 38px;
+  height: 38px;
   border-radius: 999px;
   background: linear-gradient(135deg, #173f7b, #315da6);
   box-shadow: 0 12px 24px rgba(23, 63, 123, 0.28);
 }
 
 .hotel-reference-mobile-float-icon span {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 999px;
   background: #ffffff;
   box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
-.hotel-reference-mobile-float-copy {
-  display: grid;
-  gap: 2px;
-}
-
-.hotel-reference-mobile-float-copy strong,
-.hotel-reference-mobile-float-copy small {
-  margin: 0;
-}
-
-.hotel-reference-mobile-float-copy strong {
+.hotel-reference-mobile-float-label {
+  position: relative;
+  z-index: 1;
   font-size: 1rem;
-  line-height: 1.1;
+  font-weight: 800;
+  line-height: 1;
+  color: #173f7b;
 }
 
-.hotel-reference-mobile-float-copy small {
-  color: #7b8190;
-  font-size: 0.76rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+@keyframes hotel-reference-float-word-swap {
+  0%,
+  12% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.94);
+    filter: blur(8px);
+  }
+
+  18%,
+  44% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  56%,
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+    filter: blur(8px);
+  }
 }
 
 .hotel-reference-hero-metric {

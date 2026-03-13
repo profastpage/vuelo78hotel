@@ -100,11 +100,6 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
   const railDescription = content.narrative.goal || data.railDescription;
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || content.brand.primaryCtaLabel || "Reservar";
   const leadPrice = bookingWidget.options?.[0]?.price || "Tarifa directa";
-  const heroFacts = [
-    { label: "Pagina", value: getHotelPageLabel(pageSlug) },
-    { label: "Destino", value: content.location?.city || "Tarapoto" },
-    { label: "Desde", value: leadPrice },
-  ];
   const heroUploading = editorMode && editorImageControls?.uploadingField === "hero";
 
   return (
@@ -146,14 +141,6 @@ export function HotelReferenceSubpage({ profile, content, pageSlug, editorMode =
               <div className="hotel-reference-room-actions">
                 <a className="primary-button" href={reservationHref}>{editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey="bookingWidget.bookingCtaLabel" label="CTA reservar" section="hero" showTrigger={false} value={bookingCtaLabel} /> : "Reservar"}</a>
                 <a className="secondary-button" href={pageSlug === "mapa" ? mapHref : getHotelPageHref("habitaciones")}>{pageSlug === "mapa" ? "Abrir mapa" : "Ver habitaciones"}</a>
-              </div>
-              <div className="hotel-reference-hero-meta" aria-label="Datos rapidos de la pagina">
-                {heroFacts.map((fact, index) => (
-                  <article className="hotel-reference-hero-meta-card" key={`${fact.label}-${index}`}>
-                    <span>{fact.label}</span>
-                    <strong>{fact.value}</strong>
-                  </article>
-                ))}
               </div>
             </div>
           </div>
