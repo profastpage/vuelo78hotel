@@ -315,7 +315,8 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
                       className="hotel-experience-carousel-image"
                       draggable={false}
                       fill
-                      loading={index <= 1 ? "eager" : "lazy"}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      priority={index === 0}
                       sizes="(max-width: 640px) 94vw, (max-width: 860px) 92vw, (max-width: 1280px) 42vw, 34vw"
                       src={item.src}
                     />
