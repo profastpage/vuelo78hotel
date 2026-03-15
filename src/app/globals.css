@@ -17387,6 +17387,7 @@ body {
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-amenity-item {
+  position: relative;
   display: grid;
   justify-items: center;
   align-content: start;
@@ -17397,7 +17398,14 @@ body {
   border-radius: 24px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(250, 244, 236, 0.88));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  box-shadow:
+    0 12px 30px rgba(87, 64, 33, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  transition:
+    transform 0.26s ease,
+    border-color 0.26s ease,
+    box-shadow 0.26s ease,
+    background 0.26s ease;
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-amenity-item::after {
@@ -17414,6 +17422,12 @@ body {
   border: 1px solid rgba(191, 149, 79, 0.18);
   color: #173f7b;
   box-shadow: 0 10px 22px rgba(133, 102, 58, 0.08);
+  transition:
+    transform 0.26s ease,
+    border-color 0.26s ease,
+    background 0.26s ease,
+    color 0.26s ease,
+    box-shadow 0.26s ease;
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-amenity-icon svg {
@@ -17432,6 +17446,38 @@ body {
   font-size: 0.98rem;
   line-height: 1.35;
   letter-spacing: 0.01em;
+  transition:
+    color 0.26s ease,
+    text-shadow 0.26s ease;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-item:hover,
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-item:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(194, 152, 74, 0.26);
+  background:
+    radial-gradient(circle at top center, rgba(214, 185, 122, 0.14), transparent 52%),
+    linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(247, 239, 228, 0.96));
+  box-shadow:
+    0 18px 38px rgba(87, 64, 33, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-item:hover .hotel-home-amenity-icon,
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-item:focus-within .hotel-home-amenity-icon {
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(194, 152, 74, 0.28);
+  background:
+    linear-gradient(180deg, rgba(214, 185, 122, 0.28), rgba(214, 185, 122, 0.12)),
+    rgba(255, 255, 255, 0.94);
+  color: #b48733;
+  box-shadow: 0 14px 28px rgba(173, 133, 64, 0.18);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-item:hover .hotel-home-amenity-copy strong,
+.page-shell.mode-reference-clone-hotel .hotel-home-amenity-item:focus-within .hotel-home-amenity-copy strong {
+  color: #b48733;
+  text-shadow: 0 0 18px rgba(201, 164, 79, 0.2);
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-location {
@@ -19826,53 +19872,107 @@ body {
 .page-shell.mode-reference-clone-hotel .hotel-home-benefits-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  align-items: start;
+  align-items: stretch;
   width: min(1180px, calc(100% - 48px));
-  margin: 20px auto 0;
-  gap: 18px 26px;
-  padding: 0;
+  margin: 22px auto 0;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid rgba(138, 111, 73, 0.14);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at top center, rgba(214, 185, 122, 0.08), transparent 36%),
+    linear-gradient(180deg, rgba(255, 250, 243, 0.82), rgba(246, 239, 229, 0.8));
+  box-shadow: 0 18px 42px rgba(87, 64, 33, 0.06);
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-benefit-item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  min-height: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  text-align: left;
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 12px;
+  min-height: 132px;
+  padding: 18px 14px 16px;
+  border: 1px solid rgba(138, 111, 73, 0.1);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(250, 244, 236, 0.88));
+  box-shadow:
+    0 12px 30px rgba(87, 64, 33, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  text-align: center;
+  transition:
+    transform 0.26s ease,
+    border-color 0.26s ease,
+    box-shadow 0.26s ease,
+    background 0.26s ease;
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-benefit-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  flex: 0 0 18px;
-  border-radius: 0;
-  background: transparent;
-  border: 0;
-  color: #21482c;
-  box-shadow: none;
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(201, 164, 79, 0.18), rgba(201, 164, 79, 0.08)),
+    rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(191, 149, 79, 0.16);
+  color: #173f7b;
+  box-shadow: 0 10px 22px rgba(133, 102, 58, 0.08);
+  transition:
+    transform 0.26s ease,
+    border-color 0.26s ease,
+    background 0.26s ease,
+    color 0.26s ease,
+    box-shadow 0.26s ease;
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-benefit-icon svg {
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
 }
 
 .page-shell.mode-reference-clone-hotel .hotel-home-benefit-item strong {
-  color: #5b554b;
-  font-size: 0.92rem;
+  color: #173f7b;
+  font-size: 0.98rem;
   font-weight: 500;
   letter-spacing: 0.01em;
   white-space: normal;
   line-height: 1.3;
+  transition:
+    color 0.26s ease,
+    text-shadow 0.26s ease;
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-benefit-item:hover,
+.page-shell.mode-reference-clone-hotel .hotel-home-benefit-item:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(194, 152, 74, 0.26);
+  background:
+    radial-gradient(circle at top center, rgba(214, 185, 122, 0.14), transparent 52%),
+    linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(247, 239, 228, 0.96));
+  box-shadow:
+    0 18px 38px rgba(87, 64, 33, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-benefit-item:hover .hotel-home-benefit-icon,
+.page-shell.mode-reference-clone-hotel .hotel-home-benefit-item:focus-within .hotel-home-benefit-icon {
+  transform: translateY(-2px) scale(1.03);
+  border-color: rgba(194, 152, 74, 0.28);
+  background:
+    linear-gradient(180deg, rgba(214, 185, 122, 0.28), rgba(214, 185, 122, 0.12)),
+    rgba(255, 255, 255, 0.94);
+  color: #b48733;
+  box-shadow: 0 14px 28px rgba(173, 133, 64, 0.18);
+}
+
+.page-shell.mode-reference-clone-hotel .hotel-home-benefit-item:hover strong,
+.page-shell.mode-reference-clone-hotel .hotel-home-benefit-item:focus-within strong {
+  color: #b48733;
+  text-shadow: 0 0 18px rgba(201, 164, 79, 0.2);
 }
 
 @media (max-width: 860px) {
@@ -19880,28 +19980,30 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     width: calc(100% - 24px);
     margin-top: 16px;
-    gap: 16px 18px;
-    padding: 0;
+    gap: 12px;
+    padding: 12px 14px;
     overflow: visible;
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-benefit-item {
-    gap: 9px;
+    min-height: 112px;
+    padding: 16px 12px 14px;
+    border-radius: 22px;
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-benefit-item strong {
-    font-size: 0.88rem;
+    font-size: 0.92rem;
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-benefit-icon {
-    width: 16px;
-    height: 16px;
-    flex-basis: 16px;
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-benefit-icon svg {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
   }
 }
 
