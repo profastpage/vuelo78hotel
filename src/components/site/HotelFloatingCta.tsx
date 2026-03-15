@@ -72,6 +72,9 @@ export function HotelFloatingCta({
         onClick={() => onOpenChange(!isOpen)}
         type="button"
       >
+        <span className="hotel-reference-mobile-float-mobile-label" aria-hidden="true">
+          Reservar
+        </span>
         <span className="hotel-reference-mobile-float-word" aria-hidden="true">
           <span>Reserva</span>
           <span>Directa</span>
@@ -112,7 +115,10 @@ export function HotelFloatingCta({
             contactPhone={contactPhone}
             hideNotes
             locale={locale}
-            onSelectedRoomChange={onSelectedRoomChange}
+            onSelectedRoomChange={(roomId) => {
+              onOpenChange(false);
+              onSelectedRoomChange?.(roomId);
+            }}
             onSubmitComplete={() => onOpenChange(false)}
             selectedRoomId={selectedRoomId}
           />
