@@ -18393,7 +18393,7 @@ body {
 
 .hotel-room-gallery-section-heading p {
   max-width: 38ch;
-  color: #7a7064;
+  color: #4b3725;
   font-size: clamp(1rem, 1.5vw, 1.18rem);
   line-height: 1.72;
 }
@@ -19065,6 +19065,10 @@ body {
     font-size: clamp(2.7rem, 9vw, 4rem);
   }
 
+  .hotel-room-gallery-section-heading p {
+    color: rgba(75, 55, 37, 0.82);
+  }
+
   .hotel-room-gallery-card-head {
     grid-template-columns: minmax(0, 1fr);
     align-items: stretch;
@@ -19077,6 +19081,7 @@ body {
 
   .hotel-room-gallery-card-title-mobile {
     display: block;
+    text-align: center;
   }
 
   .hotel-room-gallery-card-spacer {
@@ -19085,6 +19090,7 @@ body {
 
   .hotel-room-gallery-word-mark {
     width: auto;
+    justify-content: center;
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
@@ -19238,12 +19244,22 @@ body {
     padding-inline: 14px;
   }
 
+  .hotel-room-gallery-section-heading p {
+    font-size: 1rem;
+    line-height: 1.64;
+  }
+
+  .hotel-room-gallery-card-copy {
+    justify-items: center;
+  }
+
   .hotel-room-gallery-word-mark {
     width: 100%;
   }
 
   .hotel-room-gallery-card-title-mobile {
     font-size: clamp(1.34rem, 5.8vw, 1.72rem);
+    text-align: center;
   }
 
   .hotel-room-gallery-word-mark i {
