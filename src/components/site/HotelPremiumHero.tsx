@@ -105,21 +105,32 @@ export function HotelPremiumHero({
       </div>
 
       <style jsx global>{`
+        .page-shell.mode-reference-clone-hotel .hotel-deluxe-hero-stage .hotel-reference-hero-slide {
+          transform: scale(1.018);
+          transition:
+            opacity 1200ms ease,
+            transform 6200ms ease;
+        }
+
+        .page-shell.mode-reference-clone-hotel .hotel-deluxe-hero-stage .hotel-reference-hero-slide.is-active {
+          transform: scale(1);
+        }
+
         .page-shell.mode-reference-clone-hotel .hotel-reference-hero-slide-media {
-          filter: saturate(1.08) contrast(1.07) brightness(1.02);
+          filter: saturate(1.03) contrast(1.03) brightness(1.01);
         }
 
         .page-shell.mode-reference-clone-hotel .hotel-home-hero-overlay {
           background:
-            linear-gradient(180deg, rgba(7, 10, 12, 0.42) 0%, rgba(7, 10, 12, 0.08) 24%, rgba(9, 12, 14, 0.16) 58%, rgba(7, 10, 12, 0.46) 100%),
-            radial-gradient(circle at 16% 18%, rgba(16, 77, 96, 0.08), transparent 30%),
-            radial-gradient(circle at 78% 18%, rgba(203, 161, 91, 0.08), transparent 28%),
-            linear-gradient(90deg, rgba(8, 10, 12, 0.12), rgba(8, 10, 12, 0.02) 34%, rgba(8, 10, 12, 0.08));
+            linear-gradient(180deg, rgba(7, 10, 12, 0.28) 0%, rgba(7, 10, 12, 0.04) 24%, rgba(9, 12, 14, 0.1) 58%, rgba(7, 10, 12, 0.34) 100%),
+            radial-gradient(circle at 16% 18%, rgba(16, 77, 96, 0.05), transparent 30%),
+            radial-gradient(circle at 78% 18%, rgba(203, 161, 91, 0.05), transparent 28%),
+            linear-gradient(90deg, rgba(8, 10, 12, 0.08), rgba(8, 10, 12, 0.01) 34%, rgba(8, 10, 12, 0.06));
         }
 
         .page-shell.mode-reference-clone-hotel .hotel-home-hero-atmo {
-          filter: blur(12px);
-          opacity: 0.48;
+          filter: blur(8px);
+          opacity: 0.22;
         }
 
         .page-shell.mode-reference-clone-hotel .hotel-home-hero-actions {
@@ -162,7 +173,7 @@ export function HotelPremiumHero({
 
         @media (max-width: 860px) {
           .page-shell.mode-reference-clone-hotel .hotel-reference-hero-slide-media {
-            filter: saturate(1.1) contrast(1.1) brightness(1.01);
+            filter: saturate(1.04) contrast(1.04) brightness(1.01);
           }
 
           .page-shell.mode-reference-clone-hotel .hotel-home-hero-stage {
@@ -171,18 +182,18 @@ export function HotelPremiumHero({
 
           .page-shell.mode-reference-clone-hotel .hotel-home-hero-overlay {
             background:
-              linear-gradient(180deg, rgba(7, 10, 12, 0.38) 0%, rgba(7, 10, 12, 0.06) 22%, rgba(9, 12, 14, 0.16) 58%, rgba(7, 10, 12, 0.42) 100%),
-              linear-gradient(90deg, rgba(8, 10, 12, 0.1), rgba(8, 10, 12, 0.01) 50%, rgba(8, 10, 12, 0.08));
+              linear-gradient(180deg, rgba(7, 10, 12, 0.24) 0%, rgba(7, 10, 12, 0.04) 22%, rgba(9, 12, 14, 0.1) 58%, rgba(7, 10, 12, 0.3) 100%),
+              linear-gradient(90deg, rgba(8, 10, 12, 0.06), rgba(8, 10, 12, 0.01) 50%, rgba(8, 10, 12, 0.06));
           }
 
           .page-shell.mode-reference-clone-hotel .hotel-home-hero-atmo {
-            filter: blur(10px);
-            opacity: 0.34;
+            filter: blur(7px);
+            opacity: 0.16;
           }
 
           .page-shell.mode-reference-clone-hotel .hotel-home-hero-layout-centered {
-            padding-top: clamp(138px, 16svh, 164px);
-            padding-bottom: clamp(128px, 14svh, 156px);
+            padding-top: clamp(144px, 17svh, 170px);
+            padding-bottom: clamp(138px, 15svh, 168px);
           }
 
           .page-shell.mode-reference-clone-hotel .hotel-home-hero-copy-centered {
@@ -208,7 +219,7 @@ export function HotelPremiumHero({
           }
 
           .page-shell.mode-reference-clone-hotel .hotel-home-reservation-card-inline {
-            margin-top: 40px;
+            margin-top: 52px;
           }
         }
       `}</style>

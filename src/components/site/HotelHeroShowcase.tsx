@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useEffectEvent, useState, type CSSProperties } from "react";
 import type { ImagePosition } from "@/types/site";
 
@@ -9,6 +8,8 @@ export type HotelHeroSlide = {
   subtitle: string;
   imageSrc: string;
   fallbackSrc?: string;
+  mobileImageSrc?: string;
+  mobileFallbackSrc?: string;
   imagePosition?: ImagePosition;
   mobileImagePosition?: ImagePosition;
 };
@@ -43,17 +44,24 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
             key={`${slide.imageSrc}-${index}`}
             style={getSlideStyle(slide.imagePosition, slide.mobileImagePosition)}
           >
-            <span className="hotel-reference-hero-slide-picture">
-              <Image
+            <picture className="hotel-reference-hero-slide-picture">
+              {slide.mobileImageSrc ? (
+                <source media="(max-width: 860px)" srcSet={slide.mobileImageSrc} type="image/webp" />
+              ) : null}
+              {slide.mobileFallbackSrc ? (
+                <source media="(max-width: 860px)" srcSet={slide.mobileFallbackSrc} type="image/jpeg" />
+              ) : null}
+              <source srcSet={slide.imageSrc} type="image/webp" />
+              {slide.fallbackSrc ? <source srcSet={slide.fallbackSrc} type="image/jpeg" /> : null}
+              <img
                 alt=""
                 className="hotel-reference-hero-slide-media"
-                fill
-                priority={index === 0}
-                quality={95}
-                sizes="100vw"
-                src={slide.imageSrc}
+                decoding="async"
+                fetchPriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? "eager" : "lazy"}
+                src={slide.fallbackSrc || slide.imageSrc}
               />
-            </span>
+            </picture>
           </div>
         ))}
       </div>

@@ -208,6 +208,28 @@ export function ReferenceCloneHotelEngine({
     })),
   ].filter((item) => item.imageSrc);
 
+  const focusRoomFromWidget = (roomId: string) => {
+    setSelectedBookingRoomId(roomId);
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    window.requestAnimationFrame(() => {
+      const roomSection = document.getElementById(roomId);
+      if (!roomSection) {
+        return;
+      }
+
+      const headerOffset = window.matchMedia("(max-width: 860px)").matches ? 92 : 104;
+      const targetTop = roomSection.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({
+        top: Math.max(targetTop, 0),
+        behavior: "smooth",
+      });
+    });
+  };
+
   const handleReserveRoom = (room: HotelRoomGalleryEntry) => {
     setSelectedBookingRoomId(room.slug);
     setIsFloatingBookingOpen(true);
@@ -237,7 +259,7 @@ export function ReferenceCloneHotelEngine({
           heroHeadline={localizedContent.brand.headline || t(locale, "Bienvenido a Vuelo 78 Hotel", "Welcome to Vuelo 78 Hotel")}
           heroTag={localizedContent.brand.heroTag || t(locale, "Hotel en Tarapoto", "Hotel in Tarapoto")}
           locale={locale}
-          onSelectedRoomChange={setSelectedBookingRoomId}
+          onSelectedRoomChange={focusRoomFromWidget}
           reservationHref={heroReservationHref}
           selectedRoomId={selectedBookingRoomId}
           slides={heroSlides}
@@ -319,7 +341,7 @@ export function ReferenceCloneHotelEngine({
         locale={locale}
         note={ui.floating.note}
         onOpenChange={setIsFloatingBookingOpen}
-        onSelectedRoomChange={setSelectedBookingRoomId}
+        onSelectedRoomChange={focusRoomFromWidget}
         selectedRoomId={selectedBookingRoomId}
       />
     </>
@@ -411,36 +433,44 @@ function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
 
   return [
     {
-      title: "Fachada principal",
-      subtitle: "Llegada directa con una presencia limpia y reconocible",
-      imageSrc: "/assets/hero/hero-slide-1.webp",
-      fallbackSrc: "/assets/hero/hero-slide-1.jpg",
-      imagePosition: { x: 46, y: 44 },
-      mobileImagePosition: { x: 52, y: 30 },
+      title: "Lobby principal",
+      subtitle: "Llegada serena con una lectura limpia del hotel",
+      imageSrc: "/assets/hero/hero-premium-1.webp",
+      fallbackSrc: "/assets/hero/hero-premium-1.jpg",
+      mobileImageSrc: "/assets/hero/hero-premium-1-mobile.webp",
+      mobileFallbackSrc: "/assets/hero/hero-premium-1-mobile.jpg",
+      imagePosition: { x: 52, y: 50 },
+      mobileImagePosition: { x: 56, y: 44 },
     },
     {
       title: "Habitacion principal",
       subtitle: "Descanso comodo con una lectura clara del espacio",
-      imageSrc: "/assets/hero/hero-slide-2.webp",
-      fallbackSrc: "/assets/hero/hero-slide-2.jpg",
-      imagePosition: { x: 50, y: 44 },
-      mobileImagePosition: { x: 58, y: 40 },
+      imageSrc: "/assets/hero/hero-premium-2.webp",
+      fallbackSrc: "/assets/hero/hero-premium-2.jpg",
+      mobileImageSrc: "/assets/hero/hero-premium-2-mobile.webp",
+      mobileFallbackSrc: "/assets/hero/hero-premium-2-mobile.jpg",
+      imagePosition: { x: 56, y: 48 },
+      mobileImagePosition: { x: 68, y: 48 },
     },
     {
       title: "Piscina",
       subtitle: "Un momento de pausa con color y frescura",
-      imageSrc: "/assets/hero/hero-slide-3.webp",
-      fallbackSrc: "/assets/hero/hero-slide-3.jpg",
-      imagePosition: { x: 36, y: 42 },
-      mobileImagePosition: { x: 46, y: 38 },
+      imageSrc: "/assets/hero/hero-premium-3.webp",
+      fallbackSrc: "/assets/hero/hero-premium-3.jpg",
+      mobileImageSrc: "/assets/hero/hero-premium-3-mobile.webp",
+      mobileFallbackSrc: "/assets/hero/hero-premium-3-mobile.jpg",
+      imagePosition: { x: 38, y: 42 },
+      mobileImagePosition: { x: 50, y: 42 },
     },
     {
       title: content.brand.name,
       subtitle: fallbackDescription,
-      imageSrc: "/assets/hero/hero-slide-4.webp",
-      fallbackSrc: "/assets/hero/hero-slide-4.jpg",
+      imageSrc: "/assets/hero/hero-premium-4.webp",
+      fallbackSrc: "/assets/hero/hero-premium-4.jpg",
+      mobileImageSrc: "/assets/hero/hero-premium-4-mobile.webp",
+      mobileFallbackSrc: "/assets/hero/hero-premium-4-mobile.jpg",
       imagePosition: { x: 56, y: 44 },
-      mobileImagePosition: { x: 68, y: 40 },
+      mobileImagePosition: { x: 68, y: 42 },
     },
   ];
 }
