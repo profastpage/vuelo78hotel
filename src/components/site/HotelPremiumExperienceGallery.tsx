@@ -68,29 +68,12 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
   const currentItems = currentGroup?.items ?? [];
   const slideCount = currentItems.length;
 
-  const visibleIndexes = useMemo(() => {
-    const indexes = new Set<number>();
-
-    if (slideCount === 0) {
-      return indexes;
-    }
-
-    indexes.add(activeIndex);
-
-    if (slideCount > 1) {
-      indexes.add(Math.min(activeIndex + 1, slideCount - 1));
-      indexes.add(Math.max(activeIndex - 1, 0));
-    }
-
-    return indexes;
-  }, [activeIndex, slideCount]);
-
   useEffect(() => {
     const activeTab = tabRefs.current[activeGroupIndex];
     activeTab?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
-      inline: "nearest",
+      inline: "center",
     });
   }, [activeGroupIndex]);
 
@@ -327,19 +310,15 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
                   key={`${currentGroup.areaKey}-${item.id}`}
                 >
                   <div className="hotel-experience-carousel-media">
-                    {visibleIndexes.has(index) ? (
-                      <Image
-                        alt={item.alt}
-                        className="hotel-experience-carousel-image"
-                        draggable={false}
-                        fill
-                        loading={index === 0 ? "eager" : "lazy"}
-                        sizes="(max-width: 640px) 94vw, (max-width: 860px) 92vw, (max-width: 1280px) 42vw, 34vw"
-                        src={item.src}
-                      />
-                    ) : (
-                      <div aria-hidden="true" className="hotel-experience-carousel-skeleton" />
-                    )}
+                    <Image
+                      alt={item.alt}
+                      className="hotel-experience-carousel-image"
+                      draggable={false}
+                      fill
+                      loading={index <= 1 ? "eager" : "lazy"}
+                      sizes="(max-width: 640px) 94vw, (max-width: 860px) 92vw, (max-width: 1280px) 42vw, 34vw"
+                      src={item.src}
+                    />
                   </div>
 
                   {isCover ? (

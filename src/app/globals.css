@@ -2280,7 +2280,13 @@ button {
 
 .has-media-image {
   background-size: cover;
-  background-position: inherit;
+  background-position: var(--media-image-position, center);
+}
+
+@media (max-width: 860px) {
+  .has-media-image {
+    background-position: var(--media-image-position-mobile, var(--media-image-position, center));
+  }
 }
 
 .media-panel-main,
@@ -18623,11 +18629,9 @@ body {
   overflow: hidden;
   min-width: 0;
   border-radius: 32px;
-  border: 1px solid rgba(136, 108, 69, 0.1);
-  background: rgba(255, 255, 255, 0.74);
-  box-shadow:
-    0 26px 44px rgba(67, 49, 25, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.76);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
   touch-action: pan-y;
 }
 
@@ -18641,10 +18645,10 @@ body {
 .hotel-room-carousel-slide {
   flex: 0 0 100%;
   display: grid;
-  gap: 12px;
+  gap: 8px;
   min-width: 0;
   margin: 0;
-  padding: 14px;
+  padding: 0;
 }
 
 .hotel-room-carousel-media {
@@ -18691,6 +18695,7 @@ body {
 }
 
 .hotel-room-carousel-slide figcaption {
+  padding-inline: 4px;
   font-size: 0.92rem;
   letter-spacing: 0.01em;
 }
@@ -18707,11 +18712,11 @@ body {
   flex-wrap: nowrap;
   gap: 10px;
   max-width: 100%;
-  padding: 3px 34px 5px 3px;
+  padding: 3px 18px 7px 3px;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  scroll-padding-inline: 3px 34px;
+  scroll-padding-inline: 3px 18px;
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -19070,7 +19075,7 @@ body {
   .hotel-experience-carousel-tabs {
     gap: 7px;
     margin-inline: -2px;
-    padding: 2px 40px 2px 2px;
+    padding: 3px 12px 6px 2px;
   }
 
   .hotel-experience-carousel-toolbar {
@@ -19213,7 +19218,7 @@ body {
   .hotel-experience-carousel-tabs {
     gap: 6px;
     margin-inline: 0;
-    padding: 2px 40px 2px 0;
+    padding: 3px 8px 6px 0;
   }
 
   .hotel-experience-carousel-tabs button {
