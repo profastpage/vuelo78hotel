@@ -13,6 +13,10 @@ type CurationSlide = {
 };
 
 type CurationRoom = {
+  details: {
+    features: CurationLocaleValue[];
+    price: CurationLocaleValue | null;
+  };
   folder: string;
   slug: string;
   title: CurationLocaleValue;
@@ -30,10 +34,9 @@ export type HotelRoomGallerySlide = {
 };
 
 export type HotelRoomGalleryEntry = {
-  ficha: {
-    alt: string;
-    jpgSrc: string;
-    webpSrc: string;
+  details: {
+    features: string[];
+    price: string | null;
   };
   folder: string;
   slug: string;
@@ -55,10 +58,9 @@ function localize(locale: HotelLocale, value: CurationLocaleValue) {
 
 export function getHotelRoomGallery(locale: HotelLocale): HotelRoomGalleryEntry[] {
   return ROOM_CURATIONS.map((room) => ({
-    ficha: {
-      alt: locale === "en" ? `${room.title.en} information card` : `Ficha descriptiva de ${normalizeHotelSpanishText(room.title.es)}`,
-      jpgSrc: toPublicAssetPath("assets", "gallery", "Nuestras habitaciones", room.folder, `${room.slug}-ficha.jpg`),
-      webpSrc: toPublicAssetPath("assets", "gallery", "Nuestras habitaciones", room.folder, `${room.slug}-ficha.webp`),
+    details: {
+      features: room.details.features.map((feature) => localize(locale, feature)),
+      price: room.details.price ? localize(locale, room.details.price) : null,
     },
     folder: room.folder,
     slug: room.slug,

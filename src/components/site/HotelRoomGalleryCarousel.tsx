@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { HotelLocale } from "@/lib/hotel-experience";
 import type { HotelRoomGallerySlide } from "@/lib/hotel-room-gallery";
@@ -114,19 +115,15 @@ export function HotelRoomGalleryCarousel({ locale, roomTitle, slides }: HotelRoo
             <figure className="hotel-room-carousel-slide" key={slide.id}>
               <div className="hotel-room-carousel-media">
                 {visibleIndexes.has(index) ? (
-                  <picture>
-                    <source sizes="(max-width: 860px) 100vw, 58vw" srcSet={slide.webpSrc} type="image/webp" />
-                    <img
-                      alt={slide.alt}
-                      className="hotel-room-carousel-image"
-                      decoding="async"
-                      draggable={false}
-                      fetchPriority={index === 0 ? "high" : "auto"}
-                      loading={index === 0 ? "eager" : "lazy"}
-                      sizes="(max-width: 860px) 100vw, 58vw"
-                      src={slide.jpgSrc}
-                    />
-                  </picture>
+                  <Image
+                    alt={slide.alt}
+                    className="hotel-room-carousel-image"
+                    draggable={false}
+                    fill
+                    loading={index === 0 ? "eager" : "lazy"}
+                    sizes="(max-width: 640px) 92vw, (max-width: 860px) 94vw, 58vw"
+                    src={slide.webpSrc}
+                  />
                 ) : (
                   <div aria-hidden="true" className="hotel-room-carousel-skeleton" />
                 )}

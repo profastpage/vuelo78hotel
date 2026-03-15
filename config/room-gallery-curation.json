@@ -11,6 +11,34 @@
         "es": "1 cama de 2 plazas, aire acondicionado y ducha con hidromasajes.",
         "en": "1 double bed, air conditioning and a hydromassage shower."
       },
+      "details": {
+        "price": {
+          "es": "S/ 129",
+          "en": "S/ 129"
+        },
+        "features": [
+          {
+            "es": "1 cama de 2 plazas.",
+            "en": "1 double bed."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar y ropero empotrado.",
+            "en": "Minibar and built-in wardrobe."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y agua fria/caliente.",
+            "en": "Spanish-style hydromassage shower with hot and cold water."
+          },
+          {
+            "es": "Espacio de trabajo con mesa, silla y WiFi.",
+            "en": "Work area with desk, chair and Wi-Fi."
+          }
+        ]
+      },
       "descriptiveSource": "165.JPG",
       "selected": [
         {
@@ -65,6 +93,31 @@
       "summary": {
         "es": "1 cama queen con iluminacion amplia y vista exterior.",
         "en": "1 queen bed with generous light and exterior view."
+      },
+      "details": {
+        "price": null,
+        "features": [
+          {
+            "es": "1 cama Queen.",
+            "en": "1 queen bed."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar y ropero empotrado.",
+            "en": "Minibar and built-in wardrobe."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y agua fria/caliente.",
+            "en": "Spanish-style hydromassage shower with hot and cold water."
+          },
+          {
+            "es": "Espacio de trabajo con mesa, silla y WiFi.",
+            "en": "Work area with desk, chair and Wi-Fi."
+          }
+        ]
       },
       "descriptiveSource": "E.JPG",
       "selected": [
@@ -121,6 +174,34 @@
         "es": "2 camas de plaza y media, escritorio y bano privado.",
         "en": "2 twin beds, desk area and private bathroom."
       },
+      "details": {
+        "price": {
+          "es": "S/ 179",
+          "en": "S/ 179"
+        },
+        "features": [
+          {
+            "es": "2 camas de plaza y media de 1.5 m.",
+            "en": "2 twin beds at 1.5 m."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar y ropero empotrado.",
+            "en": "Minibar and built-in wardrobe."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y agua fria/caliente.",
+            "en": "Spanish-style hydromassage shower with hot and cold water."
+          },
+          {
+            "es": "Espacio de trabajo con mesa, silla y WiFi.",
+            "en": "Work area with desk, chair and Wi-Fi."
+          }
+        ]
+      },
       "descriptiveSource": "A5.JPG",
       "selected": [
         {
@@ -175,6 +256,34 @@
       "summary": {
         "es": "1 cama queen, vista a la calle y espacio de trabajo.",
         "en": "1 queen bed, street view and workspace."
+      },
+      "details": {
+        "price": {
+          "es": "S/ 209",
+          "en": "S/ 209"
+        },
+        "features": [
+          {
+            "es": "1 cama Queen con vista a la calle.",
+            "en": "1 queen bed with street view."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar y ropero empotrado.",
+            "en": "Minibar and built-in wardrobe."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y agua fria/caliente.",
+            "en": "Spanish-style hydromassage shower with hot and cold water."
+          },
+          {
+            "es": "Espacio de trabajo, WiFi y mini kitchen con microondas y menaje.",
+            "en": "Work area, Wi-Fi and a mini kitchen with microwave and utensils."
+          }
+        ]
       },
       "descriptiveSource": "B4.JPG",
       "selected": [
@@ -231,6 +340,34 @@
         "es": "3 camas, buena iluminacion y distribucion amplia.",
         "en": "3 beds, bright lighting and a spacious layout."
       },
+      "details": {
+        "price": {
+          "es": "S/ 239",
+          "en": "S/ 239"
+        },
+        "features": [
+          {
+            "es": "3 camas de 1.05 m.",
+            "en": "3 beds at 1.05 m."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar y ropero empotrado.",
+            "en": "Minibar and built-in wardrobe."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y agua fria/caliente.",
+            "en": "Spanish-style hydromassage shower with hot and cold water."
+          },
+          {
+            "es": "Espacio de trabajo con mesa, silla y WiFi.",
+            "en": "Work area with desk, chair and Wi-Fi."
+          }
+        ]
+      },
       "descriptiveSource": "C6.JPG",
       "selected": [
         {
@@ -286,6 +423,34 @@
         "es": "1 cama queen y 1 cama de plaza y media con escritorio.",
         "en": "1 queen bed and 1 twin bed with a work desk."
       },
+      "details": {
+        "price": {
+          "es": "S/ 249",
+          "en": "S/ 249"
+        },
+        "features": [
+          {
+            "es": "1 cama Queen y 1 cama de plaza y media de 1.5 m.",
+            "en": "1 queen bed and 1 twin bed at 1.5 m."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar y ropero empotrado.",
+            "en": "Minibar and built-in wardrobe."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y agua fria/caliente.",
+            "en": "Spanish-style hydromassage shower with hot and cold water."
+          },
+          {
+            "es": "Espacio de trabajo, WiFi y mini kitchen con microondas y menaje.",
+            "en": "Work area, Wi-Fi and a mini kitchen with microwave and utensils."
+          }
+        ]
+      },
       "descriptiveSource": "D5.JPG",
       "selected": [
         {
@@ -332,6 +497,34 @@
       "summary": {
         "es": "1 cama queen, sofa, jacuzzi y zona complementaria.",
         "en": "1 queen bed, sofa, jacuzzi and extra support area."
+      },
+      "details": {
+        "price": {
+          "es": "S/ 269",
+          "en": "S/ 269"
+        },
+        "features": [
+          {
+            "es": "1 cama Queen y sofa para una estancia mas amplia.",
+            "en": "1 queen bed and sofa for a more spacious stay."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar, ropero empotrado y WiFi.",
+            "en": "Minibar, built-in wardrobe and Wi-Fi."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y jacuzzi privado.",
+            "en": "Spanish-style hydromassage shower and private jacuzzi."
+          },
+          {
+            "es": "Espacio de trabajo y mini kitchen con microondas y menaje.",
+            "en": "Work area and mini kitchen with microwave and utensils."
+          }
+        ]
       },
       "descriptiveSource": "E6.JPG",
       "selected": [
@@ -388,6 +581,31 @@
         "es": "1 cama queen 1.8 m, jacuzzi y sala de estar integrada.",
         "en": "1 queen bed 1.8 m, jacuzzi and integrated sitting area."
       },
+      "details": {
+        "price": null,
+        "features": [
+          {
+            "es": "1 cama Queen de 1.8 m con sala de estar integrada.",
+            "en": "1 queen bed at 1.8 m with an integrated lounge area."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar, ropero empotrado y WiFi.",
+            "en": "Minibar, built-in wardrobe and Wi-Fi."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes, jacuzzi y zona mas privada.",
+            "en": "Spanish-style hydromassage shower, jacuzzi and a more private layout."
+          },
+          {
+            "es": "Kitchenette y superficie de apoyo para una estancia premium.",
+            "en": "Kitchenette and support surface for a premium stay."
+          }
+        ]
+      },
       "descriptiveSource": "F4.JPG",
       "selected": [
         {
@@ -442,6 +660,34 @@
       "summary": {
         "es": "1 cama queen y 2 camas de plaza y media para grupos pequenos.",
         "en": "1 queen bed and 2 twin beds for small groups."
+      },
+      "details": {
+        "price": {
+          "es": "S/ 349",
+          "en": "S/ 349"
+        },
+        "features": [
+          {
+            "es": "1 cama Queen y 2 camas de plaza y media de 1.5 m.",
+            "en": "1 queen bed and 2 twin beds at 1.5 m."
+          },
+          {
+            "es": "Aire acondicionado y TV Smart con intercomunicador.",
+            "en": "Air conditioning and Smart TV with intercom."
+          },
+          {
+            "es": "Frigobar, ropero empotrado y WiFi.",
+            "en": "Minibar, built-in wardrobe and Wi-Fi."
+          },
+          {
+            "es": "Ducha espanola con hidromasajes y jacuzzi privado.",
+            "en": "Spanish-style hydromassage shower and private jacuzzi."
+          },
+          {
+            "es": "Espacio de trabajo y mini kitchen con microondas y menaje.",
+            "en": "Work area and mini kitchen with microwave and utensils."
+          }
+        ]
       },
       "descriptiveSource": "G5.JPG",
       "selected": [
