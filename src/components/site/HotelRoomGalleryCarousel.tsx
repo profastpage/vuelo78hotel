@@ -121,7 +121,7 @@ export function HotelRoomGalleryCarousel({ locale, roomTitle, slides }: HotelRoo
                     draggable={false}
                     fill
                     loading={index === 0 ? "eager" : "lazy"}
-                    sizes="(max-width: 640px) 92vw, (max-width: 860px) 94vw, 58vw"
+                    sizes="(max-width: 640px) 96vw, (max-width: 860px) 94vw, 72vw"
                     src={slide.webpSrc}
                   />
                 ) : (

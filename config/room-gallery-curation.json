@@ -11,6 +11,20 @@
         "es": "1 cama de 2 plazas, aire acondicionado y ducha con hidromasajes.",
         "en": "1 double bed, air conditioning and a hydromassage shower."
       },
+      "signatureWords": [
+        {
+          "es": "Intima",
+          "en": "Intimate"
+        },
+        {
+          "es": "Serena",
+          "en": "Serene"
+        },
+        {
+          "es": "Practica",
+          "en": "Practical"
+        }
+      ],
       "details": {
         "price": {
           "es": "S/ 129",
@@ -94,6 +108,20 @@
         "es": "1 cama queen con iluminacion amplia y vista exterior.",
         "en": "1 queen bed with generous light and exterior view."
       },
+      "signatureWords": [
+        {
+          "es": "Luminosa",
+          "en": "Bright"
+        },
+        {
+          "es": "Romantica",
+          "en": "Romantic"
+        },
+        {
+          "es": "Acogedora",
+          "en": "Welcoming"
+        }
+      ],
       "details": {
         "price": null,
         "features": [
@@ -174,6 +202,20 @@
         "es": "2 camas de plaza y media, escritorio y bano privado.",
         "en": "2 twin beds, desk area and private bathroom."
       },
+      "signatureWords": [
+        {
+          "es": "Flexible",
+          "en": "Flexible"
+        },
+        {
+          "es": "Amplia",
+          "en": "Spacious"
+        },
+        {
+          "es": "Funcional",
+          "en": "Functional"
+        }
+      ],
       "details": {
         "price": {
           "es": "S/ 179",
@@ -257,6 +299,20 @@
         "es": "1 cama queen, vista a la calle y espacio de trabajo.",
         "en": "1 queen bed, street view and workspace."
       },
+      "signatureWords": [
+        {
+          "es": "Elegante",
+          "en": "Elegant"
+        },
+        {
+          "es": "Urbana",
+          "en": "Urban"
+        },
+        {
+          "es": "Completa",
+          "en": "Complete"
+        }
+      ],
       "details": {
         "price": {
           "es": "S/ 209",
@@ -340,6 +396,20 @@
         "es": "3 camas, buena iluminacion y distribucion amplia.",
         "en": "3 beds, bright lighting and a spacious layout."
       },
+      "signatureWords": [
+        {
+          "es": "Espaciosa",
+          "en": "Spacious"
+        },
+        {
+          "es": "Versatil",
+          "en": "Versatile"
+        },
+        {
+          "es": "Grupal",
+          "en": "Group-ready"
+        }
+      ],
       "details": {
         "price": {
           "es": "S/ 239",
@@ -423,6 +493,20 @@
         "es": "1 cama queen y 1 cama de plaza y media con escritorio.",
         "en": "1 queen bed and 1 twin bed with a work desk."
       },
+      "signatureWords": [
+        {
+          "es": "Amplia",
+          "en": "Spacious"
+        },
+        {
+          "es": "Ejecutiva",
+          "en": "Executive"
+        },
+        {
+          "es": "Equilibrada",
+          "en": "Balanced"
+        }
+      ],
       "details": {
         "price": {
           "es": "S/ 249",
@@ -512,6 +596,20 @@
         "es": "1 cama queen, sofa, jacuzzi y zona complementaria.",
         "en": "1 queen bed, sofa, jacuzzi and extra support area."
       },
+      "signatureWords": [
+        {
+          "es": "Sofisticada",
+          "en": "Sophisticated"
+        },
+        {
+          "es": "Privada",
+          "en": "Private"
+        },
+        {
+          "es": "Relajante",
+          "en": "Relaxing"
+        }
+      ],
       "details": {
         "price": {
           "es": "S/ 269",
@@ -595,6 +693,20 @@
         "es": "1 cama queen 1.8 m, jacuzzi y sala de estar integrada.",
         "en": "1 queen bed 1.8 m, jacuzzi and integrated sitting area."
       },
+      "signatureWords": [
+        {
+          "es": "Exclusiva",
+          "en": "Exclusive"
+        },
+        {
+          "es": "Premium",
+          "en": "Premium"
+        },
+        {
+          "es": "Majestuosa",
+          "en": "Majestic"
+        }
+      ],
       "details": {
         "price": null,
         "features": [
@@ -675,6 +787,20 @@
         "es": "1 cama queen y 2 camas de plaza y media para grupos pequenos.",
         "en": "1 queen bed and 2 twin beds for small groups."
       },
+      "signatureWords": [
+        {
+          "es": "Familiar",
+          "en": "Family"
+        },
+        {
+          "es": "Generosa",
+          "en": "Generous"
+        },
+        {
+          "es": "Memorable",
+          "en": "Memorable"
+        }
+      ],
       "details": {
         "price": {
           "es": "S/ 349",

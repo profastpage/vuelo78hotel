@@ -18053,7 +18053,7 @@ body {
   position: relative;
   overflow: hidden;
   margin-top: clamp(18px, 2.6vw, 34px);
-  padding: clamp(24px, 3.4vw, 38px);
+  padding: clamp(26px, 3.8vw, 42px);
   border: 1px solid rgba(131, 101, 58, 0.11);
   border-radius: 34px;
   background:
@@ -18064,17 +18064,17 @@ body {
 
 .hotel-room-gallery-list {
   display: grid;
-  gap: clamp(18px, 2.4vw, 28px);
+  gap: clamp(18px, 2.6vw, 30px);
 }
 
 .hotel-room-gallery-card {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: 18px;
+  gap: clamp(18px, 2.5vw, 26px);
   min-width: 0;
-  padding: clamp(18px, 2.3vw, 26px);
-  border-radius: 28px;
+  padding: clamp(20px, 2.8vw, 30px);
+  border-radius: 30px;
   border: 1px solid rgba(136, 108, 69, 0.1);
   background:
     linear-gradient(180deg, rgba(255, 252, 247, 0.96), rgba(247, 241, 232, 0.92)),
@@ -18086,16 +18086,42 @@ body {
 
 .hotel-room-gallery-card-head {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
   min-width: 0;
 }
 
 .hotel-room-gallery-card-copy {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  align-items: flex-start;
   min-width: 0;
+}
+
+.hotel-room-gallery-word-mark {
+  display: grid;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 16px 18px;
+  border: 1px solid rgba(201, 164, 79, 0.24);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at top right, rgba(201, 164, 79, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(255, 252, 246, 0.96), rgba(246, 239, 226, 0.92));
+  box-shadow:
+    0 16px 32px rgba(78, 58, 31, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.84);
+}
+
+.hotel-room-gallery-word-mark span {
+  display: block;
+  color: #b08b4c;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  line-height: 1.14;
+  text-transform: uppercase;
 }
 
 .hotel-room-gallery-cta {
@@ -18104,8 +18130,8 @@ body {
 
 .hotel-room-gallery-card-body {
   display: grid;
-  grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
-  gap: clamp(18px, 2.2vw, 24px);
+  grid-template-columns: minmax(0, 0.28fr) minmax(0, 0.72fr);
+  gap: clamp(20px, 2.6vw, 30px);
   min-width: 0;
   align-items: start;
 }
@@ -18154,12 +18180,6 @@ body {
   color: #6f6557;
 }
 
-.hotel-room-carousel-media {
-  position: relative;
-  overflow: hidden;
-  min-width: 0;
-  border-radius: 22px;
-  background: linear-gradient(180deg, rgba(238, 226, 208, 0.9), rgba(245, 240, 232, 0.98));
 .hotel-room-carousel-image {
   display: block;
   width: 100%;
@@ -18211,8 +18231,9 @@ body {
 
 .hotel-room-carousel {
   display: grid;
-  gap: 14px;
+  gap: 16px;
   min-width: 0;
+  align-content: start;
 }
 
 .hotel-room-carousel-head {
@@ -18220,10 +18241,15 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  padding-inline: 4px;
 }
 
 .hotel-room-carousel-head strong {
   color: #173f7b;
+}
+
+.hotel-room-carousel-head p {
+  font-size: 1rem;
 }
 
 .hotel-room-carousel-controls {
@@ -18235,8 +18261,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border: 1px solid rgba(23, 63, 123, 0.12);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.86);
@@ -18257,9 +18283,12 @@ body {
 .hotel-room-carousel-viewport {
   overflow: hidden;
   min-width: 0;
-  border-radius: 28px;
+  border-radius: 30px;
   border: 1px solid rgba(136, 108, 69, 0.1);
   background: rgba(255, 255, 255, 0.74);
+  box-shadow:
+    0 26px 44px rgba(67, 49, 25, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.76);
   touch-action: pan-y;
 }
 
@@ -18273,14 +18302,19 @@ body {
 .hotel-room-carousel-slide {
   flex: 0 0 100%;
   display: grid;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
   margin: 0;
-  padding: 10px;
+  padding: 12px;
 }
 
 .hotel-room-carousel-media {
-  aspect-ratio: 16 / 10.4;
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  aspect-ratio: 16 / 9.2;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(238, 226, 208, 0.9), rgba(245, 240, 232, 0.98));
 }
 
 .hotel-room-carousel-skeleton {
@@ -18296,7 +18330,7 @@ body {
 .hotel-room-carousel-dots {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
 }
 
@@ -18315,6 +18349,11 @@ body {
 .hotel-room-carousel-dots button.is-active {
   background: #173f7b;
   transform: scale(1.16);
+}
+
+.hotel-room-carousel-slide figcaption {
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
 }
 
 @keyframes hotel-room-gallery-shimmer {
@@ -18339,40 +18378,60 @@ body {
   }
 }
 
+@media (max-width: 1080px) {
+  .hotel-room-gallery-card-body {
+    grid-template-columns: minmax(0, 0.32fr) minmax(0, 0.68fr);
+  }
+}
+
 @media (max-width: 860px) {
-  .hotel-room-gallery-card-head,
-  .hotel-room-carousel-head {
+  .hotel-room-gallery-card-head {
     flex-direction: column;
     align-items: stretch;
   }
 
   .hotel-room-gallery-card-body {
     grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
   }
 
   .hotel-room-carousel-controls {
     display: none;
   }
 
-  .hotel-room-carousel-slide {
-    padding: 8px;
+  .hotel-room-carousel {
+    order: -1;
+    margin-inline: -4px;
+  }
+
+  .hotel-room-gallery-details {
+    padding: 18px 16px;
+  }
+
+  .hotel-room-carousel-head {
+    padding-inline: 8px;
   }
 }
 
 @media (max-width: 640px) {
   .hotel-room-gallery-section {
-    padding: 18px 10px;
+    padding: 18px 8px;
     border-radius: 28px;
   }
 
   .hotel-room-gallery-card {
-    padding: 16px 10px;
+    padding: 14px 8px 16px;
     border-radius: 24px;
   }
 
-  .hotel-room-carousel-viewport,
-  .hotel-room-carousel-media {
-    border-radius: 18px;
+  .hotel-room-gallery-word-mark {
+    padding: 14px 16px;
+    border-radius: 22px;
+  }
+
+  .hotel-room-gallery-word-mark span {
+    font-size: 0.73rem;
+    letter-spacing: 0.2em;
   }
 
   .hotel-room-gallery-details {
@@ -18390,19 +18449,25 @@ body {
   }
 
   .hotel-room-carousel {
-    gap: 10px;
+    gap: 12px;
+    margin-inline: -6px;
   }
 
-  .hotel-room-carousel-viewport {
-    margin-inline: -2px;
+  .hotel-room-carousel-head {
+    padding-inline: 8px;
   }
 
   .hotel-room-carousel-slide {
-    padding: 4px;
+    padding: 6px;
+  }
+
+  .hotel-room-carousel-viewport {
+    border-radius: 22px;
   }
 
   .hotel-room-carousel-media {
-    aspect-ratio: 16 / 11.6;
+    aspect-ratio: 16 / 10;
+    border-radius: 20px;
   }
 
   .hotel-room-carousel-dots {

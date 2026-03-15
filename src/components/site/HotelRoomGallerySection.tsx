@@ -56,7 +56,11 @@ export function HotelRoomGallerySection({
           <article className="hotel-room-gallery-card" id={room.slug} key={room.slug}>
             <div className="hotel-room-gallery-card-head">
               <div className="hotel-room-gallery-card-copy">
-                <span className="scene-chip scene-chip-inline">{room.summary}</span>
+                <div className="hotel-room-gallery-word-mark" aria-label={`${room.title}: signature words`}>
+                  {room.signatureWords.slice(0, 3).map((word) => (
+                    <span key={`${room.slug}-${word}`}>{word}</span>
+                  ))}
+                </div>
               </div>
               <a className="primary-button hotel-room-gallery-cta" href={room.reservationHref}>
                 {copy.cta}

@@ -25,6 +25,7 @@ type CurationRoom = {
   };
   folder: string;
   slug: string;
+  signatureWords: CurationLocaleValue[];
   title: CurationLocaleValue;
   summary: CurationLocaleValue;
   descriptiveSource: string;
@@ -45,6 +46,7 @@ export type HotelRoomGalleryEntry = {
     price: string | null;
   };
   folder: string;
+  signatureWords: string[];
   slug: string;
   slides: HotelRoomGallerySlide[];
   summary: string;
@@ -69,6 +71,7 @@ export function getHotelRoomGallery(locale: HotelLocale): HotelRoomGalleryEntry[
       price: room.details.price ? localize(locale, room.details.price) : null,
     },
     folder: room.folder,
+    signatureWords: room.signatureWords.map((word) => localize(locale, word)),
     slug: room.slug,
     slides: room.selected.map((slide, index) => {
       const sequence = String(index + 1).padStart(2, "0");
