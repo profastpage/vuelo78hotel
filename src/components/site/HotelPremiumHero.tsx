@@ -92,6 +92,66 @@ export function HotelPremiumHero({
           </article>
         ))}
       </div>
+
+      <style jsx global>{`
+        .page-shell.mode-reference-clone-hotel .hotel-home-hero-actions {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 248px));
+          justify-content: center;
+          gap: 12px;
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        .page-shell.mode-reference-clone-hotel .hotel-home-hero-primary,
+        .page-shell.mode-reference-clone-hotel .hotel-home-hero-actions .secondary-button {
+          width: 100%;
+          min-width: 0;
+          min-height: 56px;
+          padding-inline: 22px;
+          justify-content: center;
+        }
+
+        .page-shell.mode-reference-clone-hotel .hotel-home-hero-primary {
+          box-shadow:
+            0 18px 32px rgba(31, 74, 48, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.16);
+        }
+
+        .page-shell.mode-reference-clone-hotel .hotel-deluxe-ghost-button {
+          background: rgba(244, 233, 214, 0.04);
+          border-color: rgba(244, 231, 208, 0.38);
+          color: #fff8ee;
+          box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 12px 22px rgba(7, 10, 12, 0.08);
+          backdrop-filter: blur(10px);
+        }
+
+        .page-shell.mode-reference-clone-hotel .hotel-home-reservation-card-inline {
+          margin-top: 30px;
+        }
+
+        @media (max-width: 860px) {
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-actions {
+            grid-template-columns: 1fr;
+            justify-items: center;
+            gap: 10px;
+            margin-top: 8px;
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-primary,
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-actions .secondary-button {
+            width: min(85%, 320px);
+            min-height: 54px;
+            padding-inline: 20px;
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-reservation-card-inline {
+            margin-top: 24px;
+          }
+        }
+      `}</style>
     </section>
   );
 }
