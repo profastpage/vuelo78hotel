@@ -19567,3 +19567,66 @@ body {
   }
 }
 
+@media (max-width: 640px) {
+  .page-shell.mode-reference-clone-hotel {
+    --hotel-mobile-inline-gutter: clamp(16px, 4.8vw, 20px);
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-shell {
+    width: calc(100% - (var(--hotel-mobile-inline-gutter) * 2));
+    max-width: 100%;
+    margin-inline: auto;
+    padding: 0 0 52px;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-experience,
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-rooms,
+  .page-shell.mode-reference-clone-hotel .hotel-home-testimonials,
+  .page-shell.mode-reference-clone-hotel .hotel-home-location,
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-booking-cta,
+  .page-shell.mode-reference-clone-hotel .hotel-social-section,
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-footer,
+  .hotel-room-gallery-section {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-home-testimonials {
+    padding-inline: var(--hotel-mobile-inline-gutter);
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-home-location {
+    padding-inline: 0;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-home-testimonial-carousel-shell,
+  .page-shell.mode-reference-clone-hotel .hotel-home-location-heading,
+  .page-shell.mode-reference-clone-hotel .hotel-home-location-grid,
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-booking-cta-shell,
+  .page-shell.mode-reference-clone-hotel .hotel-social-shell,
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-footer-logo-link,
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-footer-copy {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-booking-cta-shell {
+    padding-inline: var(--hotel-mobile-inline-gutter);
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-home-location-card {
+    padding-inline: var(--hotel-mobile-inline-gutter);
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-social-shell,
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-footer {
+    padding-inline: 0;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-deluxe-footer-copy {
+    width: min(100%, 34ch);
+  }
+}
+
