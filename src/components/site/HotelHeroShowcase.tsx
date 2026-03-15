@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useEffectEvent, useState } from "react";
+import { useEffect, useEffectEvent, useState, type CSSProperties } from "react";
 import type { ImagePosition } from "@/types/site";
 
 export type HotelHeroSlide = {
   title: string;
   subtitle: string;
   imageSrc: string;
+  fallbackSrc?: string;
   imagePosition?: ImagePosition;
 };
 
@@ -38,8 +39,20 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
           <div
             className={`hotel-reference-hero-slide${index === activeIndex ? " is-active" : ""}`}
             key={`${slide.imageSrc}-${index}`}
-            style={getSlideStyle(slide.imageSrc, slide.imagePosition)}
-          />
+            style={getSlideStyle(slide.imagePosition)}
+          >
+            <picture className="hotel-reference-hero-slide-picture">
+              {slide.imageSrc.toLowerCase().endsWith(".webp") ? <source srcSet={slide.imageSrc} type="image/webp" /> : null}
+              <img
+                alt=""
+                className="hotel-reference-hero-slide-media"
+                decoding="async"
+                fetchPriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? "eager" : "lazy"}
+                src={slide.fallbackSrc || slide.imageSrc}
+              />
+            </picture>
+          </div>
         ))}
       </div>
 
@@ -60,12 +73,11 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
   );
 }
 
-function getSlideStyle(imageSrc: string, position?: ImagePosition) {
+function getSlideStyle(position?: ImagePosition) {
   const x = typeof position?.x === "number" ? position.x : 50;
   const y = typeof position?.y === "number" ? position.y : 50;
 
   return {
-    backgroundImage: `url("${imageSrc}")`,
-    backgroundPosition: `${x}% ${y}%`,
-  };
+    ["--hero-image-position" as const]: `${x}% ${y}%`,
+  } as CSSProperties;
 }

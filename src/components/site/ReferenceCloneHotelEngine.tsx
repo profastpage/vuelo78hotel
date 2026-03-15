@@ -91,10 +91,18 @@ export function ReferenceCloneHotelEngine({
   const services = getVisibleServices(localizedContent);
   const testimonials = getVisibleTestimonials(localizedContent).slice(0, 3);
   const bookingWidget = resolveBookingWidget(localizedContent, profile);
-  const heroImage = localizedContent.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
+  const curatedHeroSlides = buildCuratedHeroSlides(localizedContent);
+  const heroImage =
+    curatedHeroSlides[0]?.imageSrc || localizedContent.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
   const heroImagePosition =
-    localizedContent.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
-  const heroSlides = buildHeroSlides(localizedContent, services, galleryItems, heroImage, heroImagePosition);
+    curatedHeroSlides[0]?.imagePosition ||
+    localizedContent.brand.heroImagePosition ||
+    galleryItems[0]?.imagePosition ||
+    services[0]?.imagePosition;
+  const heroSlides =
+    curatedHeroSlides.length > 0
+      ? curatedHeroSlides
+      : buildHeroSlides(localizedContent, services, galleryItems, heroImage, heroImagePosition);
   const contactPhone = normalizeHotelPhone(localizedContent.contact.whatsappNumber || profile.brandConfig.whatsappNumber);
   const cityLabel = getCityLabel(localizedContent.location?.city);
   const displayBrandName = getDisplayBrandName(localizedContent.brand.name);
@@ -364,6 +372,34 @@ function buildHeroSlides(
   ].filter((item) => Boolean(item.imageSrc));
 
   return Array.from(new Map(candidates.map((item) => [item.imageSrc, item])).values()).slice(0, 4);
+}
+
+function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
+  const fallbackDescription = content.brand.description;
+
+  return [
+    {
+      title: content.brand.name,
+      subtitle: fallbackDescription,
+      imageSrc: "/assets/hero/hero-main.webp",
+      fallbackSrc: "/assets/hero/hero-main.jpg",
+      imagePosition: { x: 56, y: 54 },
+    },
+    {
+      title: "Suite principal",
+      subtitle: "Habitacion amplia y luminosa",
+      imageSrc: "/assets/hero/hero-suite.webp",
+      fallbackSrc: "/assets/hero/hero-suite.jpg",
+      imagePosition: { x: 52, y: 50 },
+    },
+    {
+      title: "Llegada al hotel",
+      subtitle: "Arquitectura y acceso principal",
+      imageSrc: "/assets/hero/hero-arrival.webp",
+      fallbackSrc: "/assets/hero/hero-arrival.jpg",
+      imagePosition: { x: 52, y: 48 },
+    },
+  ];
 }
 
 function getCityLabel(value?: string) {
