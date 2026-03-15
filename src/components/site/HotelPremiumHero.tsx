@@ -23,7 +23,9 @@ type HotelPremiumHeroProps = {
   heroHeadline: string;
   heroTag: string;
   locale: HotelLocale;
+  onSelectedRoomChange?: (roomId: string) => void;
   reservationHref: string;
+  selectedRoomId?: string;
   slides: HotelHeroSlide[];
 };
 
@@ -37,7 +39,9 @@ export function HotelPremiumHero({
   heroHeadline,
   heroTag,
   locale,
+  onSelectedRoomChange,
   reservationHref,
+  selectedRoomId,
   slides,
 }: HotelPremiumHeroProps) {
   const ui = getHotelUi(locale);
@@ -76,7 +80,14 @@ export function HotelPremiumHero({
                 <span className="hotel-deluxe-booking-kicker">{ui.hero.bookingKicker}</span>
                 <p>{ui.hero.bookingDescription}</p>
               </div>
-              <HotelBookingBar bookingWidget={bookingWidget} brandName={brandName} contactPhone={contactPhone} locale={locale} />
+              <HotelBookingBar
+                bookingWidget={bookingWidget}
+                brandName={brandName}
+                contactPhone={contactPhone}
+                locale={locale}
+                onSelectedRoomChange={onSelectedRoomChange}
+                selectedRoomId={selectedRoomId}
+              />
             </div>
           </div>
         </div>
@@ -129,7 +140,7 @@ export function HotelPremiumHero({
         }
 
         .page-shell.mode-reference-clone-hotel .hotel-home-reservation-card-inline {
-          margin-top: 30px;
+          margin-top: 42px;
         }
 
         @media (max-width: 860px) {
@@ -148,7 +159,7 @@ export function HotelPremiumHero({
           }
 
           .page-shell.mode-reference-clone-hotel .hotel-home-reservation-card-inline {
-            margin-top: 24px;
+            margin-top: 30px;
           }
         }
       `}</style>

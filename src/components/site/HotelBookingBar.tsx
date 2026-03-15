@@ -13,6 +13,8 @@ type HotelBookingBarProps = {
   compact?: boolean;
   hideNotes?: boolean;
   onSubmitComplete?: () => void;
+  onSelectedRoomChange?: (roomId: string) => void;
+  selectedRoomId?: string;
 };
 
 export function HotelBookingBar({
@@ -23,12 +25,14 @@ export function HotelBookingBar({
   compact = false,
   hideNotes = false,
   onSubmitComplete,
+  onSelectedRoomChange,
+  selectedRoomId,
 }: HotelBookingBarProps) {
   const ui = getHotelUi(locale);
   const options = bookingWidget.options?.length ? bookingWidget.options : [];
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [roomId, setRoomId] = useState(options[0]?.id ?? "");
+  const [roomId, setRoomId] = useState(selectedRoomId || options[0]?.id || "");
   const [guests, setGuests] = useState(bookingWidget.quantityOptions?.[1] || bookingWidget.quantityOptions?.[0] || "2");
   const [notes, setNotes] = useState("");
 
@@ -61,6 +65,16 @@ export function HotelBookingBar({
       setRoomId(options[0].id);
     }
   }, [options, roomId]);
+
+  useEffect(() => {
+    if (!selectedRoomId || selectedRoomId === roomId) {
+      return;
+    }
+
+    if (options.some((option) => option.id === selectedRoomId)) {
+      setRoomId(selectedRoomId);
+    }
+  }, [options, roomId, selectedRoomId]);
 
   useEffect(() => {
     if (!checkIn || !checkOut) {
@@ -126,7 +140,12 @@ export function HotelBookingBar({
     event: React.ChangeEvent<HTMLSelectElement>,
     updateValue: (value: string) => void,
   ) {
-    updateValue(event.target.value);
+    const nextValue = event.target.value;
+    updateValue(nextValue);
+
+    if (event.target === roomSelectRef.current) {
+      onSelectedRoomChange?.(nextValue);
+    }
 
     window.setTimeout(() => {
       event.currentTarget.blur();

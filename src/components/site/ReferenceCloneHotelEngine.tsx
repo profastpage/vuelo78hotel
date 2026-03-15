@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { HotelFloatingCta } from "./HotelFloatingCta";
 import { HotelPremiumAmenities } from "./HotelPremiumAmenities";
-import { HotelPremiumBookingCta } from "./HotelPremiumBookingCta";
 import { HotelPremiumExperienceGallery } from "./HotelPremiumExperienceGallery";
 import { HotelPremiumFooter } from "./HotelPremiumFooter";
 import { HotelPremiumHeader } from "./HotelPremiumHeader";
@@ -32,7 +31,7 @@ import {
 } from "@/lib/hotel-experience";
 import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
 import { getHotelExperienceGallery } from "@/lib/hotel-experience-gallery";
-import { getHotelRoomGallery } from "@/lib/hotel-room-gallery";
+import { getHotelRoomGallery, type HotelRoomGalleryEntry } from "@/lib/hotel-room-gallery";
 
 type ReferenceCloneHotelEngineProps = {
   profile: ClientProfile;
@@ -72,6 +71,48 @@ export function ReferenceCloneHotelEngine({
   const localizedContent = localizeHotelContent(content, locale);
   const ui = getHotelUi(locale);
   const pages = HOTEL_VISIBLE_NAV_ITEMS;
+  const curatedRooms = getHotelRoomGallery(locale);
+  const bookingWidget = syncBookingWidgetWithRooms(resolveBookingWidget(localizedContent, profile), curatedRooms, locale);
+  const [selectedBookingRoomId, setSelectedBookingRoomId] = useState(bookingWidget.options[0]?.id || "");
+  const [isFloatingBookingOpen, setIsFloatingBookingOpen] = useState(false);
+
+  useEffect(() => {
+    if (!selectedBookingRoomId && bookingWidget.options[0]?.id) {
+      setSelectedBookingRoomId(bookingWidget.options[0].id);
+      return;
+    }
+
+    if (selectedBookingRoomId && bookingWidget.options.some((option) => option.id === selectedBookingRoomId)) {
+      return;
+    }
+
+    setSelectedBookingRoomId(bookingWidget.options[0]?.id || "");
+  }, [bookingWidget.options, selectedBookingRoomId]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || activePage !== "hotel") {
+      return;
+    }
+
+    const nextUrl = `${window.location.pathname}${window.location.search}`;
+    if (window.location.hash) {
+      window.history.replaceState(null, "", nextUrl);
+    }
+
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+
+    const frameId = window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
+  }, [activePage]);
 
   if (activePage !== "hotel") {
     return (
@@ -91,7 +132,6 @@ export function ReferenceCloneHotelEngine({
   const galleryItems = getGalleryItems(localizedContent, profile.industry);
   const services = getVisibleServices(localizedContent);
   const testimonials = getVisibleTestimonials(localizedContent).slice(0, 3);
-  const bookingWidget = resolveBookingWidget(localizedContent, profile);
   const curatedHeroSlides = buildCuratedHeroSlides(localizedContent);
   const heroImage =
     curatedHeroSlides[0]?.imageSrc || localizedContent.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
@@ -127,13 +167,7 @@ export function ReferenceCloneHotelEngine({
     intent: "location",
     sourceLabel: ui.location.title,
   });
-  const bookingSectionHref = buildHotelWhatsAppHrefV2({
-    locale,
-    hotelName: displayBrandName,
-    intent: "booking-cta",
-    sourceLabel: locale === "en" ? "Final booking block" : "Bloque final de reserva",
-  });
-  const curatedRooms = getHotelRoomGallery(locale).map((room) => ({
+  const curatedRoomsWithLinks = curatedRooms.map((room) => ({
     ...room,
     reservationHref: buildHotelWhatsAppHrefV2({
       locale,
@@ -174,6 +208,11 @@ export function ReferenceCloneHotelEngine({
     })),
   ].filter((item) => item.imageSrc);
 
+  const handleReserveRoom = (room: HotelRoomGalleryEntry) => {
+    setSelectedBookingRoomId(room.slug);
+    setIsFloatingBookingOpen(true);
+  };
+
   return (
     <>
       <div className="hotel-deluxe-shell">
@@ -198,7 +237,9 @@ export function ReferenceCloneHotelEngine({
           heroHeadline={localizedContent.brand.headline || t(locale, "Bienvenido a Vuelo 78 Hotel", "Welcome to Vuelo 78 Hotel")}
           heroTag={localizedContent.brand.heroTag || t(locale, "Hotel en Tarapoto", "Hotel in Tarapoto")}
           locale={locale}
+          onSelectedRoomChange={setSelectedBookingRoomId}
           reservationHref={heroReservationHref}
+          selectedRoomId={selectedBookingRoomId}
           slides={heroSlides}
         />
 
@@ -207,7 +248,8 @@ export function ReferenceCloneHotelEngine({
         <HotelRoomGallerySection
           eyebrow={ui.rooms.eyebrow}
           locale={locale}
-          rooms={curatedRooms}
+          onReserveRoom={handleReserveRoom}
+          rooms={curatedRoomsWithLinks}
           sectionId="habitaciones"
           summary={t(
             locale,
@@ -257,17 +299,6 @@ export function ReferenceCloneHotelEngine({
           />
         ) : null}
 
-        <HotelPremiumBookingCta
-          description={t(
-            locale,
-            "Consulta disponibilidad y recibe confirmacion rapida por WhatsApp.",
-            "Check availability and receive a fast confirmation on WhatsApp.",
-          )}
-          href={bookingSectionHref}
-          locale={locale}
-          title={t(locale, "Reserva directa por WhatsApp", "Direct booking via WhatsApp")}
-        />
-
         <HotelSocialLinksSection locale={locale} />
 
         <HotelPremiumFooter
@@ -283,9 +314,13 @@ export function ReferenceCloneHotelEngine({
         bookingWidget={bookingWidget}
         brandName={displayBrandName}
         contactPhone={contactPhone}
+        isOpen={isFloatingBookingOpen}
         label={ui.floating.label}
         locale={locale}
         note={ui.floating.note}
+        onOpenChange={setIsFloatingBookingOpen}
+        onSelectedRoomChange={setSelectedBookingRoomId}
+        selectedRoomId={selectedBookingRoomId}
       />
     </>
   );
@@ -311,6 +346,33 @@ function buildAmenities(content: SiteContent) {
 
 function buildHeroDescription(content: SiteContent, cityLabel: string) {
   return content.brand.description || `Descansa en ${cityLabel} con habitaciones comodas y reserva directa por WhatsApp.`;
+}
+
+function syncBookingWidgetWithRooms(
+  bookingWidget: NonNullable<SiteContent["bookingWidget"]>,
+  rooms: HotelRoomGalleryEntry[],
+  locale: HotelLocale,
+): NonNullable<SiteContent["bookingWidget"]> {
+  const fallbackRateLabel = locale === "en" ? "per night" : "por noche";
+  const fallbackStayLabel = locale === "en" ? "Flexible stay" : "Estadia flexible";
+  const fallbackPrice = locale === "en" ? "Direct rate" : "Tarifa directa";
+  const fallbackBadge = locale === "en" ? "Selected room" : "Habitacion elegida";
+
+  return {
+    ...bookingWidget,
+    options: rooms.map((room, index) => ({
+      id: room.slug,
+      label: room.title,
+      roomType: room.title,
+      price: room.details.price || fallbackPrice,
+      rateLabel: fallbackRateLabel,
+      stayLabel: fallbackStayLabel,
+      summary: room.summary,
+      perks: room.details.features.slice(0, 4),
+      badge: room.signatureWords[0] || fallbackBadge,
+      highlighted: index === 0,
+    })),
+  };
 }
 
 function buildHeroSlides(

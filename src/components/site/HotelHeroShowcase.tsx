@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useEffectEvent, useState, type CSSProperties } from "react";
 import type { ImagePosition } from "@/types/site";
 
@@ -42,19 +43,17 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
             key={`${slide.imageSrc}-${index}`}
             style={getSlideStyle(slide.imagePosition, slide.mobileImagePosition)}
           >
-            <picture className="hotel-reference-hero-slide-picture">
-              {slide.imageSrc.toLowerCase().endsWith(".webp") ? <source srcSet={slide.imageSrc} type="image/webp" /> : null}
-              <img
+            <span className="hotel-reference-hero-slide-picture">
+              <Image
                 alt=""
                 className="hotel-reference-hero-slide-media"
-                decoding="async"
-                fetchPriority={index === 0 ? "high" : "auto"}
-                height={1350}
-                loading={index === 0 ? "eager" : "lazy"}
+                fill
+                priority={index === 0}
+                quality={95}
+                sizes="100vw"
                 src={slide.fallbackSrc || slide.imageSrc}
-                width={2400}
               />
-            </picture>
+            </span>
           </div>
         ))}
       </div>

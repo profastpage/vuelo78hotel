@@ -1,7 +1,7 @@
 "use client";
 
 import { CalendarDays, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { SiteContent } from "@/types/site";
 import { HotelBookingBar } from "./HotelBookingBar";
 import { getHotelUi, type HotelLocale } from "@/lib/hotel-experience";
@@ -10,20 +10,27 @@ type HotelFloatingCtaProps = {
   bookingWidget: NonNullable<SiteContent["bookingWidget"]>;
   brandName: string;
   contactPhone: string;
+  isOpen: boolean;
   label: string;
   locale: HotelLocale;
   note: string;
+  onOpenChange: (open: boolean) => void;
+  onSelectedRoomChange?: (roomId: string) => void;
+  selectedRoomId?: string;
 };
 
 export function HotelFloatingCta({
   bookingWidget,
   brandName,
   contactPhone,
+  isOpen,
   label,
   locale,
   note,
+  onOpenChange,
+  onSelectedRoomChange,
+  selectedRoomId,
 }: HotelFloatingCtaProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const shellRef = useRef<HTMLDivElement>(null);
   const ui = getHotelUi(locale);
 
@@ -34,13 +41,13 @@ export function HotelFloatingCta({
 
     const handlePointerDown = (event: MouseEvent | TouchEvent) => {
       if (!shellRef.current?.contains(event.target as Node)) {
-        setIsOpen(false);
+        onOpenChange(false);
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsOpen(false);
+        onOpenChange(false);
       }
     };
 
@@ -53,7 +60,7 @@ export function HotelFloatingCta({
       document.removeEventListener("touchstart", handlePointerDown);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, onOpenChange]);
 
   return (
     <div className={`hotel-reference-mobile-float${isOpen ? " is-open" : ""}`} ref={shellRef}>
@@ -62,7 +69,7 @@ export function HotelFloatingCta({
         aria-expanded={isOpen}
         aria-label={isOpen ? ui.floating.close : `${label}. ${note}`}
         className="hotel-reference-mobile-float-trigger"
-        onClick={() => setIsOpen((current) => !current)}
+        onClick={() => onOpenChange(!isOpen)}
         type="button"
       >
         <span className="hotel-reference-mobile-float-word" aria-hidden="true">
@@ -91,7 +98,7 @@ export function HotelFloatingCta({
             <button
               aria-label={ui.floating.close}
               className="hotel-reference-mobile-float-close"
-              onClick={() => setIsOpen(false)}
+              onClick={() => onOpenChange(false)}
               type="button"
             >
               <X size={16} strokeWidth={2.2} />
@@ -105,7 +112,9 @@ export function HotelFloatingCta({
             contactPhone={contactPhone}
             hideNotes
             locale={locale}
-            onSubmitComplete={() => setIsOpen(false)}
+            onSelectedRoomChange={onSelectedRoomChange}
+            onSubmitComplete={() => onOpenChange(false)}
+            selectedRoomId={selectedRoomId}
           />
         </div>
       ) : null}
