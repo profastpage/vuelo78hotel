@@ -1,7 +1,7 @@
- "use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Facebook, Instagram, Music2 } from "lucide-react";
+import Image from "next/image";
 import type { HotelLocale } from "@/lib/hotel-experience";
 
 type HotelSocialLinksSectionProps = {
@@ -10,21 +10,18 @@ type HotelSocialLinksSectionProps = {
 
 const SOCIAL_LINKS = [
   {
-    emoji: "📘",
     href: "https://www.facebook.com/vuelo78hoteltarapoto",
-    icon: Facebook,
+    iconSrc: "/assets/social/facebook.svg",
     label: "Facebook",
   },
   {
-    emoji: "📸",
     href: "https://www.instagram.com/vuelo78hotel/",
-    icon: Instagram,
+    iconSrc: "/assets/social/instagram.svg",
     label: "Instagram",
   },
   {
-    emoji: "🎵",
     href: "https://www.tiktok.com/@vuelo78hoteltarapoto",
-    icon: Music2,
+    iconSrc: "/assets/social/tiktok.svg",
     label: "TikTok",
   },
 ] as const;
@@ -68,32 +65,42 @@ export function HotelSocialLinksSection({ locale }: HotelSocialLinksSectionProps
       ref={sectionRef}
     >
       <div className="hotel-social-shell">
-        <span className="hotel-social-kicker" id="hotel-social-heading">
+        <h2 className="hotel-social-kicker" id="hotel-social-heading">
           Síguenos
-        </span>
+        </h2>
+        <span aria-hidden="true" className="hotel-social-divider" />
 
-        <div className="hotel-social-links" role="list" aria-label={locale === "en" ? "Hotel social links" : "Redes sociales del hotel"}>
-          {SOCIAL_LINKS.map((item) => {
-            const Icon = item.icon;
-
-            return (
-              <a
-                className="hotel-social-link"
-                href={item.href}
-                key={item.label}
-                rel="noreferrer"
-                role="listitem"
-                target="_blank"
-                aria-label={`${ariaPrefix} ${item.label}`}
-              >
-                <span aria-hidden="true" className="hotel-social-emoji">
-                  {item.emoji}
-                </span>
-                <Icon aria-hidden="true" className="hotel-social-icon" strokeWidth={1.8} />
-                <span className="hotel-social-label">{item.label}</span>
-              </a>
-            );
-          })}
+        <div
+          className="hotel-social-links"
+          role="list"
+          aria-label={locale === "en" ? "Hotel social links" : "Redes sociales del hotel"}
+        >
+          {SOCIAL_LINKS.map((item) => (
+            <a
+              aria-label={`${ariaPrefix} ${item.label}`}
+              className="hotel-social-link"
+              href={item.href}
+              key={item.label}
+              rel="noreferrer"
+              role="listitem"
+              target="_blank"
+            >
+              <span className="hotel-social-icon-frame">
+                <Image
+                  alt=""
+                  aria-hidden="true"
+                  className="hotel-social-icon-image"
+                  decoding="async"
+                  height={64}
+                  loading="lazy"
+                  sizes="64px"
+                  src={item.iconSrc}
+                  width={64}
+                />
+              </span>
+              <span className="hotel-social-label">{item.label}</span>
+            </a>
+          ))}
         </div>
       </div>
     </section>
