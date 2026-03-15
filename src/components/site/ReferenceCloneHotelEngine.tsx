@@ -31,6 +31,7 @@ import {
   type HotelLocale,
 } from "@/lib/hotel-experience";
 import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
+import { getHotelExperienceGallery } from "@/lib/hotel-experience-gallery";
 import { getHotelRoomGallery } from "@/lib/hotel-room-gallery";
 
 type ReferenceCloneHotelEngineProps = {
@@ -147,7 +148,7 @@ export function ReferenceCloneHotelEngine({
     icon: benefitIcons[index] || "reception",
     label,
   }));
-  const experienceGalleryItems = buildExperienceGalleryItems(services, galleryItems, heroImage, heroImagePosition);
+  const experienceGalleryItems = getHotelExperienceGallery(locale);
   const amenities = buildAmenities(localizedContent);
   const locationMedia = [
     {
@@ -295,48 +296,6 @@ function buildAmenities(content: SiteContent) {
     ...item,
     description: content.highlights[index] || item.description,
   }));
-}
-
-function buildExperienceGalleryItems(
-  services: SiteContent["services"],
-  galleryItems: ReturnType<typeof getGalleryItems>,
-  heroImage: string,
-  heroImagePosition: SiteContent["brand"]["heroImagePosition"],
-) {
-  const candidates = [
-    {
-      title: "Piscina y descanso tropical",
-      subtitle: "Piscina",
-      imageSrc: galleryItems[2]?.imageSrc || services[1]?.imageSrc || heroImage,
-      imagePosition: galleryItems[2]?.imagePosition || services[1]?.imagePosition || heroImagePosition,
-    },
-    {
-      title: "Habitaciones listas para desconectar",
-      subtitle: "Habitacion",
-      imageSrc: services[0]?.imageSrc || galleryItems[1]?.imageSrc || heroImage,
-      imagePosition: services[0]?.imagePosition || galleryItems[1]?.imagePosition || heroImagePosition,
-    },
-    {
-      title: "Lobby y llegada con ambiente tranquilo",
-      subtitle: "Lobby",
-      imageSrc: heroImage || galleryItems[0]?.imageSrc,
-      imagePosition: heroImagePosition || galleryItems[0]?.imagePosition,
-    },
-    {
-      title: "Desayuno y mananas con mas calma",
-      subtitle: "Desayuno",
-      imageSrc: services[3]?.imageSrc || galleryItems[3]?.imageSrc || services[2]?.imageSrc || heroImage,
-      imagePosition: services[3]?.imagePosition || galleryItems[3]?.imagePosition || services[2]?.imagePosition || heroImagePosition,
-    },
-    {
-      title: "Desayuno, servicio y momentos del hotel",
-      subtitle: "Restaurante",
-      imageSrc: galleryItems[3]?.imageSrc || services[2]?.imageSrc || heroImage,
-      imagePosition: galleryItems[3]?.imagePosition || services[2]?.imagePosition || heroImagePosition,
-    },
-  ];
-
-  return candidates.filter((item) => item.imageSrc);
 }
 
 function buildHeroDescription(content: SiteContent, cityLabel: string) {

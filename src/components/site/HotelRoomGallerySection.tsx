@@ -44,7 +44,7 @@ export function HotelRoomGallerySection({
         };
 
   return (
-    <section className="scene hotel-room-gallery-section" data-animate data-animate-delay="150" id={sectionId}>
+    <section className="scene hotel-room-gallery-section" id={sectionId}>
       <div className="hotel-reference-section-heading">
         <span className="scene-chip">{eyebrow || copy.chip}</span>
         <h2>{renderBalancedSectionTitle(title || copy.heading)}</h2>

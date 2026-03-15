@@ -1,6 +1,7 @@
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
 import { HotelMobileMenu } from "./HotelMobileMenu";
+import { HotelBrandLogo } from "./HotelBrandLogo";
 import { HotelRoomGallerySection } from "./HotelRoomGallerySection";
 import { HotelSocialLinksSection } from "./HotelSocialLinksSection";
 import { InlineImageField } from "./InlineImageField";
@@ -153,12 +154,8 @@ export function HotelReferenceSubpage({
           <div className={`hotel-reference-hero hotel-reference-hero-alt ${heroImage ? "has-media-image" : "media-fallback-hotel"}`} style={getMediaStyle(heroImage, "0.22", heroImagePosition)}>
             <div className="hotel-reference-hero-overlay" aria-hidden="true" />
             <header className="hotel-reference-header">
-              <a className="hotel-reference-brand" href="/" aria-label={t(locale, `Ir al inicio de ${content.brand.name}`, `Go to ${content.brand.name} home`)}>
-                <span className="hotel-reference-brand-mark" aria-hidden="true">v</span>
-                <span className="hotel-reference-brand-copy">
-                  {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey="brand.name" label="Nombre del hotel" section="hero" value={content.brand.name} /> : <strong>{content.brand.name}</strong>}
-                  {editorMode ? <InlineTextField as="span" className="hotel-reference-brand-small" controls={editorTextControls} enabled fieldKey="brand.heroTag" label="Tag del hotel" section="hero" value={content.brand.heroTag || t(locale, "Hotel urbano en Tarapoto", "Urban hotel in Tarapoto")} /> : <small>{content.brand.heroTag || t(locale, "Hotel urbano en Tarapoto", "Urban hotel in Tarapoto")}</small>}
-                </span>
+              <a className="hotel-reference-brand hotel-reference-brand--official" href="/" aria-label={t(locale, `Ir al inicio de ${content.brand.name}`, `Go to ${content.brand.name} home`)}>
+                <HotelBrandLogo className="hotel-reference-brand-logo" priority />
               </a>
               <nav className="hotel-reference-nav" aria-label={ui.header.navAria}>
                 {visiblePages.map((item) => {

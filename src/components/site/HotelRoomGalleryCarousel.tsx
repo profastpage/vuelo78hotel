@@ -13,6 +13,7 @@ type HotelRoomGalleryCarouselProps = {
 
 export function HotelRoomGalleryCarousel({ locale, roomTitle, slides }: HotelRoomGalleryCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [fallbackSlides, setFallbackSlides] = useState<Record<string, boolean>>({});
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchCurrentX, setTouchCurrentX] = useState<number | null>(null);
   const slideCount = slides.length;
@@ -121,8 +122,18 @@ export function HotelRoomGalleryCarousel({ locale, roomTitle, slides }: HotelRoo
                     draggable={false}
                     fill
                     loading={index === 0 ? "eager" : "lazy"}
+                    onError={() =>
+                      setFallbackSlides((current) =>
+                        current[slide.id]
+                          ? current
+                          : {
+                              ...current,
+                              [slide.id]: true,
+                            },
+                      )
+                    }
                     sizes="(max-width: 640px) 96vw, (max-width: 860px) 94vw, 72vw"
-                    src={slide.webpSrc}
+                    src={fallbackSlides[slide.id] ? slide.jpgSrc : slide.webpSrc}
                   />
                 ) : (
                   <div aria-hidden="true" className="hotel-room-carousel-skeleton" />

@@ -4,6 +4,7 @@ import { Globe } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { HotelPageSlug } from "@/lib/hotel-pages";
 import { HotelMobileMenu } from "./HotelMobileMenu";
+import { HotelBrandLogo } from "./HotelBrandLogo";
 import type { HotelLocale } from "@/lib/hotel-experience";
 import { getHotelUi, t } from "@/lib/hotel-experience";
 
@@ -39,6 +40,7 @@ export function HotelPremiumHeader({
   reservationHref,
   sectionLinks,
 }: HotelPremiumHeaderProps) {
+  void brandTag;
   const [isScrolled, setIsScrolled] = useState(false);
   const ui = getHotelUi(locale);
 
@@ -54,14 +56,8 @@ export function HotelPremiumHeader({
 
   return (
     <header className={`hotel-reference-header hotel-deluxe-header${isScrolled ? " is-scrolled" : ""}`}>
-      <a className="hotel-reference-brand hotel-deluxe-brand" href="/" aria-label={t(locale, `Ir al inicio de ${brandName}`, `Go to ${brandName} home`)}>
-        <span className="hotel-reference-brand-mark hotel-deluxe-brand-mark" aria-hidden="true">
-          V
-        </span>
-        <span className="hotel-reference-brand-copy hotel-deluxe-brand-copy">
-          <strong>{brandName}</strong>
-          <small>{brandTag}</small>
-        </span>
+      <a className="hotel-reference-brand hotel-deluxe-brand hotel-reference-brand--official" href="/" aria-label={t(locale, `Ir al inicio de ${brandName}`, `Go to ${brandName} home`)}>
+        <HotelBrandLogo className="hotel-reference-brand-logo" priority />
       </a>
 
       <nav className="hotel-reference-nav hotel-deluxe-nav" aria-label={ui.header.navAria}>
