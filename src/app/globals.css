@@ -13732,6 +13732,119 @@ button {
   min-width: min(100%, 320px);
 }
 
+.hotel-social-section {
+  display: grid;
+  place-items: center;
+  margin-top: clamp(18px, 2.8vw, 34px);
+}
+
+.hotel-social-shell {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  width: min(100%, 860px);
+  padding: clamp(24px, 3vw, 34px);
+  border-radius: 30px;
+  border: 1px solid rgba(22, 52, 95, 0.08);
+  background:
+    radial-gradient(circle at top left, rgba(201, 164, 79, 0.15), transparent 24%),
+    linear-gradient(135deg, rgba(16, 34, 66, 0.98), rgba(9, 20, 40, 0.98));
+  box-shadow: 0 24px 56px rgba(12, 24, 44, 0.18);
+  text-align: center;
+}
+
+.hotel-social-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(42, 105, 65, 0.12), transparent 22%);
+}
+
+.hotel-social-kicker {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f0d9a2;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hotel-social-links {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.hotel-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 58px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f3f6fb;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.hotel-social-link:hover,
+.hotel-social-link:focus-visible {
+  transform: scale(1.06);
+  border-color: rgba(92, 150, 108, 0.42);
+  background: rgba(42, 105, 65, 0.14);
+  color: #d8f3dd;
+  box-shadow: 0 18px 34px rgba(8, 18, 35, 0.18);
+}
+
+.hotel-social-link:focus-visible {
+  outline: 2px solid rgba(92, 150, 108, 0.62);
+  outline-offset: 4px;
+}
+
+.hotel-social-emoji {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.hotel-social-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.hotel-social-label {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
 .hotel-deluxe-footer {
   display: flex;
   justify-content: space-between;
@@ -13963,6 +14076,10 @@ button {
     max-width: none;
   }
 
+  .hotel-social-shell {
+    width: min(100%, 760px);
+  }
+
   .hotel-deluxe-footer,
   .hotel-deluxe-footer-contact {
     justify-content: center;
@@ -13975,6 +14092,23 @@ button {
     width: calc(100% - 12px);
     gap: 34px;
     padding-bottom: 60px;
+  }
+
+  .hotel-social-shell {
+    width: min(100%, calc(100% - 8px));
+    padding: 20px 14px;
+    border-radius: 24px;
+  }
+
+  .hotel-social-links {
+    gap: 10px;
+  }
+
+  .hotel-social-link {
+    width: 100%;
+    justify-content: center;
+    min-height: 54px;
+    padding-inline: 16px;
   }
 
   .hotel-deluxe-header {

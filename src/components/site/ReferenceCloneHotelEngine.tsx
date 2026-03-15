@@ -9,18 +9,19 @@ import { HotelPremiumExperienceGallery } from "./HotelPremiumExperienceGallery";
 import { HotelPremiumFooter } from "./HotelPremiumFooter";
 import { HotelPremiumHeader } from "./HotelPremiumHeader";
 import { HotelPremiumHero } from "./HotelPremiumHero";
-import { HotelPremiumRoomsSection } from "./HotelPremiumRoomsSection";
 import { HotelPremiumTestimonials } from "./HotelPremiumTestimonials";
 import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
+import { HotelRoomGallerySection } from "./HotelRoomGallerySection";
+import { HotelSocialLinksSection } from "./HotelSocialLinksSection";
 import { LocationBlock } from "./LocationBlock";
 import type { HotelHeroSlide } from "./HotelHeroShowcase";
 import type { EditorImageControls } from "./editor-image-types";
 import type { EditorTextControls } from "./editor-text-types";
 import { getGalleryItems, getVisibleServices, getVisibleTestimonials } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
-import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
 import {
   HOTEL_LOCALE_STORAGE_KEY,
+  HOTEL_WHATSAPP_PHONE_DISPLAY,
   buildHotelWhatsAppHrefV2,
   getHotelUi,
   localizeHotelContent,
@@ -28,8 +29,9 @@ import {
   t,
   toggleHotelLocale,
   type HotelLocale,
-  HOTEL_WHATSAPP_PHONE_DISPLAY,
 } from "@/lib/hotel-experience";
+import { HOTEL_VISIBLE_NAV_ITEMS, normalizeHotelPageSlug } from "@/lib/hotel-pages";
+import { getHotelRoomGallery } from "@/lib/hotel-room-gallery";
 
 type ReferenceCloneHotelEngineProps = {
   profile: ClientProfile;
@@ -89,7 +91,6 @@ export function ReferenceCloneHotelEngine({
   const services = getVisibleServices(localizedContent);
   const testimonials = getVisibleTestimonials(localizedContent).slice(0, 3);
   const bookingWidget = resolveBookingWidget(localizedContent, profile);
-  const bookingOptions = bookingWidget.options?.slice(0, 3) ?? [];
   const heroImage = localizedContent.brand.heroImageSrc || galleryItems[0]?.imageSrc || services[0]?.imageSrc || "";
   const heroImagePosition =
     localizedContent.brand.heroImagePosition || galleryItems[0]?.imagePosition || services[0]?.imagePosition;
@@ -123,23 +124,15 @@ export function ReferenceCloneHotelEngine({
     intent: "booking-cta",
     sourceLabel: locale === "en" ? "Final booking block" : "Bloque final de reserva",
   });
-  const roomCards = bookingOptions.map((option, index) => ({
-    benefits: option.perks.slice(0, 3),
-    description: getRoomDescription(option.summary, services[index]?.description),
-    imagePosition: services[index]?.imagePosition || galleryItems[index]?.imagePosition || heroImagePosition,
-    imageSrc: services[index]?.imageSrc || galleryItems[index]?.imageSrc || heroImage,
-    price: option.price,
-    rateLabel: option.rateLabel,
+  const curatedRooms = getHotelRoomGallery(locale).map((room) => ({
+    ...room,
     reservationHref: buildHotelWhatsAppHrefV2({
       locale,
       hotelName: displayBrandName,
       intent: "room",
-      sourceLabel: option.label,
-      price: option.price,
-      rateLabel: option.rateLabel,
-      roomLabel: option.label,
+      sourceLabel: room.title,
+      roomLabel: room.title,
     }),
-    title: option.label,
   }));
   const benefitIcons: Array<"breakfast" | "wifi" | "air" | "reception"> = ["breakfast", "wifi", "air", "reception"];
   const benefits = ui.hero.benefits.map((label, index) => ({
@@ -194,16 +187,21 @@ export function ReferenceCloneHotelEngine({
 
         <HotelPremiumExperienceGallery items={experienceGalleryItems} locale={locale} />
 
-        <HotelPremiumRoomsSection
+        <HotelRoomGallerySection
           eyebrow={ui.rooms.eyebrow}
           locale={locale}
-          rooms={roomCards}
-          subtitle={t(
+          rooms={curatedRooms}
+          sectionId="habitaciones"
+          summary={t(
             locale,
-            "Opciones cómodas para pareja, familia o viaje de trabajo con reserva directa.",
-            "Comfortable options for couples, families or business travel with direct booking.",
+            "Recorre las categorias reales del hotel con fotos curadas, ficha visual y reserva directa desde cada habitacion.",
+            "Browse the hotel's real room categories with curated photos, a visual info card and direct booking from each room.",
           )}
-          title={t(locale, "Habitaciones diseñadas para tu descanso", "Rooms designed for your rest")}
+          title={t(
+            locale,
+            "Nuestras habitaciones con fotos reales y mejor lectura visual",
+            "Our rooms with real photos and clearer visual storytelling",
+          )}
         />
 
         {testimonials.length ? (
@@ -220,10 +218,10 @@ export function ReferenceCloneHotelEngine({
             locale={locale}
             subtitle={t(
               locale,
-              "Opiniones breves sobre descanso, ubicación y buena atención.",
+              "Opiniones breves sobre descanso, ubicacion y buena atencion.",
               "Short reviews about rest, location and attentive service.",
             )}
-            title={t(locale, "Lo que dicen nuestros huéspedes", "What our guests say")}
+            title={t(locale, "Lo que dicen nuestros huespedes", "What our guests say")}
           />
         ) : null}
 
@@ -245,13 +243,15 @@ export function ReferenceCloneHotelEngine({
         <HotelPremiumBookingCta
           description={t(
             locale,
-            "Consulta disponibilidad y recibe confirmación rápida por WhatsApp.",
+            "Consulta disponibilidad y recibe confirmacion rapida por WhatsApp.",
             "Check availability and receive a fast confirmation on WhatsApp.",
           )}
           href={bookingSectionHref}
           locale={locale}
           title={t(locale, "Reserva directa por WhatsApp", "Direct booking via WhatsApp")}
         />
+
+        <HotelSocialLinksSection locale={locale} />
 
         <HotelPremiumFooter
           address={localizedContent.location?.address || "Tarapoto, Peru"}
@@ -276,11 +276,11 @@ export function ReferenceCloneHotelEngine({
 
 function buildAmenities(content: SiteContent) {
   const baseItems = [
-    { title: "Desayuno incluido", icon: "breakfast", description: "Empieza la mañana con más comodidad antes de salir por la ciudad." },
-    { title: "WiFi gratis", icon: "wifi", description: "Conexión estable para descansar, trabajar o coordinar tu viaje." },
-    { title: "Piscina", icon: "pool", description: "Un espacio de descanso que acompaña la experiencia del hotel." },
-    { title: "Aire acondicionado", icon: "air", description: "Confort térmico para descansar mejor en cualquier horario." },
-    { title: "Atención 24/7", icon: "hospitality", description: "Recepción y asistencia para confirmar tu llegada con tranquilidad." },
+    { title: "Desayuno incluido", icon: "breakfast", description: "Empieza la manana con mas comodidad antes de salir por la ciudad." },
+    { title: "WiFi gratis", icon: "wifi", description: "Conexion estable para descansar, trabajar o coordinar tu viaje." },
+    { title: "Piscina", icon: "pool", description: "Un espacio de descanso que acompana la experiencia del hotel." },
+    { title: "Aire acondicionado", icon: "air", description: "Confort termico para descansar mejor en cualquier horario." },
+    { title: "Atencion 24/7", icon: "hospitality", description: "Recepcion y asistencia para confirmar tu llegada con tranquilidad." },
   ];
 
   return baseItems.map((item, index) => ({
@@ -304,7 +304,7 @@ function buildExperienceGalleryItems(
     },
     {
       title: "Habitaciones listas para desconectar",
-      subtitle: "Habitación",
+      subtitle: "Habitacion",
       imageSrc: services[0]?.imageSrc || galleryItems[1]?.imageSrc || heroImage,
       imagePosition: services[0]?.imagePosition || galleryItems[1]?.imagePosition || heroImagePosition,
     },
@@ -315,7 +315,7 @@ function buildExperienceGalleryItems(
       imagePosition: heroImagePosition || galleryItems[0]?.imagePosition,
     },
     {
-      title: "Desayuno y mañanas con más calma",
+      title: "Desayuno y mananas con mas calma",
       subtitle: "Desayuno",
       imageSrc: services[3]?.imageSrc || galleryItems[3]?.imageSrc || services[2]?.imageSrc || heroImage,
       imagePosition: services[3]?.imagePosition || galleryItems[3]?.imagePosition || services[2]?.imagePosition || heroImagePosition,
@@ -332,7 +332,7 @@ function buildExperienceGalleryItems(
 }
 
 function buildHeroDescription(content: SiteContent, cityLabel: string) {
-  return content.brand.description || `Descansa en ${cityLabel} con habitaciones cómodas y reserva directa por WhatsApp.`;
+  return content.brand.description || `Descansa en ${cityLabel} con habitaciones comodas y reserva directa por WhatsApp.`;
 }
 
 function buildHeroSlides(
@@ -375,18 +375,8 @@ function getDisplayBrandName(value: string) {
 }
 
 function normalizeHotelPhone(value?: string) {
+  void value;
   return HOTEL_WHATSAPP_PHONE_DISPLAY;
-}
-
-function getRoomDescription(summary: string, fallback?: string) {
-  const source = fallback || summary;
-  const cleanSource = source.trim();
-
-  if (cleanSource.length <= 120) {
-    return cleanSource;
-  }
-
-  return `${cleanSource.slice(0, 117).trimEnd()}...`;
 }
 
 function truncateText(value: string, maxLength: number) {

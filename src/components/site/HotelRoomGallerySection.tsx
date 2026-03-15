@@ -4,7 +4,11 @@ import type { HotelLocale } from "@/lib/hotel-experience";
 import type { HotelRoomGalleryEntry } from "@/lib/hotel-room-gallery";
 
 type HotelRoomGallerySectionProps = {
+  eyebrow?: string;
   locale: HotelLocale;
+  sectionId?: string;
+  summary?: string;
+  title?: string;
   rooms: Array<
     HotelRoomGalleryEntry & {
       reservationHref: string;
@@ -12,7 +16,14 @@ type HotelRoomGallerySectionProps = {
   >;
 };
 
-export function HotelRoomGallerySection({ locale, rooms }: HotelRoomGallerySectionProps) {
+export function HotelRoomGallerySection({
+  eyebrow,
+  locale,
+  rooms,
+  sectionId,
+  summary,
+  title,
+}: HotelRoomGallerySectionProps) {
   const copy =
     locale === "en"
       ? {
@@ -31,11 +42,11 @@ export function HotelRoomGallerySection({ locale, rooms }: HotelRoomGallerySecti
         };
 
   return (
-    <section className="scene hotel-room-gallery-section" data-animate data-animate-delay="150">
+    <section className="scene hotel-room-gallery-section" data-animate data-animate-delay="150" id={sectionId}>
       <div className="hotel-reference-section-heading">
-        <span className="scene-chip">{copy.chip}</span>
-        <h2>{renderBalancedSectionTitle(copy.heading)}</h2>
-        <p>{copy.summary}</p>
+        <span className="scene-chip">{eyebrow || copy.chip}</span>
+        <h2>{renderBalancedSectionTitle(title || copy.heading)}</h2>
+        <p>{summary || copy.summary}</p>
       </div>
 
       <div className="hotel-room-gallery-list">

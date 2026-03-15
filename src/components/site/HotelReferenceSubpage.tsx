@@ -2,6 +2,7 @@ import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
 import { HotelMobileMenu } from "./HotelMobileMenu";
 import { HotelRoomGallerySection } from "./HotelRoomGallerySection";
+import { HotelSocialLinksSection } from "./HotelSocialLinksSection";
 import { InlineImageField } from "./InlineImageField";
 import { InlineTextField } from "./InlineTextField";
 import { LandingFaqAccordion } from "./LandingFaqAccordion";
@@ -354,6 +355,8 @@ export function HotelReferenceSubpage({
         title={content.contact.title || t(locale, "Confirma disponibilidad y reserva con claridad", "Confirm availability and book with clarity")}
         whatsappNumber={contactPhone}
       />
+
+      <HotelSocialLinksSection locale={locale} />
 
       <footer className="scene hotel-reference-footer">
         <div className="hotel-reference-footer-brand">
