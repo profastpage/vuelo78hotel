@@ -143,7 +143,16 @@ export function ReferenceCloneHotelEngine({
       roomLabel: room.title,
     }),
   }));
-  const benefitIcons: Array<"breakfast" | "wifi" | "air" | "reception"> = ["breakfast", "wifi", "air", "reception"];
+  const benefitIcons: Array<"breakfast" | "wifi" | "pool" | "air" | "workspace" | "dining" | "restobar" | "reception"> = [
+    "breakfast",
+    "wifi",
+    "pool",
+    "air",
+    "workspace",
+    "dining",
+    "restobar",
+    "reception",
+  ];
   const benefits = ui.hero.benefits.map((label, index) => ({
     icon: benefitIcons[index] || "reception",
     label,

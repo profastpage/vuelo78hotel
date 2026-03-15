@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock3, Coffee, Snowflake, Wifi } from "lucide-react";
+import { Clock3, Coffee, GlassWater, Monitor, Snowflake, UtensilsCrossed, Waves, Wifi } from "lucide-react";
 import type { SiteContent } from "@/types/site";
 import type { HotelHeroSlide } from "./HotelHeroShowcase";
 import { HotelBookingBar } from "./HotelBookingBar";
@@ -9,7 +9,7 @@ import type { HotelLocale } from "@/lib/hotel-experience";
 import { getHotelUi } from "@/lib/hotel-experience";
 
 type HeroBenefit = {
-  icon: "air" | "breakfast" | "reception" | "wifi";
+  icon: "air" | "breakfast" | "dining" | "pool" | "reception" | "restobar" | "wifi" | "workspace";
   label: string;
 };
 
@@ -102,8 +102,16 @@ function HeroBenefitIcon({ kind }: { kind: HeroBenefit["icon"] }) {
       return <Coffee size={16} strokeWidth={1.8} />;
     case "wifi":
       return <Wifi size={16} strokeWidth={1.8} />;
+    case "pool":
+      return <Waves size={16} strokeWidth={1.8} />;
     case "air":
       return <Snowflake size={16} strokeWidth={1.8} />;
+    case "workspace":
+      return <Monitor size={16} strokeWidth={1.8} />;
+    case "dining":
+      return <UtensilsCrossed size={16} strokeWidth={1.8} />;
+    case "restobar":
+      return <GlassWater size={16} strokeWidth={1.8} />;
     default:
       return <Clock3 size={16} strokeWidth={1.8} />;
   }
