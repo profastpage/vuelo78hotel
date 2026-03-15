@@ -10,6 +10,12 @@ type CurationSlide = {
   source: string;
   role: "general" | "main" | "bath" | "detail" | "alternate";
   alt: CurationLocaleValue;
+  crop?: {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  };
 };
 
 type CurationRoom = {

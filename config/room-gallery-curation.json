@@ -484,6 +484,20 @@
             "es": "Otra perspectiva de la Habitacion Doble Plus",
             "en": "Alternate angle of the Double Plus Room"
           }
+        },
+        {
+          "source": "D1.JPG",
+          "role": "detail",
+          "crop": {
+            "left": 140,
+            "top": 110,
+            "width": 1220,
+            "height": 1180
+          },
+          "alt": {
+            "es": "Detalle de las camas y la luz natural en la Habitacion Doble Plus",
+            "en": "Bed detail and natural light in the Double Plus Room"
+          }
         }
       ]
     },
@@ -713,6 +727,28 @@
           "alt": {
             "es": "Bano y ducha de la Suite Familiar",
             "en": "Bathroom and shower in the Family Suite"
+          }
+        },
+        {
+          "source": "G4.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Jacuzzi privado de la Suite Familiar",
+            "en": "Private jacuzzi in the Family Suite"
+          }
+        },
+        {
+          "source": "G1.JPG",
+          "role": "alternate",
+          "crop": {
+            "left": 180,
+            "top": 260,
+            "width": 1180,
+            "height": 1040
+          },
+          "alt": {
+            "es": "Otra perspectiva de las camas en la Suite Familiar",
+            "en": "Alternate bed composition in the Family Suite"
           }
         }
       ]

@@ -25,11 +25,21 @@ function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
 
-async function writeOptimizedPair(inputPath, baseOutputPath, width) {
-  const pipeline = sharp(inputPath).rotate().resize({
+function createPipeline(inputPath, width, crop) {
+  const pipeline = sharp(inputPath).rotate();
+
+  if (crop) {
+    pipeline.extract(crop);
+  }
+
+  return pipeline.resize({
     width,
     withoutEnlargement: true,
   });
+}
+
+async function writeOptimizedPair(inputPath, baseOutputPath, width, crop) {
+  const pipeline = createPipeline(inputPath, width, crop);
 
   await pipeline
     .clone()
@@ -104,7 +114,7 @@ async function curateRoom(room) {
 
     const sequence = String(index + 1).padStart(2, "0");
     const baseOutput = path.join(folderPath, `${room.slug}-${sequence}`);
-    await writeOptimizedPair(inputPath, baseOutput, GALLERY_WIDTH);
+    await writeOptimizedPair(inputPath, baseOutput, GALLERY_WIDTH, image.crop);
     keepFilenames.add(`${room.slug}-${sequence}.jpg`);
     keepFilenames.add(`${room.slug}-${sequence}.webp`);
   }
