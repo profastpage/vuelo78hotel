@@ -3,8 +3,8 @@ import type { SiteContent } from "@/types/site";
 export type HotelLocale = "es" | "en";
 
 export const HOTEL_LOCALE_STORAGE_KEY = "vuelo78hotel-locale";
-export const HOTEL_WHATSAPP_PHONE_DISPLAY = "+51 903 011 285";
-export const HOTEL_WHATSAPP_PHONE_DIGITS = "51903011285";
+export const HOTEL_WHATSAPP_PHONE_DISPLAY = "+51 941 714 132";
+export const HOTEL_WHATSAPP_PHONE_DIGITS = "51941714132";
 const HOTEL_WHATSAPP_BASE_URL = "https://api.whatsapp.com/send/";
 
 type HotelUiCopy = {

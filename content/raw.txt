@@ -6,7 +6,7 @@ General business data:
 - Primary goal: Generar reservas directas y consultas de disponibilidad
 - Target audience: Viajeros que buscan descanso, buena ubicacion y una reserva clara desde el primer scroll
 - Location: Tarapoto, Peru
-- WhatsApp: +51987654321
+- WhatsApp: +51941714132
 - Email: hola@auralis.studio
 - Visual style: premium
 - Theme: Light

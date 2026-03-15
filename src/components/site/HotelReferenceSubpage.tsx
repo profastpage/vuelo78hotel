@@ -1,6 +1,7 @@
 import type { ClientProfile, SiteContent } from "@/types/site";
 import { ContactForm } from "./ContactForm";
 import { HotelMobileMenu } from "./HotelMobileMenu";
+import { HotelRoomGallerySection } from "./HotelRoomGallerySection";
 import { InlineImageField } from "./InlineImageField";
 import { InlineTextField } from "./InlineTextField";
 import { LandingFaqAccordion } from "./LandingFaqAccordion";
@@ -11,6 +12,7 @@ import { HOTEL_NAV_ITEMS, HOTEL_VISIBLE_NAV_ITEMS, type HotelPageSlug, getHotelP
 import { getGalleryItems, getMediaStyle, getVisibleFaqs, getVisibleServices } from "./rendering";
 import { resolveBookingWidget } from "@/lib/booking-widget";
 import { HOTEL_WHATSAPP_PHONE_DISPLAY, buildHotelWhatsAppHrefV2, getHotelUi, normalizeHotelSpanishText, normalizeHotelSpanishValue, t, type HotelLocale } from "@/lib/hotel-experience";
+import { getHotelRoomGallery } from "@/lib/hotel-room-gallery";
 
 type Props = {
   profile: ClientProfile;
@@ -78,6 +80,19 @@ export function HotelReferenceSubpage({
     ? t(locale, "Recepción 24 horas", "24-hour reception")
     : content.location?.hours;
   const data = getPageData(pageSlug, content, services, bookingWidget.options?.slice(0, 1)?.[0]?.price || "S/ 249", locale);
+  const curatedRooms =
+    pageSlug === "habitaciones"
+      ? getHotelRoomGallery(locale).map((room) => ({
+          ...room,
+          reservationHref: buildHotelWhatsAppHrefV2({
+            locale,
+            hotelName: content.brand.name,
+            intent: "room",
+            roomLabel: room.title,
+            sourceLabel: room.title,
+          }),
+        }))
+      : [];
   const pageIndex = HOTEL_NAV_ITEMS.findIndex((item) => item.slug === pageSlug);
   const currentPageLabel = content.pages[pageIndex] || getHotelPageLabel(pageSlug);
   const visiblePages = HOTEL_VISIBLE_NAV_ITEMS;
@@ -85,6 +100,12 @@ export function HotelReferenceSubpage({
     label: content.stats[index]?.label || metric.label,
     value: content.stats[index]?.value || metric.value,
   }));
+  if (pageSlug === "habitaciones" && curatedRooms.length) {
+    metrics[0] = {
+      label: locale === "en" ? "Categories" : "Categorias",
+      value: String(curatedRooms.length),
+    };
+  }
   const cards = data.cards.slice(0, 3).map((card, index) => ({
     eyebrow: content.highlights[index] || card.eyebrow,
     title: services[index]?.title || card.title,
@@ -196,24 +217,28 @@ export function HotelReferenceSubpage({
         </InlineImageField>
       </section>
 
-      <section className="scene hotel-reference-related" data-animate data-animate-delay="90" data-editor-section="services">
-        <div className="hotel-reference-section-heading">
-          {editorMode ? <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label="Chip de pagina hotel" section="services" value={currentPageLabel} /> : <span className="scene-chip">{currentPageLabel}</span>}
-          {editorMode ? <InlineTextField as="h2" controls={editorTextControls} displayValue={renderBalancedSectionTitle(storyTitle)} enabled fieldKey="uiText.storyTitle" label="Titulo bloque servicios" minRows={3} multiline section="services" value={storyTitle} /> : <h2>{renderBalancedSectionTitle(storyTitle)}</h2>}
-          {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion bloque servicios" minRows={3} multiline section="services" value={storyBody} /> : <p>{storyBody}</p>}
-        </div>
-        <div className="hotel-reference-related-grid">
-          {cards.map((card, index) => (
-            <article className="hotel-reference-room-card hotel-reference-card-tight" key={`${card.title}-${index}`}>
-              <div className="hotel-reference-room-card-copy">
-                {editorMode ? <InlineTextField as="span" className="scene-chip scene-chip-inline" compact controls={editorTextControls} enabled fieldKey={`highlights.${index}`} label={`Eyebrow bloque ${index + 1}`} section="services" value={card.eyebrow} /> : <span className="scene-chip scene-chip-inline">{card.eyebrow}</span>}
-                {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`services.${index}.title`} label={`Titulo bloque ${index + 1}`} section="services" value={card.title} /> : <strong>{card.title}</strong>}
-                {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={`services.${index}.description`} label={`Descripcion bloque ${index + 1}`} minRows={3} multiline section="services" value={card.description} /> : <p>{card.description}</p>}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      {pageSlug === "habitaciones" ? (
+        <HotelRoomGallerySection locale={locale} rooms={curatedRooms} />
+      ) : (
+        <section className="scene hotel-reference-related" data-animate data-animate-delay="90" data-editor-section="services">
+          <div className="hotel-reference-section-heading">
+            {editorMode ? <InlineTextField as="span" className="scene-chip" compact controls={editorTextControls} enabled fieldKey={`pages.${pageIndex}`} label="Chip de pagina hotel" section="services" value={currentPageLabel} /> : <span className="scene-chip">{currentPageLabel}</span>}
+            {editorMode ? <InlineTextField as="h2" controls={editorTextControls} displayValue={renderBalancedSectionTitle(storyTitle)} enabled fieldKey="uiText.storyTitle" label="Titulo bloque servicios" minRows={3} multiline section="services" value={storyTitle} /> : <h2>{renderBalancedSectionTitle(storyTitle)}</h2>}
+            {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion bloque servicios" minRows={3} multiline section="services" value={storyBody} /> : <p>{storyBody}</p>}
+          </div>
+          <div className="hotel-reference-related-grid">
+            {cards.map((card, index) => (
+              <article className="hotel-reference-room-card hotel-reference-card-tight" key={`${card.title}-${index}`}>
+                <div className="hotel-reference-room-card-copy">
+                  {editorMode ? <InlineTextField as="span" className="scene-chip scene-chip-inline" compact controls={editorTextControls} enabled fieldKey={`highlights.${index}`} label={`Eyebrow bloque ${index + 1}`} section="services" value={card.eyebrow} /> : <span className="scene-chip scene-chip-inline">{card.eyebrow}</span>}
+                  {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={`services.${index}.title`} label={`Titulo bloque ${index + 1}`} section="services" value={card.title} /> : <strong>{card.title}</strong>}
+                  {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={`services.${index}.description`} label={`Descripcion bloque ${index + 1}`} minRows={3} multiline section="services" value={card.description} /> : <p>{card.description}</p>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="scene hotel-reference-modal-grid" data-animate data-animate-delay="130" data-editor-section="faqs">
         <div className="hotel-reference-section-heading">
@@ -244,27 +269,29 @@ export function HotelReferenceSubpage({
         </div>
       </section>
 
-      <section className="scene hotel-reference-rail-shell" data-animate data-animate-delay="170" data-editor-section="gallery">
-        <div className="hotel-reference-section-heading">
-          <span className="scene-chip">{ui.subpage.gallery}</span>
-          {editorMode ? <InlineTextField as="h2" controls={editorTextControls} displayValue={renderBalancedSectionTitle(railTitle)} enabled fieldKey="uiText.storyTitle" label="Titulo rail" minRows={3} multiline section="gallery" value={railTitle} /> : <h2>{renderBalancedSectionTitle(railTitle)}</h2>}
-          {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion rail" minRows={3} multiline section="gallery" value={railDescription} /> : <p>{railDescription}</p>}
-        </div>
-        <div className="hotel-reference-rail" role="list" aria-label={railTitle}>
-          {rail.map((item, index) => (
-            <article className="hotel-reference-rail-card" key={`${item.title}-${item.subtitle}-${index}`} role="listitem">
-              <InlineImageField enabled={editorMode} fieldKey={`rail-${item.sourceType}-${item.sourceIndex}`} label={`Imagen rail ${index + 1}`} onChange={editorMode ? item.sourceType === "gallery" ? (event) => editorImageControls?.onGalleryImageChange(item.sourceIndex, event) : (event) => editorImageControls?.onServiceImageChange(item.sourceIndex, event) : undefined} uploading={editorMode && editorImageControls?.uploadingField === `${item.sourceType === "gallery" ? "galeria" : "servicio"} ${item.sourceIndex + 1}`}>
-                <div className={`hotel-reference-rail-media ${item.imageSrc ? "has-media-image" : "media-fallback-hotel"}`} style={getMediaStyle(item.imageSrc, "0.08", item.imagePosition)} />
-              </InlineImageField>
-              <div className="hotel-reference-rail-copy">
-                {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.subtitle` : `highlights.${Math.min(item.sourceIndex, 2)}`} label={`Subtitulo rail ${index + 1}`} section="gallery" value={item.subtitle} /> : <span>{item.subtitle}</span>}
-                {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.title` : `services.${item.sourceIndex}.title`} label={`Titulo rail ${index + 1}`} section="gallery" value={item.title} /> : <strong>{item.title}</strong>}
-                {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.subtitle` : `services.${item.sourceIndex}.description`} label={`Descripcion rail ${index + 1}`} minRows={3} multiline section="gallery" value={item.description} /> : <p>{item.description}</p>}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      {pageSlug !== "habitaciones" ? (
+        <section className="scene hotel-reference-rail-shell" data-animate data-animate-delay="170" data-editor-section="gallery">
+          <div className="hotel-reference-section-heading">
+            <span className="scene-chip">{ui.subpage.gallery}</span>
+            {editorMode ? <InlineTextField as="h2" controls={editorTextControls} displayValue={renderBalancedSectionTitle(railTitle)} enabled fieldKey="uiText.storyTitle" label="Titulo rail" minRows={3} multiline section="gallery" value={railTitle} /> : <h2>{renderBalancedSectionTitle(railTitle)}</h2>}
+            {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey="narrative.goal" label="Descripcion rail" minRows={3} multiline section="gallery" value={railDescription} /> : <p>{railDescription}</p>}
+          </div>
+          <div className="hotel-reference-rail" role="list" aria-label={railTitle}>
+            {rail.map((item, index) => (
+              <article className="hotel-reference-rail-card" key={`${item.title}-${item.subtitle}-${index}`} role="listitem">
+                <InlineImageField enabled={editorMode} fieldKey={`rail-${item.sourceType}-${item.sourceIndex}`} label={`Imagen rail ${index + 1}`} onChange={editorMode ? item.sourceType === "gallery" ? (event) => editorImageControls?.onGalleryImageChange(item.sourceIndex, event) : (event) => editorImageControls?.onServiceImageChange(item.sourceIndex, event) : undefined} uploading={editorMode && editorImageControls?.uploadingField === `${item.sourceType === "gallery" ? "galeria" : "servicio"} ${item.sourceIndex + 1}`}>
+                  <div className={`hotel-reference-rail-media ${item.imageSrc ? "has-media-image" : "media-fallback-hotel"}`} style={getMediaStyle(item.imageSrc, "0.08", item.imagePosition)} />
+                </InlineImageField>
+                <div className="hotel-reference-rail-copy">
+                  {editorMode ? <InlineTextField as="span" compact controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.subtitle` : `highlights.${Math.min(item.sourceIndex, 2)}`} label={`Subtitulo rail ${index + 1}`} section="gallery" value={item.subtitle} /> : <span>{item.subtitle}</span>}
+                  {editorMode ? <InlineTextField as="strong" controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.title` : `services.${item.sourceIndex}.title`} label={`Titulo rail ${index + 1}`} section="gallery" value={item.title} /> : <strong>{item.title}</strong>}
+                  {editorMode ? <InlineTextField as="p" controls={editorTextControls} enabled fieldKey={item.sourceType === "gallery" ? `galleryItems.${item.sourceIndex}.subtitle` : `services.${item.sourceIndex}.description`} label={`Descripcion rail ${index + 1}`} minRows={3} multiline section="gallery" value={item.description} /> : <p>{item.description}</p>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {pageSlug === "mapa" ? (
         <section className="scene hotel-reference-map-layout" data-animate data-animate-delay="210" data-editor-section="contact">

@@ -1,0 +1,475 @@
+{
+  "rooms": [
+    {
+      "folder": "1 HB. INDIVIDUAL",
+      "slug": "habitacion-individual",
+      "title": {
+        "es": "Habitacion Individual",
+        "en": "Single Room"
+      },
+      "summary": {
+        "es": "1 cama de 2 plazas, aire acondicionado y ducha con hidromasajes.",
+        "en": "1 double bed, air conditioning and a hydromassage shower."
+      },
+      "descriptiveSource": "165.JPG",
+      "selected": [
+        {
+          "source": "_MAC0510.JPG",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Habitacion Individual",
+            "en": "Wide view of the Single Room"
+          }
+        },
+        {
+          "source": "Copia de IMG_6790.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Cama principal de la Habitacion Individual",
+            "en": "Main bed in the Single Room"
+          }
+        },
+        {
+          "source": "04.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Bano y ducha de la Habitacion Individual",
+            "en": "Bathroom and shower in the Single Room"
+          }
+        },
+        {
+          "source": "06.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Espacio adicional y ropero de la Habitacion Individual",
+            "en": "Additional space and wardrobe in the Single Room"
+          }
+        },
+        {
+          "source": "Copia de IMG_6785.JPG",
+          "role": "alternate",
+          "alt": {
+            "es": "Otra perspectiva de la Habitacion Individual",
+            "en": "Alternate angle of the Single Room"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "2 HB. MATRIMONIAL",
+      "slug": "habitacion-matrimonial",
+      "title": {
+        "es": "Habitacion Matrimonial",
+        "en": "Queen Room"
+      },
+      "summary": {
+        "es": "1 cama queen con iluminacion amplia y vista exterior.",
+        "en": "1 queen bed with generous light and exterior view."
+      },
+      "descriptiveSource": "E.JPG",
+      "selected": [
+        {
+          "source": "Copia de Habitación 07.jpg",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Habitacion Matrimonial",
+            "en": "Wide view of the Queen Room"
+          }
+        },
+        {
+          "source": "05 - Matrimonial - 01.jpg",
+          "role": "main",
+          "alt": {
+            "es": "Cama principal de la Habitacion Matrimonial",
+            "en": "Main bed in the Queen Room"
+          }
+        },
+        {
+          "source": "B.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Bano y ducha de la Habitacion Matrimonial",
+            "en": "Bathroom and shower in the Queen Room"
+          }
+        },
+        {
+          "source": "D.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Detalle de cama y decoracion de la Habitacion Matrimonial",
+            "en": "Bed styling detail in the Queen Room"
+          }
+        },
+        {
+          "source": "06 - Matrimonial - 02.jpg",
+          "role": "alternate",
+          "alt": {
+            "es": "Otra perspectiva de la Habitacion Matrimonial",
+            "en": "Alternate angle of the Queen Room"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "3 HB. DOBLE",
+      "slug": "habitacion-doble",
+      "title": {
+        "es": "Habitacion Doble",
+        "en": "Twin Room"
+      },
+      "summary": {
+        "es": "2 camas de plaza y media, escritorio y bano privado.",
+        "en": "2 twin beds, desk area and private bathroom."
+      },
+      "descriptiveSource": "A5.JPG",
+      "selected": [
+        {
+          "source": "DESAYUNO.jpg",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Habitacion Doble",
+            "en": "Wide view of the Twin Room"
+          }
+        },
+        {
+          "source": "HABITACIÓN DOBLE STANDAR.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Area principal de camas en la Habitacion Doble",
+            "en": "Main sleeping area in the Twin Room"
+          }
+        },
+        {
+          "source": "A2.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Bano y ducha de la Habitacion Doble",
+            "en": "Bathroom and shower in the Twin Room"
+          }
+        },
+        {
+          "source": "A4.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Espacio adicional con escritorio en la Habitacion Doble",
+            "en": "Additional space with desk in the Twin Room"
+          }
+        },
+        {
+          "source": "A3.JPG",
+          "role": "alternate",
+          "alt": {
+            "es": "Otra perspectiva de la Habitacion Doble",
+            "en": "Alternate angle of the Twin Room"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "4 HB DELUXE",
+      "slug": "habitacion-deluxe",
+      "title": {
+        "es": "Habitacion Deluxe",
+        "en": "Deluxe Room"
+      },
+      "summary": {
+        "es": "1 cama queen, vista a la calle y espacio de trabajo.",
+        "en": "1 queen bed, street view and workspace."
+      },
+      "descriptiveSource": "B4.JPG",
+      "selected": [
+        {
+          "source": "04 - Delux vista a calle piso 2.jpg",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Habitacion Deluxe",
+            "en": "Wide view of the Deluxe Room"
+          }
+        },
+        {
+          "source": "B3.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Cama principal de la Habitacion Deluxe",
+            "en": "Main bed in the Deluxe Room"
+          }
+        },
+        {
+          "source": "B2.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Bano y ducha de la Habitacion Deluxe",
+            "en": "Bathroom and shower in the Deluxe Room"
+          }
+        },
+        {
+          "source": "B1.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Detalle de vista exterior en la Habitacion Deluxe",
+            "en": "Exterior view detail in the Deluxe Room"
+          }
+        },
+        {
+          "source": "Copia de Habitación 03.jpg",
+          "role": "alternate",
+          "alt": {
+            "es": "Otra perspectiva de la Habitacion Deluxe",
+            "en": "Alternate angle of the Deluxe Room"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "5 HB TRIPLE",
+      "slug": "habitacion-triple",
+      "title": {
+        "es": "Habitacion Triple",
+        "en": "Triple Room"
+      },
+      "summary": {
+        "es": "3 camas, buena iluminacion y distribucion amplia.",
+        "en": "3 beds, bright lighting and a spacious layout."
+      },
+      "descriptiveSource": "C6.JPG",
+      "selected": [
+        {
+          "source": "_MAC0501-Pano.JPG",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Habitacion Triple",
+            "en": "Wide view of the Triple Room"
+          }
+        },
+        {
+          "source": "C1.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Area principal de camas en la Habitacion Triple",
+            "en": "Main sleeping area in the Triple Room"
+          }
+        },
+        {
+          "source": "C2.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Bano y ducha de la Habitacion Triple",
+            "en": "Bathroom and shower in the Triple Room"
+          }
+        },
+        {
+          "source": "C5.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Detalle lateral de las camas en la Habitacion Triple",
+            "en": "Lateral bed detail in the Triple Room"
+          }
+        },
+        {
+          "source": "C4.JPG",
+          "role": "alternate",
+          "alt": {
+            "es": "Otra perspectiva de la Habitacion Triple",
+            "en": "Alternate angle of the Triple Room"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "6 HB DOBLE PLUS",
+      "slug": "habitacion-doble-plus",
+      "title": {
+        "es": "Habitacion Doble Plus",
+        "en": "Double Plus Room"
+      },
+      "summary": {
+        "es": "1 cama queen y 1 cama de plaza y media con escritorio.",
+        "en": "1 queen bed and 1 twin bed with a work desk."
+      },
+      "descriptiveSource": "D5.JPG",
+      "selected": [
+        {
+          "source": "D1.JPG",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Habitacion Doble Plus",
+            "en": "Wide view of the Double Plus Room"
+          }
+        },
+        {
+          "source": "D4.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Area principal de camas en la Habitacion Doble Plus",
+            "en": "Main sleeping area in the Double Plus Room"
+          }
+        },
+        {
+          "source": "D3.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Bano y ducha de la Habitacion Doble Plus",
+            "en": "Bathroom and shower in the Double Plus Room"
+          }
+        },
+        {
+          "source": "D2.JPG",
+          "role": "alternate",
+          "alt": {
+            "es": "Otra perspectiva de la Habitacion Doble Plus",
+            "en": "Alternate angle of the Double Plus Room"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "7 HB JUNIOR SUITE",
+      "slug": "habitacion-junior-suite",
+      "title": {
+        "es": "Junior Suite",
+        "en": "Junior Suite"
+      },
+      "summary": {
+        "es": "1 cama queen, sofa, jacuzzi y zona complementaria.",
+        "en": "1 queen bed, sofa, jacuzzi and extra support area."
+      },
+      "descriptiveSource": "E6.JPG",
+      "selected": [
+        {
+          "source": "Copia de Habitacion 02.jpg",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Junior Suite",
+            "en": "Wide view of the Junior Suite"
+          }
+        },
+        {
+          "source": "E1.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Cama principal y sofa de la Junior Suite",
+            "en": "Main bed and sofa in the Junior Suite"
+          }
+        },
+        {
+          "source": "E5.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Ducha y area complementaria de la Junior Suite",
+            "en": "Shower and support area in the Junior Suite"
+          }
+        },
+        {
+          "source": "E4.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Detalle textil y decorativo de la Junior Suite",
+            "en": "Decorative textile detail in the Junior Suite"
+          }
+        },
+        {
+          "source": "E3.JPG",
+          "role": "alternate",
+          "alt": {
+            "es": "Otra perspectiva de la Junior Suite",
+            "en": "Alternate angle of the Junior Suite"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "8 HB MASTER SUITE",
+      "slug": "habitacion-master-suite",
+      "title": {
+        "es": "Master Suite",
+        "en": "Master Suite"
+      },
+      "summary": {
+        "es": "1 cama queen 1.8 m, jacuzzi y sala de estar integrada.",
+        "en": "1 queen bed 1.8 m, jacuzzi and integrated sitting area."
+      },
+      "descriptiveSource": "F4.JPG",
+      "selected": [
+        {
+          "source": "Habitacion 02.jpg",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Master Suite",
+            "en": "Wide view of the Master Suite"
+          }
+        },
+        {
+          "source": "F5.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Cama principal de la Master Suite",
+            "en": "Main bed in the Master Suite"
+          }
+        },
+        {
+          "source": "F4.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Ducha y kitchenette de la Master Suite",
+            "en": "Shower and kitchenette in the Master Suite"
+          }
+        },
+        {
+          "source": "F2.JPG",
+          "role": "detail",
+          "alt": {
+            "es": "Detalle del jacuzzi en la Master Suite",
+            "en": "Jacuzzi detail in the Master Suite"
+          }
+        },
+        {
+          "source": "Copia de IMG_6789.JPG",
+          "role": "alternate",
+          "alt": {
+            "es": "Sala y otra perspectiva de la Master Suite",
+            "en": "Lounge and alternate angle of the Master Suite"
+          }
+        }
+      ]
+    },
+    {
+      "folder": "9 HB SUITE FAMILIAR",
+      "slug": "habitacion-suite-familiar",
+      "title": {
+        "es": "Suite Familiar",
+        "en": "Family Suite"
+      },
+      "summary": {
+        "es": "1 cama queen y 2 camas de plaza y media para grupos pequenos.",
+        "en": "1 queen bed and 2 twin beds for small groups."
+      },
+      "descriptiveSource": "G5.JPG",
+      "selected": [
+        {
+          "source": "G1.JPG",
+          "role": "general",
+          "alt": {
+            "es": "Vista general de la Suite Familiar",
+            "en": "Wide view of the Family Suite"
+          }
+        },
+        {
+          "source": "G3.JPG",
+          "role": "main",
+          "alt": {
+            "es": "Area principal de camas en la Suite Familiar",
+            "en": "Main sleeping area in the Family Suite"
+          }
+        },
+        {
+          "source": "G2.JPG",
+          "role": "bath",
+          "alt": {
+            "es": "Bano y ducha de la Suite Familiar",
+            "en": "Bathroom and shower in the Family Suite"
+          }
+        }
+      ]
+    }
+  ]
+}
