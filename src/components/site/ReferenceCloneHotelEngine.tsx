@@ -416,7 +416,7 @@ function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
       imageSrc: "/assets/hero/hero-slide-1.webp",
       fallbackSrc: "/assets/hero/hero-slide-1.jpg",
       imagePosition: { x: 46, y: 44 },
-      mobileImagePosition: { x: 34, y: 34 },
+      mobileImagePosition: { x: 52, y: 30 },
     },
     {
       title: "Habitacion principal",
@@ -424,7 +424,7 @@ function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
       imageSrc: "/assets/hero/hero-slide-2.webp",
       fallbackSrc: "/assets/hero/hero-slide-2.jpg",
       imagePosition: { x: 50, y: 44 },
-      mobileImagePosition: { x: 48, y: 38 },
+      mobileImagePosition: { x: 58, y: 40 },
     },
     {
       title: "Piscina",
@@ -432,7 +432,7 @@ function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
       imageSrc: "/assets/hero/hero-slide-3.webp",
       fallbackSrc: "/assets/hero/hero-slide-3.jpg",
       imagePosition: { x: 36, y: 42 },
-      mobileImagePosition: { x: 28, y: 40 },
+      mobileImagePosition: { x: 46, y: 38 },
     },
     {
       title: content.brand.name,
@@ -440,7 +440,7 @@ function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
       imageSrc: "/assets/hero/hero-slide-4.webp",
       fallbackSrc: "/assets/hero/hero-slide-4.jpg",
       imagePosition: { x: 56, y: 44 },
-      mobileImagePosition: { x: 62, y: 44 },
+      mobileImagePosition: { x: 68, y: 40 },
     },
   ];
 }

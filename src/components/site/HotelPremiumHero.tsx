@@ -105,6 +105,23 @@ export function HotelPremiumHero({
       </div>
 
       <style jsx global>{`
+        .page-shell.mode-reference-clone-hotel .hotel-reference-hero-slide-media {
+          filter: saturate(1.08) contrast(1.07) brightness(1.02);
+        }
+
+        .page-shell.mode-reference-clone-hotel .hotel-home-hero-overlay {
+          background:
+            linear-gradient(180deg, rgba(7, 10, 12, 0.42) 0%, rgba(7, 10, 12, 0.08) 24%, rgba(9, 12, 14, 0.16) 58%, rgba(7, 10, 12, 0.46) 100%),
+            radial-gradient(circle at 16% 18%, rgba(16, 77, 96, 0.08), transparent 30%),
+            radial-gradient(circle at 78% 18%, rgba(203, 161, 91, 0.08), transparent 28%),
+            linear-gradient(90deg, rgba(8, 10, 12, 0.12), rgba(8, 10, 12, 0.02) 34%, rgba(8, 10, 12, 0.08));
+        }
+
+        .page-shell.mode-reference-clone-hotel .hotel-home-hero-atmo {
+          filter: blur(12px);
+          opacity: 0.48;
+        }
+
         .page-shell.mode-reference-clone-hotel .hotel-home-hero-actions {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 248px));
@@ -144,6 +161,38 @@ export function HotelPremiumHero({
         }
 
         @media (max-width: 860px) {
+          .page-shell.mode-reference-clone-hotel .hotel-reference-hero-slide-media {
+            filter: saturate(1.1) contrast(1.1) brightness(1.01);
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-stage {
+            min-height: clamp(940px, 108svh, 1100px);
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-overlay {
+            background:
+              linear-gradient(180deg, rgba(7, 10, 12, 0.38) 0%, rgba(7, 10, 12, 0.06) 22%, rgba(9, 12, 14, 0.16) 58%, rgba(7, 10, 12, 0.42) 100%),
+              linear-gradient(90deg, rgba(8, 10, 12, 0.1), rgba(8, 10, 12, 0.01) 50%, rgba(8, 10, 12, 0.08));
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-atmo {
+            filter: blur(10px);
+            opacity: 0.34;
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-layout-centered {
+            padding-top: clamp(138px, 16svh, 164px);
+            padding-bottom: clamp(128px, 14svh, 156px);
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-copy-centered {
+            gap: 20px;
+          }
+
+          .page-shell.mode-reference-clone-hotel .hotel-home-hero-copyblock {
+            gap: 14px;
+          }
+
           .page-shell.mode-reference-clone-hotel .hotel-home-hero-actions {
             grid-template-columns: 1fr;
             justify-items: center;
@@ -159,7 +208,7 @@ export function HotelPremiumHero({
           }
 
           .page-shell.mode-reference-clone-hotel .hotel-home-reservation-card-inline {
-            margin-top: 30px;
+            margin-top: 40px;
           }
         }
       `}</style>
