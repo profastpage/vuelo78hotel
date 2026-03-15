@@ -1,3 +1,6 @@
+ "use client";
+
+import { useEffect, useRef, useState } from "react";
 import { Facebook, Instagram, Music2 } from "lucide-react";
 import type { HotelLocale } from "@/lib/hotel-experience";
 
@@ -28,9 +31,42 @@ const SOCIAL_LINKS = [
 
 export function HotelSocialLinksSection({ locale }: HotelSocialLinksSectionProps) {
   const ariaPrefix = locale === "en" ? "Visit" : "Visitar";
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry?.isIntersecting) {
+          return;
+        }
+
+        setIsVisible(true);
+        observer.disconnect();
+      },
+      {
+        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.2,
+      },
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="scene hotel-social-section" data-animate data-animate-delay="120" aria-labelledby="hotel-social-heading">
+    <section
+      aria-labelledby="hotel-social-heading"
+      className={`scene hotel-social-section${isVisible ? " is-visible" : ""}`}
+      ref={sectionRef}
+    >
       <div className="hotel-social-shell">
         <span className="hotel-social-kicker" id="hotel-social-heading">
           Síguenos
