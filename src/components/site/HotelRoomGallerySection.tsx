@@ -45,7 +45,7 @@ export function HotelRoomGallerySection({
 
   return (
     <section className="scene hotel-room-gallery-section" id={sectionId}>
-      <div className="hotel-reference-section-heading">
+      <div className="hotel-reference-section-heading hotel-room-gallery-section-heading">
         <span className="scene-chip">{eyebrow || copy.chip}</span>
         <h2>{renderBalancedSectionTitle(title || copy.heading)}</h2>
         <p>{summary || copy.summary}</p>
@@ -56,15 +56,20 @@ export function HotelRoomGallerySection({
           <article className="hotel-room-gallery-card" id={room.slug} key={room.slug}>
             <div className="hotel-room-gallery-card-head">
               <div className="hotel-room-gallery-card-copy">
+                <h3 className="hotel-room-gallery-card-title-mobile">{room.title}</h3>
                 <div className="hotel-room-gallery-word-mark" aria-label={`${room.title}: signature words`}>
-                  {room.signatureWords.slice(0, 3).map((word) => (
-                    <span key={`${room.slug}-${word}`}>{word}</span>
+                  {room.signatureWords.slice(0, 3).map((word, index) => (
+                    <span key={`${room.slug}-${word}`}>
+                      {index > 0 ? <i aria-hidden="true">|</i> : null}
+                      <b>{word}</b>
+                    </span>
                   ))}
                 </div>
               </div>
               <a className="primary-button hotel-room-gallery-cta hotel-room-gallery-cta-desktop" href={room.reservationHref}>
                 {copy.cta}
               </a>
+              <span aria-hidden="true" className="hotel-room-gallery-card-spacer" />
             </div>
 
             <div className="hotel-room-gallery-card-body">
