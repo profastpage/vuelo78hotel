@@ -51,7 +51,7 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
                 priority={index === 0}
                 quality={95}
                 sizes="100vw"
-                src={slide.fallbackSrc || slide.imageSrc}
+                src={slide.imageSrc}
               />
             </span>
           </div>
