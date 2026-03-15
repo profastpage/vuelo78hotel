@@ -297,7 +297,10 @@ function buildAmenities(content: SiteContent) {
     { title: "WiFi gratis", icon: "wifi", description: "Conexion estable para descansar, trabajar o coordinar tu viaje." },
     { title: "Piscina", icon: "pool", description: "Un espacio de descanso que acompana la experiencia del hotel." },
     { title: "Aire acondicionado", icon: "air", description: "Confort termico para descansar mejor en cualquier horario." },
-    { title: "Atencion 24/7", icon: "hospitality", description: "Recepcion y asistencia para confirmar tu llegada con tranquilidad." },
+    { title: "Zona de trabajo", icon: "workspace", description: "Un punto comodo para revisar pendientes o planificar el dia." },
+    { title: "Comedor", icon: "dining", description: "Espacio practico para disfrutar cada comida dentro del hotel." },
+    { title: "Restobar", icon: "restobar", description: "Bebidas y momentos de pausa con una atmosfera mas relajada." },
+    { title: "Recepcion 24h", icon: "reception", description: "Asistencia continua para llegadas, consultas y apoyo en cualquier momento." },
   ];
 
   return baseItems.map((item, index) => ({

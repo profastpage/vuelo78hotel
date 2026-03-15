@@ -1,4 +1,14 @@
-import { Coffee, ConciergeBell, Snowflake, Tv, Waves, Wifi } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Clock3,
+  Coffee,
+  ConciergeBell,
+  Martini,
+  Snowflake,
+  UtensilsCrossed,
+  Waves,
+  Wifi,
+} from "lucide-react";
 import { renderBalancedSectionTitle } from "./headline-balance";
 import type { HotelLocale } from "@/lib/hotel-experience";
 import { getHotelUi } from "@/lib/hotel-experience";
@@ -23,13 +33,13 @@ export function HotelPremiumAmenities({ items, locale }: HotelPremiumAmenitiesPr
         <h2>{renderBalancedSectionTitle(ui.amenities.title)}</h2>
       </div>
 
-      <div className="hotel-deluxe-amenity-strip hotel-home-amenity-strip" role="list" aria-label={ui.amenities.listAria}>
+      <div className="hotel-home-amenity-strip" role="list" aria-label={ui.amenities.listAria}>
         {items.map((item, index) => (
-          <article className="hotel-deluxe-amenity-item hotel-home-amenity-item" key={item.title} role="listitem">
-            <span className="hotel-deluxe-amenity-icon hotel-home-amenity-icon" aria-hidden="true">
+          <article className="hotel-home-amenity-item" key={item.title} role="listitem">
+            <span className="hotel-home-amenity-icon" aria-hidden="true">
               <AmenityIcon icon={item.icon} index={index} />
             </span>
-            <div className="hotel-deluxe-amenity-copy hotel-home-amenity-copy">
+            <div className="hotel-home-amenity-copy">
               <strong>{item.title}</strong>
             </div>
           </article>
@@ -40,7 +50,7 @@ export function HotelPremiumAmenities({ items, locale }: HotelPremiumAmenitiesPr
 }
 
 function AmenityIcon({ icon, index }: { icon: string; index: number }) {
-  const size = 18;
+  const size = 20;
   const strokeWidth = 1.8;
   const iconId = icon || String(index);
 
@@ -53,8 +63,14 @@ function AmenityIcon({ icon, index }: { icon: string; index: number }) {
       return <Waves size={size} strokeWidth={strokeWidth} />;
     case "air":
       return <Snowflake size={size} strokeWidth={strokeWidth} />;
-    case "tv":
-      return <Tv size={size} strokeWidth={strokeWidth} />;
+    case "workspace":
+      return <BriefcaseBusiness size={size} strokeWidth={strokeWidth} />;
+    case "dining":
+      return <UtensilsCrossed size={size} strokeWidth={strokeWidth} />;
+    case "restobar":
+      return <Martini size={size} strokeWidth={strokeWidth} />;
+    case "reception":
+      return <Clock3 size={size} strokeWidth={strokeWidth} />;
     default:
       return <ConciergeBell size={size} strokeWidth={strokeWidth} />;
   }
