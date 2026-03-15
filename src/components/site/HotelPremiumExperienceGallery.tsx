@@ -24,6 +24,7 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
   const ui = getHotelUi(locale);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const dragPointerIdRef = useRef<number | null>(null);
   const dragStartXRef = useRef(0);
   const dragDeltaXRef = useRef(0);
@@ -67,35 +68,31 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
   const currentItems = currentGroup?.items ?? [];
   const slideCount = currentItems.length;
 
-  const loopedItems = useMemo(() => {
-    if (slideCount <= 1) {
-      return currentItems;
-    }
-
-    return [...currentItems, ...currentItems, ...currentItems];
-  }, [currentItems, slideCount]);
-
-  const normalizedIndex = slideCount > 0 ? ((activeIndex % slideCount) + slideCount) % slideCount : 0;
-
   const visibleIndexes = useMemo(() => {
     const indexes = new Set<number>();
-    const before = 3;
-    const after = 3;
 
-    for (let index = activeIndex - before; index <= activeIndex + after; index += 1) {
-      if (index >= 0 && index < loopedItems.length) {
-        indexes.add(index);
-      }
+    if (slideCount === 0) {
+      return indexes;
+    }
+
+    indexes.add(activeIndex);
+
+    if (slideCount > 1) {
+      indexes.add(Math.min(activeIndex + 1, slideCount - 1));
+      indexes.add(Math.max(activeIndex - 1, 0));
     }
 
     return indexes;
-  }, [activeIndex, loopedItems.length]);
+  }, [activeIndex, slideCount]);
 
   useEffect(() => {
-    setActiveIndex(slideCount > 1 ? slideCount : 0);
-    setDragOffset(0);
-    setTransitionEnabled(true);
-  }, [slideCount, activeGroupIndex]);
+    const activeTab = tabRefs.current[activeGroupIndex];
+    activeTab?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "nearest",
+    });
+  }, [activeGroupIndex]);
 
   useEffect(() => {
     const updateStep = () => {
@@ -129,26 +126,52 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
       observer?.disconnect();
       window.removeEventListener("resize", updateStep);
     };
-  }, [loopedItems.length]);
+  }, [activeGroupIndex, slideCount]);
 
-  const goTo = (index: number) => {
-    if (slideCount <= 1) {
+  useEffect(() => {
+    if (activeIndex <= Math.max(slideCount - 1, 0)) {
       return;
     }
 
+    setActiveIndex(Math.max(slideCount - 1, 0));
+  }, [activeIndex, slideCount]);
+
+  const moveToGroup = (groupIndex: number, nextIndex = 0) => {
     setTransitionEnabled(true);
-    setActiveIndex(index);
+    setActiveGroupIndex(groupIndex);
+    setActiveIndex(nextIndex);
+    setDragOffset(0);
   };
 
-  const goNext = () => goTo(activeIndex + 1);
-  const goPrevious = () => goTo(activeIndex - 1);
+  const goNext = () => {
+    if (!groups.length) {
+      return;
+    }
 
-  const resetToLoopWindow = (index: number) => {
-    setTransitionEnabled(false);
-    setActiveIndex(index);
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => setTransitionEnabled(true));
-    });
+    if (activeIndex < slideCount - 1) {
+      setTransitionEnabled(true);
+      setActiveIndex((current) => current + 1);
+      return;
+    }
+
+    const nextGroupIndex = (activeGroupIndex + 1) % groups.length;
+    moveToGroup(nextGroupIndex, 0);
+  };
+
+  const goPrevious = () => {
+    if (!groups.length) {
+      return;
+    }
+
+    if (activeIndex > 0) {
+      setTransitionEnabled(true);
+      setActiveIndex((current) => current - 1);
+      return;
+    }
+
+    const previousGroupIndex = (activeGroupIndex - 1 + groups.length) % groups.length;
+    const previousGroup = groups[previousGroupIndex];
+    moveToGroup(previousGroupIndex, Math.max(previousGroup.items.length - 1, 0));
   };
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -190,7 +213,11 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
     setDragOffset(0);
 
     if (Math.abs(deltaX) >= threshold) {
-      setActiveIndex((current) => current + (deltaX < 0 ? 1 : -1));
+      if (deltaX < 0) {
+        goNext();
+      } else {
+        goPrevious();
+      }
     }
   };
 
@@ -213,7 +240,10 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
               aria-selected={index === activeGroupIndex}
               className={index === activeGroupIndex ? "is-active" : undefined}
               key={group.areaKey}
-              onClick={() => setActiveGroupIndex(index)}
+              onClick={() => moveToGroup(index, 0)}
+              ref={(node) => {
+                tabRefs.current[index] = node;
+              }}
               role="tab"
               type="button"
             >
@@ -230,7 +260,7 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
             </span>
           </div>
 
-          {slideCount > 1 ? (
+          {groups.length > 1 || slideCount > 1 ? (
             <div className="hotel-experience-carousel-controls">
               <button
                 aria-label={`${labels.previous}: ${currentGroup.areaLabel}`}
@@ -238,7 +268,9 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
                 onClick={goPrevious}
                 type="button"
               >
-                <span aria-hidden="true">&lt;</span>
+                <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                  <path d="M9.75 3.5 5.25 8l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" />
+                </svg>
               </button>
               <button
                 aria-label={`${labels.next}: ${currentGroup.areaLabel}`}
@@ -246,7 +278,9 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
                 onClick={goNext}
                 type="button"
               >
-                <span aria-hidden="true">&gt;</span>
+                <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                  <path d="M6.25 3.5 10.75 8l-4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" />
+                </svg>
               </button>
             </div>
           ) : null}
@@ -277,32 +311,21 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
         >
           <div
             className="hotel-experience-carousel-track"
-            onTransitionEnd={() => {
-              if (!transitionEnabled || slideCount <= 1) {
-                return;
-              }
-
-              if (activeIndex < slideCount) {
-                resetToLoopWindow(activeIndex + slideCount);
-                return;
-              }
-
-              if (activeIndex >= slideCount * 2) {
-                resetToLoopWindow(activeIndex - slideCount);
-              }
-            }}
             ref={trackRef}
             style={{
               transform: `translate3d(${step > 0 ? (-activeIndex * step) + dragOffset : 0}px, 0, 0)`,
               transition: transitionEnabled ? "transform 520ms cubic-bezier(0.22, 1, 0.36, 1)" : "none",
             }}
           >
-            {loopedItems.map((item, index) => {
-              const itemIndex = slideCount > 0 ? ((index % slideCount) + slideCount) % slideCount : 0;
-              const isCover = itemIndex === 0;
+            {currentItems.map((item, index) => {
+              const isCover = index === 0;
 
               return (
-                <figure className="hotel-experience-carousel-slide" data-experience-slide key={`${currentGroup.areaKey}-${item.id}-${index}`}>
+                <figure
+                  className={`hotel-experience-carousel-slide${isCover ? " is-cover" : " is-clean"}`}
+                  data-experience-slide
+                  key={`${currentGroup.areaKey}-${item.id}`}
+                >
                   <div className="hotel-experience-carousel-media">
                     {visibleIndexes.has(index) ? (
                       <Image
@@ -310,8 +333,8 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
                         className="hotel-experience-carousel-image"
                         draggable={false}
                         fill
-                        loading={index >= slideCount && index < slideCount + 2 ? "eager" : "lazy"}
-                        sizes="(max-width: 640px) calc(100vw - 52px), (max-width: 960px) 72vw, (max-width: 1280px) 42vw, 34vw"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        sizes="(max-width: 640px) 94vw, (max-width: 860px) 92vw, (max-width: 1280px) 42vw, 34vw"
                         src={item.src}
                       />
                     ) : (

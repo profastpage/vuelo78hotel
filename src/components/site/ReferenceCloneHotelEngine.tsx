@@ -203,23 +203,23 @@ export function ReferenceCloneHotelEngine({
           sectionId="habitaciones"
           summary={t(
             locale,
-            "Recorre las categorias reales del hotel con fotos curadas, ficha visual y reserva directa desde cada habitacion.",
-            "Browse the hotel's real room categories with curated photos, a visual info card and direct booking from each room.",
+            "Espacios cómodos, tranquilos y pensados para una estancia placentera.",
+            "Comfortable, calm spaces designed for a pleasant stay.",
           )}
           title={t(
             locale,
-            "Nuestras habitaciones con fotos reales y mejor lectura visual",
-            "Our rooms with real photos and clearer visual storytelling",
+            "Habitaciones diseñadas para descansar",
+            "Rooms designed for rest",
           )}
         />
 
         {testimonials.length ? (
           <HotelPremiumTestimonials
             items={testimonials.map((item, index) => ({
-              imagePosition: galleryItems[index + 1]?.imagePosition || services[index]?.imagePosition || heroImagePosition,
-              imageSrc: galleryItems[index + 1]?.imageSrc || services[index]?.imageSrc || heroImage,
+              imageSrc: item.avatarSrc || galleryItems[index + 1]?.imageSrc || services[index]?.imageSrc || heroImage,
+              location: item.location,
               name: item.name,
-              quote: truncateText(item.quote, 132),
+              quote: item.quote,
               role: item.role,
               segment: item.segment,
               rating: item.rating ?? 5,
@@ -338,32 +338,36 @@ function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
 
   return [
     {
-      title: content.brand.name,
-      subtitle: fallbackDescription,
+      title: "Fachada principal",
+      subtitle: "Llegada directa con una presencia limpia y reconocible",
       imageSrc: "/assets/hero/hero-slide-1.webp",
       fallbackSrc: "/assets/hero/hero-slide-1.jpg",
-      imagePosition: { x: 55, y: 50 },
+      imagePosition: { x: 46, y: 44 },
+      mobileImagePosition: { x: 34, y: 34 },
     },
     {
-      title: "Suite principal",
-      subtitle: "Habitacion amplia para una estancia premium",
+      title: "Habitacion principal",
+      subtitle: "Descanso comodo con una lectura clara del espacio",
       imageSrc: "/assets/hero/hero-slide-2.webp",
       fallbackSrc: "/assets/hero/hero-slide-2.jpg",
-      imagePosition: { x: 52, y: 50 },
+      imagePosition: { x: 50, y: 44 },
+      mobileImagePosition: { x: 48, y: 38 },
     },
     {
-      title: "Piscina interior",
-      subtitle: "Un espacio fresco para bajar el ritmo",
+      title: "Piscina",
+      subtitle: "Un momento de pausa con color y frescura",
       imageSrc: "/assets/hero/hero-slide-3.webp",
       fallbackSrc: "/assets/hero/hero-slide-3.jpg",
-      imagePosition: { x: 44, y: 38 },
+      imagePosition: { x: 36, y: 42 },
+      mobileImagePosition: { x: 28, y: 40 },
     },
     {
-      title: "Master suite",
-      subtitle: "Dormitorio amplio con jacuzzi integrado",
+      title: content.brand.name,
+      subtitle: fallbackDescription,
       imageSrc: "/assets/hero/hero-slide-4.webp",
       fallbackSrc: "/assets/hero/hero-slide-4.jpg",
-      imagePosition: { x: 52, y: 52 },
+      imagePosition: { x: 56, y: 44 },
+      mobileImagePosition: { x: 62, y: 44 },
     },
   ];
 }

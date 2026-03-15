@@ -9,6 +9,7 @@ export type HotelHeroSlide = {
   imageSrc: string;
   fallbackSrc?: string;
   imagePosition?: ImagePosition;
+  mobileImagePosition?: ImagePosition;
 };
 
 type HotelHeroShowcaseProps = {
@@ -39,7 +40,7 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
           <div
             className={`hotel-reference-hero-slide${index === activeIndex ? " is-active" : ""}`}
             key={`${slide.imageSrc}-${index}`}
-            style={getSlideStyle(slide.imagePosition)}
+            style={getSlideStyle(slide.imagePosition, slide.mobileImagePosition)}
           >
             <picture className="hotel-reference-hero-slide-picture">
               {slide.imageSrc.toLowerCase().endsWith(".webp") ? <source srcSet={slide.imageSrc} type="image/webp" /> : null}
@@ -48,8 +49,10 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
                 className="hotel-reference-hero-slide-media"
                 decoding="async"
                 fetchPriority={index === 0 ? "high" : "auto"}
+                height={1350}
                 loading={index === 0 ? "eager" : "lazy"}
                 src={slide.fallbackSrc || slide.imageSrc}
+                width={2400}
               />
             </picture>
           </div>
@@ -73,11 +76,14 @@ export function HotelHeroShowcase({ slides }: HotelHeroShowcaseProps) {
   );
 }
 
-function getSlideStyle(position?: ImagePosition) {
+function getSlideStyle(position?: ImagePosition, mobilePosition?: ImagePosition) {
   const x = typeof position?.x === "number" ? position.x : 50;
   const y = typeof position?.y === "number" ? position.y : 50;
+  const mobileX = typeof mobilePosition?.x === "number" ? mobilePosition.x : x;
+  const mobileY = typeof mobilePosition?.y === "number" ? mobilePosition.y : y;
 
   return {
     ["--hero-image-position" as const]: `${x}% ${y}%`,
+    ["--hero-image-position-mobile" as const]: `${mobileX}% ${mobileY}%`,
   } as CSSProperties;
 }

@@ -39,8 +39,8 @@ export function HotelRoomGallerySection({
           cta: "Reservar esta habitacion",
           details: "Detalles de la habitacion",
           price: "Tarifa referencial",
-          heading: "Habitaciones curadas solo con las mejores vistas",
-          summary: "Cada galeria conserva las mejores tomas y convierte la ficha de imagen en contenido legible dentro de la interfaz.",
+          heading: "Habitaciones diseñadas para descansar",
+          summary: "Espacios cómodos, tranquilos y pensados para una estancia placentera.",
         };
 
   return (
@@ -62,7 +62,7 @@ export function HotelRoomGallerySection({
                   ))}
                 </div>
               </div>
-              <a className="primary-button hotel-room-gallery-cta" href={room.reservationHref}>
+              <a className="primary-button hotel-room-gallery-cta hotel-room-gallery-cta-desktop" href={room.reservationHref}>
                 {copy.cta}
               </a>
             </div>
@@ -81,12 +81,18 @@ export function HotelRoomGallerySection({
                   ))}
                 </ul>
 
-                {room.details.price ? (
-                  <div className="hotel-room-gallery-price-block">
-                    <span>{copy.price}</span>
-                    <strong>{room.details.price}</strong>
-                  </div>
-                ) : null}
+                <div className="hotel-room-gallery-footer">
+                  {room.details.price ? (
+                    <div className="hotel-room-gallery-price-block">
+                      <span>{copy.price}</span>
+                      <strong>{room.details.price}</strong>
+                    </div>
+                  ) : null}
+
+                  <a className="primary-button hotel-room-gallery-cta hotel-room-gallery-cta-mobile" href={room.reservationHref}>
+                    {copy.cta}
+                  </a>
+                </div>
               </aside>
 
               <HotelRoomGalleryCarousel locale={locale} roomTitle={room.title} slides={room.slides} />

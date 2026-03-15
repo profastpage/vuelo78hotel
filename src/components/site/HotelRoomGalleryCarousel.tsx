@@ -20,12 +20,12 @@ export function HotelRoomGalleryCarousel({ locale, roomTitle, slides }: HotelRoo
 
   const labels = useMemo(
     () => ({
-      counter: locale === "en" ? "selected views" : "vistas seleccionadas",
+      counter: locale === "en" ? "photos" : "fotos",
       next: locale === "en" ? "Next image" : "Imagen siguiente",
       previous: locale === "en" ? "Previous image" : "Imagen anterior",
       roles: {
         alternate: locale === "en" ? "Alternate angle" : "Otra perspectiva",
-        bath: locale === "en" ? "Bathroom" : "Bano",
+        bath: locale === "en" ? "Bathroom" : "Baño",
         detail: locale === "en" ? "Detail" : "Detalle",
         general: locale === "en" ? "Wide view" : "Vista general",
         main: locale === "en" ? "Main bed" : "Area principal",
@@ -87,7 +87,9 @@ export function HotelRoomGalleryCarousel({ locale, roomTitle, slides }: HotelRoo
               onClick={goPrevious}
               type="button"
             >
-              <span aria-hidden="true">←</span>
+              <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                <path d="M9.75 3.5 5.25 8l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" />
+              </svg>
             </button>
             <button
               aria-label={`${labels.next}: ${roomTitle}`}
@@ -95,7 +97,9 @@ export function HotelRoomGalleryCarousel({ locale, roomTitle, slides }: HotelRoo
               onClick={goNext}
               type="button"
             >
-              <span aria-hidden="true">→</span>
+              <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                <path d="M6.25 3.5 10.75 8l-4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" />
+              </svg>
             </button>
           </div>
         ) : null}

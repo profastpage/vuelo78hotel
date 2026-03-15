@@ -73,22 +73,6 @@ const EXPERIENCE_GALLERY_ITEMS: ExperienceGalleryDefinition[] = [
     src: "/assets/gallery/experiencia-curada/05-piscina-vista.jpg",
   },
   {
-    id: "piscina-03",
-    areaKey: "piscina",
-    areaLabel: { es: "Piscina", en: "Pool" },
-    title: { es: "Vista cenital para relajarse", en: "Overhead view for relaxing" },
-    alt: { es: "Detalle cenital de la piscina", en: "Overhead detail of the pool" },
-    src: "/assets/gallery/experiencia-curada/07-piscina-detalle.jpg",
-  },
-  {
-    id: "piscina-04",
-    areaKey: "piscina",
-    areaLabel: { es: "Piscina", en: "Pool" },
-    title: { es: "Rincon de piscina para la tarde", en: "Pool corner for the afternoon" },
-    alt: { es: "Area de descanso junto a la piscina", en: "Relaxing area by the pool" },
-    src: "/assets/gallery/experiencia-curada/08-piscina-tarde.jpg",
-  },
-  {
     id: "desayuno-01",
     areaKey: "desayuno",
     areaLabel: { es: "Desayuno", en: "Breakfast" },
