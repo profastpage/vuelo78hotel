@@ -17,7 +17,6 @@ type HotelPremiumHeroProps = {
   benefits: HeroBenefit[];
   bookingWidget: NonNullable<SiteContent["bookingWidget"]>;
   brandName: string;
-  cityLabel: string;
   contactPhone: string;
   detailsHref: string;
   heroDescription: string;
@@ -32,7 +31,6 @@ export function HotelPremiumHero({
   benefits,
   bookingWidget,
   brandName,
-  cityLabel,
   contactPhone,
   detailsHref,
   heroDescription,
@@ -61,9 +59,6 @@ export function HotelPremiumHero({
               <h1 className="hotel-deluxe-hero-title hotel-home-hero-title">
                 <strong>{heroHeadline}</strong>
               </h1>
-              <p className="hotel-home-hero-subtitle">
-                {ui.hero.subtitlePrefix} {cityLabel}
-              </p>
               <p className="hotel-deluxe-hero-description hotel-home-hero-description">{heroDescription}</p>
             </div>
 

@@ -183,7 +183,6 @@ export function ReferenceCloneHotelEngine({
           benefits={benefits}
           bookingWidget={bookingWidget}
           brandName={displayBrandName}
-          cityLabel={cityLabel}
           contactPhone={contactPhone}
           detailsHref={detailsHref}
           heroDescription={buildHeroDescription(localizedContent, cityLabel)}
