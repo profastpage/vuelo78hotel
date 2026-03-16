@@ -14,7 +14,9 @@ type HotelBookingBarProps = {
   hideNotes?: boolean;
   onSubmitComplete?: () => void;
   onSelectedRoomChange?: (roomId: string) => void;
+  redirectToRoomOnSelect?: boolean;
   selectedRoomId?: string;
+  whatsappIntent?: "hero" | "widget";
 };
 
 export function HotelBookingBar({
@@ -26,7 +28,9 @@ export function HotelBookingBar({
   hideNotes = false,
   onSubmitComplete,
   onSelectedRoomChange,
+  redirectToRoomOnSelect = false,
   selectedRoomId,
+  whatsappIntent = "widget",
 }: HotelBookingBarProps) {
   const ui = getHotelUi(locale);
   const options = bookingWidget.options?.length ? bookingWidget.options : [];
@@ -105,7 +109,7 @@ export function HotelBookingBar({
     const href = buildHotelWhatsAppHrefV2({
       locale,
       hotelName: brandName,
-      intent: "widget",
+      intent: whatsappIntent,
       sourceLabel: compact ? ui.floating.title : ui.hero.bookingKicker,
       roomLabel: selectedRoom.label,
       checkIn,
@@ -143,7 +147,7 @@ export function HotelBookingBar({
     const nextValue = event.target.value;
     updateValue(nextValue);
 
-    if (event.target === roomSelectRef.current) {
+    if (redirectToRoomOnSelect && event.target === roomSelectRef.current) {
       onSelectedRoomChange?.(nextValue);
     }
 
@@ -180,7 +184,7 @@ export function HotelBookingBar({
           <div className="hotel-deluxe-booking-label-row">
             <span>{bookingWidget.detailLabel || (locale === "en" ? "Room" : "Habitación")}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              <BedDouble size={17} strokeWidth={1.8} />
+              <BedDouble size={18} strokeWidth={2.15} />
             </span>
           </div>
           <select
@@ -205,7 +209,7 @@ export function HotelBookingBar({
           <div className="hotel-deluxe-booking-label-row">
             <span>{bookingWidget.scheduleLabel || (locale === "en" ? "Check-in" : "Entrada")}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              <CalendarDays size={17} strokeWidth={1.8} />
+              <CalendarDays size={18} strokeWidth={2.15} />
             </span>
           </div>
           <input
@@ -225,7 +229,7 @@ export function HotelBookingBar({
           <div className="hotel-deluxe-booking-label-row">
             <span>{bookingWidget.timelineLabel || (locale === "en" ? "Check-out" : "Salida")}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              <MoonStar size={17} strokeWidth={1.8} />
+              <MoonStar size={18} strokeWidth={2.15} />
             </span>
           </div>
           <input
@@ -245,7 +249,7 @@ export function HotelBookingBar({
           <div className="hotel-deluxe-booking-label-row">
             <span>{bookingWidget.quantityLabel || (locale === "en" ? "Guests" : "Huéspedes")}</span>
             <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-              <Users size={17} strokeWidth={1.8} />
+              <Users size={18} strokeWidth={2.15} />
             </span>
           </div>
           <select
@@ -268,7 +272,7 @@ export function HotelBookingBar({
             <div className="hotel-deluxe-booking-label-row">
               <span>{bookingWidget.notesLabel || (locale === "en" ? "Special request" : "Solicitud especial")}</span>
               <span className="hotel-deluxe-booking-field-icon" aria-hidden="true">
-                <MessageSquareText size={17} strokeWidth={1.8} />
+                <MessageSquareText size={18} strokeWidth={2.15} />
               </span>
             </div>
             <input
