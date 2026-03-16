@@ -20085,14 +20085,19 @@ body {
 
 @media (max-width: 768px) {
   .page-shell.mode-reference-clone-hotel .hotel-home-hero-stage {
-    min-height: clamp(860px, 100svh, 980px);
+    min-height: clamp(930px, 108svh, 1040px);
     border-radius: 0 0 30px 30px;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-reference-hero-slide-media {
+    object-position: var(--hero-image-position-mobile, 50% 32%);
+    filter: saturate(1.03) contrast(1.04) brightness(1.01);
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-hero-overlay {
     background:
-      linear-gradient(180deg, rgba(7, 10, 12, 0.22) 0%, rgba(7, 10, 12, 0.04) 24%, rgba(9, 12, 14, 0.1) 62%, rgba(7, 10, 12, 0.3) 100%),
-      linear-gradient(90deg, rgba(8, 10, 12, 0.07), rgba(8, 10, 12, 0.01) 50%, rgba(8, 10, 12, 0.06));
+      linear-gradient(180deg, rgba(7, 10, 12, 0.16) 0%, rgba(7, 10, 12, 0.03) 22%, rgba(9, 12, 14, 0.08) 54%, rgba(7, 10, 12, 0.22) 100%),
+      linear-gradient(90deg, rgba(8, 10, 12, 0.05), rgba(8, 10, 12, 0.01) 50%, rgba(8, 10, 12, 0.05));
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-hero-atmo {
@@ -20102,8 +20107,8 @@ body {
 
   .page-shell.mode-reference-clone-hotel .hotel-home-hero-layout-centered {
     width: calc(100% - 20px);
-    padding-top: clamp(132px, 14svh, 152px);
-    padding-bottom: clamp(108px, 12svh, 132px);
+    padding-top: clamp(124px, 13svh, 144px);
+    padding-bottom: clamp(120px, 13svh, 144px);
     gap: 20px;
   }
 
@@ -20137,16 +20142,18 @@ body {
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-reservation-card-inline {
-    margin-top: 34px;
-    padding: 12px;
-    border-radius: 22px;
+    width: calc(100% - 8px);
+    margin-top: 28px;
+    margin-inline: auto;
+    padding: 10px;
+    border-radius: 20px;
     border-color: rgba(255, 243, 227, 0.14);
     background:
-      linear-gradient(180deg, rgba(248, 243, 235, 0.92), rgba(239, 231, 220, 0.88)),
-      rgba(255, 255, 255, 0.78);
+      linear-gradient(180deg, rgba(248, 243, 235, 0.78), rgba(239, 231, 220, 0.7)),
+      rgba(255, 255, 255, 0.64);
     box-shadow:
-      0 18px 34px rgba(15, 18, 18, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.42);
+      0 16px 30px rgba(15, 18, 18, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.34);
     backdrop-filter: none;
   }
 
@@ -20156,7 +20163,7 @@ body {
 
   .page-shell.mode-reference-clone-hotel .hotel-home-booking-form {
     grid-template-columns: 1fr;
-    gap: 8px;
+    gap: 6px;
     padding: 0;
     background: transparent;
     border: 0;
@@ -20165,16 +20172,16 @@ body {
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-booking-field {
-    min-height: 72px;
-    padding: 13px 15px;
-    border-radius: 18px;
+    min-height: 66px;
+    padding: 11px 14px;
+    border-radius: 16px;
     border-color: rgba(214, 188, 145, 0.34);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(246, 239, 230, 0.92)),
-      rgba(255, 255, 255, 0.94);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(246, 239, 230, 0.86)),
+      rgba(255, 255, 255, 0.88);
     box-shadow:
-      0 8px 18px rgba(24, 27, 28, 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.68);
+      0 6px 14px rgba(24, 27, 28, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.62);
     backdrop-filter: none;
   }
 
@@ -20183,11 +20190,11 @@ body {
     transform: none;
     border-color: rgba(201, 170, 120, 0.42);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(248, 241, 232, 0.94)),
-      rgba(255, 255, 255, 0.96);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 241, 232, 0.9)),
+      rgba(255, 255, 255, 0.92);
     box-shadow:
-      0 10px 22px rgba(24, 27, 28, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.74);
+      0 8px 18px rgba(24, 27, 28, 0.07),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-booking-field .hotel-deluxe-booking-label-row span:first-child {
@@ -20209,10 +20216,10 @@ body {
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-booking-submit {
-    min-height: 60px;
-    border-radius: 18px;
+    min-height: 56px;
+    border-radius: 16px;
     box-shadow:
-      0 16px 28px rgba(25, 69, 43, 0.2),
+      0 14px 24px rgba(25, 69, 43, 0.18),
       inset 0 1px 0 rgba(255, 255, 255, 0.14);
   }
 }
