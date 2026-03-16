@@ -42,11 +42,14 @@
 - `docs/customization-workflow.md`: flujo obligatorio para personalizar el cliente sin desalinear docs ni localhost.
 - `config/client-profile.json`: perfil del cliente y modulos.
 - `config/site-content.json`: contenido demo conectado al frontend local.
+- `site.json`: configuracion central activa para el nuevo sistema de plantillas.
+- `templates/*/site.json`: ejemplos reutilizables por vertical.
 - `.cursorrules`: reglas base para Cursor Agent dentro del proyecto.
 - `content/raw.txt`: entrada libre del negocio para el flujo AI.
 - `content/brief.yaml`: brief estructurado conectado al frontend actual.
 - `ai/prompt-web-generator.md`: prompt base del AI website generator.
 - `docs/UI_GUARDRAILS.md`: reglas de interfaz.
+- `docs/template-system.md`: como cambiar de plantilla o JSON sin tocar componentes.
 - `Abrir Stack Trabajo.cmd`: abre el proyecto en Cursor + VS Code + localhost.
 - `Modo Produccion.cmd`: abre el proyecto en Cursor + VS Code + localhost + watcher AI + revision rapida.
 - `Aplicar Widget Negocio.cmd`: aplica el widget reutilizable por rubro.

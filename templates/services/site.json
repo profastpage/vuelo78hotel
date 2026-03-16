@@ -1,0 +1,99 @@
+{
+  "template": "services",
+  "meta": {
+    "title": "Services Template",
+    "description": "Plantilla reusable para negocios de servicios."
+  },
+  "brand": {
+    "name": "Nombre del Negocio",
+    "tagline": "Servicio profesional",
+    "whatsapp": "+51999999999",
+    "email": "hola@servicio.com",
+    "location": "Cusco, Peru"
+  },
+  "theme": {
+    "mode": "light",
+    "accentColor": "#3B82F6",
+    "accentAltColor": "#173F7B",
+    "backgroundColor": "#eef4fb",
+    "surfaceColor": "#f9fbff",
+    "textColor": "#1b2d45",
+    "mutedColor": "#607187"
+  },
+  "navigation": [
+    { "label": "Inicio", "href": "#inicio" },
+    { "label": "Propuesta", "href": "#features" },
+    { "label": "Casos", "href": "#gallery" },
+    { "label": "Servicios", "href": "#services" },
+    { "label": "Testimonios", "href": "#testimonials" },
+    { "label": "Contacto", "href": "#contact" }
+  ],
+  "hero": {
+    "eyebrow": "Servicios",
+    "title": "Mismo sistema visual para negocios que venden expertise",
+    "description": "Ideal para estudios, agencias, consultoras o servicios profesionales.",
+    "primaryCta": { "label": "Solicitar llamada", "href": "https://wa.me/51999999999" },
+    "secondaryCta": { "label": "Ver servicios", "href": "#services" },
+    "benefits": [
+      { "icon": "business", "label": "Propuesta clara" },
+      { "icon": "monitor", "label": "Casos editables" },
+      { "icon": "phone", "label": "Cierre rapido" }
+    ],
+    "slides": [
+      {
+        "title": "Services hero",
+        "imageSrc": "/assets/hero/hero-premium-4.webp",
+        "mobileImageSrc": "/assets/hero/hero-premium-4-mobile.webp"
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "Propuesta",
+    "title": "Beneficios y diferenciadores",
+    "description": "Todo lo que define la oferta vive en JSON.",
+    "items": [
+      { "icon": "business", "title": "Diagnostico", "description": "Bloque editable." },
+      { "icon": "monitor", "title": "Implementacion", "description": "Bloque editable." },
+      { "icon": "star", "title": "Resultados", "description": "Bloque editable." }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Casos",
+    "title": "Casos, entregables o resultados",
+    "description": "Reutiliza la galeria para proyectos o portafolio.",
+    "items": [
+      { "title": "Caso 1", "description": "Descripcion breve.", "imageSrc": "/assets/hero/hero-premium-4.jpg" },
+      { "title": "Caso 2", "description": "Descripcion breve.", "imageSrc": "/assets/hero/hero-premium-1.jpg" }
+    ]
+  },
+  "services": {
+    "eyebrow": "Servicios",
+    "title": "Oferta principal",
+    "description": "Describe lineas de servicio, entregables o paquetes.",
+    "items": [
+      { "name": "Servicio 1", "description": "Bloque editable.", "icon": "business" },
+      { "name": "Servicio 2", "description": "Bloque editable.", "icon": "monitor" },
+      { "name": "Servicio 3", "description": "Bloque editable.", "icon": "phone" }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Testimonios",
+    "title": "Prueba social del servicio",
+    "description": "Resultados, confianza y experiencia.",
+    "items": [
+      { "name": "Cliente 1", "location": "Cusco", "quote": "Muy claro, profesional y bien ejecutado.", "rating": 5 }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Solicita una reunion",
+    "description": "WhatsApp, email y direccion configurables.",
+    "whatsappLabel": "WhatsApp",
+    "whatsappHref": "https://wa.me/51999999999",
+    "emailLabel": "hola@servicio.com",
+    "address": "Cobertura nacional o direccion"
+  },
+  "footer": {
+    "copyright": "© 2026 Services Template"
+  }
+}

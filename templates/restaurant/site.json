@@ -1,0 +1,99 @@
+{
+  "template": "restaurant",
+  "meta": {
+    "title": "Restaurant Template",
+    "description": "Plantilla reusable para restaurantes."
+  },
+  "brand": {
+    "name": "Nombre del Restaurante",
+    "tagline": "Cocina de autor",
+    "whatsapp": "+51999999999",
+    "email": "reservas@restaurant.com",
+    "location": "Lima, Peru"
+  },
+  "theme": {
+    "mode": "light",
+    "accentColor": "#C67B2C",
+    "accentAltColor": "#3A2617",
+    "backgroundColor": "#fbf2e7",
+    "surfaceColor": "#fff9f2",
+    "textColor": "#2f221a",
+    "mutedColor": "#7b6657"
+  },
+  "navigation": [
+    { "label": "Inicio", "href": "#inicio" },
+    { "label": "Concepto", "href": "#features" },
+    { "label": "Platos", "href": "#gallery" },
+    { "label": "Carta", "href": "#services" },
+    { "label": "Opiniones", "href": "#testimonials" },
+    { "label": "Reservas", "href": "#contact" }
+  ],
+  "hero": {
+    "eyebrow": "Reserva tu mesa",
+    "title": "Una plantilla premium para vender ambiente y cocina",
+    "description": "La misma base puede mostrar concepto, platos estrella y prueba social.",
+    "primaryCta": { "label": "Reservar ahora", "href": "https://wa.me/51999999999" },
+    "secondaryCta": { "label": "Ver platos", "href": "#gallery" },
+    "benefits": [
+      { "icon": "restaurant", "label": "Carta de autor" },
+      { "icon": "camera", "label": "Ambiente premium" },
+      { "icon": "sparkles", "label": "Experiencia cuidada" }
+    ],
+    "slides": [
+      {
+        "title": "Restaurant hero",
+        "imageSrc": "/assets/hero/hero-premium-1.webp",
+        "mobileImageSrc": "/assets/hero/hero-premium-1-mobile.webp"
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "Concepto",
+    "title": "Cuenta la propuesta del restaurante con estructura clara",
+    "description": "Beneficios, especialidad y contexto visual sin tocar componentes.",
+    "items": [
+      { "icon": "restaurant", "title": "Cocina", "description": "Define tu especialidad." },
+      { "icon": "camera", "title": "Ambiente", "description": "Muestra el lugar y la experiencia." },
+      { "icon": "phone", "title": "Reservas", "description": "Lleva el cierre a WhatsApp o formulario." }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Platos",
+    "title": "Galeria de platos y ambiente",
+    "description": "Usa fotos de producto, carta o interiores.",
+    "items": [
+      { "title": "Plato estrella", "description": "Descripcion breve.", "imageSrc": "/assets/hero/hero-premium-3.jpg" },
+      { "title": "Ambiente", "description": "Descripcion breve.", "imageSrc": "/assets/hero/hero-premium-1.jpg" }
+    ]
+  },
+  "services": {
+    "eyebrow": "Carta",
+    "title": "Categorias o experiencias destacadas",
+    "description": "Entradas, fondos, bar, menu degustacion o delivery.",
+    "items": [
+      { "name": "Entradas", "description": "Bloque editable.", "icon": "restaurant" },
+      { "name": "Fondos", "description": "Bloque editable.", "icon": "sparkles" },
+      { "name": "Reservas", "description": "Bloque editable.", "icon": "phone" }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Opiniones",
+    "title": "Validacion del cliente",
+    "description": "Prueba social para restaurante.",
+    "items": [
+      { "name": "Cliente 1", "location": "Lima", "quote": "Excelente ambiente y comida.", "rating": 5 }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Reservas",
+    "title": "Cierra la reserva o contacto",
+    "description": "Todo centralizado en el mismo JSON.",
+    "whatsappLabel": "WhatsApp",
+    "whatsappHref": "https://wa.me/51999999999",
+    "emailLabel": "reservas@restaurant.com",
+    "address": "Direccion del restaurante"
+  },
+  "footer": {
+    "copyright": "© 2026 Restaurant Template"
+  }
+}

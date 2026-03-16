@@ -1,0 +1,102 @@
+{
+  "template": "hotel",
+  "meta": {
+    "title": "Hotel Template",
+    "description": "Plantilla hotelera reusable para FastPagePro."
+  },
+  "brand": {
+    "name": "Nombre del Hotel",
+    "tagline": "Hotel en tu ciudad",
+    "whatsapp": "+51999999999",
+    "email": "reservas@hotel.com",
+    "location": "Ciudad, Peru"
+  },
+  "theme": {
+    "mode": "light",
+    "accentColor": "#C9A44F",
+    "accentAltColor": "#173F7B",
+    "backgroundColor": "#f6efe3",
+    "surfaceColor": "#fffaf1",
+    "textColor": "#2f2418",
+    "mutedColor": "#756859"
+  },
+  "navigation": [
+    { "label": "Inicio", "href": "#inicio" },
+    { "label": "Experiencia", "href": "#features" },
+    { "label": "Habitaciones", "href": "#gallery" },
+    { "label": "Servicios", "href": "#services" },
+    { "label": "Opiniones", "href": "#testimonials" },
+    { "label": "Contacto", "href": "#contact" }
+  ],
+  "hero": {
+    "eyebrow": "Reserva directa",
+    "title": "Descanso premium con venta clara",
+    "description": "Ejemplo base para hoteles que quieren vender habitaciones, amenities y confianza desde el hero.",
+    "primaryCta": { "label": "Reservar por WhatsApp", "href": "https://wa.me/51999999999" },
+    "secondaryCta": { "label": "Ver habitaciones", "href": "#gallery" },
+    "benefits": [
+      { "icon": "breakfast", "label": "Desayuno incluido" },
+      { "icon": "wifi", "label": "WiFi" },
+      { "icon": "pool", "label": "Piscina" }
+    ],
+    "slides": [
+      {
+        "title": "Hero hotel",
+        "imageSrc": "/assets/hero/hero-premium-1.webp",
+        "mobileImageSrc": "/assets/hero/hero-premium-1-mobile.webp"
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "Diferenciales",
+    "title": "Tu propuesta de valor en bloques claros",
+    "description": "Usa esta seccion para beneficios, ubicacion, confianza o experiencia.",
+    "items": [
+      { "icon": "hotel", "title": "Ubicacion", "description": "Cerca de lo que importa para el huesped." },
+      { "icon": "concierge", "title": "Atencion", "description": "Recepcion, soporte y servicio mas claros." },
+      { "icon": "sparkles", "title": "Confort", "description": "Dormir mejor tambien vende mejor." }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Galeria",
+    "title": "Habitaciones y espacios destacados",
+    "description": "Las fotos principales del hotel se controlan desde aqui.",
+    "items": [
+      { "title": "Habitacion 1", "description": "Descripcion breve.", "imageSrc": "/assets/gallery/Nuestras habitaciones/2 HB. MATRIMONIAL/habitacion-matrimonial-01.jpg" },
+      { "title": "Habitacion 2", "description": "Descripcion breve.", "imageSrc": "/assets/gallery/Nuestras habitaciones/3 HB. DOBLE/habitacion-doble-01.jpg" },
+      { "title": "Suite", "description": "Descripcion breve.", "imageSrc": "/assets/gallery/Nuestras habitaciones/7 HB JUNIOR SUITE/habitacion-junior-suite-01.jpg" }
+    ]
+  },
+  "services": {
+    "eyebrow": "Servicios",
+    "title": "Amenities o beneficios",
+    "description": "Desayuno, piscina, cowork, traslado u otros beneficios.",
+    "items": [
+      { "name": "Desayuno", "description": "Bloque editable.", "icon": "breakfast" },
+      { "name": "Piscina", "description": "Bloque editable.", "icon": "pool" },
+      { "name": "Reserva directa", "description": "Bloque editable.", "icon": "phone" }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Prueba social",
+    "title": "Opiniones del huesped",
+    "description": "Testimonios y reseñas verificadas.",
+    "items": [
+      { "name": "Cliente 1", "location": "Ciudad", "quote": "Muy buena experiencia.", "rating": 5 }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "title": "Cierra con una accion clara",
+    "description": "WhatsApp, direccion y mapa en un solo bloque.",
+    "whatsappLabel": "WhatsApp",
+    "whatsappHref": "https://wa.me/51999999999",
+    "emailLabel": "reservas@hotel.com",
+    "address": "Direccion del hotel",
+    "hours": "Recepcion 24 horas"
+  },
+  "footer": {
+    "copyright": "© 2026 Hotel Template",
+    "note": "Ejemplo de configuracion para plantilla hotel."
+  }
+}
