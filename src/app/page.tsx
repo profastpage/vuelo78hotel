@@ -1,20 +1,11 @@
-import type { Metadata } from "next";
-import { TemplatePageEngine } from "@/components/templates/TemplatePageEngine";
-import { getTemplateSiteConfig } from "@/lib/template-site-config";
+import { SiteRenderer } from "@/components/site/SiteRenderer";
+import { getClientProfile, getSiteContent } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
-export function generateMetadata(): Metadata {
-  const config = getTemplateSiteConfig();
-
-  return {
-    title: config.meta.title,
-    description: config.meta.description,
-  };
-}
-
 export default function HomePage() {
-  const config = getTemplateSiteConfig();
+  const profile = getClientProfile();
+  const content = getSiteContent();
 
-  return <TemplatePageEngine config={config} />;
+  return <SiteRenderer content={content} pageSlug="hotel" profile={profile} />;
 }
