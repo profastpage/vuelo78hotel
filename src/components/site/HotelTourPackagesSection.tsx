@@ -307,7 +307,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[0],
       price: "S/ 999.00",
-      imageSrc: "/assets/hero/hero-premium-1.jpg",
+      imageSrc: buildTourPackageImagePath("1 CATARATA DE AHUASHIYACU", "1 catarata de ahuashiyacu.jpg"),
       imagePosition: { x: 52, y: 45 },
     },
     {
@@ -316,7 +316,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[1],
       price: "S/ 1,100.00",
-      imageSrc: "/assets/hero/hero-premium-2.jpg",
+      imageSrc: buildTourPackageImagePath("2 LAMAS NATIVA", "1 lamas nativa.jpg"),
       imagePosition: { x: 56, y: 48 },
     },
     {
@@ -325,7 +325,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[2],
       price: "S/ 940.00",
-      imageSrc: "/assets/hero/hero-premium-3.jpg",
+      imageSrc: buildTourPackageImagePath("3 LAGUNA AZUL", "1 laguna azul.jpg"),
       imagePosition: { x: 48, y: 46 },
     },
     {
@@ -334,7 +334,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[3],
       price: "S/ 660.00",
-      imageSrc: "/assets/hero/hero-premium-4.jpg",
+      imageSrc: buildTourPackageImagePath("4 CASCADAS DE PISHURAYACU", "1 CASCADAS DE PISHURAYACU.jpg"),
       imagePosition: { x: 50, y: 45 },
     },
     {
@@ -343,7 +343,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[4],
       price: "S/ 760.00",
-      imageSrc: "/assets/gallery/experiencia-curada/05-piscina-vista.jpg",
+      imageSrc: buildTourPackageImagePath("5 ALTOMAYO", "1 altomayo.jpg"),
       imagePosition: { x: 50, y: 46 },
     },
     {
@@ -352,7 +352,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[5],
       price: "S/ 100.00",
-      imageSrc: "/assets/gallery/experiencia-curada/01-areas-recepcion.jpg",
+      imageSrc: buildTourPackageImagePath("6 CASCADA SALTO DE LA BRUJA", "1 CASCADA SALTO DE LA BRUJA.jpg"),
       imagePosition: { x: 50, y: 50 },
     },
     {
@@ -361,7 +361,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[0],
       price: "S/ 580.00",
-      imageSrc: "/assets/gallery/experiencia-curada/09-desayuno-servicio.jpg",
+      imageSrc: buildTourPackageImagePath("7 SANTA ELENA Y LAS CUEVAS", "1 SANTA ELENA Y LAS CUEVAS.jpg"),
       imagePosition: { x: 50, y: 50 },
     },
     {
@@ -370,7 +370,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[1],
       price: "S/ 1,320.00",
-      imageSrc: "/assets/gallery/experiencia-curada/13-almuerzo-cliente.jpg",
+      imageSrc: buildTourPackageImagePath("8 CANOTAJE EN EL RIO MAYO", "1 CANOTAJE EN EL RIO MAYO.jpg"),
       imagePosition: { x: 50, y: 50 },
     },
     {
@@ -379,7 +379,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[2],
       price: "S/ 420.00",
-      imageSrc: "/assets/gallery/experiencia-curada/17-restobar-coctel.jpg",
+      imageSrc: buildTourPackageImagePath("9 TARAPOTO CITY TOUR", "1 TARAPOTO CITY TOUR.jpg"),
       imagePosition: { x: 50, y: 48 },
     },
     {
@@ -388,7 +388,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[3],
       price: "S/ 980.00",
-      imageSrc: "/assets/uploads/hotel-deluxe-wide.jpg",
+      imageSrc: buildTourPackageImagePath("10 CATARATA DE HUACAMAILLO", "1 CATARATA DE HUACAMAILLO.jpg"),
       imagePosition: { x: 50, y: 48 },
     },
     {
@@ -397,7 +397,7 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[4],
       price: "S/ 700.00",
-      imageSrc: "/assets/uploads/hotel-deluxe-pool.jpg",
+      imageSrc: buildTourPackageImagePath("11 CASCADAS PUCAYAQUILLO", "1 CASCADA PUCAYAQUILLO.jpg"),
       imagePosition: { x: 50, y: 56 },
     },
     {
@@ -406,10 +406,14 @@ function getTourPackages(location: string, badgeLabels: string[]): TourPackage[]
       location,
       badge: badgeLabels[5],
       price: "S/ 1,060.00",
-      imageSrc: "/assets/uploads/2-bde02c45-853a-4132-a874-d6b663687cde.jfif",
+      imageSrc: buildTourPackageImagePath("12 MIRADOR TAYTAMAKI", "1 MIRADOR TAYTAMAKI.jpg"),
       imagePosition: { x: 50, y: 48 },
     },
   ];
+}
+
+function buildTourPackageImagePath(folder: string, file: string) {
+  return `/${["assets", "gallery", "Paquete turístico", folder, file].map((part) => encodeURIComponent(part)).join("/")}`;
 }
 
 function buildTourPackageWhatsappHref({
