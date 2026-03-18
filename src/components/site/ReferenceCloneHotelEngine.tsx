@@ -9,6 +9,7 @@ import { HotelPremiumFooter } from "./HotelPremiumFooter";
 import { HotelPremiumHeader } from "./HotelPremiumHeader";
 import { HotelPremiumHero } from "./HotelPremiumHero";
 import { HotelPremiumTestimonials } from "./HotelPremiumTestimonials";
+import { HotelPaymentMethodsSection } from "./HotelPaymentMethodsSection";
 import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
 import { HotelRoomGallerySection } from "./HotelRoomGallerySection";
 import { HotelSocialLinksSection } from "./HotelSocialLinksSection";
@@ -285,6 +286,7 @@ export function ReferenceCloneHotelEngine({
         />
 
         <HotelTourPackagesSection hotelName={displayBrandName} locale={locale} />
+        <HotelPaymentMethodsSection locale={locale} />
 
         {testimonials.length ? (
           <HotelPremiumTestimonials
@@ -356,6 +358,7 @@ function buildAmenities(content: SiteContent) {
     { title: "Piscina", icon: "pool", description: "Un espacio de descanso que acompana la experiencia del hotel." },
     { title: "Aire acondicionado", icon: "air", description: "Confort termico para descansar mejor en cualquier horario." },
     { title: "Zona de trabajo", icon: "workspace", description: "Un punto comodo para revisar pendientes o planificar el dia." },
+    { title: "Estacionamiento privado", icon: "parking", description: "Acceso seguro para dejar tu vehiculo durante toda tu estancia." },
     { title: "Comedor", icon: "dining", description: "Espacio practico para disfrutar cada comida dentro del hotel." },
     { title: "Restobar", icon: "restobar", description: "Bebidas y momentos de pausa con una atmosfera mas relajada." },
     { title: "Recepcion 24h", icon: "reception", description: "Asistencia continua para llegadas, consultas y apoyo en cualquier momento." },

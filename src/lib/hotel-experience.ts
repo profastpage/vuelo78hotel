@@ -330,6 +330,7 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
       sectionLinks: [
         { label: "Experience", href: "#experiencia" },
         { label: "Rooms", href: "#habitaciones" },
+        { label: "Tour packages", href: "#paquetes-turisticos" },
         { label: "Services", href: "#servicios" },
         { label: "Location", href: "#ubicacion" },
       ],
@@ -480,6 +481,7 @@ export function getHotelUi(locale: HotelLocale): HotelUiCopy {
     sectionLinks: [
       { label: "Experiencia", href: "#experiencia" },
       { label: "Habitaciones", href: "#habitaciones" },
+      { label: "Paquetes Tur\u00edsticos", href: "#paquetes-turisticos" },
       { label: "Servicios", href: "#servicios" },
       { label: "Ubicación", href: "#ubicacion" },
     ],

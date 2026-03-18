@@ -4,6 +4,7 @@ import {
   Coffee,
   ConciergeBell,
   Martini,
+  SquareParking,
   Snowflake,
   UtensilsCrossed,
   Waves,
@@ -65,6 +66,8 @@ function AmenityIcon({ icon, index }: { icon: string; index: number }) {
       return <Snowflake size={size} strokeWidth={strokeWidth} />;
     case "workspace":
       return <BriefcaseBusiness size={size} strokeWidth={strokeWidth} />;
+    case "parking":
+      return <SquareParking size={size} strokeWidth={strokeWidth} />;
     case "dining":
       return <UtensilsCrossed size={size} strokeWidth={strokeWidth} />;
     case "restobar":

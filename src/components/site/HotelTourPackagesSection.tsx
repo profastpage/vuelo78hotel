@@ -35,23 +35,20 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
     locale === "en"
       ? {
           badgeLabels: ["Groups", "New", "Featured", "Top sale", "Recommended", "Hot"],
-          detailsLabel: "🔎 VIEW MORE",
+          detailsLabel: "\uD83D\uDD0E VIEW MORE",
           heading: "Tour Packages",
           location: "Peru, Tarapoto",
-          sectionSummary: "Visual plans with direct WhatsApp booking, clear pricing and fast access to details.",
           starsLabel: "stars",
           whatsappLabel: "Open WhatsApp",
         }
       : {
           badgeLabels: ["Grupos", "Nuevo", "Destacado", "Top venta", "Recomendado", "Popular"],
-          detailsLabel: "🔎 VER M\u00c1S",
+          detailsLabel: "\uD83D\uDD0E VER M\u00c1S",
           heading: "Paquetes Tur\u00edsticos",
           location: "Peru, Tarapoto",
-          sectionSummary: "Planes visuales con reserva directa por WhatsApp, precio claro y acceso rapido a mas informacion.",
           starsLabel: "estrellas",
           whatsappLabel: "Abrir WhatsApp",
         };
-
   const packages = getTourPackages(copy.location, copy.badgeLabels);
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const [brokenCoverImages, setBrokenCoverImages] = useState<Record<string, boolean>>({});
@@ -62,7 +59,6 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
       <div className="hotel-reference-section-heading hotel-tour-packages-heading">
         <span className="scene-chip">{copy.heading}</span>
         <h2>{renderBalancedSectionTitle(copy.heading)}</h2>
-        <p>{copy.sectionSummary}</p>
       </div>
 
       <div className="hotel-tour-packages-grid">
@@ -179,6 +175,8 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           border-radius: 22px;
           overflow: hidden;
           box-shadow: 0 24px 40px rgba(4, 8, 15, 0.2);
+          display: flex;
+          align-items: flex-end;
         }
 
         .hotel-tour-package-image {
@@ -189,7 +187,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           position: absolute;
           inset: 0;
           background:
-            linear-gradient(180deg, rgba(4, 8, 15, 0.1) 10%, rgba(4, 8, 15, 0.36) 46%, rgba(4, 8, 15, 0.92) 100%),
+            linear-gradient(180deg, rgba(4, 8, 15, 0.02) 14%, rgba(4, 8, 15, 0.46) 58%, rgba(4, 8, 15, 0.94) 100%),
             linear-gradient(90deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.03));
         }
 
@@ -197,6 +195,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           position: absolute;
           left: 0;
           top: 18px;
+          z-index: 2;
           min-width: 120px;
           padding: 6px 14px;
           border-radius: 0 9px 9px 0;
@@ -212,10 +211,13 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
         .hotel-tour-package-overlay {
           position: relative;
           z-index: 1;
-          display: grid;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
           gap: 8px;
           width: 100%;
           padding: 18px 16px 16px;
+          min-height: 100%;
         }
 
         .hotel-tour-package-stars {
@@ -229,10 +231,8 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
 
         .hotel-tour-package-overlay h3 {
           margin: 0;
-          display: flex;
-          flex-wrap: wrap;
-          align-items: baseline;
-          gap: 8px;
+          display: grid;
+          gap: 4px;
           color: #f8fafc;
           font-size: clamp(1.08rem, 1.5vw, 1.7rem);
           font-weight: 800;
@@ -242,9 +242,9 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
 
         .hotel-tour-package-overlay h3 small {
           color: #f8fafc;
-          font-size: 0.94em;
+          font-size: 0.72em;
           font-weight: 800;
-          letter-spacing: 0.01em;
+          letter-spacing: 0.06em;
         }
 
         .hotel-tour-package-location {
@@ -265,7 +265,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
         }
 
         .hotel-tour-package-footer {
-          margin-top: 10px;
+          margin-top: 6px;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -281,8 +281,8 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
 
         .hotel-tour-package-whatsapp {
           flex: none;
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           border-radius: 999px;
           display: inline-flex;
           align-items: center;
@@ -301,12 +301,12 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          min-height: 34px;
-          padding: 0 18px;
+          min-height: 36px;
+          padding: 0 20px;
           border-radius: 10px;
           background: linear-gradient(180deg, #ffea38 0%, #f7d80f 100%);
           color: #0f172a;
-          font-size: 0.98rem;
+          font-size: 1rem;
           font-weight: 800;
           letter-spacing: 0.01em;
           text-transform: uppercase;
@@ -325,16 +325,16 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
 
         @media (min-width: 1024px) {
           .hotel-tour-package-overlay h3 {
-            font-size: clamp(0.94rem, 1.25vw, 1.28rem);
-            line-height: 1.06;
+            font-size: clamp(0.98rem, 1.22vw, 1.18rem);
+            line-height: 1.08;
           }
 
           .hotel-tour-package-overlay h3 small {
-            font-size: 0.84em;
+            font-size: 0.68em;
           }
 
           .hotel-tour-package-price {
-            font-size: clamp(0.98rem, 1.1vw, 1.25rem);
+            font-size: clamp(1rem, 1.14vw, 1.22rem);
           }
         }
 
@@ -560,7 +560,7 @@ function getTourPackages(location: string, badgeLabels: string[]): HotelTourPack
 }
 
 function buildTourPackageImagePath(folder: string, file: string) {
-  return `/${["assets", "gallery", "Paquete turístico", folder, file].map((part) => encodeURIComponent(part)).join("/")}`;
+  return `/${["assets", "gallery", "Paquete tur\u00edstico", folder, file].map((part) => encodeURIComponent(part)).join("/")}`;
 }
 
 function buildTourPackageWhatsappHref({
@@ -581,22 +581,22 @@ function buildTourPackageWhatsappHref({
   const message =
     locale === "en"
       ? [
-          "Hello 👋",
+          "Hello",
           "I want information and booking details for this tour package:",
-          `📌 ${packageName} • ${duration}`,
-          `💰 Reference price: ${price}`,
-          `🧭 ${summary}`,
-          `🏨 Hotel: ${hotelName}`,
-          "Please send availability and payment details. 🙏",
+          `${packageName} - ${duration}`,
+          `Reference price: ${price}`,
+          `Summary: ${summary}`,
+          `Hotel: ${hotelName}`,
+          "Please share availability and payment details.",
         ].join("\n")
       : [
-          "Hola 👋",
-          "Quiero información y reservar este paquete turístico:",
-          `📌 ${packageName} • ${duration}`,
-          `💰 Precio referencial: ${price}`,
-          `🧭 ${summary}`,
-          `🏨 Hotel: ${hotelName}`,
-          "Por favor, compárteme disponibilidad y forma de pago. 🙏",
+          "Hola",
+          "Quiero informacion y reservar este paquete turistico:",
+          `${packageName} - ${duration}`,
+          `Precio referencial: ${price}`,
+          `Resumen: ${summary}`,
+          `Hotel: ${hotelName}`,
+          "Por favor, comparteme disponibilidad y forma de pago.",
         ].join("\n");
 
   return `https://api.whatsapp.com/send/?phone=${HOTEL_WHATSAPP_PHONE_DIGITS}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;

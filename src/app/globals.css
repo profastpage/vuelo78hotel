@@ -18823,8 +18823,9 @@ body {
   box-shadow:
     0 14px 30px rgba(78, 58, 31, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.84);
+  transform: translateZ(0);
+  backface-visibility: hidden;
   transition:
-    transform 0.22s ease,
     background 0.22s ease,
     border-color 0.22s ease,
     box-shadow 0.22s ease;
@@ -18832,7 +18833,7 @@ body {
 
 .hotel-room-carousel-button:hover,
 .hotel-room-carousel-button:focus-visible {
-  transform: translateY(-1px);
+  transform: translateZ(0);
   background: #ffffff;
   border-color: rgba(23, 63, 123, 0.22);
   box-shadow:

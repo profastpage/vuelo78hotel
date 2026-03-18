@@ -93,7 +93,7 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
         role="dialog"
       >
         <div className="hotel-tour-detail-titlebar">
-          <span>{locale === "en" ? "Tour package" : "Paquete turístico"}</span>
+          <span>{locale === "en" ? "Tour package" : "Paquete tur\u00edstico"}</span>
           <h3 id="tour-package-title">{activePackage.title}</h3>
         </div>
 
@@ -119,13 +119,13 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
 
             <div className="hotel-tour-detail-actions">
               <a className="hotel-tour-detail-primary" href={whatsappHref} rel="noreferrer" target="_blank">
-                {locale === "en" ? "🧾 Book now" : "🧾 Reservar ahora"}
+                {locale === "en" ? "\uD83E\uDDFE Book now" : "\uD83E\uDDFE Reservar ahora"}
               </a>
               <a className="hotel-tour-detail-secondary" href={whatsappHref} rel="noreferrer" target="_blank">
-                {locale === "en" ? "💬 Open WhatsApp" : "💬 Abrir WhatsApp"}
+                {locale === "en" ? "\uD83D\uDCAC Open WhatsApp" : "\uD83D\uDCAC Abrir WhatsApp"}
               </a>
               <button className="hotel-tour-detail-close" onClick={onClose} type="button">
-                {locale === "en" ? "✕ Close details" : "✕ Cerrar detalle"}
+                {locale === "en" ? "\u2715 Close details" : "\u2715 Cerrar detalle"}
               </button>
             </div>
 
@@ -534,27 +534,26 @@ function buildTourPackageWhatsappHref({
   const message =
     locale === "en"
       ? [
-          "Hello 👋",
+          "Hello",
           `I want information and booking details for this tour package: ${packageName}.`,
-          `📅 Duration: ${duration}`,
-          `💰 Reference price: ${price}`,
-          `🧭 Summary: ${summary}`,
-          `🏨 Hotel: ${hotelName}`,
-          "Please send availability and payment details. 🙏",
+          `Duration: ${duration}`,
+          `Reference price: ${price}`,
+          `Summary: ${summary}`,
+          `Hotel: ${hotelName}`,
+          "Please send availability and payment details.",
         ].join("\n")
       : [
-          "Hola 👋",
-          `Quiero información y reservar este paquete turístico: ${packageName}.`,
-          `📅 Duración: ${duration}`,
-          `💰 Precio referencial: ${price}`,
-          `🧭 Resumen: ${summary}`,
-          `🏨 Hotel: ${hotelName}`,
-          "Por favor, compárteme disponibilidad y forma de pago. 🙏",
+          "Hola",
+          `Quiero informacion y reservar este paquete turistico: ${packageName}.`,
+          `Duracion: ${duration}`,
+          `Precio referencial: ${price}`,
+          `Resumen: ${summary}`,
+          `Hotel: ${hotelName}`,
+          "Por favor, comparteme disponibilidad y forma de pago.",
         ].join("\n");
 
   return `https://api.whatsapp.com/send/?phone=${HOTEL_WHATSAPP_PHONE_DIGITS}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
 }
-
 function buildTourPackageImagePath(folder: string, file: string) {
-  return `/${["assets", "gallery", "Paquete turístico", folder, file].map((part) => encodeURIComponent(part)).join("/")}`;
+  return `/${["assets", "gallery", "Paquete tur\u00edstico", folder, file].map((part) => encodeURIComponent(part)).join("/")}`;
 }
