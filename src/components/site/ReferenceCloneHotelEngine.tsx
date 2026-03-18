@@ -147,7 +147,6 @@ export function ReferenceCloneHotelEngine({
       ? curatedHeroSlides
       : buildHeroSlides(localizedContent, services, galleryItems, heroImage, heroImagePosition);
   const contactPhone = normalizeHotelPhone(localizedContent.contact.whatsappNumber || profile.brandConfig.whatsappNumber);
-  const cityLabel = getCityLabel(localizedContent.location?.city);
   const displayBrandName = getDisplayBrandName(localizedContent.brand.name);
   const detailsHref = localizedContent.brand.secondaryCtaHref || "#habitaciones";
   const bookingCtaLabel = bookingWidget.bookingCtaLabel || localizedContent.brand.primaryCtaLabel || ui.floating.label;
@@ -258,7 +257,6 @@ export function ReferenceCloneHotelEngine({
           brandName={displayBrandName}
           contactPhone={contactPhone}
           detailsHref={detailsHref}
-          heroDescription={buildHeroDescription(localizedContent, cityLabel)}
           heroHeadline={localizedContent.brand.headline || t(locale, "Bienvenido a Vuelo 78 Hotel", "Welcome to Vuelo 78 Hotel")}
           heroTag={localizedContent.brand.heroTag || t(locale, "Hotel en Tarapoto", "Hotel in Tarapoto")}
           locale={locale}
@@ -371,10 +369,6 @@ function buildAmenities(content: SiteContent) {
   }));
 }
 
-function buildHeroDescription(content: SiteContent, cityLabel: string) {
-  return content.brand.description || `Descansa en ${cityLabel} con habitaciones comodas y reserva directa por WhatsApp.`;
-}
-
 function syncBookingWidgetWithRooms(
   bookingWidget: NonNullable<SiteContent["bookingWidget"]>,
   rooms: HotelRoomGalleryEntry[],
@@ -478,10 +472,6 @@ function buildCuratedHeroSlides(content: SiteContent): HotelHeroSlide[] {
       mobileImagePosition: { x: 68, y: 42 },
     },
   ];
-}
-
-function getCityLabel(value?: string) {
-  return (value || "Tarapoto").split(",")[0]?.trim() || "Tarapoto";
 }
 
 function getDisplayBrandName(value: string) {

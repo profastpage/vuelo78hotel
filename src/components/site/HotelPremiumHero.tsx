@@ -19,7 +19,6 @@ type HotelPremiumHeroProps = {
   brandName: string;
   contactPhone: string;
   detailsHref: string;
-  heroDescription: string;
   heroHeadline: string;
   heroTag: string;
   locale: HotelLocale;
@@ -33,7 +32,6 @@ export function HotelPremiumHero({
   brandName,
   contactPhone,
   detailsHref,
-  heroDescription,
   heroHeadline,
   heroTag,
   locale,
@@ -59,7 +57,6 @@ export function HotelPremiumHero({
               <h1 className="hotel-deluxe-hero-title hotel-home-hero-title">
                 <strong>{heroHeadline}</strong>
               </h1>
-              <p className="hotel-deluxe-hero-description hotel-home-hero-description">{heroDescription}</p>
             </div>
 
             <div className="hotel-deluxe-hero-actions hotel-home-hero-actions">
