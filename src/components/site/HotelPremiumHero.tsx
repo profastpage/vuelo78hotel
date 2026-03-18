@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock3, Coffee, GlassWater, Monitor, Snowflake, UtensilsCrossed, Waves, Wifi } from "lucide-react";
+import { Clock3, Coffee, GlassWater, Monitor, Snowflake, SquareParking, UtensilsCrossed, Waves, Wifi } from "lucide-react";
 import type { SiteContent } from "@/types/site";
 import type { HotelHeroSlide } from "./HotelHeroShowcase";
 import { HotelBookingBar } from "./HotelBookingBar";
@@ -9,7 +9,7 @@ import type { HotelLocale } from "@/lib/hotel-experience";
 import { getHotelUi } from "@/lib/hotel-experience";
 
 type HeroBenefit = {
-  icon: "air" | "breakfast" | "dining" | "pool" | "reception" | "restobar" | "wifi" | "workspace";
+  icon: "air" | "breakfast" | "dining" | "parking" | "pool" | "reception" | "restobar" | "wifi" | "workspace";
   label: string;
 };
 
@@ -234,6 +234,8 @@ function HeroBenefitIcon({ kind }: { kind: HeroBenefit["icon"] }) {
       return <Snowflake size={16} strokeWidth={1.8} />;
     case "workspace":
       return <Monitor size={16} strokeWidth={1.8} />;
+    case "parking":
+      return <SquareParking size={16} strokeWidth={1.8} />;
     case "dining":
       return <UtensilsCrossed size={16} strokeWidth={1.8} />;
     case "restobar":

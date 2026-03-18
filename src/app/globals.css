@@ -20024,7 +20024,6 @@ body {
 .page-shell.mode-reference-clone-hotel .hotel-home-benefits-strip,
 .page-shell.mode-reference-clone-hotel .hotel-home-amenity-strip {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: start;
   width: min(1180px, calc(100% - 48px));
   margin: 18px auto 0;
@@ -20036,7 +20035,12 @@ body {
   box-shadow: none;
 }
 
+.page-shell.mode-reference-clone-hotel .hotel-home-benefits-strip {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .page-shell.mode-reference-clone-hotel .hotel-home-amenity-strip {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: 20px;
 }
 
@@ -20127,9 +20131,19 @@ body {
     gap: 9px;
   }
 
+  .page-shell.mode-reference-clone-hotel .hotel-home-amenity-item {
+    align-items: flex-start;
+    min-height: 36px;
+  }
+
   .page-shell.mode-reference-clone-hotel .hotel-home-benefit-item strong,
   .page-shell.mode-reference-clone-hotel .hotel-home-amenity-copy strong {
     font-size: 0.88rem;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-home-amenity-copy strong {
+    display: block;
+    line-height: 1.24;
   }
 
   .page-shell.mode-reference-clone-hotel .hotel-home-benefit-icon,
@@ -20143,6 +20157,10 @@ body {
   .page-shell.mode-reference-clone-hotel .hotel-home-amenity-icon svg {
     width: 16px;
     height: 16px;
+  }
+
+  .page-shell.mode-reference-clone-hotel .hotel-home-amenity-icon {
+    margin-top: 2px;
   }
 }
 

@@ -179,12 +179,13 @@ export function ReferenceCloneHotelEngine({
       roomLabel: room.title,
     }),
   }));
-  const benefitIcons: Array<"breakfast" | "wifi" | "pool" | "air" | "workspace" | "dining" | "restobar" | "reception"> = [
+  const benefitIcons: Array<"breakfast" | "wifi" | "pool" | "air" | "workspace" | "parking" | "dining" | "restobar" | "reception"> = [
     "breakfast",
     "wifi",
     "pool",
     "air",
     "workspace",
+    "parking",
     "dining",
     "restobar",
     "reception",
@@ -286,7 +287,6 @@ export function ReferenceCloneHotelEngine({
         />
 
         <HotelTourPackagesSection hotelName={displayBrandName} locale={locale} />
-        <HotelPaymentMethodsSection locale={locale} />
 
         {testimonials.length ? (
           <HotelPremiumTestimonials
@@ -325,6 +325,7 @@ export function ReferenceCloneHotelEngine({
         ) : null}
 
         <HotelSocialLinksSection locale={locale} />
+        <HotelPaymentMethodsSection locale={locale} />
 
         <HotelPremiumFooter
           address={localizedContent.location?.address || "Tarapoto, Peru"}

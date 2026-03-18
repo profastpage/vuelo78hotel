@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { renderBalancedSectionTitle } from "./headline-balance";
 import { HotelBrandLogo } from "./HotelBrandLogo";
 import type { HotelLocale } from "@/lib/hotel-experience";
@@ -43,7 +44,17 @@ export function HotelPaymentMethodsSection({ locale }: HotelPaymentMethodsSectio
           <p>
             <strong>{copy.legalNameLabel}:</strong> Rio hotels Tarapoto S.A.C
           </p>
-          <p className="hotel-payment-bank-tag">BCP</p>
+          <div className="hotel-payment-bank-logo-wrap" aria-label="BCP">
+            <Image
+              alt="Logo BCP"
+              className="hotel-payment-bank-logo"
+              decoding="async"
+              height={129}
+              loading="lazy"
+              src="/assets/payments/bcp-logo.svg"
+              width={512}
+            />
+          </div>
           <p>
             <strong>{copy.accountLabel}:</strong> 550 - 2377781 - 0 - 43
           </p>
@@ -102,19 +113,18 @@ export function HotelPaymentMethodsSection({ locale }: HotelPaymentMethodsSectio
           letter-spacing: 0.01em;
         }
 
-        .hotel-payment-bank-tag {
-          display: inline-flex;
+        .hotel-payment-bank-logo-wrap {
+          display: flex;
           align-items: center;
           justify-content: center;
-          width: fit-content;
-          margin: 4px auto;
-          padding: 4px 12px;
-          border-radius: 999px;
-          background: #1557c0;
-          color: #fff;
-          font-size: 0.96rem;
-          font-weight: 900;
-          letter-spacing: 0.04em;
+          margin: 8px auto 10px;
+          width: 100%;
+        }
+
+        .hotel-payment-bank-logo {
+          width: clamp(120px, 18vw, 180px);
+          height: auto;
+          max-width: 100%;
         }
       `}</style>
     </section>
