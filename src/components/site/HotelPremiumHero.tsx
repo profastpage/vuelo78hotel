@@ -23,9 +23,7 @@ type HotelPremiumHeroProps = {
   heroHeadline: string;
   heroTag: string;
   locale: HotelLocale;
-  onSelectedRoomChange?: (roomId: string) => void;
   reservationHref: string;
-  selectedRoomId?: string;
   slides: HotelHeroSlide[];
 };
 
@@ -39,9 +37,7 @@ export function HotelPremiumHero({
   heroHeadline,
   heroTag,
   locale,
-  onSelectedRoomChange,
   reservationHref,
-  selectedRoomId,
   slides,
 }: HotelPremiumHeroProps) {
   const ui = getHotelUi(locale);
@@ -85,8 +81,7 @@ export function HotelPremiumHero({
                 brandName={brandName}
                 contactPhone={contactPhone}
                 locale={locale}
-                onSelectedRoomChange={onSelectedRoomChange}
-                selectedRoomId={selectedRoomId}
+                whatsappIntent="hero"
               />
             </div>
           </div>

@@ -119,8 +119,10 @@ export function HotelFloatingCta({
               onOpenChange(false);
               onSelectedRoomChange?.(roomId);
             }}
+            redirectToRoomOnSelect
             onSubmitComplete={() => onOpenChange(false)}
             selectedRoomId={selectedRoomId}
+            whatsappIntent="widget"
           />
         </div>
       ) : null}

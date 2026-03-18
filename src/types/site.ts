@@ -241,6 +241,8 @@ export type LocationInfo = {
 };
 
 export type ImagePosition = {
+  mobileX?: number;
+  mobileY?: number;
   x?: number;
   y?: number;
 };

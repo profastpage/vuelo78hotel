@@ -655,10 +655,13 @@ export function getMediaStyle(imageSrc?: string, overlay = "0.46", imagePosition
   }
 
   const position = normalizeImagePosition(imagePosition);
+  const mobileX = typeof imagePosition?.mobileX === "number" ? imagePosition.mobileX : position.x;
+  const mobileY = typeof imagePosition?.mobileY === "number" ? imagePosition.mobileY : position.y;
 
   return {
+    ["--media-image-position" as const]: `${position.x}% ${position.y}%`,
+    ["--media-image-position-mobile" as const]: `${mobileX}% ${mobileY}%`,
     backgroundImage: `linear-gradient(180deg, rgba(4, 8, 16, 0.05), rgba(4, 8, 16, ${overlay})), url(${imageSrc})`,
-    backgroundPosition: `${position.x}% ${position.y}%`,
   };
 }
 

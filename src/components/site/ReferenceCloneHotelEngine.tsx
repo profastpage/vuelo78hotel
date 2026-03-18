@@ -12,6 +12,7 @@ import { HotelPremiumTestimonials } from "./HotelPremiumTestimonials";
 import { HotelReferenceSubpage } from "./HotelReferenceSubpage";
 import { HotelRoomGallerySection } from "./HotelRoomGallerySection";
 import { HotelSocialLinksSection } from "./HotelSocialLinksSection";
+import { HotelTourPackagesSection } from "./HotelTourPackagesSection";
 import { LocationBlock } from "./LocationBlock";
 import type { HotelHeroSlide } from "./HotelHeroShowcase";
 import type { EditorImageControls } from "./editor-image-types";
@@ -259,9 +260,7 @@ export function ReferenceCloneHotelEngine({
           heroHeadline={localizedContent.brand.headline || t(locale, "Bienvenido a Vuelo 78 Hotel", "Welcome to Vuelo 78 Hotel")}
           heroTag={localizedContent.brand.heroTag || t(locale, "Hotel en Tarapoto", "Hotel in Tarapoto")}
           locale={locale}
-          onSelectedRoomChange={focusRoomFromWidget}
           reservationHref={heroReservationHref}
-          selectedRoomId={selectedBookingRoomId}
           slides={heroSlides}
         />
 
@@ -284,6 +283,8 @@ export function ReferenceCloneHotelEngine({
             "Rooms designed for rest",
           )}
         />
+
+        <HotelTourPackagesSection hotelName={displayBrandName} locale={locale} />
 
         {testimonials.length ? (
           <HotelPremiumTestimonials
