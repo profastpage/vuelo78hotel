@@ -1,18 +1,30 @@
+"use client";
+
+import { useState } from "react";
 import { renderBalancedSectionTitle } from "./headline-balance";
 import { HOTEL_WHATSAPP_PHONE_DIGITS, type HotelLocale } from "@/lib/hotel-experience";
+import { HotelTourPackageDetailModal } from "./HotelTourPackageDetailModal";
 
 type HotelTourPackagesSectionProps = {
   locale: HotelLocale;
   hotelName: string;
 };
 
-type TourPackage = {
+export type HotelTourPackage = {
   badge: string;
   duration: string;
   imagePosition?: { x?: number; y?: number };
-  imageSrc: string;
   location: string;
+  includes: string[];
+  mediaFiles: string[];
+  mediaFolder: string;
+  notes?: string[];
+  optional?: string[];
   price: string;
+  recommendations: string[];
+  schedule: string[];
+  slug: string;
+  summary: string;
   title: string;
 };
 
@@ -39,6 +51,8 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
         };
 
   const packages = getTourPackages(copy.location, copy.badgeLabels);
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const activePackage = packages.find((item) => item.slug === activeSlug) || null;
 
   return (
     <section className="scene hotel-tour-packages-section" id="paquetes-turisticos">
@@ -59,7 +73,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
 
           return (
             <article className="hotel-tour-package-card" key={`${item.title}-${index + 1}`}>
-              <div className="hotel-tour-package-media" style={getPackageMediaStyle(item.imageSrc, item.imagePosition)}>
+              <div className="hotel-tour-package-media" style={getPackageMediaStyle(item.mediaFiles[0] || "", item.imagePosition)}>
                 <span className="hotel-tour-package-badge">{item.badge}</span>
 
                 <div className="hotel-tour-package-overlay">
@@ -86,9 +100,9 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
                       <a aria-label={copy.whatsappLabel} className="hotel-tour-package-whatsapp" href={whatsappHref} rel="noreferrer" target="_blank">
                         <WhatsAppGlyph />
                       </a>
-                      <a className="hotel-tour-package-more" href={`/ofertas?paquete=${encodeURIComponent(item.title)}`}>
+                      <button className="hotel-tour-package-more" onClick={() => setActiveSlug(item.slug)} type="button">
                         {copy.detailsLabel}
-                      </a>
+                      </button>
                     </div>
 
                     <strong className="hotel-tour-package-price">{item.price}</strong>
@@ -99,6 +113,13 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           );
         })}
       </div>
+
+      <HotelTourPackageDetailModal
+        activePackage={activePackage}
+        hotelName={hotelName}
+        locale={locale}
+        onClose={() => setActiveSlug(null)}
+      />
 
       <style jsx global>{`
         .hotel-tour-packages-section {
@@ -265,6 +286,21 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           text-shadow: 0 6px 14px rgba(0, 0, 0, 0.34);
         }
 
+        @media (min-width: 1024px) {
+          .hotel-tour-package-overlay h3 {
+            font-size: clamp(0.94rem, 1.25vw, 1.28rem);
+            line-height: 1.06;
+          }
+
+          .hotel-tour-package-overlay h3 small {
+            font-size: 0.84em;
+          }
+
+          .hotel-tour-package-price {
+            font-size: clamp(1.08rem, 1.35vw, 1.45rem);
+          }
+        }
+
         @media (max-width: 1260px) {
           .hotel-tour-packages-grid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -299,115 +335,189 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
   );
 }
 
-function getTourPackages(location: string, badgeLabels: string[]): TourPackage[] {
+function getTourPackages(location: string, badgeLabels: string[]): HotelTourPackage[] {
   return [
     {
+      slug: "catarata-de-ahuashiyacu",
       title: "CATARATA DE AHUASHIYACU",
       duration: "01D",
       location,
       badge: badgeLabels[0],
-      price: "S/ 999.00",
-      imageSrc: buildTourPackageImagePath("1 CATARATA DE AHUASHIYACU", "1 catarata de ahuashiyacu.jpg"),
+      price: "S/ 50.00",
+      mediaFolder: "1 CATARATA DE AHUASHIYACU",
+      mediaFiles: ["1 catarata de ahuashiyacu.jpg", "2 catarata de ahuashiyacu.jpg", "3 catarata de ahuashiyacu.jpg", "4 catarata de ahuashiyacu.jpg"],
       imagePosition: { x: 52, y: 45 },
+      schedule: ["Salida Turno 01", "01: 8:00 am", "02: 10:30 am", "Salida Turno 02", "02: 10:30 am", "02: 01:30 pm"],
+      recommendations: ["Protección solar y repelente para mosquitos.", "Cuidar la naturaleza."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ENTRADA AL CASTILLO LAMAS.", "COMUNIDAD NATIVA WAYKU LAMAS."],
+      summary: "Catarata de dia completo con salida coordinada y apoyo directo.",
     },
     {
+      slug: "lamas-nativa",
       title: "LAMAS NATIVA",
       duration: "01D",
       location,
       badge: badgeLabels[1],
-      price: "S/ 1,100.00",
-      imageSrc: buildTourPackageImagePath("2 LAMAS NATIVA", "1 lamas nativa.jpg"),
+      price: "S/ 50.00",
+      mediaFolder: "2 LAMAS NATIVA",
+      mediaFiles: ["1 lamas nativa.jpg", "2 lamas nativa.jpg", "3 lamas nativa.jpg", "4 lamas nativa.jpg"],
       imagePosition: { x: 56, y: 48 },
+      schedule: ["Salida Turno 01", "03:00 PM", "Salida Turno 02"],
+      recommendations: ["Protección solar y repelente para mosquitos.", "Cuidar la naturaleza."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ENTRADA AL CASTILLO LAMAS.", "COMUNIDAD NATIVA WAYKU LAMAS."],
+      summary: "Experiencia en Lamas con apoyo guiado y transporte incluido.",
     },
     {
+      slug: "laguna-azul",
       title: "LAGUNA AZUL",
       duration: "01D",
       location,
       badge: badgeLabels[2],
-      price: "S/ 940.00",
-      imageSrc: buildTourPackageImagePath("3 LAGUNA AZUL", "1 laguna azul.jpg"),
+      price: "S/ 100.00",
+      mediaFolder: "3 LAGUNA AZUL",
+      mediaFiles: ["1 laguna azul.jpg", "2 laguna azul.jpg", "3 laguna azul.jpg", "4 laguna azul.jpg"],
       imagePosition: { x: 48, y: 46 },
+      schedule: ["Salida Turno 01", "8:00 AM", "Salida Turno 02"],
+      recommendations: ["Protección solar y repelente para mosquitos.", "Cuidar la naturaleza."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "DEGUSTACION DE TRAGOS.", "ALMUERZO CON PLATOS A LA CARTA REGINONAL.", "PASEO EN BOTE Y CABALLO"],
+      optional: ["BAÑOS EN BARRO NEGRO (50 SOLES)", "MIRADOR PUNTA DEL GALLINAZO (5 SOLES)"],
+      summary: "Ruta acuática con degustación, almuerzo y vistas abiertas.",
     },
     {
+      slug: "cascadas-de-pishurayacu",
       title: "CASCADAS DE PISHURAYACU",
       duration: "01D",
       location,
       badge: badgeLabels[3],
-      price: "S/ 660.00",
-      imageSrc: buildTourPackageImagePath("4 CASCADAS DE PISHURAYACU", "1 CASCADAS DE PISHURAYACU.jpg"),
+      price: "S/ 100.00",
+      mediaFolder: "4 CASCADAS DE PISHURAYACU",
+      mediaFiles: ["1 CASCADAS DE PISHURAYACU.jpg", "2 CASCADAS DE PISHURAYACU.jpg", "3 CASCADAS DE PISHURAYACU.jpg", "4 CASCADAS DE PISHURAYACU.jpg", "5 CASCADAS DE PISHURAYACU.jpg"],
       imagePosition: { x: 50, y: 45 },
+      schedule: ["Salida Turno 01", "8:30 am", "Salida Turno 02"],
+      recommendations: ["Protección solar y repelente para mosquitos.", "Cuidar la naturaleza."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ENTRADA A LAS CASCADAS.", "ALMUERZO.", "TREKKING DE 40 MINUTOS POR LA SELVA OBSERVANDO TODO EL PAISAJE"],
+      summary: "Cascadas con caminata corta y almuerzo incluido.",
     },
     {
+      slug: "altomayo",
       title: "ALTOMAYO",
       duration: "01D",
       location,
       badge: badgeLabels[4],
-      price: "S/ 760.00",
-      imageSrc: buildTourPackageImagePath("5 ALTOMAYO", "1 altomayo.jpg"),
+      price: "S/ 100.00",
+      mediaFolder: "5 ALTOMAYO",
+      mediaFiles: ["1 altomayo.jpg", "2 altomayo.jpg", "3 altomayo.jpg", "4 ALTOMAYO.jpg"],
       imagePosition: { x: 50, y: 46 },
+      schedule: ["Salida Turno 01", "8:00 am", "Salida Turno 02"],
+      recommendations: ["Protección solar y repelente para mosquitos.", "Cuidar la naturaleza.", "Llevar ropa de baño."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "CHACRA VIEJA.", "ENTRADA AL ORQUIDEARIO", "ENTRADA A LA NACIENTE DEL TIO YACU.", "ENTRADA A LOS BAÑOS TERMALES.", "DEGUSTACION DE TRAGOS REGIONALES.", "DEGUSTACION DE CAFE DEL ALTOMAYO.", "ALMUERZO A LA CARTA"],
+      summary: "Ruta de naturaleza, café, termales y degustación regional.",
     },
     {
+      slug: "cascada-salto-de-la-bruja",
       title: "CASCADA SALTO DE LA BRUJA",
       duration: "01D",
       location,
       badge: badgeLabels[5],
       price: "S/ 100.00",
-      imageSrc: buildTourPackageImagePath("6 CASCADA SALTO DE LA BRUJA", "1 CASCADA SALTO DE LA BRUJA.jpg"),
+      mediaFolder: "6 CASCADA SALTO DE LA BRUJA",
+      mediaFiles: ["1 CASCADA SALTO DE LA BRUJA.jpg", "2 CASCADA SALTO DE LA BRUJA.jpg", "3 CASCADA SALTO DE LA BRUJA.jpg", "4 CASCADA SALTO DE LA BRUJA.jpg"],
       imagePosition: { x: 50, y: 50 },
+      schedule: ["Salida Turno 01", "8:30 am", "Salida Turno 02"],
+      recommendations: ["Cuidar la naturaleza.", "Protección solar y repelente para mosquitos.", "Llevar ropa de baño."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ENTRADA A LAS CASCADAS", "ALMUERZO.", "TREKKING DE 40 MINUTOS POR LA SELVA OBSERVANDO TODO EL PAISAJE."],
+      summary: "Una ruta natural con caminata, almuerzo y apoyo guiado.",
     },
     {
+      slug: "santa-elena-y-las-cuevas",
       title: "SANTA ELENA Y LAS CUEVAS",
       duration: "01D",
       location,
       badge: badgeLabels[0],
-      price: "S/ 580.00",
-      imageSrc: buildTourPackageImagePath("7 SANTA ELENA Y LAS CUEVAS", "1 SANTA ELENA Y LAS CUEVAS.jpg"),
+      price: "S/ 300.00",
+      mediaFolder: "7 SANTA ELENA Y LAS CUEVAS",
+      mediaFiles: ["1 SANTA ELENA Y LAS CUEVAS.jpg", "2 SANTA ELENA Y LAS CUEVAS.jpg", "3 SANTA ELENA Y LAS CUEVAS.jpg", "4 SANTA ELENA Y LAS CUEVAS.jpg"],
       imagePosition: { x: 50, y: 50 },
+      schedule: ["Salida Turno 01", "3:00 pm", "5:00 pm", "Salida Turno 02"],
+      recommendations: ["Cuidar la naturaleza.", "Protección solar y repelente para mosquitos.", "Llevar ropa de cambio."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "DESAYUNO REGIONAL.", "ENTRADA A LA RESERVA.", "PASEO EN BOTE.", "ENTRADA A LA CUEVA Y EQUIPOS DE SEGURIDAD.", "ALMUERZO REGIONAL."],
+      summary: "Tour con desayuno, cueva, bote y almuerzo regional.",
     },
     {
-      title: "CANOAJE EN EL RIO MAYO",
+      slug: "canotaje-en-el-rio-mayo",
+      title: "CANOTAJE EN EL RIO MAYO",
       duration: "01D",
       location,
       badge: badgeLabels[1],
-      price: "S/ 1,320.00",
-      imageSrc: buildTourPackageImagePath("8 CANOTAJE EN EL RIO MAYO", "1 CANOTAJE EN EL RIO MAYO.jpg"),
+      price: "S/ 90.00",
+      mediaFolder: "8 CANOTAJE EN EL RIO MAYO",
+      mediaFiles: ["1 CANOTAJE EN EL RIO MAYO.jpg", "2 CANOTAJE EN EL RIO MAYO.jpg", "3 CANOTAJE EN EL RIO MAYO.jpg", "4 CANOTAJE EN EL RIO MAYO.jpg"],
       imagePosition: { x: 50, y: 50 },
+      schedule: ["Salida Turno 01", "10:00 am", "1:00 pm", "Salida Turno 02", "03:00 pm", "06:00 pm"],
+      recommendations: ["Cuidar la naturaleza.", "Protección solar y repelente para mosquitos.", "Llevar ropa de cambio."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ACTIVIDAD DE FLOTIN EN EL AGUA.", "OPCIONAR:", "ACTIVIDAD DE SALTAR DEL PUENTE"],
+      summary: "Experiencia acuática con turnos dobles y opción extra.",
     },
     {
+      slug: "tarapoto-city-tour",
       title: "TARAPOTO CITY TOUR",
       duration: "01D",
       location,
       badge: badgeLabels[2],
-      price: "S/ 420.00",
-      imageSrc: buildTourPackageImagePath("9 TARAPOTO CITY TOUR", "1 TARAPOTO CITY TOUR.jpg"),
+      price: "S/ 80.00",
+      mediaFolder: "9 TARAPOTO CITY TOUR",
+      mediaFiles: ["1 TARAPOTO CITY TOUR.jpg", "2 TARAPOTO CITY TOUR.jpg", "3 TARAPOTO CITY TOUR.jpg", "4 TARAPOTO CITY TOUR.jpg", "5 TARAPOTO CITY TOUR.jpg"],
       imagePosition: { x: 50, y: 48 },
+      schedule: ["Salida Turno 01", "10:00 am", "1:00 pm", "Salida Turno 02", "03:00 pm", "06:00 pm"],
+      recommendations: ["Cuidar la naturaleza.", "Protección solar y repelente para mosquitos."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "INGRESO A LA FABRICA DE CHOCOLATES.", "INGRESO A LA TABACALERA DEL ORIENTE.", "OPCIONAR:"],
+      summary: "Tour urbano con horarios dobles y recorrido por fábricas.",
     },
     {
+      slug: "catarata-de-huacamallo",
       title: "CATARATA DE HUACAMAILLO",
       duration: "01D",
       location,
       badge: badgeLabels[3],
-      price: "S/ 980.00",
-      imageSrc: buildTourPackageImagePath("10 CATARATA DE HUACAMAILLO", "1 CATARATA DE HUACAMAILLO.jpg"),
+      price: "S/ 130.00",
+      mediaFolder: "10 CATARATA DE HUACAMAILLO",
+      mediaFiles: ["1 CATARATA DE HUACAMAILLO.jpg", "2 CATARATA DE HUACAMAILLO.jpg", "3 CATARATA DE HUACAMAILLO.jpg", "4 CATARATA DE HUACAMAILLO.jpg"],
       imagePosition: { x: 50, y: 48 },
+      schedule: ["Salida Turno 01", "8:30 am", "4:00 pm", "Salida Turno 02"],
+      recommendations: ["Cuidar la naturaleza.", "Protección solar y repelente para mosquitos.", "Llevar ropa de cambio."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ENTRADA A LAS CATARATAS.", "ALMUERZO REGIONAL"],
+      notes: ["Caminata de aproximadamente 2 horas, cruzaremos ríos bajos, en medio de la hermosa selva."],
+      summary: "Caminata de selva con cataratas y almuerzo regional.",
     },
     {
+      slug: "cascadas-pucayaquillo",
       title: "CASCADAS PUCAYAQUILLO",
       duration: "01D",
       location,
       badge: badgeLabels[4],
-      price: "S/ 700.00",
-      imageSrc: buildTourPackageImagePath("11 CASCADAS PUCAYAQUILLO", "1 CASCADA PUCAYAQUILLO.jpg"),
+      price: "S/ 80.00",
+      mediaFolder: "11 CASCADAS PUCAYAQUILLO",
+      mediaFiles: ["1 CASCADA PUCAYAQUILLO.jpg", "2 CASCADA PUCAYAQUILLO.jpg", "3 CASCADA PUCAYAQUILLO.jpg", "4 CASCADA PUCAYAQUILLO.jpg"],
       imagePosition: { x: 50, y: 56 },
+      schedule: ["Salida Turno 01", "8:30 am", "4:00 pm", "Salida Turno 02"],
+      recommendations: ["Cuidar la naturaleza.", "Protección solar y repelente para mosquitos.", "Llevar ropa de cambio."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ENTRADAS A LAS CATARATAS.", "ALMUERZO REGIONAL.", "OPCIONAR:"],
+      summary: "Ruta natural con cataratas y almuerzo regional.",
     },
     {
+      slug: "mirador-taytamaki",
       title: "MIRADOR TAYTAMAKI",
       duration: "01D",
       location,
       badge: badgeLabels[5],
-      price: "S/ 1,060.00",
-      imageSrc: buildTourPackageImagePath("12 MIRADOR TAYTAMAKI", "1 MIRADOR TAYTAMAKI.jpg"),
+      price: "S/ 80.00",
+      mediaFolder: "12 MIRADOR TAYTAMAKI",
+      mediaFiles: ["1 MIRADOR TAYTAMAKI.jpg", "2 MIRADOR TAYTAMAKI.jpg", "3 MIRADOR TAYTAMAKI.jpg", "4 MIRADOR TAYTAMAKI.jpg"],
       imagePosition: { x: 50, y: 48 },
+      schedule: ["Salida Turno 01", "9:00 am", "12:00 pm", "Salida Turno 02", "3:00 pm", "5:00 pm"],
+      recommendations: ["Cuidar la naturaleza.", "Protección solar y repelente para mosquitos.", "Llevar ropa de cambio."],
+      includes: ["GUIA TURISTICO OFICIAL.", "TRANSPORTE IDA Y VUELTA EN VEHICULO.", "ENTRADAS AL ATRACTIVO.", "OPCIONAR:"],
+      summary: "Mirador con horarios dobles, transporte y acceso al atractivo.",
     },
   ];
 }
