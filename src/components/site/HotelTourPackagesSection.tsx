@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { renderBalancedSectionTitle } from "./headline-balance";
 import { HOTEL_WHATSAPP_PHONE_DIGITS, type HotelLocale } from "@/lib/hotel-experience";
@@ -15,6 +16,7 @@ export type HotelTourPackage = {
   duration: string;
   imagePosition?: { x?: number; y?: number };
   location: string;
+  coverImageSrc?: string;
   includes: string[];
   mediaFiles: string[];
   mediaFolder: string;
@@ -33,7 +35,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
     locale === "en"
       ? {
           badgeLabels: ["Groups", "New", "Featured", "Top sale", "Recommended", "Hot"],
-          detailsLabel: "VIEW MORE",
+          detailsLabel: "🔎 VIEW MORE",
           heading: "Tour Packages",
           location: "Peru, Tarapoto",
           sectionSummary: "Visual plans with direct WhatsApp booking, clear pricing and fast access to details.",
@@ -42,7 +44,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
         }
       : {
           badgeLabels: ["Grupos", "Nuevo", "Destacado", "Top venta", "Recomendado", "Popular"],
-          detailsLabel: "VER M\u00c1S",
+          detailsLabel: "🔎 VER M\u00c1S",
           heading: "Paquetes Tur\u00edsticos",
           location: "Peru, Tarapoto",
           sectionSummary: "Planes visuales con reserva directa por WhatsApp, precio claro y acceso rapido a mas informacion.",
@@ -52,6 +54,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
 
   const packages = getTourPackages(copy.location, copy.badgeLabels);
   const [activeSlug, setActiveSlug] = useState<string | null>(null);
+  const [brokenCoverImages, setBrokenCoverImages] = useState<Record<string, boolean>>({});
   const activePackage = packages.find((item) => item.slug === activeSlug) || null;
 
   return (
@@ -69,11 +72,36 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
             hotelName,
             packageName: item.title,
             price: item.price,
+            summary: item.summary,
+            duration: item.duration,
           });
+          const coverImageSrc = brokenCoverImages[item.slug]
+            ? buildTourPackageImagePath(item.mediaFolder, item.mediaFiles[0] || "")
+            : item.coverImageSrc || getTourPackageCoverImageSrc(item.slug);
 
           return (
             <article className="hotel-tour-package-card" key={`${item.title}-${index + 1}`}>
-              <div className="hotel-tour-package-media" style={getPackageMediaStyle(item.mediaFiles[0] || "", item.imagePosition)}>
+              <div className="hotel-tour-package-media">
+                <Image
+                  alt={item.title}
+                  className="hotel-tour-package-image"
+                  fill
+                  priority={index < 2}
+                  sizes="(max-width: 680px) 92vw, (max-width: 1260px) 31vw, 24vw"
+                  onError={() =>
+                    setBrokenCoverImages((current) =>
+                      current[item.slug]
+                        ? current
+                        : {
+                            ...current,
+                            [item.slug]: true,
+                          },
+                    )
+                  }
+                  src={coverImageSrc}
+                  style={getPackageImageStyle(item.imagePosition)}
+                />
+                <div className="hotel-tour-package-media-overlay" />
                 <span className="hotel-tour-package-badge">{item.badge}</span>
 
                 <div className="hotel-tour-package-overlay">
@@ -150,12 +178,19 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           min-height: clamp(300px, 28vw, 350px);
           border-radius: 22px;
           overflow: hidden;
-          display: flex;
-          align-items: flex-end;
-          justify-content: stretch;
-          background-repeat: no-repeat;
-          background-size: cover;
           box-shadow: 0 24px 40px rgba(4, 8, 15, 0.2);
+        }
+
+        .hotel-tour-package-image {
+          object-fit: cover;
+        }
+
+        .hotel-tour-package-media-overlay {
+          position: absolute;
+          inset: 0;
+          background:
+            linear-gradient(180deg, rgba(4, 8, 15, 0.1) 10%, rgba(4, 8, 15, 0.36) 46%, rgba(4, 8, 15, 0.92) 100%),
+            linear-gradient(90deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.03));
         }
 
         .hotel-tour-package-badge {
@@ -175,6 +210,8 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
         }
 
         .hotel-tour-package-overlay {
+          position: relative;
+          z-index: 1;
           display: grid;
           gap: 8px;
           width: 100%;
@@ -238,7 +275,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
         .hotel-tour-package-actions {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           min-width: 0;
         }
 
@@ -269,7 +306,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           border-radius: 10px;
           background: linear-gradient(180deg, #ffea38 0%, #f7d80f 100%);
           color: #0f172a;
-          font-size: 1.04rem;
+          font-size: 0.98rem;
           font-weight: 800;
           letter-spacing: 0.01em;
           text-transform: uppercase;
@@ -279,7 +316,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
         .hotel-tour-package-price {
           flex: none;
           color: #f8fafc;
-          font-size: clamp(1.35rem, 1.9vw, 2rem);
+          font-size: clamp(1.12rem, 1.5vw, 1.55rem);
           font-weight: 900;
           letter-spacing: 0.01em;
           text-align: right;
@@ -297,7 +334,7 @@ export function HotelTourPackagesSection({ locale, hotelName }: HotelTourPackage
           }
 
           .hotel-tour-package-price {
-            font-size: clamp(1.08rem, 1.35vw, 1.45rem);
+            font-size: clamp(0.98rem, 1.1vw, 1.25rem);
           }
         }
 
@@ -531,38 +568,66 @@ function buildTourPackageWhatsappHref({
   locale,
   packageName,
   price,
+  summary,
+  duration,
 }: {
   hotelName: string;
   locale: HotelLocale;
   packageName: string;
   price: string;
+  summary: string;
+  duration: string;
 }) {
   const message =
     locale === "en"
       ? [
-          "Hello!",
-          `I want information about the tour package: ${packageName}.`,
-          `Reference price: ${price}`,
-          `Hotel: ${hotelName}`,
+          "Hello 👋",
+          "I want information and booking details for this tour package:",
+          `📌 ${packageName} • ${duration}`,
+          `💰 Reference price: ${price}`,
+          `🧭 ${summary}`,
+          `🏨 Hotel: ${hotelName}`,
+          "Please send availability and payment details. 🙏",
         ].join("\n")
       : [
-          "Hola!",
-          `Quiero informacion sobre el paquete turistico: ${packageName}.`,
-          `Precio referencial: ${price}`,
-          `Hotel: ${hotelName}`,
+          "Hola 👋",
+          "Quiero información y reservar este paquete turístico:",
+          `📌 ${packageName} • ${duration}`,
+          `💰 Precio referencial: ${price}`,
+          `🧭 ${summary}`,
+          `🏨 Hotel: ${hotelName}`,
+          "Por favor, compárteme disponibilidad y forma de pago. 🙏",
         ].join("\n");
 
   return `https://api.whatsapp.com/send/?phone=${HOTEL_WHATSAPP_PHONE_DIGITS}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
 }
 
-function getPackageMediaStyle(imageSrc: string, position?: { x?: number; y?: number }) {
+function getPackageImageStyle(position?: { x?: number; y?: number }) {
   const x = typeof position?.x === "number" ? position.x : 50;
   const y = typeof position?.y === "number" ? position.y : 50;
 
   return {
-    backgroundImage: `linear-gradient(180deg, rgba(7, 15, 26, 0.06) 14%, rgba(3, 8, 16, 0.46) 56%, rgba(2, 5, 10, 0.92) 100%), url("${imageSrc}")`,
-    backgroundPosition: `${x}% ${y}%`,
+    objectPosition: `${x}% ${y}%`,
   };
+}
+
+function getTourPackageCoverImageSrc(slug: string) {
+  const coverImages: Record<string, string> = {
+    "catarata-de-ahuashiyacu": "https://img.freepik.com/free-photo/godafoss-waterfall-sunset-winter-iceland-guy-red-jacket-looks-godafoss-waterfall_335224-673.jpg",
+    "lamas-nativa": "https://images.unsplash.com/photo-1531169628939-e84f860fa5d6?auto=format&fit=crop&w=1600&q=80",
+    "laguna-azul": "https://img.freepik.com/free-photo/pileh-blue-lagoon-phi-phi-island-thailand_231208-1487.jpg",
+    "cascadas-de-pishurayacu": "https://cdn.pixabay.com/photo/2019/12/29/04/06/waterfall-4726196_1280.jpg",
+    altomayo: "https://img.freepik.com/free-photo/beautiful-mountains-ratchaprapha-dam-khao-sok-national-park-surat-thani-province-thailand_335224-851.jpg",
+    "cascada-salto-de-la-bruja": "https://images.unsplash.com/photo-1565804539920-d31056364f3f?auto=format&fit=crop&w=1600&q=80",
+    "santa-elena-y-las-cuevas": "https://cdn.pixabay.com/photo/2017/08/14/21/03/cliffs-of-moher-2641965_1280.jpg",
+    "canotaje-en-el-rio-mayo": "https://images.unsplash.com/photo-1510798409623-003ec307428c?auto=format&fit=crop&w=1600&q=80",
+    "tarapoto-city-tour": "https://images.unsplash.com/photo-1544390099-31827259a011?auto=format&fit=crop&w=1600&q=80",
+    "catarata-de-huacamallo": "https://img.freepik.com/free-photo/godafoss-waterfall-sunset-winter-iceland-guy-red-jacket-looks-godafoss-waterfall_335224-673.jpg",
+    "cascadas-pucayaquillo": "https://cdn.pixabay.com/photo/2021/07/11/11/30/waterfall-6403521_960_720.jpg",
+    "mirador-taytamaki": "https://images.unsplash.com/photo-1490604001847-b712b0c2f967?auto=format&fit=crop&w=1600&q=80",
+  };
+
+  return coverImages[slug] || coverImages["mirador-taytamaki"];
 }
 
 function MapPinGlyph() {

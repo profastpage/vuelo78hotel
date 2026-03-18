@@ -1,5 +1,6 @@
 "use client";
 
+import { createPortal } from "react-dom";
 import { useEffect, useState } from "react";
 import { HotelRoomGalleryCarousel } from "./HotelRoomGalleryCarousel";
 import { HOTEL_WHATSAPP_PHONE_DIGITS, type HotelLocale } from "@/lib/hotel-experience";
@@ -15,7 +16,12 @@ type HotelTourPackageDetailModalProps = {
 type TourPackageTab = "itinerary" | "includes" | "recommendations" | "details";
 
 export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, onClose }: HotelTourPackageDetailModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<TourPackageTab>("itinerary");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!activePackage) {
@@ -45,7 +51,7 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
     }
   }, [activePackage]);
 
-  if (!activePackage) {
+  if (!mounted || !activePackage) {
     return null;
   }
 
@@ -54,6 +60,8 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
     locale,
     packageName: activePackage.title,
     price: activePackage.price,
+    summary: activePackage.summary,
+    duration: activePackage.duration,
   });
 
   const slides = activePackage.mediaFiles.map((file, index) => {
@@ -68,9 +76,22 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
     };
   });
 
-  return (
-    <div className="hotel-tour-detail-backdrop" onClick={onClose}>
-      <div aria-labelledby="tour-package-title" aria-modal="true" className="hotel-tour-detail-modal" onClick={(event) => event.stopPropagation()} role="dialog">
+  return createPortal(
+    <div
+      className="hotel-tour-detail-backdrop"
+      onPointerDown={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div
+        aria-labelledby="tour-package-title"
+        aria-modal="true"
+        className="hotel-tour-detail-modal"
+        onPointerDown={(event) => event.stopPropagation()}
+        role="dialog"
+      >
         <div className="hotel-tour-detail-titlebar">
           <span>{locale === "en" ? "Tour package" : "Paquete turístico"}</span>
           <h3 id="tour-package-title">{activePackage.title}</h3>
@@ -98,13 +119,13 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
 
             <div className="hotel-tour-detail-actions">
               <a className="hotel-tour-detail-primary" href={whatsappHref} rel="noreferrer" target="_blank">
-                {locale === "en" ? "Book now" : "Reservar ahora"}
+                {locale === "en" ? "🧾 Book now" : "🧾 Reservar ahora"}
               </a>
               <a className="hotel-tour-detail-secondary" href={whatsappHref} rel="noreferrer" target="_blank">
-                {locale === "en" ? "Open WhatsApp" : "Abrir WhatsApp"}
+                {locale === "en" ? "💬 Open WhatsApp" : "💬 Abrir WhatsApp"}
               </a>
               <button className="hotel-tour-detail-close" onClick={onClose} type="button">
-                {locale === "en" ? "Close details" : "Cerrar detalle"}
+                {locale === "en" ? "✕ Close details" : "✕ Cerrar detalle"}
               </button>
             </div>
 
@@ -155,13 +176,17 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
         .hotel-tour-detail-backdrop {
           position: fixed;
           inset: 0;
-          z-index: 100;
+          z-index: 200;
           display: flex;
           align-items: center;
           justify-content: center;
+          overflow: auto;
           padding: clamp(16px, 3vw, 32px);
-          background: rgba(4, 8, 15, 0.68);
-          backdrop-filter: blur(14px);
+          background:
+            radial-gradient(circle at top, rgba(33, 68, 122, 0.16), transparent 35%),
+            linear-gradient(180deg, rgba(6, 8, 14, 0.84), rgba(6, 8, 14, 0.74));
+          isolation: isolate;
+          will-change: opacity;
         }
 
         .hotel-tour-detail-modal {
@@ -172,6 +197,7 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
           border-radius: 28px;
           background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
           box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+          transform: translateZ(0);
         }
 
         .hotel-tour-detail-titlebar {
@@ -279,7 +305,8 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
         .hotel-tour-detail-actions {
           display: flex;
           flex-wrap: wrap;
-          gap: 10px;
+          gap: 12px;
+          align-items: center;
         }
 
         .hotel-tour-detail-primary,
@@ -438,10 +465,6 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
           .hotel-tour-detail-shell {
             grid-template-columns: minmax(0, 1fr);
           }
-
-          .hotel-tour-detail-modal {
-            overflow-y: auto;
-          }
         }
 
         @media (max-width: 720px) {
@@ -464,7 +487,8 @@ export function HotelTourPackageDetailModal({ activePackage, hotelName, locale, 
           }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -497,16 +521,36 @@ function buildTourPackageWhatsappHref({
   locale,
   packageName,
   price,
+  summary,
+  duration,
 }: {
   hotelName: string;
   locale: HotelLocale;
   packageName: string;
   price: string;
+  summary: string;
+  duration: string;
 }) {
   const message =
     locale === "en"
-      ? ["Hello!", `I want information about the tour package: ${packageName}.`, `Reference price: ${price}`, `Hotel: ${hotelName}`].join("\n")
-      : ["Hola!", `Quiero informacion sobre el paquete turistico: ${packageName}.`, `Precio referencial: ${price}`, `Hotel: ${hotelName}`].join("\n");
+      ? [
+          "Hello 👋",
+          `I want information and booking details for this tour package: ${packageName}.`,
+          `📅 Duration: ${duration}`,
+          `💰 Reference price: ${price}`,
+          `🧭 Summary: ${summary}`,
+          `🏨 Hotel: ${hotelName}`,
+          "Please send availability and payment details. 🙏",
+        ].join("\n")
+      : [
+          "Hola 👋",
+          `Quiero información y reservar este paquete turístico: ${packageName}.`,
+          `📅 Duración: ${duration}`,
+          `💰 Precio referencial: ${price}`,
+          `🧭 Resumen: ${summary}`,
+          `🏨 Hotel: ${hotelName}`,
+          "Por favor, compárteme disponibilidad y forma de pago. 🙏",
+        ].join("\n");
 
   return `https://api.whatsapp.com/send/?phone=${HOTEL_WHATSAPP_PHONE_DIGITS}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
 }
