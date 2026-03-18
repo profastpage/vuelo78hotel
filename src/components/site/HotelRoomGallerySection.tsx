@@ -50,15 +50,16 @@ export function HotelRoomGallerySection({
           details: "Detalles de la habitacion",
           price: "Tarifa referencial",
           heading: "Habitaciones diseñadas para descansar",
-          summary: "Espacios cómodos, tranquilos y pensados para una estancia placentera.",
+          summary: "Habitaciones modernas, comodos, tranquilos y pensados para una estancia placentera,",
         };
+  const resolvedSummary = summary && !summary.includes("Espacios") ? summary : copy.summary;
 
   return (
     <section className="scene hotel-room-gallery-section" id={sectionId}>
       <div className="hotel-reference-section-heading hotel-room-gallery-section-heading">
         <span className="scene-chip">{eyebrow || copy.chip}</span>
         <h2>{renderBalancedSectionTitle(title || copy.heading)}</h2>
-        <p>{summary || copy.summary}</p>
+        <p>{resolvedSummary}</p>
       </div>
 
       <div className="hotel-room-gallery-jump-shell">

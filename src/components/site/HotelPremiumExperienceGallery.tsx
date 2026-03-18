@@ -67,6 +67,7 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
   const currentGroup = groups[activeGroupIndex] ?? groups[0];
   const currentItems = currentGroup?.items ?? [];
   const slideCount = currentItems.length;
+  const hasControls = groups.length > 1 || slideCount > 1;
 
   useEffect(() => {
     const activeTab = tabRefs.current[activeGroupIndex];
@@ -243,7 +244,7 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
             </span>
           </div>
 
-          {groups.length > 1 || slideCount > 1 ? (
+          {hasControls ? (
             <div className="hotel-experience-carousel-controls">
               <button
                 aria-label={`${labels.previous}: ${currentGroup.areaLabel}`}
@@ -292,6 +293,33 @@ export function HotelPremiumExperienceGallery({ items, locale }: HotelPremiumExp
           role="region"
           tabIndex={0}
         >
+          {hasControls ? (
+            <>
+              <button
+                aria-label={`${labels.previous}: ${currentGroup.areaLabel}`}
+                className="hotel-experience-carousel-mobile-arrow is-prev"
+                onClick={goPrevious}
+                onPointerDown={(event) => event.stopPropagation()}
+                type="button"
+              >
+                <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                  <path d="M9.75 3.5 5.25 8l4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" />
+                </svg>
+              </button>
+              <button
+                aria-label={`${labels.next}: ${currentGroup.areaLabel}`}
+                className="hotel-experience-carousel-mobile-arrow is-next"
+                onClick={goNext}
+                onPointerDown={(event) => event.stopPropagation()}
+                type="button"
+              >
+                <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 16 16" width="16">
+                  <path d="M6.25 3.5 10.75 8l-4.5 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" />
+                </svg>
+              </button>
+            </>
+          ) : null}
+
           <div
             className="hotel-experience-carousel-track"
             ref={trackRef}
